@@ -1,0 +1,456 @@
+VERSION "ae3c"
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: Brightloop_Can_Loader SECU DCDC
+
+
+BO_ 1815 DCDC_BootloaderReserved24: 8 Brightloop_Can_Loader
+
+BO_ 1814 DCDC_BootloaderReserved23: 8 Brightloop_Can_Loader
+
+BO_ 1813 DCDC_BootloaderReserved22: 8 Brightloop_Can_Loader
+
+BO_ 1812 DCDC_BootloaderReserved21: 8 Brightloop_Can_Loader
+
+BO_ 1811 DCDC_BootloaderReserved20: 8 Brightloop_Can_Loader
+
+BO_ 1810 DCDC_BootloaderReserved19: 8 Brightloop_Can_Loader
+
+BO_ 1809 DCDC_BootloaderReserved18: 8 Brightloop_Can_Loader
+
+BO_ 1823 DCDC_BootloaderReserved32: 8 Brightloop_Can_Loader
+
+BO_ 1822 DCDC_BootloaderReserved31: 8 Brightloop_Can_Loader
+
+BO_ 1821 DCDC_BootloaderReserved30: 8 Brightloop_Can_Loader
+
+BO_ 1820 DCDC_BootloaderReserved29: 8 Brightloop_Can_Loader
+
+BO_ 1819 DCDC_BootloaderReserved28: 8 Brightloop_Can_Loader
+
+BO_ 1818 DCDC_BootloaderReserved27: 8 Brightloop_Can_Loader
+
+BO_ 1817 DCDC_BootloaderReserved26: 8 Brightloop_Can_Loader
+
+BO_ 1816 DCDC_BootloaderReserved25: 8 Brightloop_Can_Loader
+
+BO_ 1808 DCDC_BootloaderReserved17: 8 Brightloop_Can_Loader
+
+BO_ 917 NDCDCValueOutput2: 8 DCDC
+ SG_ IDCDCOutput2Max : 43|10@1+ (0.5,-200) [-200|311.5] "A"  SECU
+ SG_ IDCDCOutput2Min : 33|10@1+ (0.5,-200) [-200|311.5] "A"  SECU
+ SG_ IDCDCOutput2Average : 53|10@1+ (0.5,-200) [-200|311.5] "A"  SECU
+ SG_ VDCDCOutput2Average : 22|11@1+ (0.0305884296,0) [0|62.6145153912] "V"  SECU
+ SG_ VDCDCOutput2Max : 11|11@1+ (0.0305884296,0) [0|62.6145153912] "V"  SECU
+ SG_ VDCDCOutput2Min : 0|11@1+ (0.0305884296,0) [0|62.6145153912] "V"  SECU
+
+BO_ 916 NDCDCValueOutput1: 8 DCDC
+ SG_ IDCDCOutput1Max : 43|10@1+ (0.5,-200) [-200|311.5] "A"  SECU
+ SG_ IDCDCOutput1Min : 33|10@1+ (0.5,-200) [-200|311.5] "A"  SECU
+ SG_ IDCDCOutput1Average : 53|10@1+ (0.5,-200) [-200|311.5] "A"  SECU
+ SG_ VDCDCOutput1Average : 22|11@1+ (0.0305884296,0) [0|62.6145153912] "V"  SECU
+ SG_ VDCDCOutput1Max : 11|11@1+ (0.0305884296,0) [0|62.6145153912] "V"  SECU
+ SG_ VDCDCOutput1Min : 0|11@1+ (0.0305884296,0) [0|62.6145153912] "V"  SECU
+
+BO_ 915 NDCDCValue: 8 DCDC
+ SG_ BDCDCFlashSubzoneError m5 : 63|1@1+ (1,0) [0|1] "" SECU
+ SG_ NDCDCXcpFaults m8 : 32|16@1+ (1,0) [0|0] ""  SECU
+ SG_ NDCDCRcpWarning m5 : 62|1@1+ (1,0) [0|0] ""  SECU
+ SG_ IDCDCHVInAverage m8 : 48|12@1+ (0.0125,-25) [-25|26.1875] "A"  SECU
+ SG_ NDCDCSerial m7 : 32|32@1+ (1,0) [0|4294967295] ""  SECU
+ SG_ NDCDCBootloaderId m6 : 48|16@1+ (1,0) [0|65535] ""  SECU
+ SG_ NDCDCApplicationId m6 : 32|16@1+ (1,0) [0|65535] ""  SECU
+ SG_ NDCDCChecksum m5 : 32|16@1+ (1,0) [0|65535] ""  SECU
+ SG_ NDCDCOutputOverload2Count m4 : 40|8@1+ (1,0) [0|255] ""  SECU
+ SG_ NDCDCOutputOverload1Count m4 : 32|8@1+ (1,0) [0|255] ""  SECU
+ SG_ TDCDCBB3Measured m3 : 48|8@1+ (1,-40) [-40|215] "°C"  SECU
+ SG_ TDCDCBB2Measured m3 : 40|8@1+ (1,-40) [-40|215] "°C"  SECU
+ SG_ TDCDCBB1Measured m3 : 32|8@1+ (1,-40) [-40|215] "°C"  SECU
+ SG_ TDCDCSR2Measured m2 : 48|8@1+ (1,-40) [-40|215] "°C"  SECU
+ SG_ TDCDCSR1Measured m2 : 40|8@1+ (1,-40) [-40|215] "°C"  SECU
+ SG_ IDCDCOutput1UnBalance m1 : 48|8@1+ (0.25,0) [0|63.75] "A"  SECU
+ SG_ VDCDCAux5Measured m1 : 40|8@1+ (0.01289377,0) [0|3.28791135] "V"  SECU
+ SG_ VDCDCAux4Measured m1 : 32|8@1+ (0.0386813,0) [0|9.8637315] "V"  SECU
+ SG_ VDCDCAux3Measured m0 : 56|8@1+ (0.015472526,0) [0|3.94549413] "V"  SECU
+ SG_ VDCDCAux2Measured m0 : 48|8@1+ (0.0386813,0) [0|9.8637315] "V"  SECU
+ SG_ VDCDCAux1Measured m0 : 40|8@1+ (0.07723368,0) [0|19.6945884] "V"  SECU
+ SG_ VDCDCHVInAverage m0 : 32|8@1+ (4.894148739,0) [0|1248.007928445] "V"  SECU
+ SG_ Multiplexer M : 27|5@1+ (1,0) [0|31] ""  SECU
+ SG_ VDCDCLVInAverage : 18|9@1+ (0.1223537,0) [0|62.5227407] "V"  SECU
+ SG_ VDCDCLVInMax : 9|9@1+ (0.1223537,0) [0|62.5227407] "V"  SECU
+ SG_ VDCDCLVInMin : 0|9@1+ (0.1223537,0) [0|62.5227407] "V"  SECU
+
+BO_ 914 NDCDCStatus: 4 DCDC
+ SG_ BDCDCRegenerationDemanded : 31|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BDCDCUmbilicalDemanded : 30|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ BDCDCSR2OtpError : 29|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCSR1OtpError : 28|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCBB3OtpError : 26|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCBB2OtpError : 25|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCBB1OtpError : 24|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCOutput2Warning : 17|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCOutput2OvpError : 16|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCOutput2Demanded : 15|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCOutput1Warning : 14|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCOutput1OvpError : 13|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCOutput1Demanded : 12|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCHVOcpError : 11|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCHVError : 10|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCLVUvpAlimAuxError : 9|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCLVUvpInError : 8|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCLVOvpInError : 7|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCAuxIsoEnabled : 6|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCCANError : 5|1@1+ (1,0) [0|1] ""  SECU
+ SG_ BDCDCWakeUp : 4|1@1+ (1,0) [0|1] ""  SECU
+ SG_ NDCDCState : 0|4@1+ (1,0) [0|15] ""  SECU
+
+BO_ 913 NDCDCSetpoints: 4 SECU
+ SG_ VDCDCHVSetpoint m9 : 8|12@1+ (0.25,0) [0|1023.75] "V"  DCDC
+ SG_ IDCDCHVLimit m9 : 20|12@1+ (0.0125,-25) [-25|26.1875] "A"  DCDC
+ SG_ VDCDCLV2Setpoint m2 : 8|12@1+ (0.0152942148,0) [0|62.629809606] "V"  DCDC
+ SG_ VDCDCLV1Setpoint m1 : 8|12@1+ (0.0152942148,0) [0|62.629809606] "V"  DCDC
+ SG_ IDCDCLV2Limit m2 : 20|12@1+ (0.25,-500) [-500|523.75] "A"  DCDC
+ SG_ IDCDCLV1Limit m1 : 20|12@1+ (0.25,-500) [-500|523.75] "A"  DCDC
+ SG_ NDCDCMultiplexer M : 0|8@1+ (1,0) [0|255] ""  DCDC
+
+BO_ 1807 DCDC_BootloaderReserved16: 8 Brightloop_Can_Loader
+
+BO_ 1806 DCDC_BootloaderReserved15: 8 Brightloop_Can_Loader
+
+BO_ 1797 DCDC_BootloaderReserved06: 8 Brightloop_Can_Loader
+
+BO_ 1796 DCDC_BootloaderReserved05: 8 Brightloop_Can_Loader
+
+BO_ 1795 DCDC_BootloaderReserved04: 8 Brightloop_Can_Loader
+
+BO_ 1805 DCDC_BootloaderReserved14: 8 Brightloop_Can_Loader
+
+BO_ 1804 DCDC_BootloaderReserved13: 8 Brightloop_Can_Loader
+
+BO_ 1803 DCDC_BootloaderReserved12: 8 Brightloop_Can_Loader
+
+BO_ 1802 DCDC_BootloaderReserved11: 8 Brightloop_Can_Loader
+
+BO_ 1801 DCDC_BootloaderReserved10: 8 Brightloop_Can_Loader
+
+BO_ 1800 DCDC_BootloaderReserved09: 8 Brightloop_Can_Loader
+
+BO_ 1799 DCDC_BootloaderReserved08: 8 Brightloop_Can_Loader
+
+BO_ 1798 DCDC_BootloaderReserved07: 8 Brightloop_Can_Loader
+
+BO_ 1794 DCDC_BootloaderReserved03: 8 Brightloop_Can_Loader
+
+BO_ 1793 DCDC_BootloaderReserved02: 8 Brightloop_Can_Loader
+
+BO_ 1792 DCDC_BootloaderReserved01: 8 Brightloop_Can_Loader
+
+BO_ 912 NDCDCControl: 3 SECU
+ SG_ BDCDCRegenerationOn : 17|1@1+ (1,0) [0|1] ""  DCDC
+ SG_ BDCDCUmbilicalOn : 16|1@1+ (1,0) [0|1] ""  DCDC
+ SG_ BDCDCOutput2Requested : 9|1@1+ (1,0) [0|1] ""  DCDC
+ SG_ BDCDCOutput1Requested : 8|1@1+ (1,0) [0|1] ""  DCDC
+ SG_ NPDBCounter : 0|8@1+ (1,0) [0|255] ""  DCDC
+
+
+
+CM_ BU_ Brightloop_Can_Loader "Brightloop Can Loader";
+CM_ BU_ SECU "Client Control Unit";
+CM_ BU_ DCDC "DCDC Unit";
+CM_ BO_ 1815 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1814 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1813 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1812 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1811 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1810 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1809 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1823 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1822 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1821 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1820 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1819 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1818 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1817 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1816 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1808 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 917 "Values Output 2";
+CM_ SG_ 917 IDCDCOutput2Max "Maximum value of the output current 2 seen since the last message sent";
+CM_ SG_ 917 IDCDCOutput2Min "Minimum value of the output current 2 seen since the last message sent";
+CM_ SG_ 917 IDCDCOutput2Average "Average value of output current 2 
+";
+CM_ SG_ 917 VDCDCOutput2Average "Average value of output voltage 2 
+";
+CM_ SG_ 917 VDCDCOutput2Max "Maximum value of the output voltage 2 seen since the last message sent
+";
+CM_ SG_ 917 VDCDCOutput2Min "Minimum value of the output voltage 2 seen since the last message sent
+";
+CM_ BO_ 916 "Values Output 1
+
+
+
+
+
+
+
+
+
+
+
+";
+CM_ SG_ 916 IDCDCOutput1Max "Maximum value of the output current 1 seen since the last message sent
+";
+CM_ SG_ 916 IDCDCOutput1Min "Minimum value of the output current 1 seen since the last message sent";
+CM_ SG_ 916 IDCDCOutput1Average "Average value of output current 1 
+";
+CM_ SG_ 916 VDCDCOutput1Average "Average value of output voltage 1 
+";
+CM_ SG_ 916 VDCDCOutput1Max "Maximum value of the output voltage 1 seen since the last message sent
+";
+CM_ SG_ 916 VDCDCOutput1Min "Minimum value of the output voltage 1 seen since the last message sent";
+CM_ BO_ 915 "Global values
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+";
+CM_ SG_ 915 BDCDCFlashSubzoneError "Indicates that the flash subzone dedicated for Config and Settings is corrupted ";
+CM_ SG_ 915 NDCDCXcpFaults "Indicates an internal fault";
+CM_ SG_ 915 NDCDCRcpWarning "Warns the user of a potential problem on reverse current";
+CM_ SG_ 915 IDCDCHVInAverage "Input Current Average of the HV input
+";
+CM_ SG_ 915 NDCDCSerial "Product Serial Number
+";
+CM_ SG_ 915 NDCDCBootloaderId "Version number of the bootloader program
+";
+CM_ SG_ 915 NDCDCApplicationId "Version number of the application program
+";
+CM_ SG_ 915 NDCDCChecksum "Checksum of the application program
+";
+CM_ SG_ 915 NDCDCOutputOverload2Count "Counter indicating the number of times an overload is detected on output 2
+";
+CM_ SG_ 915 NDCDCOutputOverload1Count "Counter indicating the number of times an overload is detected on output 1
+";
+CM_ SG_ 915 TDCDCBB3Measured "BB3 temperature
+";
+CM_ SG_ 915 TDCDCBB2Measured "BB2 temperature
+";
+CM_ SG_ 915 TDCDCBB1Measured "BB1 temperature
+";
+CM_ SG_ 915 TDCDCSR2Measured "SR2 temperature 
+";
+CM_ SG_ 915 TDCDCSR1Measured "SR1 temperature 
+";
+CM_ SG_ 915 IDCDCOutput1UnBalance "Detection of a current unbalance
+";
+CM_ SG_ 915 VDCDCAux5Measured "BuckBoost current measurement reference voltage value
+";
+CM_ SG_ 915 VDCDCAux4Measured "Auxiliary voltage value of each buck-boost channel
+";
+CM_ SG_ 915 VDCDCAux3Measured "Auxiliary voltage 3V3 value: microcontroller
+";
+CM_ SG_ 915 VDCDCAux2Measured "Auxiliary voltage 5V value: CAN driver, GaN driver
+";
+CM_ SG_ 915 VDCDCAux1Measured "Auxiliary voltage LV value
+";
+CM_ SG_ 915 VDCDCHVInAverage "Input voltage Average of the HV input
+";
+CM_ SG_ 915 Multiplexer "Multiplexer ID";
+CM_ SG_ 915 VDCDCLVInAverage "Input voltage Average value of the LV stage
+";
+CM_ SG_ 915 VDCDCLVInMax "Maximum value of the LV input voltage seen since the last sent message";
+CM_ SG_ 915 VDCDCLVInMin "Minimum value of the LV input voltage seen since the last sent message";
+CM_ BO_ 914 "Overal DCDC Status & Diagnostic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+";
+CM_ SG_ 914 BDCDCRegenerationDemanded "Indicates that the regeneration start command has been received.
+";
+CM_ SG_ 914 BDCDCUmbilicalDemanded "Indicates that the umbilical start command has been received.
+";
+CM_ SG_ 914 BDCDCSR2OtpError "Overtemperature fault SR2
+";
+CM_ SG_ 914 BDCDCSR1OtpError "Overtemperature fault SR1
+";
+CM_ SG_ 914 BDCDCBB3OtpError "Overtemperature fault BB3
+";
+CM_ SG_ 914 BDCDCBB2OtpError "Overtemperature fault BB2
+";
+CM_ SG_ 914 BDCDCBB1OtpError "Overtemperature fault BB1
+";
+CM_ SG_ 914 BDCDCOutput2Warning "Warns the user of a potential problem on output 2, see MUT doc (user manuel) for further explanation.
+";
+CM_ SG_ 914 BDCDCOutput2OvpError "Bit set to indicate that an output overvoltage fault was detected on output 2
+In WAKEUP state, this bit also indicates that a voltage higher than the voltage setpoint about 0.2V is
+present on the output 2
+";
+CM_ SG_ 914 BDCDCOutput2Demanded "Indicates that the output start command has been received.
+";
+CM_ SG_ 914 BDCDCOutput1Warning "Warns the user of a potential problem on output 1, see MUT doc (user manuel) for further explanation.
+";
+CM_ SG_ 914 BDCDCOutput1OvpError "Bit set to indicate that an output overvoltage fault was detected on output 1
+In WAKEUP state, this bit also indicates that a voltage higher than the voltage setpoint about 0.2V is
+present on the output 1";
+CM_ SG_ 914 BDCDCOutput1Demanded "Indicates that the output start command has been received.
+";
+CM_ SG_ 914 BDCDCHVOcpError "Indicates HV overcurrent detection
+";
+CM_ SG_ 914 BDCDCHVError "Indicates an undervoltage fault on the HV input or an overtemperature fault on the HV stage
+";
+CM_ SG_ 914 BDCDCLVUvpAlimAuxError "Indicates an undervoltage fault on one of the auxiliary power supplies of the LV stage.
+";
+CM_ SG_ 914 BDCDCLVUvpInError "Indicates an undervoltage fault at the input of the LV stage.
+";
+CM_ SG_ 914 BDCDCLVOvpInError "Indicates an overvoltage fault at the input of the LV stage.
+";
+CM_ SG_ 914 BDCDCAuxIsoEnabled "Indicates that isolated auxiliary supplies are activated
+";
+CM_ SG_ 914 BDCDCCANError "Indicates an error on the CAN bus
+";
+CM_ SG_ 914 BDCDCWakeUp "Indicates the external signal WakeUp status
+";
+CM_ SG_ 914 NDCDCState "Indicates the overall product status
+";
+CM_ BO_ 913 "Control  of Setpoints
+
+
+
+
+
+
+
+
+
+
+";
+CM_ SG_ 913 VDCDCHVSetpoint "HV voltage's setpoint
+";
+CM_ SG_ 913 IDCDCHVLimit "HV current's limitation
+";
+CM_ SG_ 913 VDCDCLV2Setpoint "Output 2 voltage's setpoint
+";
+CM_ SG_ 913 VDCDCLV1Setpoint "Output 1 voltage's setpoint
+";
+CM_ SG_ 913 IDCDCLV2Limit "Output 2 current's limitation.";
+CM_ SG_ 913 IDCDCLV1Limit "Output 1 current's limitation.";
+CM_ SG_ 913 NDCDCMultiplexer "Multiplexer ID: allows to select the output to apply the setpoints
+";
+CM_ BO_ 1807 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1806 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1797 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1796 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1795 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1805 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1804 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1803 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1802 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1801 "Messages for Brightloop Bootloader CAN";
+CM_ BO_ 1800 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1799 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1798 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1794 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1793 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 1792 "Message for Brightloop Bootloader CAN";
+CM_ BO_ 912 "Control message from the ECU
+
+
+
+
+
+
+";
+CM_ SG_ 912 BDCDCRegenerationOn "Start/Stop regeneration function command
+";
+CM_ SG_ 912 BDCDCUmbilicalOn "Start/Stop umbilical function command
+";
+CM_ SG_ 912 BDCDCOutput2Requested "Start/Stop output 2 command
+";
+CM_ SG_ 912 BDCDCOutput1Requested "Start/Stop output 1 command
+";
+CM_ SG_ 912 NPDBCounter "Counter for reception of CAN messages, the value of this parameter need to be changed between two control messages. If it does not change for more than 1sec then an error is detected (CAN error)
+";
+BA_DEF_  "Baudrate" INT 0 1000000;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "Baudrate" 1000000;
+BA_DEF_DEF_  "BusType" "";
+BA_ "BusType" "CAN";
+VAL_ 914 NDCDCState 8 "REGEN_GOOD" 6 "UMBILICALGOOD" 9 "SHUTDOWN" 7 "REGEN_UP" 5 "UMBILICALUP" 4 "POWERGOOD" 3 "POWERUP" 2 "WAKEUP" 1 "SLEEP" ;
+
