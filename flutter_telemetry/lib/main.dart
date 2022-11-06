@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
@@ -8,7 +7,7 @@ import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-void main() async {
+void main(){
   runApp(const MyApp());
 }
 
@@ -31,7 +30,6 @@ class MyAppState extends State<MyApp>{
 
   void setSock(){
     isconnected = true;
-    print("connecting");
     sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 18.185.65.162
     sockListener();
   }
@@ -39,7 +37,6 @@ class MyAppState extends State<MyApp>{
   void run(){
     if(isconnected){
       sock.sink.add("ping"); // ping, hogy jöjjön adat
-      print(signalData);
     }
 	}
 
@@ -59,13 +56,13 @@ class MyAppState extends State<MyApp>{
   void processPacket(Map rawJsonMap){
     for(String key in rawJsonMap.keys){
       if(signalData.containsKey(key)){
-        signalData[key]!.add(rawJsonMap[key]);
+        signalData[key]!.insert(signalData[key]!.length, rawJsonMap[key]);
         if(signalData[key]!.length > signalValuesToKeep){
           signalData[key]!.removeAt(0);
         }
       }
       else{
-        //print("Nincs is ilyen signal");
+        //print("No such signal");
       }
     }
   }
@@ -96,7 +93,7 @@ class MyAppState extends State<MyApp>{
         scaffoldBackgroundColor: bgColor,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
         	.apply(bodyColor: Colors.white),
-        canvasColor: secondaryColor,
+        canvasColor: bgColor,
       ),
       home: MainScreen(getData: getData, connect: setSock,),
     );

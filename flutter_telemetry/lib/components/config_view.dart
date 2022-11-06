@@ -1,20 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_telemetry/components/numeric_indicator.dart';
+import 'package:flutter_telemetry/indicators/boolean_indicator.dart';
+import 'package:flutter_telemetry/indicators/boolean_panel.dart';
+import 'package:flutter_telemetry/indicators/numeric_indicator.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/indicators/numeric_panel.dart';
 
 class ConfigView extends StatefulWidget{
     ConfigView({
     Key? key,
-    required this.text,
     required this.getData,
-    required this.flex,
   }) : super(key: key);
 
-  String text;
   final Function getData;
-  final int flex;
 
   @override
   State<StatefulWidget> createState() {
@@ -28,25 +27,26 @@ class ConfigViewState extends State<ConfigView>{
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => getDataWrapper());
     }
-
-  void getDataWrapper(){
-    String temp = widget.getData("Bosch_yaw_rate", false).toString();
-    if(temp != widget.text && temp.isNotEmpty){
-      setState(() {
-        widget.text = temp;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: widget.flex,
+      flex: screenFlex,
       child: Column(
         children: [
-          NumericIndicator(flex: 1, getData: widget.getData, subscribedSignal: "Bosch_yaw_rate",)
+          /*NumericIndicator(getData: widget.getData, subscribedSignal: "Bosch_yaw_rate",),
+          BooleanIndicator(getData: widget.getData, subscribedSignal: "Bosch_yaw_rate"),*/
+          NumericPanel(
+            flex: 1,
+            getData: widget.getData,
+            subscribedSignals: const ["Vectornav_yaw_rate_rear_value", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
+            colsize: 4, title: "test numeric panel"),
+          BooleanPanel(
+            flex : 1,
+            getData: widget.getData,
+            subscribedSignals: const ["Bosch_yaw_rate", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
+            colsize: 3, title: "test led panel")
         ],
       )
     );

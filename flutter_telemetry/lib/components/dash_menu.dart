@@ -13,7 +13,7 @@ class DashMenu extends StatefulWidget{
   int flexVal;
   final int maxFlex;
   final int minFlex;
-  Function connect;
+  final Function connect;
   
   @override
   State<StatefulWidget> createState() {
@@ -51,11 +51,12 @@ class DashMenuState extends State<DashMenu>{
                 child: Image.asset("assets/images/frt_logo_small.jpg", 
                   scale: 10 / widget.flexVal,
                   alignment: Alignment.center,
-                  filterQuality: FilterQuality.high
+                  filterQuality: FilterQuality.high,
+                  fit: BoxFit.contain,
                 ),
               ),
               ListTile(
-                title: const Text("Connect"),
+                title: const Text("Connect", textAlign: TextAlign.center,),
                 onTap: () {
                   widget.connect();
                 },
@@ -65,5 +66,6 @@ class DashMenuState extends State<DashMenu>{
         ),
       )
     );
+    
   }
 }

@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/components/config_view.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
-import 'package:flutter_telemetry/constants.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({
@@ -37,8 +35,8 @@ class MainScreenState extends State<MainScreen>{
       body: SafeArea(
         child: Row(
           children: [
-            DashMenu(flexVal: 1, minFlex: 1, maxFlex: 1, connect: widget.connect,), //TODO
-            ConfigView(flex: 9, text: "defaultText", getData: widget.getData)
+            DashMenu(flexVal: 1, minFlex: 1, maxFlex: 3, connect: widget.connect,), //TODO becsukva csak ikonok legyenek
+            ConfigView(getData: widget.getData),
           ],
         ),
       ),
