@@ -40,20 +40,25 @@ class MyAppState extends State<MyApp>{
     }
 	}
 
-  List<dynamic>? getData(String key, bool lastOnly){
+  List<dynamic>? getData(String key, bool lastOnly){  // TODO itt timestepet is kell adni
     if(!signalData.containsKey(key)){
       return [];
     }
-    if(lastOnly){
-      int len = signalData[key]!.length;
-      return [signalData[key]![len - 1]];
+    int len = signalData[key]!.length;
+    if(len != 0){
+      if(lastOnly){
+        return [signalData[key]![len - 1]];
+      }
+      else{
+        return signalData[key];
+      }
     }
     else{
-      return signalData[key];
+      return [];
     }
   }
 
-  void processPacket(Map rawJsonMap){
+  void processPacket(Map rawJsonMap){  // TODO itt timestepet is kell adni
     for(String key in rawJsonMap.keys){
       if(signalData.containsKey(key)){
         signalData[key]!.insert(signalData[key]!.length, rawJsonMap[key]);

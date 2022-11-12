@@ -46,6 +46,14 @@ class TelemetryTester:
             time.sleep(wait_time)
             self.sendall(fs)
             time.sleep(wait_time)
+        # can_id = 624
+        # can_msg1 = can_id.to_bytes(2, 'big') + b'\x44\x44\x44\x44\x44\x44\x44\x44'
+        # can_msg2 = can_id.to_bytes(2, 'big') + b'\xff\xff\xff\xff\xff\xff\xff\xff'
+        # while True:
+        #     time.sleep(0.09)
+        #     self.sock.sendto(can_msg1, self.addr)
+        #     time.sleep(0.09)
+        #     self.sock.sendto(can_msg2, self.addr)
 
 
 if __name__ == '__main__':
@@ -53,8 +61,5 @@ if __name__ == '__main__':
     tester.send_interval = 0.09  # sec
     try:
         tester.run()
-        # can_id = 1030
-        # can_msg = can_id.to_bytes(2, 'big') + b'\x00\x00\x00\x00\x00\x00\x00\x00'
-        # tester.sock.sendto(can_msg, tester.addr)
     except Exception as e:
         print(e)

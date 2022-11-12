@@ -35,8 +35,8 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
     }
 
   void getDataWrapper(){
-    num temp = widget.getData(widget.subscribedSignal, true)[0];
-    if(temp != value){
+    List<dynamic> temp = widget.getData(widget.subscribedSignal, true);
+    if(temp.isNotEmpty && temp[0] != value){
       setState(() {
         if(value == 0){  // vagy fordítva idk TODO
           textColor = const Color.fromARGB(255, 11, 177, 16);
