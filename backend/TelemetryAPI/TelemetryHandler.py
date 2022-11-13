@@ -91,7 +91,7 @@ CONNECTED_HOSTS = set()
 
 def readSock(_stop_queue, _sock_queue1, _sock_queue2):   # THREAD
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-        sock_addr = ('127.0.0.1', 8998)  # 172.31.1.148
+        sock_addr = ('172.31.1.148', 8998)  # 172.31.1.148
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(sock_addr)
         sock.settimeout(0.0001)
@@ -275,7 +275,7 @@ async def join(websocket):
 
 
 async def main(dict_queue1, dict_queue2):
-    async with websockets.serve(join, "127.0.0.1", 8990, ping_interval=None):  # 172.31.1.148
+    async with websockets.serve(join, "172.31.1.148", 8990, ping_interval=None):  # 172.31.1.148
         await streamData(dict_queue1, dict_queue2)
 
 
@@ -294,7 +294,7 @@ def upload(token, org, bucket, _stop_queue, _data_queue):   # THREAD
             try:
                 data = _data_queue.get_nowait()
                 if len(batch) >= batch_limit:
-                    # write_api.write(bucket, org, data)
+                    write_api.write(bucket, org, data)
                     batch.clear()
                 else:
                     batch[0:0] = data
@@ -331,7 +331,7 @@ if __name__ == '__main__':
     try:
         if True:  # TEST MODE
             tester = TelemetryTester()
-            tester.send_interval = 0.09  # 0.09
+            tester.send_interval = 0.05  # 0.01
             test_thread = Process(target=tester.run)
             time.sleep(1)
             test_thread.start()

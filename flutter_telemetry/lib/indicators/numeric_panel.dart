@@ -30,8 +30,7 @@ class NumericPanelState extends State<NumericPanel> {
   @override
   Widget build(BuildContext context) {
     int colcount = (widget.subscribedSignals.length / widget.colsize).ceil();
-    return Expanded(flex: widget.flex, child:
-    Container(
+    return Container(
       padding: const EdgeInsets.all(5.0),
       child: Column(
         children: [
@@ -62,7 +61,6 @@ class NumericPanelState extends State<NumericPanel> {
           ),
         ],
       )
-    )
     );
   }
 }

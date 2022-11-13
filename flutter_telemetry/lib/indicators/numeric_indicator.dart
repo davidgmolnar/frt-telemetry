@@ -34,10 +34,10 @@ class NumericIndicatorState extends State<NumericIndicator>{
     }
 
   void getDataWrapper(){
-    List<dynamic> temp = widget.getData(widget.subscribedSignal, true);
-    if(temp.isNotEmpty && temp[0] != value){
+    Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignal, true, false);
+    if(temp["values"]!.isNotEmpty && temp["values"]![0] != value){
       setState(() {
-        value = temp[0];
+        value = temp["values"]![0];
       });
     }
   }

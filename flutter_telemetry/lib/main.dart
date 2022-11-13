@@ -27,10 +27,11 @@ class MyAppState extends State<MyApp>{
   late WebSocketChannel sock;
   bool isconnected = false;
   Map<String, List<dynamic>> signalData = signalMap;
+  Map<String, List<dynamic>> signalTimestamps = signalsToChart;  //TODO ezek majd legyenek csak a grafikonra kerülők
 
   void setSock(){
     isconnected = true;
-    sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 18.185.65.162
+    sock = WebSocketChannel.connect(Uri.parse('ws://18.185.65.162:8990'),); // 18.185.65.162
     sockListener();
   }
 
@@ -40,21 +41,29 @@ class MyAppState extends State<MyApp>{
     }
 	}
 
-  List<dynamic>? getData(String key, bool lastOnly){  // TODO itt timestepet is kell adni
+  Map<String, List<dynamic>?> getData(String key, bool lastOnly, bool needTimestamp){  // TODO itt timestepet is kell adni
     if(!signalData.containsKey(key)){
-      return [];
+      return {"values": [], "timestamps": []};
     }
     int len = signalData[key]!.length;
     if(len != 0){
       if(lastOnly){
-        return [signalData[key]![len - 1]];
+        List<dynamic> retTimestamp = [];
+        if(signalTimestamps.containsKey(key) && needTimestamp){
+          retTimestamp = [signalTimestamps[key]![len - 1]];
+        }
+        return {"values": [signalData[key]![len - 1]], "timestamps": retTimestamp};
       }
       else{
-        return signalData[key];
+        List<dynamic>? retTimestamp = [];
+        if(signalTimestamps.containsKey(key) && needTimestamp){
+          retTimestamp = signalTimestamps[key];
+        }
+        return {"values": signalData[key], "timestamps": retTimestamp};
       }
     }
     else{
-      return [];
+      return {"values": [], "timestamps": []};
     }
   }
 
@@ -62,8 +71,10 @@ class MyAppState extends State<MyApp>{
     for(String key in rawJsonMap.keys){
       if(signalData.containsKey(key)){
         signalData[key]!.insert(signalData[key]!.length, rawJsonMap[key]);
+        signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
         if(signalData[key]!.length > signalValuesToKeep){
           signalData[key]!.removeAt(0);
+          signalTimestamps[key]!.removeAt(0);
         }
       }
       else{

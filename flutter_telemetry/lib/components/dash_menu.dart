@@ -29,8 +29,8 @@ class DashMenuState extends State<DashMenu>{
       flex: widget.flexVal,
       child: InkWell(
         onTap: () {},
-        onHover: (isHovering){
-          if (isHovering){
+        onDoubleTap: (){
+          if (widget.flexVal == widget.minFlex){
             setState(() {
               widget.flexVal = widget.maxFlex;
             });

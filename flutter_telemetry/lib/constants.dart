@@ -5,8 +5,9 @@ const secondaryColor = Color(0xFF2A2D3E);
 const bgColor = Color(0xFF212332);
 
 const refreshTimeMS = 100;
-const signalValuesToKeep = 1024;  // ez kb az utsó 20 mp
-const chartSignalValuesToKeep = 512;  // ez kb az utsó 20 mp
+const highrefreshTimeMS = 10;
+const signalValuesToKeep = 128;  // ez kb az utsó 20 mp
+const chartSignalValuesToKeep = 128;  // ez kb az utsó 20 mp
 const numericFontSize = 14.0;
 const screenFlex = 17;
 
@@ -18,6 +19,8 @@ Map<String, List<dynamic>> signalMap = {
   "Xavier_orientation": [],
 };
 
-List<String> signalsToTimestamp = [
-  "Bosch_yaw_rate",
-];
+Map<String, List<DateTime>> signalsToChart = {
+  "Bosch_yaw_rate": [],
+  "Vectornav_yaw_rate_rear_value": [],
+  "Xavier_orientation": [],
+};

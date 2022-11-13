@@ -32,8 +32,7 @@ class BooleanPanelState extends State<BooleanPanel> {
   @override
   Widget build(BuildContext context) {
     int colcount = (widget.subscribedSignals.length / widget.colsize).ceil();
-    return Expanded(flex: widget.flex ,child:
-    Container(
+    return Container(
       padding: const EdgeInsets.all(5.0),
       child: Column(
         children: [
@@ -64,7 +63,6 @@ class BooleanPanelState extends State<BooleanPanel> {
           ),
         ],
       )
-    )
     );
   }
 }

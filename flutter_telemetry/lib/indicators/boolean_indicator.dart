@@ -35,13 +35,15 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
     }
 
   void getDataWrapper(){
-    List<dynamic> temp = widget.getData(widget.subscribedSignal, true);
-    if(temp.isNotEmpty && temp[0] != value){
+    Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignal, true, false);
+    if(temp["values"]!.isNotEmpty && temp["values"]![0] != value){
       setState(() {
-        if(value == 0){  // vagy fordítva idk TODO
+        if(temp["values"]![0] == 0){  // vagy fordítva idk TODO
+        value = 0;
           textColor = const Color.fromARGB(255, 11, 177, 16);
         }
         else{
+          value == 1;
           textColor = Colors.red;
         }
       });
