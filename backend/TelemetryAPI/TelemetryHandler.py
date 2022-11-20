@@ -91,13 +91,13 @@ CONNECTED_HOSTS = set()
 
 def readSock(_stop_queue, _sock_queue1, _sock_queue2):   # THREAD
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-        sock_addr = ('172.31.1.148', 8998)  # 172.31.1.148
+        sock_addr = ('127.0.0.1', 8998)  # 172.31.1.148
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind(sock_addr)
         sock.settimeout(0.0001)
         while True:
-            if _stop_queue.qsize() > 0:
-                break
+            # if _stop_queue.qsize() > 0:
+            #     break
             try:
                 buffer, addr = sock.recvfrom(1000)  # CAN üzenetenként
                 try:
@@ -127,8 +127,8 @@ def decodeCan(can, multiplexed, _stop_queue, _sock_queue, _dict_queue, _data_que
     data = []
     batch_limit = 50
     while True:
-        if _stop_queue.qsize() > 0:
-            break
+        # if _stop_queue.qsize() > 0:
+        #     break
         try:
             can_msg = _sock_queue.get_nowait()
             can_id = int.from_bytes(can_msg[0:2], 'big')
@@ -275,7 +275,7 @@ async def join(websocket):
 
 
 async def main(dict_queue1, dict_queue2):
-    async with websockets.serve(join, "172.31.1.148", 8990, ping_interval=None):  # 172.31.1.148
+    async with websockets.serve(join, "127.0.0.1", 8990, ping_interval=None):  # 172.31.1.148
         await streamData(dict_queue1, dict_queue2)
 
 
@@ -294,7 +294,7 @@ def upload(token, org, bucket, _stop_queue, _data_queue):   # THREAD
             try:
                 data = _data_queue.get_nowait()
                 if len(batch) >= batch_limit:
-                    write_api.write(bucket, org, data)
+                    # write_api.write(bucket, org, data)
                     batch.clear()
                 else:
                     batch[0:0] = data

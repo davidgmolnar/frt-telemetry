@@ -31,7 +31,7 @@ class MyAppState extends State<MyApp>{
 
   void setSock(){
     isconnected = true;
-    sock = WebSocketChannel.connect(Uri.parse('ws://18.185.65.162:8990'),); // 18.185.65.162
+    sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 18.185.65.162
     sockListener();
   }
 
@@ -107,8 +107,7 @@ class MyAppState extends State<MyApp>{
       title: 'BME-FRT Telemetry',
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-        	.apply(bodyColor: Colors.white),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
         canvasColor: bgColor,
       ),
       home: MainScreen(getData: getData, connect: setSock,),

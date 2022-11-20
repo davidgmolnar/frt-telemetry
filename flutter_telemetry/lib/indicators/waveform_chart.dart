@@ -41,7 +41,7 @@ class WaveformChartState extends State<WaveformChart>{
   void initState() {
       super.initState();
       timer = Timer.periodic(const Duration(milliseconds: highrefreshTimeMS), (Timer t) => getDataWrapper());
-    }
+  }
 
   void getDataWrapper(){
     Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignals[0], false, true);  // ez most csak lastonly de majd összes lesz

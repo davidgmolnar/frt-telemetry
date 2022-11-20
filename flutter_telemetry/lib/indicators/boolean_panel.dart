@@ -46,16 +46,15 @@ class BooleanPanelState extends State<BooleanPanel> {
           Container(
             decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.0, color: secondaryColor))),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for(int i = 0; i < colcount; i++)
-                  Expanded(
-                    child: Column(
-                      children: [
-                        for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
-                          BooleanIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
-                      ]
-                    )
+                  Column(
+                    children: [
+                      for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
+                        BooleanIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
+                    ]
                   )
                   
               ],
