@@ -10,13 +10,11 @@ class RotaryIndicator extends StatefulWidget{
   required this.getSignalValues,
   required this.subscribedSignal,
   required this.numofStates,
-  required this.flex,
   }) : super(key: key);
 
   final Function getSignalValues;
   final String subscribedSignal;
   final num numofStates;
-  final int flex;
   
   @override
   State<StatefulWidget> createState() {
@@ -26,7 +24,7 @@ class RotaryIndicator extends StatefulWidget{
 
 class RotaryIndicatorState extends State<RotaryIndicator>{
   late Timer timer;
-  int value = 0;
+  num value = 0;
 
   @override
   void initState() {
@@ -46,42 +44,30 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 200, minWidth: 250),
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            if(value < widget.numofStates - 1){
-              value++;
-            }
-            else{
-              value = 0;
-            }
-          });
-        },
-        child: Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            Transform.rotate(
-              angle: -pi/2 + value * pi / (widget.numofStates - 1),
-              origin: const Offset(0, 50-3),
-              child: Container(
-                width: 3,
-                height: 100,
-                color: primaryColor,
-              ),
+      constraints: const BoxConstraints(minHeight: 170, minWidth: 250),
+      child: Stack(
+        alignment: AlignmentDirectional.bottomCenter,
+        children: [
+          Transform.rotate(
+            angle: -pi/2 + value * pi / (widget.numofStates - 1),
+            origin: const Offset(0, 50-9),
+            child: Container(
+              width: 3,
+              height: 100,
+              color: primaryColor,
             ),
+          ),
 
+          Transform.translate(
+            offset: const Offset(0, -155),
+            child: Text(widget.subscribedSignal),
+          ),
+        
+          for(int i = 0; i < widget.numofStates; i++)
             Transform.translate(
-              offset: const Offset(0, -180),
-              child: Text(widget.subscribedSignal),
-            ),
-      
-            for(int i = 0; i < widget.numofStates; i++)
-              Transform.translate(
-                offset: Offset.fromDirection(-pi + i * pi / (widget.numofStates - 1), 120),
-                child: Text("${i + 1}"),),
-          ],
-        ),
+              offset: Offset.fromDirection(-pi + i * pi / (widget.numofStates - 1), 115),
+              child: Text("${i + 1}"),),
+        ],
       )
     );
   }

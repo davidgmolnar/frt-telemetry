@@ -6,6 +6,7 @@ import 'package:flutter_telemetry/indicators/boolean_panel.dart';
 import 'package:flutter_telemetry/indicators/numeric_indicator.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/indicators/numeric_panel.dart';
+import 'package:flutter_telemetry/indicators/plot_2d.dart';
 import 'package:flutter_telemetry/indicators/rotary_indicator.dart';
 import 'package:flutter_telemetry/indicators/scale_indicator.dart';
 import 'package:flutter_telemetry/indicators/waveform_chart.dart';
@@ -61,8 +62,13 @@ class ConfigViewState extends State<ConfigView>{
               RotaryIndicator(
                 getSignalValues: widget.getData,
                 subscribedSignal: "Bosch_yaw_rate",
-                numofStates: 12,
-                flex: 1)
+                numofStates: 12,),
+              Plot2D(
+                getSignalValues: widget.getData,
+                title: "g-g",
+                maxValue: 3,
+                trailToKeep: 2,
+                subscribedSignals: ["Bosch_yaw_rate", 'Bosch_yaw_rate']),
             ],
             ),
           WaveformChart(
@@ -70,11 +76,6 @@ class ConfigViewState extends State<ConfigView>{
             getData: widget.getData,
             subscribedSignals: const ['Bosch_yaw_rate'],
             title: "test waveform chart"),
-          WaveformChart(
-            flex: 1,
-            getData: widget.getData,
-            subscribedSignals: const ['Xavier_orientation'],
-            title: "test waveform chart2"),
         ],
       )
     );

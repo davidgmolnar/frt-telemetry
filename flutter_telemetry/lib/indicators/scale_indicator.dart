@@ -50,7 +50,7 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(minWidth: 70, minHeight: 200),
+      constraints: const BoxConstraints(minWidth: 60, minHeight: 170),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children:[
@@ -62,7 +62,7 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
             ),
           ),
           Container(
-            constraints: const BoxConstraints(minHeight: 150),
+            constraints: const BoxConstraints(minHeight: 130),
             child: Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: [
@@ -71,8 +71,8 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
                     color: primaryColor,
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
-                  width: 50,
-                  height: normalizeInbetween(value, widget.minValue, widget.maxValue, 0, 150).toDouble(),
+                  width: 40,
+                  height: normalizeInbetween(value, widget.minValue, widget.maxValue, 0, 130).toDouble(),
                 ),
               ]
             ),
