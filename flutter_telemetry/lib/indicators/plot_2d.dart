@@ -12,7 +12,7 @@ class Plot2D extends StatefulWidget{
   required this.subscribedSignals,
   required this.title,
   required this.maxValue,
-  required this.trailToKeep,
+  this.trailToKeep = 3
   }) : super(key: key);
 
   final Function getSignalValues;
@@ -29,30 +29,28 @@ class Plot2D extends StatefulWidget{
 
 class Plot2DState extends State<Plot2D>{
   late Timer timer;
-  late List x;
-  late List y;
+  late List x = [0,0,0];
+  late List y = [0,0,0];
+  double width = 300;
 
   @override
   void initState() {
-    for(int i = 0; i < widget.trailToKeep; i++){
-      x.add(0);
-      y.add(0);
-    }
-    
-    print("x: $x");
-    print("y: $y");
-
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => update());
+    timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) => update());
   }
 
   void update(){
-
+    if(context.size!.width != width){
+      setState(() {
+        width = context.size!.width;
+      });
+    }
+    // TODO update data
   }
   
   @override
   Widget build(BuildContext context) {
-    double innersize = 230;
+    double innersize = width * 0.75;
     return Container(
       constraints: const BoxConstraints(minHeight: 300, minWidth: 300),
       child: InkWell(
@@ -73,18 +71,16 @@ class Plot2DState extends State<Plot2D>{
           setState(() {
             
           });
-          print("x: $x");
-          print("y: $y");
         },
         child: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
             Transform.translate(
-              offset: const Offset(0, -275),
+              offset: Offset(0, -width * 0.92),
               child: Text(widget.title),
             ),
             Transform.translate(
-              offset: const Offset(0, -20),
+              offset: Offset(0, -width * 0.07),
               child: Container(
                 decoration: BoxDecoration(border: Border.all(color: primaryColor, width: 1.0)),
                 width: innersize,
@@ -101,13 +97,13 @@ class Plot2DState extends State<Plot2D>{
                 )
               ),
               
-            for(int i = 0; i < widget.trailToKeep; i++)
+            for(int i = 0; i < 3; i++)
               Transform.translate(
                 offset: Offset(
                   1.0 * normalizeInbetween(x[i], -1 * widget.maxValue, widget.maxValue, -(innersize~/2).toInt(), (innersize~/2).toInt()),
                   -1.0 * normalizeInbetween(y[i], -1 * widget.maxValue, widget.maxValue, 0, innersize.toInt())
                 ),
-                child: Text(".", style: TextStyle(fontSize: 60, color: primaryColor.withOpacity(0 + i/(widget.trailToKeep - 1))),),
+                child: Text("•", style: TextStyle(fontSize: 30, color: primaryColor.withOpacity(0.2 + 0.8*(i/(2)))),),  
               )
           ],
         ),

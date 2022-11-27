@@ -67,15 +67,14 @@ class ConfigViewState extends State<ConfigView>{
                 getSignalValues: widget.getData,
                 title: "g-g",
                 maxValue: 3,
-                trailToKeep: 2,
                 subscribedSignals: ["Bosch_yaw_rate", 'Bosch_yaw_rate']),
             ],
             ),
-          WaveformChart(
+          /*WaveformChart(
             flex: 1,
             getData: widget.getData,
             subscribedSignals: const ['Bosch_yaw_rate'],
-            title: "test waveform chart"),
+            title: "test waveform chart"),*/
         ],
       )
     );
