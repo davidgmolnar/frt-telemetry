@@ -287,7 +287,7 @@ def upload(token, org, bucket, _stop_queue, _data_queue):   # THREAD
     with InfluxDBClient(url="http://localhost:8086", token=token, org=org) as client:
         batch = []
         batch_limit = 100
-        write_api = client.write_api(write_options=SYNCHRONOUS)
+        # write_api = client.write_api(write_options=SYNCHRONOUS)
         while True:
             if _stop_queue.qsize() > 0:
                 break
