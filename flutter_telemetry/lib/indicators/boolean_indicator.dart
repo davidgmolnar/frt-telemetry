@@ -53,7 +53,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
   @override
   Widget build(BuildContext context) {
     return Container( 
-      padding: const EdgeInsets.all(6),
+      padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
       child: InkWell(
         onTap:() {},
@@ -68,16 +68,12 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
               currentColor = defaultColor;
             });
           }
-
         },
         child:
-          Container( 
-            constraints: const BoxConstraints(minWidth: 150),
-            child: Text(widget.subscribedSignal,  // TODO remap
-              textAlign: TextAlign.left,
-              maxLines: 1,
-              style: TextStyle(fontSize: numericFontSize, color: textColor),),
-        ),
+          Text(widget.subscribedSignal,  // TODO remap
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            style: TextStyle(fontSize: numericFontSize, color: textColor),),
       ),
     );
   }

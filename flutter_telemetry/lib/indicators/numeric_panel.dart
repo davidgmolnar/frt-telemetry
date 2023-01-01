@@ -31,11 +31,12 @@ class NumericPanelState extends State<NumericPanel> {
   Widget build(BuildContext context) {
     int colcount = (widget.subscribedSignals.length / widget.colsize).ceil();
     return Container(
-      padding: const EdgeInsets.all(5.0),
+      constraints: BoxConstraints(maxWidth: colcount * widthPerColumnNumeric.toDouble()),
+      padding: const EdgeInsets.all(defaultPadding),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
+            padding: const EdgeInsets.only(bottom: defaultPadding),
             child: Text(
               widget.title,
               textAlign: TextAlign.center,
@@ -47,13 +48,13 @@ class NumericPanelState extends State<NumericPanel> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for(int i = 0; i < colcount; i++)
-                  Expanded(
+                  Flexible(
                     child: Column(
                       children: [
                         for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
                           NumericIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
                       ]
-                    )
+                    ),
                   )
                   
               ],

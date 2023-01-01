@@ -33,11 +33,12 @@ class BooleanPanelState extends State<BooleanPanel> {
   Widget build(BuildContext context) {
     int colcount = (widget.subscribedSignals.length / widget.colsize).ceil();
     return Container(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(defaultPadding),
+      constraints: BoxConstraints(maxWidth: colcount * widthPerColumnBoolean.toDouble()),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
+            padding: const EdgeInsets.only(bottom: defaultPadding),
             child: Text(
               widget.title,
               textAlign: TextAlign.center,
@@ -47,14 +48,18 @@ class BooleanPanelState extends State<BooleanPanel> {
             decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.0, color: secondaryColor))),
             child: Row(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 for(int i = 0; i < colcount; i++)
-                  Column(
-                    children: [
-                      for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
-                        BooleanIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
-                    ]
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
+                          BooleanIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
+                      ]
+                    ),
                   )
                   
               ],

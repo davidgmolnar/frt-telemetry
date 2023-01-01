@@ -7,11 +7,11 @@ import 'package:flutter_telemetry/components/dash_menu.dart';
 class MainScreen extends StatefulWidget{
   const MainScreen({
     Key? key,
-    required this.getData,
+    required this.getSignalValues,
     required this.connect
   }) : super(key: key);
 
-  final Function getData;
+  final Function getSignalValues;
   final Function connect;
 
   @override
@@ -36,7 +36,7 @@ class MainScreenState extends State<MainScreen>{
         child: Row(
           children: [
             DashMenu(flexVal: 1, minFlex: 1, maxFlex: 3, connect: widget.connect,), //TODO becsukva csak ikonok legyenek
-            ConfigView(getData: widget.getData),
+            ConfigView(getSignalValues: widget.getSignalValues),
           ],
         ),
       ),

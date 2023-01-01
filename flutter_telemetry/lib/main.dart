@@ -41,7 +41,7 @@ class MyAppState extends State<MyApp>{
     }
 	}
 
-  Map<String, List<dynamic>?> getData(String key, bool lastOnly, bool needTimestamp){  // TODO itt timestepet is kell adni
+  Map<String, List<dynamic>?> getSignalValues(String key, bool lastOnly, bool needTimestamp){  // TODO itt timestepet is kell adni
     if(!signalData.containsKey(key)){
       return {"values": [], "timestamps": []};
     }
@@ -67,7 +67,7 @@ class MyAppState extends State<MyApp>{
     }
   }
 
-  void processPacket(Map rawJsonMap){  // TODO itt timestepet is kell adni
+  void processPacket(Map rawJsonMap){
     for(String key in rawJsonMap.keys){
       if(signalData.containsKey(key)){
         signalData[key]!.insert(signalData[key]!.length, rawJsonMap[key]);
@@ -110,7 +110,7 @@ class MyAppState extends State<MyApp>{
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
         canvasColor: bgColor,
       ),
-      home: MainScreen(getData: getData, connect: setSock,),
+      home: MainScreen(getSignalValues: getSignalValues, connect: setSock,),
     );
   }
 }
