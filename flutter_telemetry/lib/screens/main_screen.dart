@@ -1,18 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_telemetry/components/config_view.dart';
+import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/tabs/config_view.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({
     Key? key,
-    required this.getSignalValues,
-    required this.connect
   }) : super(key: key);
-
-  final Function getSignalValues;
-  final Function connect;
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +18,11 @@ class MainScreen extends StatefulWidget{
 
 class MainScreenState extends State<MainScreen>{
 
-	late Timer timer;
+  void changeTab(){
+    setState(() {
+      
+    });
+  }
 
   @override
   void initState() {
@@ -31,12 +31,14 @@ class MainScreenState extends State<MainScreen>{
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return Scaffold( //TODO appbar a log letöltéshez meg az aksi snapshot dialoghoz
       body: SafeArea(
         child: Row(
           children: [
-            DashMenu(flexVal: 1, minFlex: 1, maxFlex: 3, connect: widget.connect,), //TODO becsukva csak ikonok legyenek
-            ConfigView(getSignalValues: widget.getSignalValues),
+            DashMenu(onTabChange: changeTab,), //TODO becsukva csak ikonok legyenek
+            const Expanded(
+              child: ConfigView()
+            ),
           ],
         ),
       ),

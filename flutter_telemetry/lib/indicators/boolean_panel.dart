@@ -5,16 +5,14 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/indicators/boolean_indicator.dart';
 
 class BooleanPanel extends StatefulWidget{
-  BooleanPanel({
+  const BooleanPanel({
   Key? key,
-  required this.getData,
   required this.subscribedSignals,
   required this.colsize,
   required this.title,
   required this.flex
   }) : super(key: key);
 
-  final Function getData;
   final List<String> subscribedSignals;
   final int colsize;
   final String title;
@@ -57,7 +55,7 @@ class BooleanPanelState extends State<BooleanPanel> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
-                          BooleanIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
+                          BooleanIndicator(subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
                       ]
                     ),
                   )

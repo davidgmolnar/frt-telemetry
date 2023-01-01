@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 void main(){
   runApp(const MyApp());
@@ -23,25 +20,26 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp>{
-	late Timer timer;
-  late WebSocketChannel sock;
-  bool isconnected = false;
-  Map<String, List<dynamic>> signalData = signalMap;
-  Map<String, List<dynamic>> signalTimestamps = signalsToChart;  //TODO ezek majd legyenek csak a grafikonra kerülők
+	//late Timer timer;
+  //late WebSocketChannel sock;
+  //bool isconnected = false;
+  //Map<String, List<dynamic>> signalData = signalMap;
+  //Map<String, List<dynamic>> signalTimestamps = signalsToChart;  //TODO ezek majd legyenek csak a grafikonra kerülők
 
   void setSock(){
-    isconnected = true;
+    startListener();
+    /*isconnected = true;
     sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 18.185.65.162
-    sockListener();
+    sockListener();*/
   }
 
-  void run(){
+  /*void run(){
     if(isconnected){
-      sock.sink.add("ping"); // ping, hogy jöjjön adat
+       // ping, hogy jöjjön adat
     }
-	}
+	}*/
 
-  Map<String, List<dynamic>?> getSignalValues(String key, bool lastOnly, bool needTimestamp){  // TODO itt timestepet is kell adni
+  /*Map<String, List<dynamic>?> getSignalValues(String key, bool lastOnly, bool needTimestamp){  // TODO itt timestepet is kell adni
     if(!signalData.containsKey(key)){
       return {"values": [], "timestamps": []};
     }
@@ -93,24 +91,25 @@ class MyAppState extends State<MyApp>{
         }
       });
     }
-	}
+	}*/
 
-	@override
+	/*@override
 	void initState(){
 		super.initState();
-		timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => run());
-	}
+	  timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => run());
+	}*/
 
 	@override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BME-FRT Telemetry',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: Colors.white),
         canvasColor: bgColor,
       ),
-      home: MainScreen(getSignalValues: getSignalValues, connect: setSock,),
+      home: const MainScreen(),
     );
   }
 }

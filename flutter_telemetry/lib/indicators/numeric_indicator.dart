@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 
 class NumericIndicator extends StatefulWidget{
-  NumericIndicator({
+  const NumericIndicator({
   Key? key,
-  required this.getData,
   required this.subscribedSignal,
   }) : super(key: key);
 
-  final Function getData;
   final String subscribedSignal;
 
   @override
@@ -30,14 +29,14 @@ class NumericIndicatorState extends State<NumericIndicator>{
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => getDataWrapper());
+      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
     }
 
-  void getDataWrapper(){
-    Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignal, true, false);
-    if(temp["values"]!.isNotEmpty && temp["values"]![0] != value){
+  void updateData(){
+    List? temp = signalValues[widget.subscribedSignal];
+    if(temp!.isNotEmpty && temp[0] != value){
       setState(() {
-        value = temp["values"]![0];
+        value = temp[0];
       });
     }
   }
@@ -48,7 +47,6 @@ class NumericIndicatorState extends State<NumericIndicator>{
         padding: const EdgeInsets.all(defaultPadding),
         decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
         child: InkWell(
-          onTap:() {},
           onHover: (isHovering){
             if(isHovering){
               setState(() {
@@ -76,19 +74,17 @@ class NumericIndicatorState extends State<NumericIndicator>{
                 ),
               ),
               Container(
+                width: 100,
                 decoration: const BoxDecoration(
                   border: Border(
                     left: BorderSide(width: 1.0, color: primaryColor),
                   )
                 ),
                 child:
-                  Padding(
-                    padding: const EdgeInsets.only(left: defaultPadding),
-                    child: Text(value.toStringAsPrecision(9),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: const TextStyle(fontSize: numericFontSize),
-                    ),
+                  Text(value.toStringAsPrecision(9),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: const TextStyle(fontSize: numericFontSize),
                   ),
                 )
             ],

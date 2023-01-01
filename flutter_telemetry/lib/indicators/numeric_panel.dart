@@ -3,16 +3,14 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/indicators/numeric_indicator.dart';
 
 class NumericPanel extends StatefulWidget{
-  NumericPanel({
+  const NumericPanel({
   Key? key,
-  required this.getData,
   required this.subscribedSignals,
   required this.colsize,
   required this.title,
   required this.flex,
   }) : super(key: key);
 
-  final Function getData;
   final List<String> subscribedSignals;
   final int colsize;
   final String title;
@@ -52,7 +50,7 @@ class NumericPanelState extends State<NumericPanel> {
                     child: Column(
                       children: [
                         for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
-                          NumericIndicator(getData: widget.getData, subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
+                          NumericIndicator(subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
                       ]
                     ),
                   )

@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 
 class BooleanIndicator extends StatefulWidget{
-  BooleanIndicator({
+  const BooleanIndicator({
   Key? key,
-  required this.getData,
   required this.subscribedSignal,
   }) : super(key: key);
 
-  final Function getData;
   final String subscribedSignal;
 
   @override
@@ -31,14 +30,14 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => getDataWrapper());
+      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
     }
 
-  void getDataWrapper(){
-    Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignal, true, false);
-    if(temp["values"]!.isNotEmpty && temp["values"]![0] != value){
+  void updateData(){
+    List? temp = signalValues[widget.subscribedSignal];
+    if(temp!.isNotEmpty && temp[0] != value){
       setState(() {
-        if(temp["values"]![0] == 0){  // vagy fordítva idk TODO
+        if(temp[0] == 0){  // vagy fordítva idk TODO
         value = 0;
           textColor = const Color.fromARGB(255, 11, 177, 16);
         }
@@ -56,7 +55,6 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
       child: InkWell(
-        onTap:() {},
         onHover: (isHovering){
           if(isHovering){
             setState(() {
