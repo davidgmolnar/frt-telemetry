@@ -9,7 +9,6 @@ const highrefreshTimeMS = 10;
 const signalValuesToKeep = 128;  // ez kb az utsó 20 mp
 const chartSignalValuesToKeep = 128;  // ez kb az utsó 20 mp
 const numericFontSize = 14.0;
-const screenFlex = 17;
 const widthPerColumnNumeric = 400;
 const widthPerColumnBoolean = 300;
 const defaultPadding = 5.0;

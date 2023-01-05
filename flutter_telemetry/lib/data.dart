@@ -19,7 +19,7 @@ Map<String, List<DateTime>> signalTimestamps = {
 };
 
 void startListener(){
-  sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 18.185.65.162
+  sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 
   sock.sink.add("ping");
   isconnected = true;
   sockListener();

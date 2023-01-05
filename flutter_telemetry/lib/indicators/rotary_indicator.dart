@@ -3,16 +3,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 
 class RotaryIndicator extends StatefulWidget{
-  RotaryIndicator({
+  const RotaryIndicator({
   Key? key,
-  required this.getSignalValues,
   required this.subscribedSignal,
   required this.numofStates,
   }) : super(key: key);
 
-  final Function getSignalValues;
   final String subscribedSignal;
   final num numofStates;
   
@@ -29,14 +28,14 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => update());
+    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
   }
 
-  void update(){
-    Map<String, List<dynamic>?> temp = widget.getSignalValues(widget.subscribedSignal, true, false);
-    if(temp["values"]!.isNotEmpty && temp["values"]![0] != value && (temp["values"]![0] > 0 && temp["values"]![0] < widget.numofStates)){
+  void updateData(){
+    List? temp = signalValues[widget.subscribedSignal];
+    if(temp!.isNotEmpty && temp.last != value && (temp.last > 0 && temp.last < widget.numofStates)){
       setState(() {
-        value = temp["values"]![0];
+        value = temp.last;
       });
     }
   }
@@ -70,5 +69,11 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
         ],
       )
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }

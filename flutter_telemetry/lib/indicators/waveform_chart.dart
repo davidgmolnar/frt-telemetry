@@ -2,27 +2,24 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class WaveformChartElement {
-  WaveformChartElement(this.y, this.time);
+  const WaveformChartElement(this.y, this.time);
   final num y;
   final DateTime time;
 }
 
 class WaveformChart extends StatefulWidget{
-  WaveformChart({
+  const WaveformChart({
   Key? key,
-  required this.getData,
   required this.subscribedSignals,
   required this.title,
-  required this.flex,
   }) : super(key: key);
 
-  final Function getData;
   final List<String> subscribedSignals;
   final String title;
-  final int flex;
   
   @override
   State<StatefulWidget> createState() {
@@ -35,19 +32,20 @@ class WaveformChartState extends State<WaveformChart>{
   List<WaveformChartElement> chartData = [];  //TODO erre majd ki kell találni valamit
   late Timer timer;
   ChartSeriesController? _chartSeriesController;
-  List<dynamic>? lastReceived = [];
+  //List<dynamic>? lastReceived = [];
 
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(const Duration(milliseconds: highrefreshTimeMS), (Timer t) => getDataWrapper());
+      timer = Timer.periodic(const Duration(milliseconds: highrefreshTimeMS), (Timer t) => updateData());
   }
 
-  void getDataWrapper(){
-    Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignals[0], false, true);  // ez most csak lastonly de majd összes lesz
-    if(temp["values"]!.isNotEmpty){
-      if(chartData.isEmpty || chartData.last.time != temp["timestamps"]!.last){
-        chartData.add(WaveformChartElement(temp["values"]![0], temp["timestamps"]![0]));
+  void updateData(){
+    List? tempVal = signalValues[widget.subscribedSignals[0]];
+    List? tempTime = signalTimestamps[widget.subscribedSignals[0]];
+    if(tempVal!.isNotEmpty && tempTime!.isNotEmpty){
+      if(chartData.isEmpty || chartData.last.time != tempTime.last){
+        chartData.add(WaveformChartElement(tempVal.last, tempTime.last));
         if(chartData.length > chartSignalValuesToKeep){
           chartData.removeAt(0);
           _chartSeriesController!.updateDataSource(
@@ -60,7 +58,6 @@ class WaveformChartState extends State<WaveformChart>{
             addedDataIndex: chartData.length - 1,
           );
         }
-
       }
     }
     /*// Todo kell logika arra hogy csak az új részét szedje ki a tempből  values = values[new:end] és timestamp=timestamp[new:end]
@@ -131,6 +128,12 @@ class WaveformChartState extends State<WaveformChart>{
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
 

@@ -35,9 +35,9 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
 
   void updateData(){
     List? temp = signalValues[widget.subscribedSignal];
-    if(temp!.isNotEmpty && temp[0] != value){
+    if(temp!.isNotEmpty && temp.last != value){
       setState(() {
-        if(temp[0] == 0){  // vagy fordítva idk TODO
+        if(temp.last == 0){  // vagy fordítva idk TODO
         value = 0;
           textColor = const Color.fromARGB(255, 11, 177, 16);
         }
@@ -74,5 +74,11 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
             style: TextStyle(fontSize: numericFontSize, color: textColor),),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }

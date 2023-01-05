@@ -34,9 +34,9 @@ class NumericIndicatorState extends State<NumericIndicator>{
 
   void updateData(){
     List? temp = signalValues[widget.subscribedSignal];
-    if(temp!.isNotEmpty && temp[0] != value){
+    if(temp!.isNotEmpty && temp.last != value){
       setState(() {
-        value = temp[0];
+        value = temp.last;
       });
     }
   }
@@ -91,5 +91,11 @@ class NumericIndicatorState extends State<NumericIndicator>{
           )
         )
       );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }

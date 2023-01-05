@@ -2,29 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class ScaleIndicator extends StatefulWidget{
-  ScaleIndicator({
+  const ScaleIndicator({
   Key? key,
-  required this.getData,
   required this.subscribedSignal,
   required this.maxValue,
   required this.minValue,
-  required this.flex,
   }) : super(key: key);
 
-  final Function getData;
   final String subscribedSignal;
   final num maxValue;
   final num minValue;
-  final int flex;
 
   @override
   State<StatefulWidget> createState() {
     return ScaleIndicatorState();
   }
-
 }
 
 class ScaleIndicatorState extends State<ScaleIndicator>{
@@ -35,14 +31,14 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
   void initState() {
     value = widget.minValue;
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => getDataWrapper());
+    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
   }
 
-  void getDataWrapper(){
-    Map<String, List<dynamic>?> temp = widget.getData(widget.subscribedSignal, true, false);
-    if(temp["values"]!.isNotEmpty && temp["values"]![0] != value && (temp["values"]![0] > widget.minValue && temp["values"]![0] < widget.maxValue)){
+  void updateData(){
+    List? temp = signalValues[widget.subscribedSignal];
+    if(temp!.isNotEmpty && temp.last != value){
       setState(() {
-        value = temp["values"]![0];
+        value = temp.last;
       });
     }
   }
@@ -55,7 +51,7 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
         crossAxisAlignment: CrossAxisAlignment.center,
         children:[
           Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(defaultPadding),
             child: Text(
               widget.subscribedSignal,
               textAlign: TextAlign.center,
@@ -78,15 +74,21 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(defaultPadding),
             child: Text(
-              value.toString(),
+              value.toStringAsPrecision(3),
               textAlign: TextAlign.center,
             ),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 
 class DashMenu extends StatefulWidget{
   const DashMenu({
@@ -18,10 +19,12 @@ class DashMenu extends StatefulWidget{
 }
 
 class DashMenuState extends State<DashMenu>{
+  bool isOpened = true;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 150,
+      width: isOpened ? 150 : 50,
       child: Drawer(
         backgroundColor: secondaryColor,
         child: ListView(
@@ -36,19 +39,41 @@ class DashMenuState extends State<DashMenu>{
               ),
             ),
             ListTile(
-              title: const Text("Connect", textAlign: TextAlign.center,),
+              title: const Text("Connect", textAlign: TextAlign.center),
               onTap: () {
                 startListener();
               },
             ),
-            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange),
-            TabSelector(tab: "OVERVIEW", iconData: Icons.center_focus_weak, title: "Overview", tabChange: widget.onTabChange),
-            TabSelector(tab: "ACCU", iconData: Icons.power, title: "Accu", tabChange: widget.onTabChange),
-            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange),
-            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange),
-            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange),
-            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange),
-            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange),
+            TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "OVERVIEW", iconData: Icons.center_focus_weak, title: "Overview", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "TCU", iconData: Icons.speed, title: "TCU", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "MCU", iconData: Icons.water_drop, title: "MCU", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "SC", iconData: FontAwesome5.power_off, title: "SC", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "BRIGHTLOOP", iconData: Icons.compare_arrows, title: "Brightloop", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "HV_ACCU", iconData: Icons.electric_bolt_outlined, title: "HV Accu", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "DYNAMICS", iconData: Icons.multiline_chart, title: "Dynamics", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "LV_SYSTEM", iconData: Icons.power, title: "LV System", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "ERRORS", iconData: Icons.error_outline, title: "Errors", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "AS", iconData: Icons.contactless_outlined, title: "AS", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "DATALOGGER", iconData: Icons.receipt_rounded, title: "Datalogger", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "LAP", iconData: Icons.circle_outlined, title: "Lap", tabChange: widget.onTabChange, isWide: isOpened,),
+
+            IconButton(
+              icon: isOpened ? const Icon(Icons.keyboard_arrow_left) : const Icon(Icons.keyboard_arrow_right),
+              splashRadius: 20,
+              onPressed: () {
+                if(isOpened){
+                  isOpened = false;
+                }
+                else{
+                  isOpened = true;
+                }
+                setState(() {
+                  
+                });
+              },
+
+            )
           ],
         )
       ),
@@ -64,14 +89,14 @@ class TabSelector extends StatelessWidget {
     required this.iconData,
     required this.title,
     required this.tabChange,
-    //required this.isWide
+    required this.isWide
   });
 
   final String tab;
   final IconData iconData;
   final String title;
   final Function tabChange;
-  //final bool isWide;
+  final bool isWide;
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +114,11 @@ class TabSelector extends StatelessWidget {
               padding: const EdgeInsets.all(defaultPadding),
               child: Icon(iconData),
             ),
-            Padding(
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Text(title, style: const TextStyle(fontSize: 15),),
-            ),
+            if(isWide)
+              Padding(
+                padding: const EdgeInsets.all(defaultPadding),
+                child: Text(title, style: const TextStyle(fontSize: 15),),
+              ),
           ]
         ),
       ),

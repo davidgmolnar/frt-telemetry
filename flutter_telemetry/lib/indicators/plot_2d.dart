@@ -3,22 +3,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class Plot2D extends StatefulWidget{
-  Plot2D({
+  const Plot2D({
   Key? key,
-  required this.getSignalValues,
   required this.subscribedSignals,
   required this.title,
   required this.maxValue,
-  this.trailToKeep = 3
+  //this.trailToKeep = 3
   }) : super(key: key);
 
-  final Function getSignalValues;
   final String title;
   final num maxValue;
-  final int trailToKeep;
+  //final int trailToKeep;
   final List<String> subscribedSignals;
   
   @override
@@ -31,66 +30,43 @@ class Plot2DState extends State<Plot2D>{
   late Timer timer;
   late List x = [0,0,0];
   late List y = [0,0,0];
-  double width = 300;
 
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) => update());
+    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
   }
 
-  void update(){
-    bool updateX = false;
-    bool updateY = false;
-    if(context.size!.width != width){
-      setState(() {
-        width = context.size!.width;
-      });
+  void updateData(){
+    List? tempX = signalValues[widget.subscribedSignals[0]];
+    if(tempX!.isNotEmpty && tempX.last != x.last && (tempX.last > -1 * widget.maxValue && tempX.last < widget.maxValue)){
+      x.removeAt(0);
+      x.add(tempX[0]);
     }
-    Map<String, List<dynamic>?> temp_x = widget.getSignalValues(widget.subscribedSignals[0], true, false);
-    if(temp_x["values"]!.isNotEmpty && temp_x["values"]![0] != x.last && (temp_x["values"]![0] > -1 * widget.maxValue && temp_x["values"]![0] < widget.maxValue)){
-      updateX = true;
+    List? tempY = signalValues[widget.subscribedSignals[1]];
+    if(tempY!.isNotEmpty && tempY.last != y.last && (tempY.last > -1 * widget.maxValue && tempY.last < widget.maxValue)){
+      y.removeAt(0);
+      y.add(tempY[0]);
     }
-    Map<String, List<dynamic>?> temp_y = widget.getSignalValues(widget.subscribedSignals[1], true, false);
-    if(temp_y["values"]!.isNotEmpty && temp_y["values"]![0] != y.last && (temp_y["values"]![0] > -1 * widget.maxValue && temp_y["values"]![0] < widget.maxValue)){
-      updateY = true;
-    }
-    if(updateX && !updateY){
-      setState(() {
-        x.removeAt(0);
-        x.add(temp_x["values"]![0]);
-      });
-    }
-    else if(updateX && updateY){
-      setState(() {
-        x.removeAt(0);
-        x.add(temp_x["values"]![0]);
-        y.removeAt(0);
-        y.add(temp_y["values"]![0]);
-      });
-    }
-    else if(!updateX && updateY){
-      setState(() {
-        y.removeAt(0);
-        y.add(temp_y["values"]![0]);
-      });
-    }
+    setState(() {
+      
+    });
   }
   
   @override
   Widget build(BuildContext context) {
-    double innersize = width * 0.75;
+    double innersize = 300 * 0.75;
     return Container(
       constraints: const BoxConstraints(minHeight: 300, minWidth: 300),
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Transform.translate(
-            offset: Offset(0, -width * 0.92),
+            offset: const Offset(0, -300 * 0.92),
             child: Text(widget.title),
           ),
           Transform.translate(
-            offset: Offset(0, -width * 0.07),
+            offset: const Offset(0, -300 * 0.07),
             child: Container(
               decoration: BoxDecoration(border: Border.all(color: primaryColor, width: 1.0)),
               width: innersize,
@@ -118,6 +94,12 @@ class Plot2DState extends State<Plot2D>{
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
 

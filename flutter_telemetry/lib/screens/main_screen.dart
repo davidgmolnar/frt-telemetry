@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/globals.dart';
-import 'package:flutter_telemetry/tabs/config_view.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
+import 'package:flutter_telemetry/tabs/tabs.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({
@@ -35,10 +33,19 @@ class MainScreenState extends State<MainScreen>{
       body: SafeArea(
         child: Row(
           children: [
-            DashMenu(onTabChange: changeTab,), //TODO becsukva csak ikonok legyenek
-            const Expanded(
-              child: ConfigView()
-            ),
+            DashMenu(onTabChange: changeTab,),
+            Expanded(
+              child: (() {
+                switch(activeTab){
+                  case "CONFIG": {
+                    return const ConfigView();
+                  }
+                  default: {
+                    return const Center(child: Text("Tab not found"),);
+                  }
+                }
+              }())
+            )
           ],
         ),
       ),
