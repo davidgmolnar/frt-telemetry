@@ -8,13 +8,11 @@ class NumericPanel extends StatefulWidget{
   required this.subscribedSignals,
   required this.colsize,
   required this.title,
-  required this.flex,
   }) : super(key: key);
 
   final List<String> subscribedSignals;
   final int colsize;
   final String title;
-  final int flex;
 
   @override
   State<StatefulWidget> createState() {
