@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
-import 'package:flutter_telemetry/indicators/indicators.dart';
+import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 
 class ConfigView extends StatefulWidget{
     const ConfigView({
@@ -45,97 +46,108 @@ class ConfigViewState extends State<ConfigView>{
       return ListView(
         children: [
           Row(
-            mainAxisSize: MainAxisSize.min,
             children: const [
-              NumericPanel(
-                flex: 1,
-                subscribedSignals: ["Vectornav_yaw_rate_rear_value", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
-                colsize: 4, title: "test numeric panel"),
-              BooleanPanel(
-                flex : 1,
-                subscribedSignals: ["Bosch_yaw_rate", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
-                colsize: 4, title: "test led panel"),
+              SettingsContainer(),
             ],
           ),
-          const ScaleIndicator(subscribedSignal: "Bosch_yaw_rate", maxValue: 1, minValue: -1),
-          const RotaryIndicator(subscribedSignal: "Bosch_yaw_rate", numofStates: 12),
-          const Plot2D(subscribedSignals: ["Bosch_yaw_rate", "Bosch_yaw_rate"], title: "Bosch_yaw_rate", maxValue: 5),
-          const WaveformChart(subscribedSignals: ["Bosch_yaw_rate"], title: "asd")
-          /*Row(
-            children: [
-              BooleanPanel(
-                flex : 1,
-                getData: widget.getSignalValues,
-                subscribedSignals: const ["Bosch_yaw_rate", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
-                colsize: 3, title: "test led panel"),
-              /*ScaleIndicator(
-                getData: widget.getSignalValues,  
-                subscribedSignal: "Bosch_yaw_rate",
-                maxValue: 100,
-                minValue: 0,
-                flex: 1),
-              RotaryIndicator(
-                getSignalValues: widget.getSignalValues,
-                subscribedSignal: "Bosch_yaw_rate",
-                numofStates: 12,),
-              Plot2D(
-                getSignalValues: widget.getSignalValues,
-                title: "g-g",
-                maxValue: 3,
-                subscribedSignals: ["Bosch_yaw_rate", 'Bosch_yaw_rate']),*/
-            ],
-            ),*/
-          /*WaveformChart(
-            flex: 1,
-            getData: widget.getData,
-            subscribedSignals: const ['Bosch_yaw_rate'],
-            title: "test waveform chart"),*/
+          ListTile(
+            title: const Text("Connect", textAlign: TextAlign.center),
+            onTap: () {
+              startListener();
+            },
+          ),
         ],
       );
     }
     else{
       return ListView(
         children: const [
-          //NumericIndicator(getData: widget.getSignalValues, subscribedSignal: "Bosch_yaw_rate")
-          NumericPanel(
-            flex: 1,
-            subscribedSignals: ["Vectornav_yaw_rate_rear_value", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
-            colsize: 4, title: "test numeric panel"),
-          BooleanPanel(
-            flex : 1,
-            subscribedSignals: ["Bosch_yaw_rate", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
-            colsize: 4, title: "test led panel"),
-          /*Row(
-            children: [
-              BooleanPanel(
-                flex : 1,
-                getData: widget.getSignalValues,
-                subscribedSignals: const ["Bosch_yaw_rate", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Xavier_orientation", "Bosch_yaw_rate", "Vectornav_yaw_rate_rear_value"],
-                colsize: 3, title: "test led panel"),
-              /*ScaleIndicator(
-                getData: widget.getSignalValues,  
-                subscribedSignal: "Bosch_yaw_rate",
-                maxValue: 100,
-                minValue: 0,
-                flex: 1),
-              RotaryIndicator(
-                getSignalValues: widget.getSignalValues,
-                subscribedSignal: "Bosch_yaw_rate",
-                numofStates: 12,),
-              Plot2D(
-                getSignalValues: widget.getSignalValues,
-                title: "g-g",
-                maxValue: 3,
-                subscribedSignals: ["Bosch_yaw_rate", 'Bosch_yaw_rate']),*/
-            ],
-            ),*/
-          /*WaveformChart(
-            flex: 1,
-            getData: widget.getData,
-            subscribedSignals: const ['Bosch_yaw_rate'],
-            title: "test waveform chart"),*/
+          SettingsContainer()
         ],
       );
     }
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+}
+
+class SettingsElement extends StatefulWidget{
+  const SettingsElement({
+    super.key,
+    required this.label,
+  });
+
+  final String label;
+
+  @override
+  State<SettingsElement> createState() => SettingsElementState();
+}
+
+class SettingsElementState extends State<SettingsElement> {
+  String input = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: settingsWidth * 1.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Text(settingsToLabel[widget.label]!),
+          ),
+          const Spacer(),
+          Container(
+            width: 100,
+            padding: const EdgeInsets.all(defaultPadding),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: settings[widget.label][0].toString(),
+              ),
+              onChanged:(value) {
+                input = value;
+              },
+            ),
+          ),
+          IconButton(
+            splashRadius: 25,
+            padding: const EdgeInsets.all(defaultPadding),
+            icon: const Icon(Icons.check), 
+            onPressed: () {
+              if(settings[widget.label][1] <= num.parse(input) && num.parse(input) <= settings[widget.label][1]){
+                settings[widget.label][0] = num.parse(input);
+              }
+              setState(() {
+                
+              });
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class SettingsContainer extends StatelessWidget{
+  const SettingsContainer({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(defaultPadding),
+      constraints: const BoxConstraints(maxWidth: settingsWidth * 1.0),
+      child: Column(
+        children: [
+          for(int i = 0; i < settings.keys.length; i++)
+            SettingsElement(label: settings.keys.toList()[i])
+        ]
+      ),
+    );
   }
 }

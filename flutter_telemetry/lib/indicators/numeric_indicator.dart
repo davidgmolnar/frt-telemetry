@@ -58,7 +58,6 @@ class NumericIndicatorState extends State<NumericIndicator>{
                 currentColor = defaultColor;
               });
             }
-    
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

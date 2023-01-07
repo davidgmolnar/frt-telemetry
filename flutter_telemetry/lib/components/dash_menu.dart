@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
-import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 
@@ -24,7 +23,7 @@ class DashMenuState extends State<DashMenu>{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: isOpened ? 150 : 50,
+      width: isOpened ? 160 : 60,
       child: Drawer(
         backgroundColor: secondaryColor,
         child: ListView(
@@ -37,12 +36,6 @@ class DashMenuState extends State<DashMenu>{
                 filterQuality: FilterQuality.high,
                 fit: BoxFit.contain,
               ),
-            ),
-            ListTile(
-              title: const Text("Connect", textAlign: TextAlign.center),
-              onTap: () {
-                startListener();
-              },
             ),
             TabSelector(tab: "CONFIG", iconData: Icons.settings, title: "Config", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "OVERVIEW", iconData: Icons.center_focus_weak, title: "Overview", tabChange: widget.onTabChange, isWide: isOpened,),

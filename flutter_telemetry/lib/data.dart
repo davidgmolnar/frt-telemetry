@@ -7,15 +7,15 @@ bool isconnected = false;
 late WebSocketChannel sock;
 
 Map<String, List<dynamic>> signalValues = {
-  "Bosch_yaw_rate": [],
-  "Vectornav_yaw_rate_rear_value": [],
-  "Xavier_orientation": [],
+  //"Bosch_yaw_rate": [],
+  //"Vectornav_yaw_rate_rear_value": [],
+  //"Xavier_orientation": [],
 };
 
 Map<String, List<DateTime>> signalTimestamps = {
-  "Bosch_yaw_rate": [],
-  "Vectornav_yaw_rate_rear_value": [],
-  "Xavier_orientation": [],
+  //"Bosch_yaw_rate": [],
+  //"Vectornav_yaw_rate_rear_value": [],
+  //"Xavier_orientation": [],
 };
 
 void startListener(){
@@ -39,13 +39,15 @@ void sockListener(){
 
 void processPacket(Map rawJsonMap){
   for(String key in rawJsonMap.keys){
-    if(signalValues.containsKey(key)){
-      signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
-      signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
-      if(signalValues[key]!.length > signalValuesToKeep){
-        signalValues[key]!.removeAt(0);
-        signalTimestamps[key]!.removeAt(0);
-      }
+    if(!signalValues.containsKey(key)){
+      signalValues[key] = [];
+      signalTimestamps[key] = [];
+    }   
+    signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
+    signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
+    if(signalValues[key]!.length > signalValuesToKeep){
+      signalValues[key]!.removeAt(0);
+      signalTimestamps[key]!.removeAt(0);
     }
     else{
       //print("No such signal");

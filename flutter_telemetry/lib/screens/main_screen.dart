@@ -40,6 +40,9 @@ class MainScreenState extends State<MainScreen>{
                   case "CONFIG": {
                     return const ConfigView();
                   }
+                  case "OVERVIEW": {
+                    return const OverviewTab();
+                  }
                   default: {
                     return const Center(child: Text("Tab not found"),);
                   }
