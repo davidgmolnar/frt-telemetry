@@ -25,18 +25,25 @@ class NumericIndicatorState extends State<NumericIndicator>{
   Color onHoverColor = primaryColor;
   Color defaultColor = bgColor;
   Color currentColor = bgColor;
+  late String label;
 
   @override
   void initState() {
       super.initState();
+      if(labelRemap.containsKey(widget.subscribedSignal)){
+        label = labelRemap[widget.subscribedSignal]!;
+      }
+      else{
+        label = widget.subscribedSignal.replaceAll('_', ' ');
+      }
       timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
     }
 
   void updateData(){
-    List? temp = signalValues[widget.subscribedSignal];
-    if(temp!.isNotEmpty && temp.last != value){
+    num? temp = signalValues[widget.subscribedSignal]?.last;
+    if(temp != null && temp != value){
       setState(() {
-        value = temp.last;
+        value = temp;
       });
     }
   }
@@ -47,6 +54,7 @@ class NumericIndicatorState extends State<NumericIndicator>{
         padding: const EdgeInsets.all(defaultPadding),
         decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
         child: InkWell(
+          onTap: () {},
           onHover: (isHovering){
             if(isHovering){
               setState(() {
@@ -64,7 +72,7 @@ class NumericIndicatorState extends State<NumericIndicator>{
             children:[
               Padding(
                 padding: const EdgeInsets.only(right: defaultPadding),
-                child: Text(widget.subscribedSignal,  // TODO remap
+                child: Text(label,
                   textAlign: TextAlign.left,
                   maxLines: 1,
                   style: const TextStyle(

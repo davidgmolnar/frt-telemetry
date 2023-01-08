@@ -43,7 +43,7 @@ class WaveformChartState extends State<WaveformChart>{
   void updateData(){
     List? tempVal = signalValues[widget.subscribedSignals[0]];
     List? tempTime = signalTimestamps[widget.subscribedSignals[0]];
-    if(tempVal!.isNotEmpty && tempTime!.isNotEmpty){
+    if(tempVal != null && tempTime != null && tempVal.isNotEmpty && tempTime.isNotEmpty){
       if(chartData.isEmpty || chartData.last.time != tempTime.last){
         chartData.add(WaveformChartElement(tempVal.last, tempTime.last));
         if(chartData.length > chartSignalValuesToKeep){

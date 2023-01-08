@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
@@ -26,39 +27,48 @@ class ScaleIndicator extends StatefulWidget{
 class ScaleIndicatorState extends State<ScaleIndicator>{
   late Timer timer;
   late num value;
+  late String label;
 
   @override
   void initState() {
     value = widget.minValue;
     super.initState();
+    if(labelRemap.containsKey(widget.subscribedSignal)){
+        label = labelRemap[widget.subscribedSignal]!;
+      }
+      else{
+        label = widget.subscribedSignal.replaceAll('_', ' ');
+      }
     timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
   }
 
   void updateData(){
-    List? temp = signalValues[widget.subscribedSignal];
-    if(temp!.isNotEmpty && temp.last != value){
+    num? temp = signalValues[widget.subscribedSignal]?.last;
+    if(temp != null && temp != value){
       setState(() {
-        value = temp.last;
+        value = temp;
       });
     }
   }
   
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(minWidth: 60, minHeight: 170),
+    return SizedBox(
+      height: 200,
+      width: 60,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children:[
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
             child: Text(
-              widget.subscribedSignal,
+              label,
               textAlign: TextAlign.center,
             ),
           ),
           Container(
-            constraints: const BoxConstraints(minHeight: 130),
+            constraints: const BoxConstraints(minHeight: 120),
+            color: secondaryColor,
             child: Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: [
@@ -68,7 +78,7 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
                     borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   ),
                   width: 40,
-                  height: normalizeInbetween(value, widget.minValue, widget.maxValue, 0, 130).toDouble(),
+                  height: normalizeInbetween(value, widget.minValue, widget.maxValue, 0, 120).toDouble(),
                 ),
               ]
             ),
@@ -76,8 +86,10 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
             child: Text(
-              value.toStringAsPrecision(3),
+              Decimal.parse(value.toString()).toStringAsPrecision(4),
               textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.clip,
             ),
           ),
         ],

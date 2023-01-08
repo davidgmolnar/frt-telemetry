@@ -10,10 +10,12 @@ class RotaryIndicator extends StatefulWidget{
   Key? key,
   required this.subscribedSignal,
   required this.numofStates,
+  required this.granularity,
   }) : super(key: key);
 
   final String subscribedSignal;
   final num numofStates;
+  final int granularity;
   
   @override
   State<StatefulWidget> createState() {
@@ -24,18 +26,25 @@ class RotaryIndicator extends StatefulWidget{
 class RotaryIndicatorState extends State<RotaryIndicator>{
   late Timer timer;
   num value = 0;
+  late String label;
 
   @override
   void initState() {
     super.initState();
+    if(labelRemap.containsKey(widget.subscribedSignal)){
+        label = labelRemap[widget.subscribedSignal]!;
+      }
+      else{
+        label = widget.subscribedSignal.replaceAll('_', ' ');
+      }
     timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
   }
 
   void updateData(){
-    List? temp = signalValues[widget.subscribedSignal];
-    if(temp!.isNotEmpty && temp.last != value && (temp.last > 0 && temp.last < widget.numofStates)){
+    num? temp = signalValues[widget.subscribedSignal]?.last;
+    if(temp != null && temp != value && (temp > 0 && temp < widget.numofStates)){
       setState(() {
-        value = temp.last;
+        value = temp;
       });
     }
   }
@@ -59,13 +68,13 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
 
           Transform.translate(
             offset: const Offset(0, -155),
-            child: Text(widget.subscribedSignal),
+            child: Text(label),
           ),
         
-          for(int i = 0; i < widget.numofStates; i++)
+          for(int i = 0; i < widget.numofStates; i+=widget.granularity)
             Transform.translate(
               offset: Offset.fromDirection(-pi + i * pi / (widget.numofStates - 1), 115),
-              child: Text("${i + 1}"),),
+              child: Text("$i"),),
         ],
       )
     );

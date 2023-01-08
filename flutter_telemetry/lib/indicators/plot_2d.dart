@@ -38,19 +38,24 @@ class Plot2DState extends State<Plot2D>{
   }
 
   void updateData(){
-    List? tempX = signalValues[widget.subscribedSignals[0]];
-    if(tempX!.isNotEmpty && tempX.last != x.last && (tempX.last > -1 * widget.maxValue && tempX.last < widget.maxValue)){
+    bool needsUpdate = false;
+    num? tempX = signalValues[widget.subscribedSignals[0]]?.last;
+    if(tempX != null){
+      needsUpdate = true;
       x.removeAt(0);
-      x.add(tempX[0]);
+      x.add(tempX); // buildben be van rakva a rangebe
     }
-    List? tempY = signalValues[widget.subscribedSignals[1]];
-    if(tempY!.isNotEmpty && tempY.last != y.last && (tempY.last > -1 * widget.maxValue && tempY.last < widget.maxValue)){
+    num? tempY = signalValues[widget.subscribedSignals[1]]?.last;
+    if(tempY != null){
+      needsUpdate = true;
       y.removeAt(0);
-      y.add(tempY[0]);
+      y.add(tempY); // buildben be van rakva a rangebe
     }
-    setState(() {
+    if(needsUpdate){
+      setState(() {
       
-    });
+      });
+    }
   }
   
   @override
@@ -62,7 +67,7 @@ class Plot2DState extends State<Plot2D>{
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Transform.translate(
-            offset: const Offset(0, -300 * 0.92),
+            offset: const Offset(0, -300 * 0.85),
             child: Text(widget.title),
           ),
           Transform.translate(

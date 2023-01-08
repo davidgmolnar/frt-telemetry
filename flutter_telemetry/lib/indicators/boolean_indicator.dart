@@ -21,29 +21,40 @@ class BooleanIndicator extends StatefulWidget{
 
 class BooleanIndicatorState extends State<BooleanIndicator>{
 	late Timer timer;
-  num value = 0;
+  num value = 1;
   Color onHoverColor = primaryColor;
   Color defaultColor = bgColor;
   Color currentColor = bgColor;
   Color textColor = Colors.red;  // default
+  late String label;
 
   @override
   void initState() {
       super.initState();
+      if(labelRemap.containsKey(widget.subscribedSignal)){
+        label = labelRemap[widget.subscribedSignal]!;
+      }
+      else{
+        label = widget.subscribedSignal.replaceAll('_', ' ');
+      }
       timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
     }
 
   void updateData(){
-    List? temp = signalValues[widget.subscribedSignal];
-    if(temp!.isNotEmpty && temp.last != value){
+    num? temp = signalValues[widget.subscribedSignal]?.last;
+    if(temp != null){
       setState(() {
-        if(temp.last == 0){  // TODO itt valami faszság van
+        if(temp == 0){
           value = 0;
           textColor = const Color.fromARGB(255, 11, 177, 16);
         }
-        else{
+        else if(temp == 1){
           value == 1;
           textColor = Colors.red;
+        }
+        else{
+          value = 2; // hiba
+          textColor = Colors.black; // hiba
         }
       });
     }
@@ -55,6 +66,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       padding: const EdgeInsets.all(defaultPadding),
       decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
       child: InkWell(
+        onTap: () {},
         onHover: (isHovering){
           if(isHovering){
             setState(() {
@@ -68,7 +80,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
           }
         },
         child:
-          Text(widget.subscribedSignal,  // TODO remap
+          Text(label,
             textAlign: TextAlign.left,
             maxLines: 1,
             style: TextStyle(fontSize: numericFontSize, color: textColor),),

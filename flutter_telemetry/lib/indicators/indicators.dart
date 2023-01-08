@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 
 export 'boolean_indicator.dart';
@@ -9,6 +9,10 @@ export 'plot_2d.dart';
 export 'rotary_indicator.dart';
 export 'scale_indicator.dart';
 export 'waveform_chart.dart';
+export 'four_state_led.dart';
+export 'string_indicator.dart';
+export 'compound_indicator.dart';
+export 'decoders.dart';
 
 class Titlebar extends StatelessWidget{
   const Titlebar({
@@ -30,5 +34,15 @@ class Titlebar extends StatelessWidget{
       ),
     );
   }
-  
+}
+
+num torqueLimitRule(num first, num second){
+  if(first == 0){
+    return second;
+  }
+  return first;
+}
+
+num hvPowerRule(num current, num voltage){
+  return current * voltage;
 }

@@ -18,12 +18,21 @@ class DashMenu extends StatefulWidget{
 }
 
 class DashMenuState extends State<DashMenu>{
-  bool isOpened = true;
+  bool isOpened = false;
+  bool goingToOpen = false;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: isOpened ? 160 : 60,
+    return AnimatedContainer(
+      width: goingToOpen ? 160 : 60,
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.linearToEaseOut,
+      onEnd: () {
+        isOpened = goingToOpen;
+        setState(() {
+          
+        });
+      },
       child: Drawer(
         backgroundColor: secondaryColor,
         child: ListView(
@@ -55,11 +64,12 @@ class DashMenuState extends State<DashMenu>{
               icon: isOpened ? const Icon(Icons.keyboard_arrow_left) : const Icon(Icons.keyboard_arrow_right),
               splashRadius: 20,
               onPressed: () {
-                if(isOpened){
+                if(goingToOpen){
+                  goingToOpen = false;
                   isOpened = false;
                 }
                 else{
-                  isOpened = true;
+                  goingToOpen = true;
                 }
                 setState(() {
                   
