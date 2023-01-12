@@ -238,20 +238,20 @@ class OverviewTabState extends State<OverviewTab>{
                               rule: torqueLimitRule,
                             ),
                             CompoundIndicator(
-                              firstSignal: "AMK3_Torque_Limit_Positive",
-                              secondSignal: "AMK3_Torque_Limit_Negative",
-                              title: "AMK3 Torque Limit",
-                              rule: torqueLimitRule,
-                            ),
-                            CompoundIndicator(
                               firstSignal: "AMK2_Torque_Limit_Positive",
                               secondSignal: "AMK2_Torque_Limit_Negative",
                               title: "AMK2 Torque Limit",
                               rule: torqueLimitRule,
                             ),
                             CompoundIndicator(
-                              firstSignal: "AMK4_Torque_Limit_Positive",
-                              secondSignal: "AMK4_Torque_Limit_Negative",
+                              firstSignal: "AMK3_TorqueLimitPositive",
+                              secondSignal: "AMK3_TorqueLimitNegative",
+                              title: "AMK3 Torque Limit",
+                              rule: torqueLimitRule,
+                            ),
+                            CompoundIndicator(
+                              firstSignal: "AMK4_TorqueLimitPositive",
+                              secondSignal: "AMK4_TorqueLimitNegative",
                               title: "AMK4 Torque Limit",
                               rule: torqueLimitRule,
                             ),

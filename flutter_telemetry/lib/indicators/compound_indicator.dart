@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class CompoundIndicator extends StatefulWidget{
   const CompoundIndicator({
@@ -92,7 +93,7 @@ class CompoundIndicatorState extends State<CompoundIndicator>{
                   )
                 ),
                 child:
-                  Text(value.toStringAsPrecision(9),
+                  Text(representNumber(value.toString()),
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     style: const TextStyle(fontSize: numericFontSize),

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
@@ -86,7 +85,7 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
             child: Text(
-              Decimal.parse(value.toString()).toStringAsPrecision(4),
+              representNumber(value.toString()),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.clip,

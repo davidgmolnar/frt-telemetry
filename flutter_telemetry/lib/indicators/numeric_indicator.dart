@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class NumericIndicator extends StatefulWidget{
   const NumericIndicator({
@@ -25,7 +26,7 @@ class NumericIndicatorState extends State<NumericIndicator>{
   Color onHoverColor = primaryColor;
   Color defaultColor = bgColor;
   Color currentColor = bgColor;
-  late String label;
+  late final String label;
 
   @override
   void initState() {
@@ -88,7 +89,7 @@ class NumericIndicatorState extends State<NumericIndicator>{
                   )
                 ),
                 child:
-                  Text(value.toStringAsPrecision(9),
+                  Text(representNumber(value.toString()),
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     style: const TextStyle(fontSize: numericFontSize),

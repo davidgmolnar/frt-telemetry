@@ -274,13 +274,33 @@ async def join(websocket):
         print(f"{websocket.host}:{websocket.port} left")
 
 
-async def main(dict_queue1, dict_queue2):
-    async with websockets.serve(join, "127.0.0.1", 8990, ping_interval=None):  # 172.31.1.148
-        await streamData(dict_queue1, dict_queue2)
+def main(dict_queue1, dict_queue2):
+    # async with websockets.serve(join, "127.0.0.1", 8990, ping_interval=None):  # 172.31.1.148
+    #     await streamData(dict_queue1, dict_queue2)
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) as sock:  # UDP
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        buf = dict()
+        while True:
+            buf.clear()
+            try:
+                buf = dict_queue1.get_nowait()
+            except Empty:
+                pass
+            try:
+                buf.update(dict_queue2.get_nowait())
+            except Empty:
+                pass
+            if len(buf) < 1:
+                print("Nothing to send, sleeping 0.1 sec")
+                time.sleep(0.1)
+            else:
+                data = json.dumps(buf).encode('ascii')
+                sock.sendto(data, ("255.255.255.255", 8990))
 
 
 def sendtoflutter(dict_queue1, dict_queue2):  # THREAD
-    asyncio.run(main(dict_queue1, dict_queue2))
+    # asyncio.run(main(dict_queue1, dict_queue2))
+    main(dict_queue1, dict_queue2)
 
 
 def upload(token, org, bucket, _stop_queue, _data_queue):   # THREAD
@@ -331,7 +351,7 @@ if __name__ == '__main__':
     try:
         if True:  # TEST MODE
             tester = TelemetryTester()
-            tester.send_interval = 0.05  # 0.01
+            tester.send_interval = 0.1  # 0.01
             test_thread = Process(target=tester.run)
             time.sleep(1)
             test_thread.start()

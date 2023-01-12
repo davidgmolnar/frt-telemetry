@@ -52,8 +52,8 @@ class ConfigViewState extends State<ConfigView>{
           ),
           ListTile(
             title: const Text("Connect", textAlign: TextAlign.center),
-            onTap: () {
-              startListener();
+            onTap: () async {
+              await startListener();
             },
           ),
         ],

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter_telemetry/constants.dart';
+import 'package:universal_io/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 bool isconnected = false;
-late WebSocketChannel sock;
+late RawDatagramSocket sock;
 
 Map<String, List<dynamic>> signalValues = {
   //"Bosch_yaw_rate": [],
@@ -18,20 +20,24 @@ Map<String, List<DateTime>> signalTimestamps = {
   //"Xavier_orientation": [],
 };
 
-void startListener(){
-  sock = WebSocketChannel.connect(Uri.parse('ws://127.0.0.1:8990'),); // 
-  sock.sink.add("ping");
+Future<void> startListener() async {
+  sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8990); // 
+  //sock.sink.add("ping");
   isconnected = true;
   sockListener();
 }
 
 void sockListener(){
+  AsciiDecoder decoder = const AsciiDecoder();
   if(isconnected){
-    sock.stream.listen((buffer){
-      String result = buffer.toString();
-      if(result.isNotEmpty) {
-        Map temp = jsonDecode(result);
+    sock.listen((event){
+      Uint8List? result = sock.receive()?.data;
+      if(result != null) {
+        Map temp = jsonDecode(decoder.convert(result));
         processPacket(temp);
+      }
+      else{
+        print("fuck");
       }
     });
   }
