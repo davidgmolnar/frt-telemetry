@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/numeric_indicator.dart';
 
-class NumericPanel extends StatefulWidget{
+class NumericPanel extends StatelessWidget{
   const NumericPanel({
   Key? key,
   required this.subscribedSignals,
@@ -15,17 +16,8 @@ class NumericPanel extends StatefulWidget{
   final String title;
 
   @override
-  State<StatefulWidget> createState() {
-    return NumericPanelState();
-  }
-
-}
-
-class NumericPanelState extends State<NumericPanel> {
-
-  @override
   Widget build(BuildContext context) {
-    int colcount = (widget.subscribedSignals.length / widget.colsize).ceil();
+    int colcount = (subscribedSignals.length / colsize).ceil();
     return Container(
       constraints: BoxConstraints(maxWidth: colcount * widthPerColumnNumeric.toDouble()),
       padding: const EdgeInsets.all(defaultPadding),
@@ -34,12 +26,12 @@ class NumericPanelState extends State<NumericPanel> {
           Padding(
             padding: const EdgeInsets.only(bottom: defaultPadding),
             child: Text(
-              widget.title,
+              title,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20),)
           ),
           Container(
-            decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.0, color: secondaryColor))),
+            decoration: BoxDecoration(border: Border(top: BorderSide(width: 1.0, color: secondaryColor))),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -47,8 +39,8 @@ class NumericPanelState extends State<NumericPanel> {
                   Flexible(
                     child: Column(
                       children: [
-                        for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
-                          NumericIndicator(subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
+                        for(int j = 0; j < colsize && (i * colsize + j) < subscribedSignals.length; j++)
+                          NumericIndicator(subscribedSignal: subscribedSignals[i * colsize + j])
                       ]
                     ),
                   )

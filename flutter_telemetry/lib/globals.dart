@@ -1,4 +1,12 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/constants.dart';
+
 String activeTab = "CONFIG";
+
+Color primaryColor = primaryColorDark;
+Color secondaryColor = secondaryColorDark;
+Color bgColor = bgColorDark;
+Color textColor = textColorDark;
 
 // settings  [val, min, max]
 Map<String, dynamic> settings = {

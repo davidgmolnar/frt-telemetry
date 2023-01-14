@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class Plot2D extends StatefulWidget{
@@ -34,7 +35,7 @@ class Plot2DState extends State<Plot2D>{
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
   }
 
   void updateData(){

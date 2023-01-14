@@ -35,11 +35,8 @@ String representNumber(String ret){
   if(ret.length > 10){
     ret = ret.substring(0, 10);
   }
-  if(ret.length >= 2 && ret.substring(ret.length - 2) == '.0'){
-    return ret.substring(0, ret.length - 2);
-  }
   if(ret.contains('.')){
-    while(ret.endsWith('0')){
+    while(ret.endsWith('0') && ret.length >= 2){
       ret = ret.substring(0, ret.length - 2);
     }}
   return ret;

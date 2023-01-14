@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 
 class FourStateLed extends StatefulWidget{
   const FourStateLed({
@@ -21,9 +22,6 @@ class FourStateLed extends StatefulWidget{
 class FourStateLedState extends State<FourStateLed>{
 	late Timer timer;
   num value = 1;
-  Color onHoverColor = primaryColor;
-  Color defaultColor = bgColor;
-  Color currentColor = bgColor;
   Color textColor = Colors.grey;  // default
   late String label;
 
@@ -36,7 +34,7 @@ class FourStateLedState extends State<FourStateLed>{
       else{
         label = widget.subscribedSignal.replaceAll('_', ' ');
       }
-      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
+      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
     }
 
   void updateData(){
@@ -71,27 +69,10 @@ class FourStateLedState extends State<FourStateLed>{
   Widget build(BuildContext context) {
     return Container( 
       padding: const EdgeInsets.all(2 * defaultPadding),
-      decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
-      child: InkWell(
-        onTap: () {},
-        onHover: (isHovering){
-          if(isHovering){
-            setState(() {
-              currentColor = onHoverColor;
-            });
-          }
-          else{
-            setState(() {
-              currentColor = defaultColor;
-            });
-          }
-        },
-        child:
-          Text(label,
-            textAlign: TextAlign.left,
-            maxLines: 1,
-            style: TextStyle(fontSize: numericFontSize, color: textColor),),
-      ),
+      child: Text(label,
+        textAlign: TextAlign.left,
+        maxLines: 1,
+        style: TextStyle(fontSize: 15, color: textColor),),
     );
   }
 

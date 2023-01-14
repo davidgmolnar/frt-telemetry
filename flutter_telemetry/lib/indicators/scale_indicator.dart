@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class ScaleIndicator extends StatefulWidget{
@@ -38,7 +39,7 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
       else{
         label = widget.subscribedSignal.replaceAll('_', ' ');
       }
-    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
   }
 
   void updateData(){
@@ -72,9 +73,9 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
               alignment: AlignmentDirectional.bottomStart,
               children: [
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: primaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                   ),
                   width: 40,
                   height: normalizeInbetween(value, widget.minValue, widget.maxValue, 0, 120).toDouble(),

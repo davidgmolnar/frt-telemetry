@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/boolean_indicator.dart';
 
-class BooleanPanel extends StatefulWidget{
+class BooleanPanel extends StatelessWidget{
   const BooleanPanel({
   Key? key,
   required this.subscribedSignals,
@@ -17,17 +16,8 @@ class BooleanPanel extends StatefulWidget{
   final String title;
 
   @override
-  State<StatefulWidget> createState() {
-    return BooleanPanelState();
-  }
-
-}
-
-class BooleanPanelState extends State<BooleanPanel> {
-
-  @override
   Widget build(BuildContext context) {
-    int colcount = (widget.subscribedSignals.length / widget.colsize).ceil();
+    int colcount = (subscribedSignals.length / colsize).ceil();
     return Container(
       padding: const EdgeInsets.all(defaultPadding),
       constraints: BoxConstraints(maxWidth: colcount * widthPerColumnBoolean.toDouble()),
@@ -36,12 +26,12 @@ class BooleanPanelState extends State<BooleanPanel> {
           Padding(
             padding: const EdgeInsets.only(bottom: defaultPadding),
             child: Text(
-              widget.title,
+              title,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20),)
           ),
           Container(
-            decoration: const BoxDecoration(border: Border(top: BorderSide(width: 1.0, color: secondaryColor))),
+            decoration: BoxDecoration(border: Border(top: BorderSide(width: 1.0, color: secondaryColor))),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,8 +42,8 @@ class BooleanPanelState extends State<BooleanPanel> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        for(int j = 0; j < widget.colsize && (i * widget.colsize + j) < widget.subscribedSignals.length; j++)
-                          BooleanIndicator(subscribedSignal: widget.subscribedSignals[i * widget.colsize + j])
+                        for(int j = 0; j < colsize && (i * colsize + j) < subscribedSignals.length; j++)
+                          BooleanIndicator(subscribedSignal: subscribedSignals[i * colsize + j])
                       ]
                     ),
                   )

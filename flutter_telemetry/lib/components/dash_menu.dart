@@ -7,9 +7,11 @@ class DashMenu extends StatefulWidget{
   const DashMenu({
     super.key,
     required this.onTabChange,
+    required this.onThemeChange,
   });
   
   final Function onTabChange;
+  final Function onThemeChange;
 
   @override
   State<StatefulWidget> createState() {
@@ -62,6 +64,7 @@ class DashMenuState extends State<DashMenu>{
 
             IconButton(
               icon: isOpened ? const Icon(Icons.keyboard_arrow_left) : const Icon(Icons.keyboard_arrow_right),
+              color: textColor,
               splashRadius: 20,
               onPressed: () {
                 if(goingToOpen){
@@ -75,7 +78,14 @@ class DashMenuState extends State<DashMenu>{
                   
                 });
               },
-
+            ),
+            IconButton(
+              icon: textColor == textColorBright ? const Icon(Icons.sunny) : const Icon(Icons.dark_mode),
+              color: textColor,
+              splashRadius: 20,
+              onPressed: () {
+                widget.onThemeChange();
+              },
             )
           ],
         )
@@ -115,12 +125,12 @@ class TabSelector extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(defaultPadding),
-              child: Icon(iconData),
+              child: Icon(iconData, color: primaryColor,),
             ),
             if(isWide)
               Padding(
                 padding: const EdgeInsets.all(defaultPadding),
-                child: Text(title, style: const TextStyle(fontSize: 15),),
+                child: Text(title, style: TextStyle(fontSize: 15, color: primaryColor),),
               ),
           ]
         ),

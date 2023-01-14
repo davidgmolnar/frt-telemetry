@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class WaveformChartElement {
@@ -37,7 +38,7 @@ class WaveformChartState extends State<WaveformChart>{
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(const Duration(milliseconds: highrefreshTimeMS), (Timer t) => updateData());
+      timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS'][0]), (Timer t) => updateData());
   }
 
   void updateData(){
@@ -46,7 +47,7 @@ class WaveformChartState extends State<WaveformChart>{
     if(tempVal != null && tempTime != null && tempVal.isNotEmpty && tempTime.isNotEmpty){
       if(chartData.isEmpty || chartData.last.time != tempTime.last){
         chartData.add(WaveformChartElement(tempVal.last, tempTime.last));
-        if(chartData.length > chartSignalValuesToKeep){
+        if(chartData.length > settings['chartSignalValuesToKeep'][0]){
           chartData.removeAt(0);
           _chartSeriesController!.updateDataSource(
             addedDataIndex: chartData.length - 1,

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 
 class RotaryIndicator extends StatefulWidget{
   const RotaryIndicator({
@@ -37,7 +38,7 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
       else{
         label = widget.subscribedSignal.replaceAll('_', ' ');
       }
-    timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
   }
 
   void updateData(){

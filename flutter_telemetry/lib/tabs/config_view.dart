@@ -24,7 +24,7 @@ class ConfigViewState extends State<ConfigView>{
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateLayout());
+      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateLayout());
     }
 
   void updateLayout(){
@@ -108,7 +108,10 @@ class SettingsElementState extends State<SettingsElement> {
             padding: const EdgeInsets.all(defaultPadding),
             child: TextFormField(
               decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+                enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
                 hintText: settings[widget.label][0].toString(),
+                hintStyle: const TextStyle(color: Colors.grey)
               ),
               onChanged:(value) {
                 input = value;
@@ -118,10 +121,18 @@ class SettingsElementState extends State<SettingsElement> {
           IconButton(
             splashRadius: 25,
             padding: const EdgeInsets.all(defaultPadding),
-            icon: const Icon(Icons.check), 
+            icon: Icon(Icons.check, color: primaryColor,), 
             onPressed: () {
-              if(settings[widget.label][1] <= num.parse(input) && num.parse(input) <= settings[widget.label][1]){
-                settings[widget.label][0] = num.parse(input);
+              if(settings[widget.label][1] <= num.parse(input) && num.parse(input) <= settings[widget.label][2]){
+                if(widget.label == "chartSignalValuesToKeep" && num.parse(input) > settings["signalValuesToKeep"][0]){
+                  // error
+                }
+                else{
+                  settings[widget.label][0] = num.parse(input);
+                }
+              }
+              else{
+                //TODO showsnackbar error msg ^^oda is csak showinfo
               }
               setState(() {
                 

@@ -5,8 +5,10 @@ import 'package:flutter_telemetry/tabs/tabs.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({
-    Key? key,
+    Key? key, required this.toggleTheme,
   }) : super(key: key);
+
+  final Function toggleTheme;
 
   @override
   State<StatefulWidget> createState() {
@@ -23,17 +25,12 @@ class MainScreenState extends State<MainScreen>{
   }
 
   @override
-  void initState() {
-      super.initState();
-    }
-
-  @override
   Widget build(BuildContext context){
     return Scaffold( //TODO appbar a log letöltéshez meg az aksi snapshot dialoghoz
       body: SafeArea(
         child: Row(
           children: [
-            DashMenu(onTabChange: changeTab,),
+            DashMenu(onTabChange: changeTab, onThemeChange: widget.toggleTheme,),
             Expanded(
               child: (() {
                 switch(activeTab){

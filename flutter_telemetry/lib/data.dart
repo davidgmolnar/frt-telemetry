@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:universal_io/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 bool isconnected = false;
 late RawDatagramSocket sock;
@@ -37,7 +36,7 @@ void sockListener(){
         processPacket(temp);
       }
       else{
-        print("fuck");
+        //print("fuck");
       }
     });
   }
@@ -51,7 +50,7 @@ void processPacket(Map rawJsonMap){
     }   
     signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
     signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
-    if(signalValues[key]!.length > signalValuesToKeep){
+    if(signalValues[key]!.length > settings['signalValuesToKeep'][0]){
       signalValues[key]!.removeAt(0);
       signalTimestamps[key]!.removeAt(0);
     }

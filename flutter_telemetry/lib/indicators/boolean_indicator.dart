@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/globals.dart';
 
 class BooleanIndicator extends StatefulWidget{
   const BooleanIndicator({
@@ -22,9 +23,6 @@ class BooleanIndicator extends StatefulWidget{
 class BooleanIndicatorState extends State<BooleanIndicator>{
 	late Timer timer;
   num value = 1;
-  Color onHoverColor = primaryColor;
-  Color defaultColor = bgColor;
-  Color currentColor = bgColor;
   Color textColor = Colors.red;  // default
   late String label;
 
@@ -37,7 +35,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       else{
         label = widget.subscribedSignal.replaceAll('_', ' ');
       }
-      timer = Timer.periodic(const Duration(milliseconds: refreshTimeMS), (Timer t) => updateData());
+      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
     }
 
   void updateData(){
@@ -64,27 +62,10 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
   Widget build(BuildContext context) {
     return Container( 
       padding: const EdgeInsets.all(defaultPadding),
-      decoration: BoxDecoration(color: currentColor, borderRadius: BorderRadius.circular(10.0), border: Border.all(color: currentColor) ),
-      child: InkWell(
-        onTap: () {},
-        onHover: (isHovering){
-          if(isHovering){
-            setState(() {
-              currentColor = onHoverColor;
-            });
-          }
-          else{
-            setState(() {
-              currentColor = defaultColor;
-            });
-          }
-        },
-        child:
-          Text(label,
-            textAlign: TextAlign.left,
-            maxLines: 1,
-            style: TextStyle(fontSize: numericFontSize, color: textColor),),
-      ),
+      child: Text(label,
+        textAlign: TextAlign.left,
+        maxLines: 1,
+        style: TextStyle(fontSize: numericFontSize, color: textColor),),
     );
   }
 

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-const primaryColor = Color.fromARGB(255, 9, 67, 121);
-const secondaryColor = Color(0xFF2A2D3E);
-const bgColor = Color(0xFF212332);
+const primaryColorDark = Color.fromARGB(255, 16, 96, 170);
+const secondaryColorDark = Color(0xFF2A2D3E);
+const bgColorDark = Color(0xFF212332);
+const textColorDark = Color.fromARGB(255, 255, 255, 255);
 
-const refreshTimeMS = 100;
-const highrefreshTimeMS = 10;
-const signalValuesToKeep = 128;  // ez kb az utsó 20 mp
-const chartSignalValuesToKeep = 128;  // ez kb az utsó 20 mp
+const primaryColorBright = Color.fromARGB(255, 20, 89, 153);
+const secondaryColorBright = Color.fromARGB(255, 169, 182, 255);
+const bgColorBright = Color.fromARGB(255, 255, 255, 255);
+const textColorBright = Color.fromARGB(255, 0, 0, 0);
+
 const numericFontSize = 14.0;
 const defaultPadding = 8.0;
 
