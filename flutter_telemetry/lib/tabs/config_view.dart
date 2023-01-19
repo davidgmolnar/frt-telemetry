@@ -48,21 +48,25 @@ class ConfigViewState extends State<ConfigView>{
           Row(
             children: const [
               SettingsContainer(),
+              ConnectionHandler(),
             ],
-          ),
-          ListTile(
-            title: const Text("Connect", textAlign: TextAlign.center),
-            onTap: () async {
-              await startListener();
-            },
           ),
         ],
       );
     }
     else{
       return ListView(
-        children: const [
-          SettingsContainer()
+        children: [
+          Row(
+            children: const [
+              SettingsContainer(),
+            ],
+          ),
+          Row(
+            children: const [
+              ConnectionHandler(),
+            ],
+          ),
         ],
       );
     }
@@ -150,15 +154,99 @@ class SettingsContainer extends StatelessWidget{
   
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(defaultPadding),
+          child: Text("Settings",
+          style: TextStyle(fontSize: 20),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(defaultPadding),
+          constraints: const BoxConstraints(maxWidth: settingsWidth * 1.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for(int i = 0; i < settings.keys.length; i++)
+                SettingsElement(label: settings.keys.toList()[i])
+            ]
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ConnectionHandler extends StatefulWidget{
+  const ConnectionHandler({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return ConnectionHandlerState();
+  }
+}
+
+class ConnectionHandlerState extends State<ConnectionHandler>{
+  late Timer timer;
+  bool connected = false;
+
+  @override
+  void initState() {
+    connected = isconnected;
+    super.initState();
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer t) => update());
+  }
+
+  void update(){
+    if(isconnected != connected){
+      setState(() {
+        connected = isconnected;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(defaultPadding),
-      constraints: const BoxConstraints(maxWidth: settingsWidth * 1.0),
-      child: Column(
+      width: 400,
+      padding: const EdgeInsets.all(2 * defaultPadding),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          for(int i = 0; i < settings.keys.length; i++)
-            SettingsElement(label: settings.keys.toList()[i])
-        ]
+          SizedBox(
+            width: 100,
+            child: Text(
+              connected ? "Connected" : "Disconnected",
+              style: TextStyle(color: connected ? Colors.green : Colors.red),
+            ),
+          ),
+          TextButton(
+            child: const Text("Connect", textAlign: TextAlign.center),
+            onPressed: () async {
+              await startListener();
+            },
+          ),
+          TextButton(
+            child: const Text("Disconnect", textAlign: TextAlign.center),
+            onPressed: () async {
+              sock.close();
+              isconnected = false;
+              connected = false;
+              setState(() {
+                
+              });
+            },
+          ),
+        ],
       ),
     );
   }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
 }

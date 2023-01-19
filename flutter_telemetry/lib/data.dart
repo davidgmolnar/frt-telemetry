@@ -7,17 +7,9 @@ import 'package:universal_io/io.dart';
 bool isconnected = false;
 late RawDatagramSocket sock;
 
-Map<String, List<dynamic>> signalValues = {
-  //"Bosch_yaw_rate": [],
-  //"Vectornav_yaw_rate_rear_value": [],
-  //"Xavier_orientation": [],
-};
+Map<String, List<dynamic>> signalValues = {};
 
-Map<String, List<DateTime>> signalTimestamps = {
-  //"Bosch_yaw_rate": [],
-  //"Vectornav_yaw_rate_rear_value": [],
-  //"Xavier_orientation": [],
-};
+Map<String, List<DateTime>> signalTimestamps = {};
 
 Future<void> startListener() async {
   sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8990); // 
@@ -38,7 +30,8 @@ void sockListener(){
       else{
         //print("fuck");
       }
-    });
+    },
+    );
   }
 }
 
