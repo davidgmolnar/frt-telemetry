@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
+import 'package:flutter_telemetry/tabs/tcu.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({
@@ -40,8 +41,11 @@ class MainScreenState extends State<MainScreen>{
                   case "OVERVIEW": {
                     return const OverviewTab();
                   }
+                  case "TCU": {
+                    return const TCUTab();
+                  }
                   default: {
-                    return const Center(child: Text("Tab not found"),);
+                    return Center(child: Text("$activeTab Tab not found"),);
                   }
                 }
               }())
@@ -50,5 +54,10 @@ class MainScreenState extends State<MainScreen>{
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

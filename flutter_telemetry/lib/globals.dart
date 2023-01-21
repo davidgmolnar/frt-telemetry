@@ -8,10 +8,15 @@ Color secondaryColor = secondaryColorDark;
 Color bgColor = bgColorDark;
 Color textColor = textColorDark;
 
-// settings  [val, min, max]
+List<String> terminalQueue = []; // ide mindenki pakol akárhonnan
+bool newItemInTerminalQueue = false;
+
+//List<AlertDescriptor> alerts = []; // ide csak a config tab pakol, és a main egy isolateben elindít egy alerthandlert
+
+// live settings  [val, min, max]
 Map<String, dynamic> settings = {
   "refreshTimeMS" : [100,50,2000],
-  "chartrefreshTimeMS": [10,5,2000],
+  "chartrefreshTimeMS": [30,5,2000],
   "signalValuesToKeep": [128,48,1024],
   "chartSignalValuesToKeep": [128,48,1024],
 };

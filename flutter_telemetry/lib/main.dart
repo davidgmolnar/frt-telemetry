@@ -6,6 +6,8 @@ import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async{
+  // TODO local config load
+  // TODO auth?
   await startListener();
   runApp(const MyApp());
 }
@@ -48,7 +50,7 @@ class MyAppState extends State<MyApp> {
 
 	@override
   Widget build(BuildContext context) {
-    rebuildAllChildren(context);
+    rebuildAllChildren(context); // a const widgetek is rebuildelnek
     return MaterialApp(
       title: 'BME-FRT Telemetry',
       debugShowCheckedModeBanner: false,
