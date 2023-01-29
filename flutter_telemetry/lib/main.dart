@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 void main() async{
   // TODO local config load
   // TODO auth?
+  // TODO load signalValues.keys as cache
   await startListener();
   runApp(const MyApp());
 }
@@ -54,6 +55,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'BME-FRT Telemetry',
       debugShowCheckedModeBanner: false,
+      scaffoldMessengerKey: snackbarKey,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: textColor),
@@ -61,5 +63,12 @@ class MyAppState extends State<MyApp> {
       ),
       home: MainScreen(toggleTheme: toggleTheme,),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO save signalValues.keys as cache
+    // TODO local config update
+    super.dispose();
   }
 }

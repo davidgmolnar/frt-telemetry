@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_alerts.dart';
+import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 
 String activeTab = "CONFIG";
@@ -8,17 +10,24 @@ Color secondaryColor = secondaryColorDark;
 Color bgColor = bgColorDark;
 Color textColor = textColorDark;
 
-List<String> terminalQueue = []; // ide mindenki pakol akárhonnan
-bool newItemInTerminalQueue = false;
+List<TerminalElement> terminalQueue = []; // ide mindenki pakol akárhonnan
+int displayLevel = 3;
 
-//List<AlertDescriptor> alerts = []; // ide csak a config tab pakol, és a main egy isolateben elindít egy alerthandlert
+TelemetryAlert getAlert(){
+  TelemetryAlert tmp = TelemetryAlert(true);
+  tmp.max = 100;
+  return tmp;
+}
+
+TelemetryAlert tmp = getAlert();
+List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a main egy isolateben elindít egy alerthandlert
 
 // live settings  [val, min, max]
 Map<String, dynamic> settings = {
   "refreshTimeMS" : [100,50,2000],
-  "chartrefreshTimeMS": [30,5,2000],
-  "signalValuesToKeep": [128,48,1024],
-  "chartSignalValuesToKeep": [128,48,1024],
+  "chartrefreshTimeMS": [20,5,2000],
+  "signalValuesToKeep": [128,48,4096],
+  "chartSignalValuesToKeep": [128,48,4096],
 };
 
 Map<String, String> settingsToLabel = {

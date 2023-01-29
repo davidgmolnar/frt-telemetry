@@ -79,19 +79,19 @@ class OverviewTabState extends State<OverviewTab>{
               ),
               TextButton(
                 onPressed: () {
-                  _controller.animateTo(450, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+                  _controller.animateTo(450, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                 },
                 child: Text("Dynamics and Control", style: TextStyle(color: primaryColor),),
               ),
               TextButton(
                 onPressed: () {
-                  _controller.animateTo(1000, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+                  _controller.animateTo(1000, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                 },
                 child: Text("Power and MCUs", style: TextStyle(color: primaryColor),),
               ),
               TextButton(
                 onPressed: () {
-                  _controller.animateTo(1450, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+                  _controller.animateTo(1450, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                 },
                 child: Text("Steering and Lap", style: TextStyle(color: primaryColor),),
               ),
@@ -480,19 +480,19 @@ class OverviewTabState extends State<OverviewTab>{
               ),
               TextButton(
                 onPressed: () {
-                  _controller.animateTo(750, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+                  _controller.animateTo(750, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                 },
                 child: Text("Dynamics and Control", style: TextStyle(color: primaryColor),),
               ),
               TextButton(
                 onPressed: () {
-                  _controller.animateTo(1550, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+                  _controller.animateTo(1550, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                 },
                 child: Text("Power and MCUs", style: TextStyle(color: primaryColor),),
               ),
               TextButton(
                 onPressed: () {
-                  _controller.animateTo(2470, duration: const Duration(milliseconds: 700), curve: Curves.easeInOut);
+                  _controller.animateTo(2470, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
                 },
                 child: Text("Steering and Lap", style: TextStyle(color: primaryColor),),
               ),

@@ -1,6 +1,8 @@
 import socket
 
 from json import dumps
+
+import serial.tools.list_ports
 from serial import Serial
 from cantools.database import load_file
 
@@ -17,6 +19,8 @@ CAN1 = load_file('DBC_2022/CAN1_matrix_2022.dbc')
 CAN2 = load_file('DBC_2022/CAN2_matrix_2022.dbc')
 
 payload = dict()
+
+# serial.tools.list_ports.comports()
 
 with Serial('COM5', 230400, timeout=1) as ser:
     while True:
@@ -40,7 +44,7 @@ with Serial('COM5', 230400, timeout=1) as ser:
                     except KeyError:
                         print("Nincs is ilyen can id wtf")
                 except Exception as e:
-                    print(f"Decode ex {e.__class__}: {e}")
+                    print(f"Decode exception {e.__class__}: {e}")
             for ip in allips:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)  # UDP
                 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)

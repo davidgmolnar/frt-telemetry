@@ -1,8 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
-import 'package:flutter_telemetry/tabs/tcu.dart';
 
 class MainScreen extends StatefulWidget{
   const MainScreen({
@@ -18,6 +20,7 @@ class MainScreen extends StatefulWidget{
 }
 
 class MainScreenState extends State<MainScreen>{
+  late Timer timer;
 
   void changeTab(){
     setState(() {
@@ -25,9 +28,24 @@ class MainScreenState extends State<MainScreen>{
     });
   }
 
+  void handleAlerts(){ // TODO isolate
+    if(activeTab == "CONFIG"){ // ilyenkor ott fut a kiértékelés TODO ez így elég bohóc
+      return;
+    }
+    for (TelemetryAlert alert in alerts) {
+      alert.risingEdge();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) => handleAlerts());
+  }
+
   @override
   Widget build(BuildContext context){
-    return Scaffold( //TODO appbar a log letöltéshez meg az aksi snapshot dialoghoz
+    return Scaffold( //TODO appbar a log letöltéshez meg az aksi snapshot dialoghoz lehet össze lehet vonni a custom topbarral
       body: SafeArea(
         child: Row(
           children: [
@@ -58,6 +76,7 @@ class MainScreenState extends State<MainScreen>{
 
   @override
   void dispose() {
+    timer.cancel();
     super.dispose();
   }
 }

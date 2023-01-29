@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/globals.dart';
+
 int normalizeInbetween(num value, num min, num max, int minHeight, int maxHeight){  // Barchart és g-g plot
   if(min <= value && value <= max){
     return (((value - min) / (max - min)) * (maxHeight - minHeight)).toInt() + minHeight;
@@ -39,5 +42,26 @@ String representNumber(String ret){
     while(ret.endsWith('0') && ret.length >= 2){
       ret = ret.substring(0, ret.length - 2);
     }}
+    if(ret.endsWith('.')){
+      ret = ret.substring(0, ret.length - 2);
+    }
   return ret;
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showError(context, message){
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message, style: TextStyle(color: textColor, fontSize: 20),),
+      backgroundColor: Colors.red,
+    )
+  );
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showInfo(context, message){
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message, style: TextStyle(color: textColor, fontSize: 20),),
+      backgroundColor: primaryColor,
+    )
+  );
 }

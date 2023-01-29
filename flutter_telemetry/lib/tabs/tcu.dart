@@ -50,7 +50,7 @@ class TCUTabState extends State<TCUTab>{
             backgroundColor: secondaryColor,
             toolbarHeight: 50,
             elevation: 0,
-            actions: [],
+            actions: const [],
           ),
           body: isSmall ?
             // Small layout
@@ -59,9 +59,9 @@ class TCUTabState extends State<TCUTab>{
             ListView(
               controller: _controller,
               children: const [
-                WaveformChart(subscribedSignals: ["STA1_position", "v_x", "PPS1"], title: "Title"),
-                WaveformChart(subscribedSignals: ["STA1_position", "PPS1", "v_x"], title: "Title"),
-                WaveformChart(subscribedSignals: ["v_x", "STA1_position", "PPS1"], title: "Title")
+                WaveformChart(subscribedSignals: ["STA1_position", "v_x", "PPS1"], title: "Title", min: 0, max: 100,),
+                WaveformChart(subscribedSignals: ["STA1_position", "PPS1", "v_x"], title: "Title", min: 0, max: 100,),
+                WaveformChart(subscribedSignals: ["v_x", "STA1_position", "PPS1"], title: "Title", min: 0, max: 100,)
               ],
             )
         )

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_alerts.dart';
+import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class ConfigView extends StatefulWidget{
     const ConfigView({
@@ -51,6 +54,16 @@ class ConfigViewState extends State<ConfigView>{
               ConnectionHandler(),
             ],
           ),
+          Row(
+            children: const [
+              TerminalDisplay(),
+            ],
+          ),
+          Row(
+            children: const [
+              AlertContainer()
+            ],
+          )
         ],
       );
     }
@@ -67,6 +80,11 @@ class ConfigViewState extends State<ConfigView>{
               ConnectionHandler(),
             ],
           ),
+          Row(
+            children: const [
+              TerminalDisplay(),
+            ],
+          ),
         ],
       );
     }
@@ -79,6 +97,7 @@ class ConfigViewState extends State<ConfigView>{
   }
 }
 
+// Live settings
 class SettingsElement extends StatefulWidget{
   const SettingsElement({
     super.key,
@@ -111,6 +130,7 @@ class SettingsElementState extends State<SettingsElement> {
             width: 100,
             padding: const EdgeInsets.all(defaultPadding),
             child: TextFormField(
+              initialValue: "",
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
                 enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
@@ -129,18 +149,16 @@ class SettingsElementState extends State<SettingsElement> {
             onPressed: () {
               if(settings[widget.label][1] <= num.parse(input) && num.parse(input) <= settings[widget.label][2]){
                 if(widget.label == "chartSignalValuesToKeep" && num.parse(input) > settings["signalValuesToKeep"][0]){
-                  // error
+                  showError(context, "Charts cant have more data than the internal buffer");
                 }
                 else{
                   settings[widget.label][0] = num.parse(input);
                 }
               }
               else{
-                //TODO showsnackbar error msg ^^oda is csak showinfo
+                showError(context, "Setting must be in range ${settings[widget.label][1]}:${settings[widget.label][2]}");
               }
-              setState(() {
-                
-              });
+              setState(() {});
             },
           )
         ],
@@ -178,6 +196,7 @@ class SettingsContainer extends StatelessWidget{
   }
 }
 
+// Connection widget
 class ConnectionHandler extends StatefulWidget{
   const ConnectionHandler({super.key});
 
@@ -248,5 +267,4 @@ class ConnectionHandlerState extends State<ConnectionHandler>{
     timer.cancel();
     super.dispose();
   }
-
 }

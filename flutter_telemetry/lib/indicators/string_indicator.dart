@@ -6,9 +6,9 @@ import 'package:flutter_telemetry/globals.dart';
 
 class StringIndicator extends StatefulWidget{
   const StringIndicator({
-  Key? key,
-  required this.subscribedSignal,
-  required this.decoder,
+    Key? key,
+    required this.subscribedSignal,
+    required this.decoder,
   }) : super(key: key);
 
   final String subscribedSignal;
