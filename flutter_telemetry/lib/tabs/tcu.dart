@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/globals.dart';
@@ -58,10 +59,71 @@ class TCUTabState extends State<TCUTab>{
             : // Big layout
             ListView(
               controller: _controller,
-              children: const [
-                WaveformChart(subscribedSignals: ["STA1_position", "v_x", "PPS1"], title: "Title", min: 0, max: 100,),
-                WaveformChart(subscribedSignals: ["STA1_position", "PPS1", "v_x"], title: "Title", min: 0, max: 100,),
-                WaveformChart(subscribedSignals: ["v_x", "STA1_position", "PPS1"], title: "Title", min: 0, max: 100,)
+              children: [
+                Row(
+                  children: const [
+                    NumericPanel(
+                      title: "AMK data",
+                      colsize: 4,
+                      subscribedSignals: [
+                        "AMK1_Torque_Limit_Positive",
+                        "AMK1_Torque_Limit_Negative",
+                        "AMK1_Target_Velocity",
+                        "VDC_Fz_FL",
+                        "AMK2_Torque_Limit_Positive",
+                        "AMK2_Torque_Limit_Negative",
+                        "AMK2_Target_Velocity",
+                        "VDC_Fz_FR",
+                        "AMK3_TorqueLimitPositive",
+                        "AMK3_TorqueLimitNegative",
+                        "AMK3_Target_Velocity",
+                        "VDC_Fz_RL",
+                        "AMK4_TorqueLimitPositive",
+                        "AMK4_TorqueLimitNegative",
+                        "AMK4_Target_Velocity",
+                        "VDC_Fz_RR",
+                      ],
+                    )
+                  ],
+                ),
+                const WaveformChart(
+                  subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], nultiplier: [1,2,1,1],
+                  title: "Torque Limits", min: 0, max: 25000,
+                ),
+                Row(
+                  children: const [
+                    BooleanPanel(
+                      subscribedSignals: [
+                        "VDC_Powerlimiter_Hardcore_On",
+                        "VDC_Powerlimiter_Throttle_On",
+                        "VDC_Powerlimiter_Torque_On",
+                        "VDC_Powerlimiter_Efficiency_On",
+                        "VDC_Slip_Control_ON",
+                        "VDC_Traction_Control_On",
+                        "VDC_Safety_Mode",
+                      ],
+                      colsize: 7, title: "VDC Status"
+                    ),
+                  ],
+                ),
+                Row(
+                  children: const [
+                    SizedBox(
+                      width: 600,
+                      child: WaveformChart(
+                        subscribedSignals: ["VDC_Torque_Demand"], nultiplier: [1],
+                        title: "Torque demand", min: 0, max: 300,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 600,
+                      child: WaveformChart(
+                        subscribedSignals: ["Xavier_Target_Wheel_Angle"], nultiplier: [180/pi],
+                        title: "Target steer °", min: -90, max: 90,
+                      ),
+                    )
+                  ]
+                ),
               ],
             )
         )

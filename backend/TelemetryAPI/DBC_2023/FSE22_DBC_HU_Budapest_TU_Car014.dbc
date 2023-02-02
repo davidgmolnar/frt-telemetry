@@ -1,0 +1,78 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_:
+
+
+BO_ 1298 SCS_values: 1 Vector__XXX
+ SG_ SDC_EBS_relay : 1|1@1- (1,0) [0|0] "" Vector__XXX
+ SG_ RES_Error : 0|1@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 1297 Pressure_values: 8 Vector__XXX
+ SG_ Hydraulic_Brake_Pressure_Rear : 48|16@1+ (0.001,0) [0|65.535] "MPa" Vector__XXX
+ SG_ Hydraulic_Brake_Pressure_Front : 32|16@1+ (0.001,0) [0|65.535] "MPa" Vector__XXX
+ SG_ EBS_Pressure_Rear : 16|16@1+ (0.001,0) [0|65.535] "MPa" Vector__XXX
+ SG_ EBS_Pressure_Front : 0|16@1+ (0.001,0) [0|65.535] "MPa" Vector__XXX
+
+BO_ 1282 DV_system_status: 5 Vector__XXX
+ SG_ Cones_count_all : 23|16@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Cones_count_actual : 15|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Lap_counter : 11|4@1+ (1,0) [1|10] "" Vector__XXX
+ SG_ Service_brake_state : 9|2@1+ (1,0) [1|3] "" Vector__XXX
+ SG_ Steering_state : 8|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ AMI_state : 5|3@1+ (1,0) [1|6] "" Vector__XXX
+ SG_ EBS_state : 3|2@1+ (1,0) [1|3] "" Vector__XXX
+ SG_ AS_state : 0|3@1+ (1,0) [1|5] "" Vector__XXX
+
+BO_ 1281 DV_driving_dynamics_2: 6 Vector__XXX
+ SG_ Yaw_rate : 32|16@1- (0.0078125,0) [-256|255.9921875] "�/s" Vector__XXX
+ SG_ Acceleration_lateral : 16|16@1- (0.001953125,0) [-64|63.998046875] "m/s^2" Vector__XXX
+ SG_ Acceleration_longitudinal : 0|16@1- (0.001953125,0) [-64|63.998046875] "m/s^2" Vector__XXX
+
+BO_ 1280 DV_driving_dynamics_1: 8 Vector__XXX
+ SG_ Motor_moment_target : 56|8@1- (1,0) [-128|127] "%" Vector__XXX
+ SG_ Motor_moment_actual : 48|8@1- (1,0) [-128|127] "%" Vector__XXX
+ SG_ Brake_hydr_target : 40|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Brake_hydr_actual : 32|8@1+ (1,0) [0|255] "%" Vector__XXX
+ SG_ Steering_angle_target : 24|8@1- (0.5,0) [-64|63.5] "�" Vector__XXX
+ SG_ Steering_angle_actual : 16|8@1- (0.5,0) [-64|63.5] "�" Vector__XXX
+ SG_ Speed_target : 8|8@1+ (1,0) [0|255] "km/h" Vector__XXX
+ SG_ Speed_actual : 0|8@1+ (1,0) [0|255] "km/h" Vector__XXX
+
+
+
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "BusType" "";
+

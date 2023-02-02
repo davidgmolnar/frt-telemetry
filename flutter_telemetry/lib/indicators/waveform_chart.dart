@@ -16,19 +16,22 @@ class WaveformChart extends StatefulWidget{
   const WaveformChart({
     Key? key,
     required this.subscribedSignals,
-    required this.title, required this.min, required this.max,
+    required this.title,
+    required this.min,
+    required this.max,
+    required this.nultiplier,
   }) : super(key: key);
 
   final List<String> subscribedSignals;
   final String title;
   final double min;
   final double max;
+  final List<double> nultiplier;
   
   @override
   State<StatefulWidget> createState() {
     return WaveformChartState();
   }
-
 }
 
 class WaveformChartState extends State<WaveformChart>{
@@ -50,31 +53,31 @@ class WaveformChartState extends State<WaveformChart>{
 
   @override
   void initState() {
-      super.initState();
-      chartData = [chartData1, chartData2, chartData3, chartData4];
-      for(int i = 0; i < widget.subscribedSignals.length; i++){
-        _controller.add(null);
-        if(labelRemap.containsKey(widget.subscribedSignals[i])){
-          labels.add(labelRemap[widget.subscribedSignals[i]]!);
+    super.initState();
+    chartData = [chartData1, chartData2, chartData3, chartData4];
+    for(int i = 0; i < widget.subscribedSignals.length; i++){
+      _controller.add(null);
+      if(labelRemap.containsKey(widget.subscribedSignals[i])){
+        labels.add(labelRemap[widget.subscribedSignals[i]]!);
+      }
+      else{
+        labels.add(widget.subscribedSignals[i].replaceAll('_', ' '));
+      }
+      List? tempVal = signalValues[widget.subscribedSignals[i]];
+      List? tempTime = signalTimestamps[widget.subscribedSignals[i]];
+      if(tempVal != null && tempTime != null && tempVal.isNotEmpty && tempTime.isNotEmpty){
+        if(tempVal.length > settings['chartSignalValuesToKeep'][0]){
+          tempVal = tempVal.sublist(tempVal.length - 128);
+          tempTime = tempTime.sublist(tempTime.length - 128);
         }
-        else{
-          labels.add(widget.subscribedSignals[i].replaceAll('_', ' '));
-        }
-        List? tempVal = signalValues[widget.subscribedSignals[i]];
-        List? tempTime = signalTimestamps[widget.subscribedSignals[i]];
-        if(tempVal != null && tempTime != null && tempVal.isNotEmpty && tempTime.isNotEmpty){
-          if(tempVal.length > settings['chartSignalValuesToKeep'][0]){
-            tempVal = tempVal.sublist(tempVal.length - 128);
-            tempTime = tempTime.sublist(tempTime.length - 128);
-          }
-          for(int j = 0; j < tempVal.length; j++){
-            chartData[i].add(WaveformChartElement(tempVal[j], tempTime[j]));
-          }
-        }
-        else{
-          chartData[i] = [WaveformChartElement(0, DateTime.now())];
+        for(int j = 0; j < tempVal.length; j++){
+          chartData[i].add(WaveformChartElement(widget.nultiplier[i] * tempVal[j], tempTime[j]));
         }
       }
+      else{
+        chartData[i] = [WaveformChartElement(0, DateTime.now())];
+      }
+    }
     timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS'][0]), (Timer t) => updateData());
   }
 
@@ -82,19 +85,29 @@ class WaveformChartState extends State<WaveformChart>{
     for(int i = 0; i < widget.subscribedSignals.length; i++){ // TODO fetch in isolate chartData[i], signalValues, signalTimestamps => chartData[i] with all new, change cnt (addedindexes = range(len, len-cnt) removed indexes = range(0, cnt)) ezt lehet mindenkinek egyszerre is és akkor listák mennek be és ki
       dynamic tempVal = signalValues[widget.subscribedSignals[i]]?.last;
       dynamic tempTime = signalTimestamps[widget.subscribedSignals[i]]?.last;
-      if(tempVal != null && tempTime != null && _controller[i] != null){
+      if(tempVal == null && tempTime == null && _controller[i] != null){
+        if(chartData.any((element) => element.last.time.isAfter(chartData[i].first.time))){
+          chartData[i].removeAt(0);
+          chartData[i].add(WaveformChartElement(widget.min - 1000, DateTime.now()));
+          _controller[i]!.updateDataSource(
+            addedDataIndex: chartData[i].length - 1,
+            removedDataIndex: 0
+          );
+        }
+      }
+      else if(_controller[i] != null){
         if(chartData[i].last.time != tempTime){
-          chartData[i].add(WaveformChartElement(tempVal, tempTime));
-          if(chartData[i].length > settings['chartSignalValuesToKeep'][0]){
+          chartData[i].add(WaveformChartElement(widget.nultiplier[i] * tempVal, tempTime));
+          if(chartData[i].length >= settings['chartSignalValuesToKeep'][0]){
             chartData[i].removeAt(0);
-            _controller[i]!.updateDataSource( 
+            _controller[i]!.updateDataSource(
               addedDataIndex: chartData[i].length - 1,
               removedDataIndex: 0
             );
           }
           else{
             _controller[i]!.updateDataSource(
-              addedDataIndex: chartData[0].length - 1
+              addedDataIndex: chartData[i].length - 1
             );
           }
         } 
@@ -162,11 +175,9 @@ class WaveformChartState extends State<WaveformChart>{
 
   @override
   void dispose() {
+    timer.cancel();
     chartData.clear();
     _controller.clear();
-    timer.cancel();
     super.dispose();
   }
-
-
 }

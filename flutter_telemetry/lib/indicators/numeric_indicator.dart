@@ -23,7 +23,7 @@ class NumericIndicator extends StatefulWidget{
 
 class NumericIndicatorState extends State<NumericIndicator>{
 	late Timer timer;
-  num value = 0;
+  num value = -1;
   late final String label;
 
   @override

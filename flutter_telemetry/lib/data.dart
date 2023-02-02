@@ -10,6 +10,13 @@ late RawDatagramSocket sock;
 Map<String, List<dynamic>> signalValues = {};
 Map<String, List<DateTime>> signalTimestamps = {};
 
+class VirtualSignal {
+  const VirtualSignal(this.signals, this.rule, this.name);
+  final String name;
+  final List<String> signals;
+  final Function rule;
+}
+
 Future<void> startListener() async {
   sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8990);
   sock.port == 8990 ?
@@ -49,6 +56,21 @@ void processPacket(Map rawJsonMap){
     if(signalValues[key]!.length > settings['signalValuesToKeep'][0]){
       signalValues[key]!.removeAt(0);
       signalTimestamps[key]!.removeAt(0);
+    }
+  }
+  // process virtual signals
+  for(VirtualSignal virtualSignal in virtualSignals){
+    if(virtualSignal.signals.any((element) => rawJsonMap.containsKey(element))){
+      if(!signalValues.containsKey(virtualSignal.name)){
+        signalValues[virtualSignal.name] = [];
+        signalTimestamps[virtualSignal.name] = [];
+      }
+      signalValues[virtualSignal.name]!.insert(signalValues[virtualSignal.name]!.length, virtualSignal.rule(virtualSignal.signals)); // TODO itt az add nemtom miért nem jó
+      signalTimestamps[virtualSignal.name]!.insert(signalTimestamps[virtualSignal.name]!.length, DateTime.now());
+      if(signalValues[virtualSignal.name]!.length > settings['signalValuesToKeep'][0]){
+        signalValues[virtualSignal.name]!.removeAt(0);
+        signalTimestamps[virtualSignal.name]!.removeAt(0);
+    }
     }
   }
 }
