@@ -57,10 +57,112 @@ class MainScreenState extends State<MainScreen>{
                     return const ConfigView();
                   }
                   case "OVERVIEW": {
-                    return const OverviewTab();
+                    return TabContainer(
+                      shortcutLabels: const ["System and Sensor checks", "Dynamics and Control", "Power and MCUs", "Steering and Lap"],
+                      smallLayoutBreakpoints: const [0, 750, 1550, 2470],
+                      bigLayoutBreakpoints: const [0, 450, 1000, 1450],
+                      smallLayout: overviewSmall,
+                      bigLayout: overviewBig,
+                      widthThreshold: 1220);
                   }
                   case "TCU": {
-                    return const TCUTab();
+                    return TabContainer(
+                      shortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: tcuSmall,
+                      bigLayout: tcuBig,
+                      widthThreshold: 1220);
+                  }
+                  case "MCU": {
+                    return TabContainer(
+                      shortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: mcuSmall,
+                      bigLayout: mucBig,
+                      widthThreshold: 1220);
+                  }
+                  case "SC": {
+                    return TabContainer(
+                      shortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: scSmall,
+                      bigLayout: scBig,
+                      widthThreshold: 1220);
+                  }
+                  case "BRIGHTLOOP": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "HV_ACCU": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "DYNAMICS": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "LV_SYSTEM": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "ERRORS": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "AS": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "DATALOGGER": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
+                  }
+                  case "LAP": {
+                    return TabContainer(
+                      shortcutLabels: [],
+                      smallLayoutBreakpoints: [],
+                      bigLayoutBreakpoints: [],
+                      smallLayout: [],
+                      bigLayout: [],
+                      widthThreshold: 1220);
                   }
                   default: {
                     return Center(child: Text("$activeTab Tab not found"),);

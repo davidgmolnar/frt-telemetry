@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_telemetry/components/config_terminal.dart';
+import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:universal_io/io.dart';
 
@@ -19,7 +20,7 @@ class VirtualSignal {
 
 Future<void> startListener() async {
   sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8990);
-  sock.port == 8990 ?
+  sock.port == udpPort ?
     terminalQueue.add(TerminalElement("UDP socket bind successful", 3)) 
     :
     terminalQueue.add(TerminalElement("UDP socket bind failed", 0));
@@ -28,19 +29,24 @@ Future<void> startListener() async {
 }
 
 void sockListener(){
+  bool initialPacket = true;
   AsciiDecoder decoder = const AsciiDecoder();
   if(isconnected){
     sock.listen((event){
-      Uint8List? result = sock.receive()?.data;
-      if(result != null) {
-        Map temp = jsonDecode(decoder.convert(result));
-        processPacket(temp);
+      if(event == RawSocketEvent.read){
+        Uint8List? result = sock.receive()?.data;
+        if(result != null) {
+          Map temp = jsonDecode(decoder.convert(result));
+          processPacket(temp);
+        }
+        else{
+          if(!initialPacket){
+            terminalQueue.add(TerminalElement("Datagram with no data was received", 2));
+          }
+        }
+        initialPacket = false;
       }
-      else{
-        terminalQueue.add(TerminalElement("Datagram with no data was received", 2));
-      }
-    },
-    );
+    });
   }
 }
 

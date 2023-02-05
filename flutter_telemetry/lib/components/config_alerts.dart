@@ -18,7 +18,7 @@ class TelemetryAlert{
 
   TelemetryAlert(this.isFinalized);
 
-  bool _evaluateCondition(value){
+  bool _evaluateCondition(value){  // will trigger is condition is not met
     if(inRange){
       return value < min || value > max;
     }
@@ -151,7 +151,7 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
                 icon: Icon(Icons.check, color: primaryColor),
                 onPressed: () {
                   if(widget.alert.signal == "NO_KEYS"){
-                    showError(context, "Please select signal");
+                    showError(context, "Please select a signal");
                     return;
                   }
                   if(widget.alert.min > widget.alert.max){

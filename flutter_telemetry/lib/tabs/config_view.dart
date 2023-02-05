@@ -85,6 +85,11 @@ class ConfigViewState extends State<ConfigView>{
               TerminalDisplay(),
             ],
           ),
+          Row(
+            children: const [
+              AlertContainer(),
+            ],
+          ),
         ],
       );
     }
@@ -250,6 +255,7 @@ class ConnectionHandlerState extends State<ConnectionHandler>{
             child: const Text("Disconnect", textAlign: TextAlign.center),
             onPressed: () async {
               sock.close();
+              terminalQueue.add(TerminalElement("UDP socket close successful", 3));
               isconnected = false;
               connected = false;
               setState(() {

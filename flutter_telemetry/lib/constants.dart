@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
+const int udpPort = 8990;
+
 const primaryColorDark = Color.fromARGB(255, 16, 96, 170);
 const secondaryColorDark = Color(0xFF2A2D3E);
 const bgColorDark = Color(0xFF212332);

@@ -5,10 +5,14 @@ import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() async{
+void loadSession(){
   // TODO local config load
   // TODO auth?
   // TODO load signalValues.keys as cache
+}
+
+void main() async{
+  loadSession();
   await startListener();
   runApp(const MyApp());
 }
@@ -65,10 +69,17 @@ class MyAppState extends State<MyApp> {
     );
   }
 
+  void saveSession(){// TODO save signalValues.keys as cache
+    if(signalValues.keys.isNotEmpty){
+      //
+    }
+    
+    // TODO local config update
+  }
+
   @override
   void dispose() {
-    // TODO save signalValues.keys as cache
-    // TODO local config update
+    saveSession();
     super.dispose();
   }
 }
