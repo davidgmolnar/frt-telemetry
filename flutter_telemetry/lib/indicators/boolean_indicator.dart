@@ -60,7 +60,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
 
   @override
   Widget build(BuildContext context) {
-    return Container( 
+    return Padding( 
       padding: const EdgeInsets.all(defaultPadding),
       child: Text(label,
         textAlign: TextAlign.left,
