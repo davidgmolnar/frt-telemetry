@@ -16,6 +16,8 @@ int displayLevel = 3;
 
 List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a main egy isolateben elindít egy alerthandlert
 
+DateTime? last_brightloop_mah;
+
 List<VirtualSignal> virtualSignals = [
   VirtualSignal(
     ["AMK1_Torque_Limit_Positive", "AMK1_Torque_Limit_Negative"],
@@ -74,14 +76,56 @@ List<VirtualSignal> virtualSignals = [
     }),
     "VIRT_HV_POWER_OUT"
   ),
+  VirtualSignal(
+    ["VDCDCOutput1Average", "IDCDCOutput1Average"],
+    ((listOfSignals){
+      dynamic first = signalValues[listOfSignals[0]]!.last;
+      dynamic second = signalValues[listOfSignals[1]]!.last;
+      return first * second;
+    }),
+    "VIRT_BRIGHTLOOP_CH1_POWER"
+  ),
+  VirtualSignal(
+    ["VDCDCOutput1Average", "IDCDCOutput1Average"],
+    ((listOfSignals){
+      dynamic first = signalValues[listOfSignals[0]]!.last;
+      dynamic second = signalValues[listOfSignals[1]]!.last;
+      return first * second;
+    }),
+    "VIRT_BRIGHTLOOP_CH2_POWER"
+  ),
+  VirtualSignal(
+    ["NDCDCOutputOverload1Count", "NDCDCOutputOverload2Count"],
+    ((listOfSignals){
+      dynamic first = signalValues[listOfSignals[0]]!.last;
+      dynamic second = signalValues[listOfSignals[1]]!.last;
+      return first + second;
+    }),
+    "VIRT_BRIGHTLOOP_OLC"
+  ),
+  VirtualSignal(
+    ["IDCDCOutput1Average", "IDCDCOutput2Average"],
+    ((listOfSignals){
+      dynamic i_1 = signalValues[listOfSignals[0]]!.last;
+      dynamic i_2 = signalValues[listOfSignals[1]]!.last;
+      if(last_brightloop_mah == null){
+        return 0;
+      }
+      else{
+        double diffmH = DateTime.now().difference(last_brightloop_mah!).inMilliseconds / 3600;  // milliHours
+        return signalValues["VIRT_BRIGHTLOOP_LV_MAH"]!.last + diffmH * (i_1 + i_2);
+      }
+    }),
+    "VIRT_BRIGHTLOOP_LV_MAH"
+  ),
 ];
 
 // live settings  [val, min, max]
-Map<String, dynamic> settings = {
+Map<String, dynamic> settings = {  // TODO letekeréskor törölni kell a régieket
   "refreshTimeMS" : [100,50,2000],
   "chartrefreshTimeMS": [20,5,2000],
-  "signalValuesToKeep": [128,48,4096],
-  "chartSignalValuesToKeep": [128,48,4096],
+  "signalValuesToKeep": [256,48,4096],
+  "chartSignalValuesToKeep": [256,48,4096],
 };
 
 Map<String, String> settingsToLabel = {

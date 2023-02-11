@@ -163,7 +163,7 @@ List<Widget> tcuBig = [
                   ],
                 ),
                 const WaveformChart(
-                  subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], nultiplier: [1,2,1,1],
+                  subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,2,1,1],
                   title: "Torque Limits", min: 0, max: 25000,
                 ),
                 Row(
@@ -184,17 +184,15 @@ List<Widget> tcuBig = [
                 ),
                 Row(
                   children: const [
-                    SizedBox(
-                      width: 600,
+                    Flexible(
                       child: WaveformChart(
-                        subscribedSignals: ["VDC_Torque_Demand"], nultiplier: [1],
+                        subscribedSignals: ["VDC_Torque_Demand"], multiplier: [1],
                         title: "Torque demand", min: 0, max: 300,
                       ),
                     ),
-                    SizedBox(
-                      width: 600,
+                    Flexible(
                       child: WaveformChart(
-                        subscribedSignals: ["Xavier_Target_Wheel_Angle"], nultiplier: [180/pi],
+                        subscribedSignals: ["Xavier_Target_Wheel_Angle"], multiplier: [180/pi],
                         title: "Target steer °", min: -90, max: 90,
                       ),
                     )

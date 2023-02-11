@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
 const int udpPort = 8990;
+const double deg2rad = 0.017453;
 
 const primaryColorDark = Color.fromARGB(255, 16, 96, 170);
 const secondaryColorDark = Color(0xFF2A2D3E);
@@ -96,4 +97,16 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "AMK2_Inverter_On": "FR Inverter On", 
   "AMK3_Inverter_On": "RL Inverter On", 
   "AMK4_Inverter_On": "RR Inverter On", 
+  "AMK1_actual_velocity": "FL RPM", 
+  "AMK2_actual_velocity": "FR RPM", 
+  "AMK3_actual_velocity": "RL RPM", 
+  "AMK4_actual_velocity": "RR RPM", 
+  "VIRT_BRIGHTLOOP_CH1_POWER": "Channel 1 Power out",
+  "VIRT_BRIGHTLOOP_CH2_POWER": "Channel 2 Power out",
+  "VIRT_BRIGHTLOOP_LV_MAH": "LV mAh",
+  "IDCDCOutput1UnBalance": "IO Current Unbalance",
+  "VDCDCOutput1Average": "Channel 1 Voltage",
+  "VDCDCOutput2Average": "Channel 2 Voltage",
+  "IDCDCOutput1Average": "Channel 1 Current",
+  "IDCDCOutput2Average": "Channel 1 Current",
 };

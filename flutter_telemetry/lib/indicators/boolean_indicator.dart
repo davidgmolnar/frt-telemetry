@@ -8,10 +8,11 @@ import 'package:flutter_telemetry/globals.dart';
 class BooleanIndicator extends StatefulWidget{
   const BooleanIndicator({
   Key? key,
-  required this.subscribedSignal,
+  required this.subscribedSignal, this.isInverted
   }) : super(key: key);
 
   final String subscribedSignal;
+  final bool? isInverted; // null -> false, !null -> true
 
   @override
   State<StatefulWidget> createState() {
@@ -44,11 +45,11 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       setState(() {
         if(temp == 0){
           value = 0;
-          textColor = const Color.fromARGB(255, 11, 177, 16);
+          textColor = widget.isInverted == null ? const Color.fromARGB(255, 11, 177, 16) : Colors.red;
         }
         else if(temp == 1){
           value == 1;
-          textColor = Colors.red;
+          textColor = widget.isInverted == null ? Colors.red : const Color.fromARGB(255, 11, 177, 16);
         }
         else{
           value = 2; // hiba

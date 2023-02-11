@@ -57,7 +57,7 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
       child: Stack(
         alignment: AlignmentDirectional.bottomCenter,
         children: [
-          Transform.rotate(
+          Transform.rotate(  // Needle
             angle: -pi/2 + value * pi / (widget.numofStates - 1),
             origin: const Offset(0, 50-9),
             child: Container(
@@ -67,15 +67,15 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
             ),
           ),
 
-          Transform.translate(
+          Transform.translate(  // Label
             offset: const Offset(0, -155),
             child: Text(label),
           ),
         
           for(int i = 0; i < widget.numofStates; i+=widget.granularity)
-            Transform.translate(
+            Transform.translate(  // Ticks
               offset: Offset.fromDirection(-pi + i * pi / (widget.numofStates - 1), 115),
-              child: Text("$i"),),
+              child: Text("$i"),),  // TODO offset by +1
         ],
       )
     );

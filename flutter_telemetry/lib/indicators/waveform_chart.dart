@@ -19,14 +19,14 @@ class WaveformChart extends StatefulWidget{
     required this.title,
     required this.min,
     required this.max,
-    required this.nultiplier,
+    required this.multiplier,
   }) : super(key: key);
 
   final List<String> subscribedSignals;
   final String title;
   final double min;
   final double max;
-  final List<double> nultiplier;
+  final List<double> multiplier;
   
   @override
   State<StatefulWidget> createState() {
@@ -71,7 +71,7 @@ class WaveformChartState extends State<WaveformChart>{
           tempTime = tempTime.sublist(tempTime.length - 128);
         }
         for(int j = 0; j < tempVal.length; j++){
-          chartData[i].add(WaveformChartElement(widget.nultiplier[i] * tempVal[j], tempTime[j]));
+          chartData[i].add(WaveformChartElement(widget.multiplier[i] * tempVal[j], tempTime[j]));
         }
       }
       else{
@@ -97,7 +97,7 @@ class WaveformChartState extends State<WaveformChart>{
       }
       else if(_controller[i] != null){
         if(chartData[i].last.time != tempTime){
-          chartData[i].add(WaveformChartElement(widget.nultiplier[i] * tempVal, tempTime));
+          chartData[i].add(WaveformChartElement(widget.multiplier[i] * tempVal, tempTime));
           if(chartData[i].length >= settings['chartSignalValuesToKeep'][0]){
             chartData[i].removeAt(0);
             _controller[i]!.updateDataSource(
@@ -122,7 +122,7 @@ class WaveformChartState extends State<WaveformChart>{
         Row(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding * 10),
+              padding: const EdgeInsets.only(left: defaultPadding * 10, right: defaultPadding * 2),
               child: Text(
                 widget.title,
                 textAlign: TextAlign.center,
@@ -145,6 +145,7 @@ class WaveformChartState extends State<WaveformChart>{
             majorGridLines: const MajorGridLines(
               color: Colors.transparent,
             ),
+            labelStyle: TextStyle(color: textColor),
           ),
           primaryYAxis: NumericAxis(
             minimum: widget.min,
@@ -153,6 +154,7 @@ class WaveformChartState extends State<WaveformChart>{
               color: secondaryColor,
               width: 1,
             ),
+            labelStyle: TextStyle(color: textColor),
           ),
           series: [
             for(int i = 0; i < widget.subscribedSignals.length; i++)

@@ -58,7 +58,8 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "OVERVIEW": {
                     return TabContainer(
-                      shortcutLabels: const ["System and Sensor checks", "Dynamics and Control", "Power and MCUs", "Steering and Lap"],
+                      smallShortcutLabels: const ["System and Sensor checks", "Dynamics and Control", "Power and MCUs", "Steering and Lap"],
+                      bigShortcutLabels: const ["System and Sensor checks", "Dynamics and Control", "Power and MCUs", "Steering and Lap"],
                       smallLayoutBreakpoints: const [0, 750, 1550, 2470],
                       bigLayoutBreakpoints: const [0, 450, 1000, 1450],
                       smallLayout: overviewSmall,
@@ -67,7 +68,8 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "TCU": {
                     return TabContainer(
-                      shortcutLabels: const [],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
                       smallLayoutBreakpoints: const [],
                       bigLayoutBreakpoints: const [],
                       smallLayout: tcuSmall,
@@ -76,16 +78,18 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "MCU": {
                     return TabContainer(
-                      shortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
+                      smallShortcutLabels: const ["AMK Front Status", "AMK Rear Status", "RPM and Temp"],
+                      bigShortcutLabels: const ["AMK Status", "RPM and Temp"],
+                      smallLayoutBreakpoints: const [0, 780, 1560],
+                      bigLayoutBreakpoints: const [0, 780],
                       smallLayout: mcuSmall,
                       bigLayout: mucBig,
                       widthThreshold: 1220);
                   }
                   case "SC": {
                     return TabContainer(
-                      shortcutLabels: const [],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
                       smallLayoutBreakpoints: const [],
                       bigLayoutBreakpoints: const [],
                       smallLayout: scSmall,
@@ -94,25 +98,28 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "BRIGHTLOOP": {
                     return TabContainer(
-                      shortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
+                      smallShortcutLabels: const ["Brightloop Charts", "Brightloop Status"],
+                      bigShortcutLabels: const ["Brightloop Charts", "Brightloop Status"],
+                      smallLayoutBreakpoints: const [0, 1050],
+                      bigLayoutBreakpoints: const [0, 700],
+                      smallLayout: brightloopSmall,
+                      bigLayout: brightloopBig,
                       widthThreshold: 1220);
                   }
                   case "HV_ACCU": {
                     return TabContainer(
-                      shortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
                       smallLayout: [],
                       bigLayout: [],
                       widthThreshold: 1220);
                   }
                   case "DYNAMICS": {
                     return TabContainer(
-                      shortcutLabels: [],
+                      smallShortcutLabels: [],
+                      bigShortcutLabels: [],
                       smallLayoutBreakpoints: [],
                       bigLayoutBreakpoints: [],
                       smallLayout: [],
@@ -121,25 +128,28 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "LV_SYSTEM": {
                     return TabContainer(
-                      shortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
-                      widthThreshold: 1220);
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: lvSystemSmall,
+                      bigLayout: lvSystemBig,
+                      widthThreshold: 1050);
                   }
                   case "ERRORS": {
                     return TabContainer(
-                      shortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: errorsSmall,
+                      bigLayout: errorsBig,
                       widthThreshold: 1220);
                   }
                   case "AS": {
                     return TabContainer(
-                      shortcutLabels: [],
+                      smallShortcutLabels: [],
+                      bigShortcutLabels: [],
                       smallLayoutBreakpoints: [],
                       bigLayoutBreakpoints: [],
                       smallLayout: [],
@@ -148,7 +158,8 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "DATALOGGER": {
                     return TabContainer(
-                      shortcutLabels: [],
+                      smallShortcutLabels: [],
+                      bigShortcutLabels: [],
                       smallLayoutBreakpoints: [],
                       bigLayoutBreakpoints: [],
                       smallLayout: [],
@@ -157,7 +168,8 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "LAP": {
                     return TabContainer(
-                      shortcutLabels: [],
+                      smallShortcutLabels: [],
+                      bigShortcutLabels: [],
                       smallLayoutBreakpoints: [],
                       bigLayoutBreakpoints: [],
                       smallLayout: [],
