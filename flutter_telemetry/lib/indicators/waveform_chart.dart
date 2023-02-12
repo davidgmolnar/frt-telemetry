@@ -86,7 +86,7 @@ class WaveformChartState extends State<WaveformChart>{
       dynamic tempVal = signalValues[widget.subscribedSignals[i]]?.last;
       dynamic tempTime = signalTimestamps[widget.subscribedSignals[i]]?.last;
       if(tempVal == null && tempTime == null && _controller[i] != null){
-        if(chartData.any((element) => element.last.time.isAfter(chartData[i].first.time))){
+        if(chartData.any((element) => element.isNotEmpty ? element.last.time.isAfter(chartData[i].first.time) : false)){
           chartData[i].removeAt(0);
           chartData[i].add(WaveformChartElement(widget.min - 1000, DateTime.now()));
           _controller[i]!.updateDataSource(

@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
+import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
 class MainScreen extends StatefulWidget{
@@ -23,6 +25,7 @@ class MainScreenState extends State<MainScreen>{
   late Timer timer;
 
   void changeTab(){
+    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     setState(() {
       
     });

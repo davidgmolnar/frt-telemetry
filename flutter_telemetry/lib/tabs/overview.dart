@@ -1030,35 +1030,33 @@ List<Widget> overviewSmall = [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
             width: widthPerColumnNumeric.toDouble(),
-            child: Expanded(
-              child: Column(
-                children: const [
-                  CompoundIndicator(
-                    firstSignal: "AMK1_Torque_Limit_Positive",
-                    secondSignal: "AMK1_Torque_Limit_Negative",
-                    title: "AMK1 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                  CompoundIndicator(
-                    firstSignal: "AMK2_Torque_Limit_Positive",
-                    secondSignal: "AMK2_Torque_Limit_Negative",
-                    title: "AMK2 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                  CompoundIndicator(
-                    firstSignal: "AMK3_TorqueLimitPositive",
-                    secondSignal: "AMK3_TorqueLimitNegative",
-                    title: "AMK3 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                  CompoundIndicator(
-                    firstSignal: "AMK4_TorqueLimitPositive",
-                    secondSignal: "AMK4_TorqueLimitNegative",
-                    title: "AMK4 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                ]
-              ),
+            child: Column(
+              children: const [
+                CompoundIndicator(
+                  firstSignal: "AMK1_Torque_Limit_Positive",
+                  secondSignal: "AMK1_Torque_Limit_Negative",
+                  title: "AMK1 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+                CompoundIndicator(
+                  firstSignal: "AMK2_Torque_Limit_Positive",
+                  secondSignal: "AMK2_Torque_Limit_Negative",
+                  title: "AMK2 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+                CompoundIndicator(
+                  firstSignal: "AMK3_TorqueLimitPositive",
+                  secondSignal: "AMK3_TorqueLimitNegative",
+                  title: "AMK3 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+                CompoundIndicator(
+                  firstSignal: "AMK4_TorqueLimitPositive",
+                  secondSignal: "AMK4_TorqueLimitNegative",
+                  title: "AMK4 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+              ]
             ),
           ),
         ],
@@ -1378,35 +1376,33 @@ List<Widget> overviewBig = [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
             width: widthPerColumnNumeric.toDouble(),
-            child: Expanded(
-              child: Column(
-                children: const [
-                  CompoundIndicator(
-                    firstSignal: "AMK1_Torque_Limit_Positive",
-                    secondSignal: "AMK1_Torque_Limit_Negative",
-                    title: "AMK1 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                  CompoundIndicator(
-                    firstSignal: "AMK2_Torque_Limit_Positive",
-                    secondSignal: "AMK2_Torque_Limit_Negative",
-                    title: "AMK2 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                  CompoundIndicator(
-                    firstSignal: "AMK3_TorqueLimitPositive",
-                    secondSignal: "AMK3_TorqueLimitNegative",
-                    title: "AMK3 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                  CompoundIndicator(
-                    firstSignal: "AMK4_TorqueLimitPositive",
-                    secondSignal: "AMK4_TorqueLimitNegative",
-                    title: "AMK4 Torque Limit",
-                    rule: torqueLimitRule,
-                  ),
-                ]
-              ),
+            child: Column(
+              children: const [
+                CompoundIndicator(
+                  firstSignal: "AMK1_Torque_Limit_Positive",
+                  secondSignal: "AMK1_Torque_Limit_Negative",
+                  title: "AMK1 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+                CompoundIndicator(
+                  firstSignal: "AMK2_Torque_Limit_Positive",
+                  secondSignal: "AMK2_Torque_Limit_Negative",
+                  title: "AMK2 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+                CompoundIndicator(
+                  firstSignal: "AMK3_TorqueLimitPositive",
+                  secondSignal: "AMK3_TorqueLimitNegative",
+                  title: "AMK3 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+                CompoundIndicator(
+                  firstSignal: "AMK4_TorqueLimitPositive",
+                  secondSignal: "AMK4_TorqueLimitNegative",
+                  title: "AMK4 Torque Limit",
+                  rule: torqueLimitRule,
+                ),
+              ]
             ),
           ),
         ],

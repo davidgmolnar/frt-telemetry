@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/helpers/helpers.dart';
+import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void loadSession(){
-  // TODO local config load
-  // TODO auth?
-  // TODO load signalValues.keys as cache
-}
-
 void main() async{
-  loadSession();
+  await getCurrentDirectory();
+  await loadSession();
   await startListener();
   runApp(const MyApp());
 }
@@ -28,18 +26,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   void toggleTheme(){
-    if(textColor == textColorDark){
-      textColor = textColorBright;
-      primaryColor = primaryColorBright;
-      secondaryColor = secondaryColorBright;
-      bgColor = bgColorBright;
-    }
-    else{
-      textColor = textColorDark;
-      primaryColor = primaryColorDark;
-      secondaryColor = secondaryColorDark;
-      bgColor = bgColorDark;
-    }
+    toggleColorTheme();
     setState(() {
       
     });
@@ -51,7 +38,7 @@ class MyAppState extends State<MyApp> {
       el.visitChildren(rebuild);
     }
     (context as Element).visitChildren(rebuild);
-}
+  }
 
 	@override
   Widget build(BuildContext context) {
@@ -69,17 +56,9 @@ class MyAppState extends State<MyApp> {
     );
   }
 
-  void saveSession(){// TODO save signalValues.keys as cache
-    if(signalValues.keys.isNotEmpty){
-      //
-    }
-    
-    // TODO local config update
-  }
-
   @override
-  void dispose() {
-    saveSession();
+  void dispose(){
+    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     super.dispose();
   }
 }

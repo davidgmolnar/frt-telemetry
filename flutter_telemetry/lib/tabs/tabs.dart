@@ -78,7 +78,10 @@ class TabContainerState extends State<TabContainer>{
       focusNode: FocusNode(),
       onKey: (event) {
         if (event is RawKeyDownEvent){
-          int idx = int.parse(event.logicalKey.keyLabel);
+          int? idx = int.tryParse(event.logicalKey.keyLabel);
+          if(idx == null){
+            return;
+          }
           if(isSmallScreen){
             if(idx < widget.smallShortcutLabels.length){
               _controller.animateTo(widget.smallLayoutBreakpoints[idx],

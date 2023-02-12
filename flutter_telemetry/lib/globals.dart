@@ -5,6 +5,7 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 
 String activeTab = "CONFIG";
+String dir = "";
 
 Color primaryColor = primaryColorDark;
 Color secondaryColor = secondaryColorDark;

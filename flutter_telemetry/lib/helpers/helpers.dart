@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 
 int normalizeInbetween(num value, num min, num max, int minHeight, int maxHeight){  // Barchart és g-g plot
@@ -64,4 +65,19 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showInfo(context, mess
       backgroundColor: primaryColor,
     )
   );
+}
+
+void toggleColorTheme(){
+  if(textColor == textColorDark){
+    textColor = textColorBright;
+    primaryColor = primaryColorBright;
+    secondaryColor = secondaryColorBright;
+    bgColor = bgColorBright;
+  }
+  else{
+    textColor = textColorDark;
+    primaryColor = primaryColorDark;
+    secondaryColor = secondaryColorDark;
+    bgColor = bgColorDark;
+  }
 }
