@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_telemetry/globals.dart';
@@ -48,100 +46,80 @@ class TabContainer extends StatefulWidget{
 }
 
 class TabContainerState extends State<TabContainer>{
-  bool isSmallScreen = false;
-  late Timer timer;
   final ScrollController _controller = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateLayout());
-  }
-
-  void updateLayout(){
-    if(context.size!.width < widget.widthThreshold && !isSmallScreen){
-      setState(() {
-        isSmallScreen = true;
-      });
-    }
-    else if(context.size!.width > widget.widthThreshold && isSmallScreen){
-      setState(() {
-        isSmallScreen = false;
-      });
-    }
-  }
+  final FocusNode _focus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return RawKeyboardListener(
-      autofocus: true,
-      focusNode: FocusNode(),
-      onKey: (event) {
-        if (event is RawKeyDownEvent){
-          int? idx = int.tryParse(event.logicalKey.keyLabel);
-          if(idx == null){
-            return;
-          }
-          if(isSmallScreen){
-            if(idx < widget.smallShortcutLabels.length){
-              _controller.animateTo(widget.smallLayoutBreakpoints[idx],
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut
-              );
-            }
-          }
-          else{
-            if(idx < widget.bigShortcutLabels.length){
-              _controller.animateTo(widget.bigLayoutBreakpoints[idx],
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut
-              );
-            }
-          }
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: secondaryColor,
-          toolbarHeight: 50,
-          elevation: 0,
-          actions: isSmallScreen ? 
-            widget.smallShortcutLabels.map((label) => 
-              TextButton(
-                onPressed: () {
-                  int idx = widget.smallShortcutLabels.indexOf(label);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        _focus.requestFocus();
+        return RawKeyboardListener(
+          autofocus: true,
+          focusNode: _focus,
+          onKey: (event) {
+            if (event is RawKeyDownEvent){
+              int? idx = int.tryParse(event.logicalKey.keyLabel);
+              if(idx == null){
+                return;
+              }
+              if(constraints.maxWidth < widget.widthThreshold){
+                if(idx < widget.smallShortcutLabels.length){
                   _controller.animateTo(widget.smallLayoutBreakpoints[idx],
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut
                   );
-                },
-                child: Text(label, style: TextStyle(color: primaryColor)))
-            ).toList()
-            :
-            widget.bigShortcutLabels.map((label) => 
-              TextButton(
-                onPressed: () {
-                  int idx = widget.bigShortcutLabels.indexOf(label);
+                }
+              }
+              else{
+                if(idx < widget.bigShortcutLabels.length){
                   _controller.animateTo(widget.bigLayoutBreakpoints[idx],
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut
                   );
-                },
-                child: Text(label, style: TextStyle(color: primaryColor)))
-            ).toList()
-        ),
-        body: ListView(  // TODO ListView.builder?
-          controller: _controller,
-          children: isSmallScreen ? widget.smallLayout : widget.bigLayout,
-        )
-      )
+                }
+              }
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: secondaryColor,
+              toolbarHeight: 50,
+              elevation: 0,
+              actions: constraints.maxWidth < widget.widthThreshold ? 
+                widget.smallShortcutLabels.map((label) => 
+                  TextButton(
+                    onPressed: () {
+                      int idx = widget.smallShortcutLabels.indexOf(label);
+                      _controller.animateTo(widget.smallLayoutBreakpoints[idx],
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut
+                      );
+                    },
+                    child: Text(label, style: TextStyle(color: primaryColor)))
+                ).toList()
+                :
+                widget.bigShortcutLabels.map((label) => 
+                  TextButton(
+                    onPressed: () {
+                      int idx = widget.bigShortcutLabels.indexOf(label);
+                      _controller.animateTo(widget.bigLayoutBreakpoints[idx],
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut
+                      );
+                    },
+                    child: Text(label, style: TextStyle(color: primaryColor)))
+                ).toList()
+            ),
+            body: 
+              ListView(
+                controller: _controller,
+                children: constraints.maxWidth < widget.widthThreshold ? widget.smallLayout : widget.bigLayout,
+              )
+          )
+    
+        );
+      }
     );
-  }
-
-
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
   }
 }

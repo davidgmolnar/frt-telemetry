@@ -52,6 +52,9 @@ Future<void> loadSession() async {
       toggleColorTheme();
     }
   }
+  if(sessionData.containsKey("activetab")){
+    activeTab = sessionData["activetab"];
+  }
   // TODO auth?
   // TODO load signalValues.keys as cache
   terminalQueue.add(TerminalElement("Session file found, settings loaded", 3));
@@ -77,5 +80,8 @@ Future<void> saveSession() async {
     sessionData["signals"] = signalValues.keys;
   }
   sessionData["colortheme"] = textColor == textColorDark ? "DARK" : "BRIGHT";
+  sessionData["activetab"] = activeTab;
+  // Alerts
+
   sessionFile = await sessionFile.writeAsString(jsonEncode(sessionData));
 }

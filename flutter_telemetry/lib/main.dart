@@ -27,6 +27,7 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   void toggleTheme(){
     toggleColorTheme();
+    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     setState(() {
       
     });
