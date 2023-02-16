@@ -334,19 +334,20 @@ if __name__ == '__main__':
     decode_thread1 = Process(target=decodeCan, args=(CAN1, MULTIPLEXED_SIGNALS, STOP_QUEUE, SOCK_QUEUE1, DICT_QUEUE1, DATA_QUEUE))
     decode_thread2 = Process(target=decodeCan, args=(CAN2, MULTIPLEXED_SIGNALS, STOP_QUEUE, SOCK_QUEUE2, DICT_QUEUE2, DATA_QUEUE))
     connection_handler = Process(target=sendtoflutter, args=(DICT_QUEUE1, DICT_QUEUE2))
-    upload_thread = Process(target=upload, args=(TOKEN, ORG, BUCKET, STOP_QUEUE, DATA_QUEUE))
+    # upload_thread = Process(target=upload, args=(TOKEN, ORG, BUCKET, STOP_QUEUE, DATA_QUEUE))
 
     socket_thread.start()
     decode_thread1.start()
     decode_thread2.start()
     connection_handler.start()
-    upload_thread.start()
+    # upload_thread.start()
 
     threads = [socket_thread,
                decode_thread1,
                decode_thread2,
                connection_handler,
-               upload_thread]
+               # upload_thread
+               ]
 
     try:
         if True:  # TEST MODE

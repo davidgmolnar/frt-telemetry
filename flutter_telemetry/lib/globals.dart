@@ -124,7 +124,7 @@ List<VirtualSignal> virtualSignals = [
 // live settings  [val, min, max]
 Map<String, dynamic> settings = {  // TODO letekeréskor törölni kell a régieket
   "refreshTimeMS" : [100,50,2000],
-  "chartrefreshTimeMS": [20,5,2000],
+  "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [256,48,4096],
   "chartSignalValuesToKeep": [256,48,4096],
 };
