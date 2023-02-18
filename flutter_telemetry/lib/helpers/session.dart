@@ -77,11 +77,11 @@ Future<void> saveSession() async {
     sessionData["settings"][setting] = settings[setting][0];
   }
   if(signalValues.keys.isNotEmpty){ // TODO itt össze kéne fésülni nem felülírni?
-    sessionData["signals"] = signalValues.keys;
+    sessionData["signals"] = signalValues.keys.toList();
   }
   sessionData["colortheme"] = textColor == textColorDark ? "DARK" : "BRIGHT";
   sessionData["activetab"] = activeTab;
   // Alerts
 
-  sessionFile = await sessionFile.writeAsString(jsonEncode(sessionData));
+  sessionFile = await sessionFile.writeAsString(const JsonEncoder.withIndent('    ').convert(sessionData));
 }

@@ -107,13 +107,19 @@ List<VirtualSignal> virtualSignals = [
   VirtualSignal(
     ["IDCDCOutput1Average", "IDCDCOutput2Average"],
     ((listOfSignals){
-      dynamic i_1 = signalValues[listOfSignals[0]]!.last;
-      dynamic i_2 = signalValues[listOfSignals[1]]!.last;
+      dynamic i_1 = signalValues[listOfSignals[0]]?.last;
+      dynamic i_2 = signalValues[listOfSignals[1]]?.last;
+      if(i_1 == null || i_2 == null){
+        return 0;
+      }
       if(last_brightloop_mah == null){
+        last_brightloop_mah = DateTime.now();
         return 0;
       }
       else{
-        double diffmH = DateTime.now().difference(last_brightloop_mah!).inMilliseconds / 3600;  // milliHours
+        DateTime now = DateTime.now();
+        double diffmH = now.difference(last_brightloop_mah!).inMilliseconds / 3600;  // milliHours
+        last_brightloop_mah = now;
         return signalValues["VIRT_BRIGHTLOOP_LV_MAH"]!.last + diffmH * (i_1 + i_2);
       }
     }),
@@ -127,11 +133,5 @@ Map<String, dynamic> settings = {  // TODO letekeréskor törölni kell a régie
   "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [256,48,4096],
   "chartSignalValuesToKeep": [256,48,4096],
-};
-
-Map<String, String> settingsToLabel = {
-  "refreshTimeMS" : "Refresh time in ms",
-  "chartrefreshTimeMS": "Chart refresh time in ms",
-  "signalValuesToKeep": "Internal buffer",
-  "chartSignalValuesToKeep": "Data points on chart",
+  "chartLoadMode": [1,0,1],
 };

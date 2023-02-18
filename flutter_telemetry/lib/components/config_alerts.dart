@@ -88,9 +88,12 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
               width: 330,
               child: DropdownButton(
                 underline: Container(),
-                icon: Icon(Icons.arrow_drop_down, color: primaryColor, size: 25),
+                icon: Icon(Icons.arrow_drop_down, color: primaryColor, size: 19),
                 value: signalValues.keys.isNotEmpty ? signalValues.keys.first : "NO_KEYS",
-                items: signalValues.keys.isNotEmpty ? signalValues.keys.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList() : [const DropdownMenuItem(value: "NO_KEYS", child: Text("NO_KEYS"))],
+                items: signalValues.keys.isNotEmpty ? 
+                  signalValues.keys.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList()
+                  :
+                  [const DropdownMenuItem(value: "NO_KEYS", child: Text("NO_KEYS"))],
                 onChanged: (value) {
                   if(value != null){
                     widget.alert.signal = value;

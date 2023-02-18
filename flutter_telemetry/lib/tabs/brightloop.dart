@@ -159,7 +159,7 @@ List<Widget> brightloopBig = [
           "TDCDCBB3Measured",
           "TDCDCSR1Measured",
           "TDCDCSR2Measured",
-          "VIRT_BRIGHTLOOP_LV_MAH",
+          "VIRT_BRIGHTLOOP_LV_MAH"
         ],
         colsize: 6, title: "Temps and mAh"
       ),
