@@ -8,8 +8,10 @@ import 'package:universal_io/io.dart';
 bool isconnected = false;
 late RawDatagramSocket sock;
 
-Map<String, List<dynamic>> signalValues = {};
+Map<String, List<num>> signalValues = {};
 Map<String, List<DateTime>> signalTimestamps = {};
+Map<String, num> hvCellVoltages = {};
+Map<String, num> hvCellTemps = {};
 
 class VirtualSignal {
   const VirtualSignal(this.signals, this.rule, this.name);
@@ -66,7 +68,11 @@ void processPacket(Map rawJsonMap){
   }
   // process virtual signals
   for(VirtualSignal virtualSignal in virtualSignals){
-    if(virtualSignal.signals.any((element) => rawJsonMap.containsKey(element))){
+    if(virtualSignal.signals.every((element) => rawJsonMap.containsKey(element))){
+      if(virtualSignal.name == "INDEPENDENT_SIGNAL"){
+        virtualSignal.rule(virtualSignal.signals);
+        continue;
+      }
       if(!signalValues.containsKey(virtualSignal.name)){
         signalValues[virtualSignal.name] = [];
         signalTimestamps[virtualSignal.name] = [];

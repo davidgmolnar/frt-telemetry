@@ -125,6 +125,14 @@ List<VirtualSignal> virtualSignals = [
     }),
     "VIRT_BRIGHTLOOP_LV_MAH"
   ),
+  VirtualSignal(
+    ["HV_Cell_ID", "HV_Cell_Voltage", "HV_Cell_Temperature"],
+    ((listOfSignals){
+      hvCellTemps[signalValues[listOfSignals[0]]!.last.toString()] = signalValues[listOfSignals[2]]!.last;
+      hvCellVoltages[signalValues[listOfSignals[0]]!.last.toString()] = signalValues[listOfSignals[1]]!.last;
+    }),
+    "INDEPENDENT_SIGNAL"
+  ),
 ];
 
 // live settings  [val, min, max]

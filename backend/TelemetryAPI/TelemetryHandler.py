@@ -146,7 +146,7 @@ def decodeCan(can, multiplexed, _stop_queue, _sock_queue, _dict_queue, _data_que
                     data.append(f"telemetry_signals {key}={float(value)} {_append_time(datetime.utcnow(), WritePrecision.NS)}")
                 try:
                     if len(data) >= batch_limit:
-                        _data_queue.put_nowait(list(data))
+                        # _data_queue.put_nowait(list(data))
                         data.clear()
                 except Full:
                     print("Data Queue Full")

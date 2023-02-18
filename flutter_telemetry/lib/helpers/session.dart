@@ -57,6 +57,12 @@ Future<void> loadSession() async {
   }
   // TODO auth?
   // TODO load signalValues.keys as cache
+  if(sessionData.containsKey("signals")){
+    for (String signal in sessionData["signals"]) {
+      signalValues[signal] = [];
+      signalTimestamps[signal] = [];
+    }
+  }
   terminalQueue.add(TerminalElement("Session file found, settings loaded", 3));
 }
 

@@ -115,8 +115,8 @@ class MainScreenState extends State<MainScreen>{
                       bigShortcutLabels: const [],
                       smallLayoutBreakpoints: const [],
                       bigLayoutBreakpoints: const [],
-                      smallLayout: [],
-                      bigLayout: [],
+                      smallLayout: hvAccuSmall,
+                      bigLayout: hvAccuBig,
                       widthThreshold: 1220);
                   }
                   case "DYNAMICS": {

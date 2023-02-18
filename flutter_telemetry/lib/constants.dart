@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+extension ListSorted<T> on List<T> {
+  List<T> sorted(int Function(T a, T b) compare) => [...this]..sort(compare); 
+}
+
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
 const int udpPort = 8990;
@@ -21,6 +25,9 @@ const defaultPadding = 8.0;
 const widthPerColumnNumeric = 300;
 const widthPerColumnBoolean = 300;
 const settingsWidth = 400;
+const hvVoltageWidth = 70.0;
+const hvTempWidth = 50.0;
+const hvVoltageMaxDisp = 6000;
 
 // Name remaps
 const Map<String,String> labelRemap = {  // _ by default space lesz

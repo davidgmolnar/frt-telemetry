@@ -16,7 +16,7 @@ Map<String, String> settingsTooltip = {
   "chartrefreshTimeMS": "Same as ^^ but for charts",
   "signalValuesToKeep": "The last x values are going to be stored in memory, to be used by charts or time averaged signals",
   "chartSignalValuesToKeep": "Data points on charts",
-  "chartLoadMode": "0 - Use the single most recent value each time the chart attempts to refresh (Power Saver with potential data loss) \n1 - Update the charts with all the new values since it was last refreshed (More performance intensive, data loss only if more data arrived than would fill a chart)",
+  "chartLoadMode": "0 - Use the single most recent value each time the chart attempts to refresh (Power saver with potential data loss) \n1 - Update the charts with all the new values since it was last refreshed (More performance intensive, data loss only if more data arrived than would fill a chart)",
 };
 
 class SettingsElement extends StatefulWidget{
@@ -47,8 +47,13 @@ class SettingsElementState extends State<SettingsElement> {
             child: Tooltip(
               message: settingsTooltip[widget.label]!,
               decoration: BoxDecoration(
-                color: secondaryColor
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(5.0)
               ),
+              textStyle: TextStyle(color: textColor),
+              showDuration: const Duration(milliseconds: 200),
+              waitDuration: const Duration(milliseconds: 200),
+              verticalOffset: 10,
               child: Text(settingsToLabel[widget.label]!),
             ),
           ),

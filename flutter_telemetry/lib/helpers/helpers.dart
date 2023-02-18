@@ -35,9 +35,9 @@ String yPrefix(int i){  // g-g plot
   }
 }
 
-String representNumber(String ret){
-  if(ret.length > 10){
-    ret = ret.substring(0, 10);
+String representNumber(String ret, {int maxDigit = 10}){
+  if(ret.length > maxDigit){
+    ret = ret.substring(0, maxDigit);
   }
   if(ret.contains('.')){
     while(ret.endsWith('0') && ret.length >= 2){

@@ -69,9 +69,7 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
       return;
     }
     if(widget.alert.risingEdge()){
-      setState(() {
-        
-      });
+      setState(() {});
     }
   }
 
@@ -89,14 +87,15 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
               child: DropdownButton(
                 underline: Container(),
                 icon: Icon(Icons.arrow_drop_down, color: primaryColor, size: 19),
-                value: signalValues.keys.isNotEmpty ? signalValues.keys.first : "NO_KEYS",
-                items: signalValues.keys.isNotEmpty ? 
-                  signalValues.keys.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList()
+                value: signalValues.keys.isNotEmpty ? (widget.alert.signal == "NO_KEYS" ? signalValues.keys.toList().sorted((a, b) => a.compareTo(b)).first : widget.alert.signal) : "NO_KEYS",
+                items: signalValues.keys.isNotEmpty ?
+                  signalValues.keys.toList().sorted((a, b) => a.compareTo(b)).map((e) => DropdownMenuItem(value: e, child: Text(e))).toList()
                   :
                   [const DropdownMenuItem(value: "NO_KEYS", child: Text("NO_KEYS"))],
                 onChanged: (value) {
                   if(value != null){
                     widget.alert.signal = value;
+                    setState(() {});
                   }
                 },
               ),
