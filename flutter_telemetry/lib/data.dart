@@ -21,7 +21,7 @@ class VirtualSignal {
 }
 
 Future<void> startListener() async {
-  sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8990);
+  sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8998);
   sock.port == udpPort ?
     terminalQueue.add(TerminalElement("UDP socket bind successful", 3)) 
     :
