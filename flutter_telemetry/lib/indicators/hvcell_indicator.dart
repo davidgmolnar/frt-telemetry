@@ -10,14 +10,6 @@ enum ColumnType{
   tempMeas,
 }
 
-/*
-Small
-  Voltage 60-30-0.7
-  Temp 30-0.7
-Big
-  idk
-*/
-
 class HVCellVoltageIndicator extends StatefulWidget{
   const HVCellVoltageIndicator({
     super.key,
