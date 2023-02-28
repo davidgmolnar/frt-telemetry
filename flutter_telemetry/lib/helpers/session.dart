@@ -42,7 +42,7 @@ Future<void> loadSession() async {
   if(sessionData.containsKey("settings")){
     for(String sessionSetting in sessionData["settings"].keys){
       if(settings.containsKey(sessionSetting)){
-        settings[sessionSetting][0] = sessionData["settings"][sessionSetting]; // check chartnum < buffernum
+        settings[sessionSetting]![0] = sessionData["settings"][sessionSetting]; // check chartnum < buffernum
       }
     }
   }
@@ -80,7 +80,7 @@ Future<void> saveSession() async {
     sessionData["settings"] = {};
   }
   for(String setting in settings.keys){
-    sessionData["settings"][setting] = settings[setting][0];
+    sessionData["settings"][setting] = settings[setting]![0];
   }
   if(signalValues.keys.isNotEmpty){ // TODO itt össze kéne fésülni nem felülírni?
     sessionData["signals"] = signalValues.keys.toList();

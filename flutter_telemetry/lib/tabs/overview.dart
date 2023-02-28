@@ -1018,47 +1018,14 @@ List<Widget> overviewSmall = [
               "VDC_Yaw_Control_P",
               "VDC_Driving_Torque_Multiplier",
               "VDC_Yaw_Control_Balance",
+              "VIRT_AMK1_LIMIT",
+              "VIRT_AMK2_LIMIT",
+              "VIRT_AMK3_LIMIT",
+              "VIRT_AMK4_LIMIT",
             ],
-            colsize: 6, title: "Control"
+            colsize: 10, title: "Control"
           ),
-        ],
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const BooleanIndicator(subscribedSignal: "VDC_DV_mode"),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-            width: widthPerColumnNumeric.toDouble(),
-            child: Column(
-              children: const [
-                CompoundIndicator(
-                  firstSignal: "AMK1_Torque_Limit_Positive",
-                  secondSignal: "AMK1_Torque_Limit_Negative",
-                  title: "AMK1 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-                CompoundIndicator(
-                  firstSignal: "AMK2_Torque_Limit_Positive",
-                  secondSignal: "AMK2_Torque_Limit_Negative",
-                  title: "AMK2 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-                CompoundIndicator(
-                  firstSignal: "AMK3_TorqueLimitPositive",
-                  secondSignal: "AMK3_TorqueLimitNegative",
-                  title: "AMK3 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-                CompoundIndicator(
-                  firstSignal: "AMK4_TorqueLimitPositive",
-                  secondSignal: "AMK4_TorqueLimitNegative",
-                  title: "AMK4 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-              ]
-            ),
-          ),
+          BooleanIndicator(subscribedSignal: "VDC_DV_mode"),
         ],
       ),
     ],
@@ -1108,6 +1075,7 @@ List<Widget> overviewSmall = [
               "HV_Cell_Temp_MAX",
               "HV_Current",
               "State_of_Charge",
+              "VIRT_HV_POWER_OUT"
             ],
             colsize: 4,
             title: "HV Status"
@@ -1115,7 +1083,6 @@ List<Widget> overviewSmall = [
           BooleanIndicator(subscribedSignal: "HV_DetStatus"),
           BooleanIndicator(subscribedSignal: "HV_ECU_SC_Endline_State"),
           BooleanIndicator(subscribedSignal: "HV_Cell_OT"),
-          CompoundIndicator(firstSignal: "HV_Current", secondSignal: "HV_Voltage_After_AIRs", rule: hvPowerRule, title: "HV Power out"),
         ],
       ),
       const BooleanPanel(
@@ -1361,8 +1328,8 @@ List<Widget> overviewBig = [
       ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const NumericPanel(
+        children: const [
+          NumericPanel(
             subscribedSignals: [
               "VDC_Torque_Demand",
               "VDC_Power_Max",
@@ -1370,40 +1337,12 @@ List<Widget> overviewBig = [
               "VDC_Yaw_Control_P",
               "VDC_Driving_Torque_Multiplier",
               "VDC_Yaw_Control_Balance",
+              "VIRT_AMK1_LIMIT",
+              "VIRT_AMK2_LIMIT",
+              "VIRT_AMK3_LIMIT",
+              "VIRT_AMK4_LIMIT",
             ],
-            colsize: 6, title: "Control"
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-            width: widthPerColumnNumeric.toDouble(),
-            child: Column(
-              children: const [
-                CompoundIndicator(
-                  firstSignal: "AMK1_Torque_Limit_Positive",
-                  secondSignal: "AMK1_Torque_Limit_Negative",
-                  title: "AMK1 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-                CompoundIndicator(
-                  firstSignal: "AMK2_Torque_Limit_Positive",
-                  secondSignal: "AMK2_Torque_Limit_Negative",
-                  title: "AMK2 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-                CompoundIndicator(
-                  firstSignal: "AMK3_TorqueLimitPositive",
-                  secondSignal: "AMK3_TorqueLimitNegative",
-                  title: "AMK3 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-                CompoundIndicator(
-                  firstSignal: "AMK4_TorqueLimitPositive",
-                  secondSignal: "AMK4_TorqueLimitNegative",
-                  title: "AMK4 Torque Limit",
-                  rule: torqueLimitRule,
-                ),
-              ]
-            ),
+            colsize: 10, title: "Control"
           ),
         ],
       ),
@@ -1455,14 +1394,14 @@ List<Widget> overviewBig = [
               "HV_Cell_Temp_MAX",
               "HV_Current",
               "State_of_Charge",
+              "VIRT_HV_POWER_OUT"
             ],
-            colsize: 4,
+            colsize: 5,
             title: "HV Status"
           ),
           BooleanIndicator(subscribedSignal: "HV_DetStatus"),
           BooleanIndicator(subscribedSignal: "HV_ECU_SC_Endline_State"),
           BooleanIndicator(subscribedSignal: "HV_Cell_OT"),
-          CompoundIndicator(firstSignal: "HV_Current", secondSignal: "HV_Voltage_After_AIRs", rule: hvPowerRule, title: "HV Power out"),
         ],
       ),
       const BooleanPanel(

@@ -101,7 +101,7 @@ class TerminalDisplayState extends State<TerminalDisplay> {
           height: 400,
           child: ListView.builder(
             itemCount: content.length,
-            itemExtent: 50,
+            itemExtent: 40,
             itemBuilder: (BuildContext context, int index){
               return ListTile(
                 leading: Text("${displayIdLevelMap[content[index].level]} - ${content[index].time} - ${content[index].message}",

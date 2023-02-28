@@ -34,18 +34,18 @@ class Plot2DState extends State<Plot2D>{
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS']![0]), (Timer t) => updateData());
   }
 
   void updateData(){
     bool needsUpdate = false;
-    num? tempX = signalValues[widget.subscribedSignals[0]]?.last;
+    num? tempX = signalValues[widget.subscribedSignals[0]] != null && signalValues[widget.subscribedSignals[0]]!.isNotEmpty ? signalValues[widget.subscribedSignals[0]]?.last : null;
     if(tempX != null){
       needsUpdate = true;
       x.removeAt(0);
       x.add(tempX); // buildben be van rakva a rangebe
     }
-    num? tempY = signalValues[widget.subscribedSignals[1]]?.last;
+    num? tempY = signalValues[widget.subscribedSignals[1]] != null && signalValues[widget.subscribedSignals[1]]!.isNotEmpty ? signalValues[widget.subscribedSignals[1]]?.last : null;
     if(tempY != null){
       needsUpdate = true;
       y.removeAt(0);

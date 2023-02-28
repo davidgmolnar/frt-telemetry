@@ -34,7 +34,7 @@ class CompoundIndicatorState extends State<CompoundIndicator>{
   @override
   void initState() {
       super.initState();
-      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
+      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS']![0]), (Timer t) => updateData());
     }
 
   void updateData(){

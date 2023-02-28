@@ -9,6 +9,7 @@ Map<String, String> settingsToLabel = {
   "signalValuesToKeep": "Internal buffer",
   "chartSignalValuesToKeep": "Data points on chart",
   "chartLoadMode": "Chart loading mode",
+  "listenPort": "Port to listen",
 };
 
 Map<String, String> settingsTooltip = {
@@ -17,6 +18,7 @@ Map<String, String> settingsTooltip = {
   "signalValuesToKeep": "The last x values are going to be stored in memory, to be used by charts or time averaged signals",
   "chartSignalValuesToKeep": "Data points on charts",
   "chartLoadMode": "0 - Use the single most recent value each time the chart attempts to refresh (Power saver with potential data loss) \n1 - Update the charts with all the new values since it was last refreshed (More performance intensive, data loss only if more data arrived than would fill a chart)",
+  "listenPort": "This port will be used to receive UDP data to be displayed"
 };
 
 class SettingsElement extends StatefulWidget{
@@ -66,7 +68,7 @@ class SettingsElementState extends State<SettingsElement> {
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
                 enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                hintText: settings[widget.label][0].toString(),
+                hintText: settings[widget.label]![0].toString(),
                 hintStyle: const TextStyle(color: Colors.grey)
               ),
               onChanged:(value) {
@@ -79,16 +81,16 @@ class SettingsElementState extends State<SettingsElement> {
             padding: const EdgeInsets.all(defaultPadding),
             icon: Icon(Icons.check, color: primaryColor,), 
             onPressed: () {
-              if(settings[widget.label][1] <= num.parse(input) && num.parse(input) <= settings[widget.label][2]){
-                if(widget.label == "chartSignalValuesToKeep" && num.parse(input) > settings["signalValuesToKeep"][0]){
+              if(settings[widget.label]![1] <= int.parse(input) && int.parse(input) <= settings[widget.label]![2]){
+                if(widget.label == "chartSignalValuesToKeep" && int.parse(input) > settings["signalValuesToKeep"]![0]){
                   showError(context, "Charts cant have more data than the internal buffer");
                 }
                 else{
-                  settings[widget.label][0] = num.parse(input);
+                  settings[widget.label]![0] = int.parse(input);
                 }
               }
               else{
-                showError(context, "Setting must be in range ${settings[widget.label][1]}:${settings[widget.label][2]}");
+                showError(context, "Setting must be in range ${settings[widget.label]![1]}:${settings[widget.label]![2]}");
               }
               setState(() {});
             },

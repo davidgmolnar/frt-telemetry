@@ -66,7 +66,7 @@ class WaveformChartState extends State<WaveformChart>{
       List? tempVal = signalValues[widget.subscribedSignals[i]];
       List? tempTime = signalTimestamps[widget.subscribedSignals[i]];
       if(tempVal != null && tempTime != null && tempVal.isNotEmpty && tempTime.isNotEmpty){
-        if(tempVal.length > settings['chartSignalValuesToKeep'][0]){
+        if(tempVal.length > settings['chartSignalValuesToKeep']![0]){
           tempVal = tempVal.sublist(tempVal.length - 128);
           tempTime = tempTime.sublist(tempTime.length - 128);
         }
@@ -78,11 +78,11 @@ class WaveformChartState extends State<WaveformChart>{
         chartData[i] = [WaveformChartElement(0, DateTime.now())];
       }
     }
-    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS'][0]), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
   }
 
   void updateData(){
-    if(settings['chartLoadMode'][0] == 0){ // 0 lazy 1 complete
+    if(settings['chartLoadMode']![0] == 0){ // 0 lazy 1 complete
       for(int i = 0; i < widget.subscribedSignals.length; i++){ // TODO fetch in isolate chartData[i], signalValues, signalTimestamps => chartData[i] with all new, change cnt (addedindexes = range(len, len-cnt) removed indexes = range(0, cnt)) ezt lehet mindenkinek egyszerre is és akkor listák mennek be és ki
         dynamic tempVal = signalValues[widget.subscribedSignals[i]]?.last;
         dynamic tempTime = signalTimestamps[widget.subscribedSignals[i]]?.last;
@@ -99,7 +99,7 @@ class WaveformChartState extends State<WaveformChart>{
         else if(_controller[i] != null){
           if(chartData[i].last.time != tempTime){
             chartData[i].add(WaveformChartElement(widget.multiplier[i] * tempVal, tempTime));
-            if(chartData[i].length >= settings['chartSignalValuesToKeep'][0]){
+            if(chartData[i].length >= settings['chartSignalValuesToKeep']![0]){
               chartData[i].removeAt(0);
               _controller[i]!.updateDataSource(
                 addedDataIndex: chartData[i].length - 1,
@@ -139,7 +139,7 @@ class WaveformChartState extends State<WaveformChart>{
           int removed = 0;
           while(newDataStartIdx < tempTime.length){
             chartData[i].add(WaveformChartElement(widget.multiplier[i] * tempVal![newDataStartIdx], tempTime[newDataStartIdx]));
-            if(chartData[i].length > settings['chartSignalValuesToKeep'][0]){
+            if(chartData[i].length > settings['chartSignalValuesToKeep']![0]){
               chartData[i].removeAt(0);
               removed++;
             }

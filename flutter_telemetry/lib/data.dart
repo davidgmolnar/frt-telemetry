@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter_telemetry/components/config_terminal.dart';
-import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:universal_io/io.dart';
 
@@ -21,11 +20,11 @@ class VirtualSignal {
 }
 
 Future<void> startListener() async {
-  sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, 8998);
-  sock.port == udpPort ?
-    terminalQueue.add(TerminalElement("UDP socket bind successful", 3)) 
+  sock = await RawDatagramSocket.bind(InternetAddress.anyIPv4, settings["listenPort"]![0]);
+  sock.port == settings["listenPort"]![0] ?
+    terminalQueue.add(TerminalElement("UDP socket bind successful on port ${settings['listenPort']![0]}", 3)) 
     :
-    terminalQueue.add(TerminalElement("UDP socket bind failed", 0));
+    terminalQueue.add(TerminalElement("UDP socket bind failed on port ${settings['listenPort1']![0]}", 0));
   isconnected = true;
   sockListener();
 }
@@ -61,7 +60,7 @@ void processPacket(Map rawJsonMap){
     }   
     signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]); // TODO itt az add nemtom miért nem jó
     signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
-    if(signalValues[key]!.length > settings['signalValuesToKeep'][0]){
+    if(signalValues[key]!.length > settings['signalValuesToKeep']![0]){
       signalValues[key]!.removeAt(0);
       signalTimestamps[key]!.removeAt(0);
     }
@@ -79,7 +78,7 @@ void processPacket(Map rawJsonMap){
       }
       signalValues[virtualSignal.name]!.insert(signalValues[virtualSignal.name]!.length, virtualSignal.rule(virtualSignal.signals)); // TODO itt az add nemtom miért nem jó
       signalTimestamps[virtualSignal.name]!.insert(signalTimestamps[virtualSignal.name]!.length, DateTime.now());
-      if(signalValues[virtualSignal.name]!.length > settings['signalValuesToKeep'][0]){
+      if(signalValues[virtualSignal.name]!.length > settings['signalValuesToKeep']![0]){
         signalValues[virtualSignal.name]!.removeAt(0);
         signalTimestamps[virtualSignal.name]!.removeAt(0);
     }

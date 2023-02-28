@@ -1,109 +1,61 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
-import 'package:flutter_telemetry/helpers/helpers.dart';
-import 'package:flutter_telemetry/helpers/session.dart';
 
-class ConfigView extends StatefulWidget{
-    const ConfigView({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() {
-    return ConfigViewState();
-  }
-}
-
-class ConfigViewState extends State<ConfigView>{
-	late Timer timer;
-  double threshold = 1220;
-  bool isSmall = false;
-
-  @override
-  void initState() {
-      super.initState();
-      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateLayout());
-    }
-
-  void updateLayout(){
-    if(context.size!.width < threshold && !isSmall){
-      setState(() {
-        isSmall = true;
-      });
-    }
-    else if(context.size!.width > threshold && isSmall){
-      setState(() {
-        isSmall = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if(!isSmall){
-      return ListView(
-        children: [
-          Row(
-            children: const [
-              SettingsContainer(),
-              ConnectionHandler(),
-            ],
-          ),
-          Row(
-            children: const [
-              TerminalDisplay(),
-            ],
-          ),
-          Row(
-            children: const [
-              AlertContainer()
-            ],
-          )
+List<Widget> configSmall = [
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      Column(
+        children: const [
+          SettingsContainer(),
+          ConnectionHandler()
         ],
-      );
-    }
-    else{
-      return ListView(
-        children: [
-          Row(
-            children: const [
-              SettingsContainer(),
-            ],
-          ),
-          Row(
-            children: const [
-              ConnectionHandler(),
-            ],
-          ),
-          Row(
-            children: const [
-              TerminalDisplay(),
-            ],
-          ),
-          Row(
-            children: const [
-              AlertContainer(),
-            ],
-          ),
-        ],
-      );
-    }
-  }
+      )
+    ],
+  ),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      TerminalDisplay()
+    ],
+  ),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      AlertContainer()
+    ],
+  )
+];
 
-  @override
-  void dispose() {
-    timer.cancel();
-    super.dispose();
-  }
-}
+List<Widget> configBig = [
+  Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      const TerminalDisplay(),
+      Column(
+        children: const [
+          SettingsContainer(),
+          ConnectionHandler()
+        ],
+      )
+    ],
+  ),
+  Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      AlertContainer()
+    ],
+  )
+];
 
 // Connection widget
 class ConnectionHandler extends StatefulWidget{

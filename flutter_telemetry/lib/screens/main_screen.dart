@@ -57,7 +57,14 @@ class MainScreenState extends State<MainScreen>{
               child: (() {
                 switch(activeTab){
                   case "CONFIG": {
-                    return const ConfigView();
+                    return TabContainer(
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: configSmall,
+                      bigLayout: configBig,
+                      widthThreshold: 1100);
                   }
                   case "OVERVIEW": {
                     return TabContainer(
@@ -111,13 +118,13 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "HV_ACCU": {
                     return TabContainer(
-                      smallShortcutLabels: const [],
+                      smallShortcutLabels: const ["HV Accu", "HV Status"],
                       bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
+                      smallLayoutBreakpoints: const [0, 800],
                       bigLayoutBreakpoints: const [],
                       smallLayout: hvAccuSmall,
                       bigLayout: hvAccuBig,
-                      widthThreshold: 1220);
+                      widthThreshold: 1300);
                   }
                   case "DYNAMICS": {
                     return TabContainer(

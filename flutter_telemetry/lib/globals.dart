@@ -19,6 +19,9 @@ List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a main egy
 
 DateTime? last_brightloop_mah;
 
+List<double> tempBrakepoints = [-double.infinity, 1, 20, 30, 35, 40, 45, 50, double.infinity];
+List<Color> tempColorBank = [Colors.white, Colors.blue, Colors.green.shade800, Colors.yellow, Colors.orange.shade800, Colors.red, Colors.purple, Colors.black];
+
 List<VirtualSignal> virtualSignals = [
   VirtualSignal(
     ["AMK1_Torque_Limit_Positive", "AMK1_Torque_Limit_Negative"],
@@ -136,10 +139,11 @@ List<VirtualSignal> virtualSignals = [
 ];
 
 // live settings  [val, min, max]
-Map<String, dynamic> settings = {  // TODO letekeréskor törölni kell a régieket
+Map<String, List<int>> settings = {  // TODO letekeréskor törölni kell a régieket
   "refreshTimeMS" : [100,50,2000],
   "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [256,48,4096],
   "chartSignalValuesToKeep": [256,48,4096],
   "chartLoadMode": [1,0,1],
+  "listenPort": [8998, 1000, 65535]
 };

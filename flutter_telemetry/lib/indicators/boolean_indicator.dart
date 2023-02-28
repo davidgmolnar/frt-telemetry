@@ -36,11 +36,11 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       else{
         label = widget.subscribedSignal.replaceAll('_', ' ');
       }
-      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateData());
+      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS']![0]), (Timer t) => updateData());
     }
 
   void updateData(){
-    num? temp = signalValues[widget.subscribedSignal]?.last;
+    num? temp = signalValues[widget.subscribedSignal] != null && signalValues[widget.subscribedSignal]!.isNotEmpty ? signalValues[widget.subscribedSignal]?.last : null;
     if(temp != null){
       setState(() {
         if(temp == 0){
