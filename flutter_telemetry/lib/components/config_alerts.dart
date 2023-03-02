@@ -43,6 +43,28 @@ class TelemetryAlert{
     }
     return false;
   }
+
+  Map<String, num> toJson(){
+    return {
+      "min": min,
+      "max": max,
+      "inRange": inRange ? 1 : 0,
+      "isFinalized": isFinalized ? 1 : 0,
+      "isActive": isActive ? 1 : 0
+    };
+  }
+
+  TelemetryAlert fillFromJson(Map<String,dynamic> json, String setSignal){
+    signal = setSignal;
+    if(json.containsKey("min") && json.containsKey("max") && json.containsKey("inRange") && json.containsKey("isFinalized") && json.containsKey("isActive")){
+      min = json["min"]!;
+      max = json["max"]!;
+      inRange = json["inRange"] == 1 ? true : false;
+      isFinalized = json["isFinalized"] == 1 ? true : false;
+      isActive = json["isActive"] == 1 ? true : false;
+    }
+    return this;
+  }
 }
 
 class TelemetryAlertWidget extends StatefulWidget {

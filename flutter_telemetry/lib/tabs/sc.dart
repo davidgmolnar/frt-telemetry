@@ -1,13 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 
 List<Widget> scSmall = [
 
 ];
+
+
 List<Widget> scBig = [
   Row(
     mainAxisAlignment: MainAxisAlignment.center,

@@ -58,10 +58,10 @@ class MainScreenState extends State<MainScreen>{
                 switch(activeTab){
                   case "CONFIG": {
                     return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
+                      smallShortcutLabels: const ["Settings", "Log", "Alert"],
+                      bigShortcutLabels: const ["Settings", "Alert"],
+                      smallLayoutBreakpoints: const [0, 500, 1000],
+                      bigLayoutBreakpoints: const [0, 500],
                       smallLayout: configSmall,
                       bigLayout: configBig,
                       widthThreshold: 1100);
@@ -120,7 +120,7 @@ class MainScreenState extends State<MainScreen>{
                     return TabContainer(
                       smallShortcutLabels: const ["HV Accu", "HV Status"],
                       bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [0, 800],
+                      smallLayoutBreakpoints: const [0, 770],
                       bigLayoutBreakpoints: const [],
                       smallLayout: hvAccuSmall,
                       bigLayout: hvAccuBig,
@@ -128,12 +128,12 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "DYNAMICS": {
                     return TabContainer(
-                      smallShortcutLabels: [],
-                      bigShortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
+                      smallShortcutLabels: const  [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: dynamicsSmall,
+                      bigLayout: dynamicsBig,
                       widthThreshold: 1220);
                   }
                   case "LV_SYSTEM": {
@@ -158,13 +158,13 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "AS": {
                     return TabContainer(
-                      smallShortcutLabels: [],
-                      bigShortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
-                      widthThreshold: 1220);
+                      smallShortcutLabels: const ["AS Status", "AS Signals"],
+                      bigShortcutLabels: const ["AS Status", "AS Signals"],
+                      smallLayoutBreakpoints: const [0, 1000],
+                      bigLayoutBreakpoints: const [0, 600],
+                      smallLayout: asSmall,
+                      bigLayout: asBig,
+                      widthThreshold: 1170);
                   }
                   case "DATALOGGER": {
                     return TabContainer(

@@ -11,6 +11,8 @@ export 'brightloop.dart';
 export 'lvsystem.dart';
 export 'errors.dart';
 export 'hvaccu.dart';
+export 'as.dart';
+export 'dynamics.dart';
 
 class TabLayout{ // TODO ebből épüljön fel a tab
   const TabLayout(this.shortcutLabels, this.layoutBreakpoints, this.layout);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
@@ -46,6 +47,11 @@ Future<void> loadSession() async {
       }
     }
   }
+  if(sessionData.containsKey("alerts")){
+    for(String alertSignal in sessionData["alerts"].keys){
+      alerts.add(TelemetryAlert(false).fillFromJson(sessionData["alerts"][alertSignal], alertSignal));
+    }
+  }
   if(sessionData.containsKey("colortheme")){
     String theme = sessionData["colortheme"];
     if((theme == "DARK" && textColor != textColorDark) || (theme == "BRIGHT" && textColor != textColorBright)){
@@ -76,12 +82,21 @@ Future<void> saveSession() async {
   else{
     sessionFile = await sessionFile.create();
   }
+
   if(!sessionData.containsKey("settings")){
     sessionData["settings"] = {};
   }
   for(String setting in settings.keys){
     sessionData["settings"][setting] = settings[setting]![0];
   }
+
+  if(!sessionData.containsKey("alerts")){
+    sessionData["alerts"] = {};
+  }
+  for(TelemetryAlert alert in alerts){
+    sessionData["alerts"][alert.signal] = alert.toJson();
+  }
+
   if(signalValues.keys.isNotEmpty){ // TODO itt össze kéne fésülni nem felülírni?
     sessionData["signals"] = signalValues.keys.toList();
   }

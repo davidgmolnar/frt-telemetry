@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
@@ -42,10 +43,12 @@ class StringIndicatorState extends State<StringIndicator>{
   void updateData(){
     num? temp = signalValues[widget.subscribedSignal] != null && signalValues[widget.subscribedSignal]!.isNotEmpty ? signalValues[widget.subscribedSignal]?.last : null;
     if(temp != null && temp != value){
-      setState(() {
-        value = temp;
-        display = widget.decoder(value);
-      });
+      value = temp;
+      display = widget.decoder(value);
+      if(display == "INVALID"){
+        terminalQueue.add(TerminalElement("Invalid value $value received for signal ${widget.subscribedSignal}", 2));
+      }
+      setState(() {});
     }
   }
 

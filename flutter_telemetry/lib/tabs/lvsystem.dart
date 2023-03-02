@@ -5,21 +5,21 @@ List<Widget> lvSystemSmall = [
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
-      FourStateLed(subscribedSignal: "AMS_LED"),
-      FourStateLed(subscribedSignal: "HV_LED"),
-      FourStateLed(subscribedSignal: "ASB_ERROR_LED"),
-      FourStateLed(subscribedSignal: "TS_OFF_LED"),
-      FourStateLed(subscribedSignal: "IMD_LED"),
+      FourStateLed(subscribedSignal: "AMS_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "HV_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "TS_OFF_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "IMD_LED", paddingFactor: 2,),
     ]
   ),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
-      FourStateLed(subscribedSignal: "TCU_LED"),
-      FourStateLed(subscribedSignal: "MCU1_LED"),
-      FourStateLed(subscribedSignal: "MCU2_LED"),
-      FourStateLed(subscribedSignal: "MCU3_LED"),
-      FourStateLed(subscribedSignal: "MCU4_LED"),
+      FourStateLed(subscribedSignal: "TCU_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU1_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU2_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU3_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU4_LED", paddingFactor: 2,),
     ],
   ),
   Row(
@@ -119,16 +119,16 @@ List<Widget> lvSystemBig = [
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
-      FourStateLed(subscribedSignal: "AMS_LED"),
-      FourStateLed(subscribedSignal: "HV_LED"),
-      FourStateLed(subscribedSignal: "ASB_ERROR_LED"),
-      FourStateLed(subscribedSignal: "TS_OFF_LED"),
-      FourStateLed(subscribedSignal: "IMD_LED"),
-      FourStateLed(subscribedSignal: "TCU_LED"),
-      FourStateLed(subscribedSignal: "MCU1_LED"),
-      FourStateLed(subscribedSignal: "MCU2_LED"),
-      FourStateLed(subscribedSignal: "MCU3_LED"),
-      FourStateLed(subscribedSignal: "MCU4_LED"),
+      FourStateLed(subscribedSignal: "AMS_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "HV_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "TS_OFF_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "IMD_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "TCU_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU1_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU2_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU3_LED", paddingFactor: 2,),
+      FourStateLed(subscribedSignal: "MCU4_LED", paddingFactor: 2,),
     ],
   ),
   Row(

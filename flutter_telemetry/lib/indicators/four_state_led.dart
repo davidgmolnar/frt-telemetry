@@ -6,11 +6,13 @@ import 'package:flutter_telemetry/globals.dart';
 
 class FourStateLed extends StatefulWidget{
   const FourStateLed({
-  Key? key,
-  required this.subscribedSignal,
+    Key? key,
+    required this.subscribedSignal,
+    required this.paddingFactor
   }) : super(key: key);
 
   final String subscribedSignal;
+  final int paddingFactor;
 
   @override
   State<StatefulWidget> createState() {
@@ -68,11 +70,11 @@ class FourStateLedState extends State<FourStateLed>{
   @override
   Widget build(BuildContext context) {
     return Container( 
-      padding: const EdgeInsets.all(2 * defaultPadding),
+      padding: EdgeInsets.all(widget.paddingFactor * defaultPadding),
       child: Text(label,
         textAlign: TextAlign.left,
         maxLines: 1,
-        style: TextStyle(fontSize: 15, color: textColor),),
+        style: TextStyle(fontSize: numericFontSize, color: textColor),),
     );
   }
 

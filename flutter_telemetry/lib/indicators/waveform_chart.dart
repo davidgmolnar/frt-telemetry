@@ -174,7 +174,7 @@ class WaveformChartState extends State<WaveformChart>{
               TextButton(
                 onPressed: () { /* TODO toggle plot visibility ezt vhogy setstate nélkül kéne mert az valahogy leválasztja a timert a widgettől */ },
                 child: Text(labels[i],
-                  style: TextStyle(color: _colormap[i]),
+                  style: TextStyle(color: _colormap[i], fontSize: chartLabelFontSize),
                 ),
               ),
           ],

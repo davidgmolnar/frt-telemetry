@@ -9,25 +9,26 @@ final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessenge
 const int udpPort = 8990;
 const double deg2rad = 0.017453;
 
-const primaryColorDark = Color.fromARGB(255, 16, 96, 170);
-const secondaryColorDark = Color(0xFF2A2D3E);
-const bgColorDark = Color(0xFF212332);
-const textColorDark = Color.fromARGB(255, 255, 255, 255);
+const Color primaryColorDark = Color.fromARGB(255, 16, 96, 170);
+const Color secondaryColorDark = Color(0xFF2A2D3E);
+const Color bgColorDark = Color(0xFF212332);
+const Color textColorDark = Color.fromARGB(255, 255, 255, 255);
 
-const primaryColorBright = Color.fromARGB(255, 20, 89, 153);
-const secondaryColorBright = Color.fromARGB(255, 169, 182, 255);
-const bgColorBright = Color.fromARGB(255, 255, 255, 255);
-const textColorBright = Color.fromARGB(255, 0, 0, 0);
+const Color primaryColorBright = Color.fromARGB(255, 20, 89, 153);
+const Color secondaryColorBright = Color.fromARGB(255, 169, 182, 255);
+const Color bgColorBright = Color.fromARGB(255, 255, 255, 255);
+const Color textColorBright = Color.fromARGB(255, 0, 0, 0);
 
-const numericFontSize = 14.0;
-const defaultPadding = 8.0;
+const double numericFontSize = 14.0;
+const double defaultPadding = 8.0;
+const double chartLabelFontSize = 12.0;
+const double hvVoltageWidth = 70.0;
+const double hvTempWidth = 50.0;
 
-const widthPerColumnNumeric = 300;
-const widthPerColumnBoolean = 300;
-const settingsWidth = 400;
-const hvVoltageWidth = 70.0;
-const hvTempWidth = 50.0;
-const hvVoltageMaxDisp = 6000;
+const int widthPerColumnNumeric = 300;
+const int widthPerColumnBoolean = 300;
+const int settingsWidth = 400;
+const int hvVoltageMaxDisp = 6000;
 
 // Name remaps
 const Map<String,String> labelRemap = {  // _ by default space lesz
@@ -127,4 +128,20 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "Validity_Error_HV_Current": "HV Current Validity",
   "Validity_Error_HV_Voltage": "HV Voltage Validity",
   "Timeout_Error_HV_Current": "HV Current Timeout",
+  "Xavier_CPU1_usage": "CPU1",
+  "Xavier_CPU2_usage": "CPU2",
+  "Xavier_CPU3_usage": "CPU3",
+  "Xavier_CPU4_usage": "CPU4",
+  "Xavier_CPU5_usage": "CPU5",
+  "Xavier_CPU6_usage": "CPU6",
+  "Xavier_CPU7_usage": "CPU7",
+  "Xavier_CPU8_usage": "CPU8",
+  "Xavier_RAM_usage": "RAM",
+  "Xavier_headingErrorSS" : "HeadingSS Error",
+  "Xavier_yawRateError": "Yaw rate Error",
+  "Xavier_headingError": "Heading Error",
+  "Xavier_steeringAngleError": "Steering Error",
+  "Xavier_crossTrackError": "Crosstrack Error",
+  "Xavier_MAX_temperature" : "Xavier Temp",
+  "Xavier_n_updates_last_resample": "Updates last resample"
 };
