@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:isolate';
 import 'dart:typed_data';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:universal_io/io.dart';
 
 bool isconnected = false;
@@ -84,4 +86,51 @@ void processPacket(Map rawJsonMap){
     }
     }
   }
+}
+
+//
+// Isolate based Data service
+//
+
+class DataRequest {
+  const DataRequest(this.signals, this.lastOnly, this.withTimestamps, this.currentChartData, this.sender);
+  final List<String> signals;
+  final List<bool> lastOnly;
+  final List<bool> withTimestamps;
+  final List<WaveformChartElement?>? currentChartData;  // ebbe csak akkor kell belenézni ha withtimestamps
+  final ReceivePort sender;
+}
+
+class SignalData{  // ha kiadja hogy lastonly-ra iratkoznak fel a widgetek akkor ezen lehet egyszerűsíteni
+  const SignalData(this.signalValue, this.signalValues, this.timestamps);
+  final num? signalValue;
+  final List<num>? signalValues;
+  final List<DateTime>? timestamps;
+}
+
+class DataResponse{
+  const DataResponse(this.success, this.signalData);
+  final bool success;
+  final List<SignalData> signalData;
+}
+
+// constants
+final ReceivePort dataServiceReceivePort = ReceivePort();
+final SendPort dataService = dataServiceReceivePort.sendPort;  // indikátor erre küld
+// constants
+
+//global
+  Isolate? dataServiceIsolate;
+//global
+
+Future<void> startDataService() async {
+  dataServiceIsolate = await Isolate.spawn(dataHandling, dataServiceReceivePort);
+}
+
+void stopDataService(){
+  dataServiceIsolate?.kill();
+}
+
+Future<void> dataHandling(ReceivePort requests) async{
+  
 }
