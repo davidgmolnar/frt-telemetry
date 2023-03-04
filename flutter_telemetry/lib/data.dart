@@ -93,19 +93,27 @@ void processPacket(Map rawJsonMap){
 //
 
 class DataRequest {
-  const DataRequest(this.signals, this.lastOnly, this.withTimestamps, this.currentChartData, this.sender);
-  final List<String> signals;
-  final List<bool> lastOnly;
-  final List<bool> withTimestamps;
-  final List<WaveformChartElement?>? currentChartData;  // ebbe csak akkor kell belenézni ha withtimestamps
+  const DataRequest(this.signalRequests, this.sender);
+  final List<SignalRequest> signalRequests;
   final ReceivePort sender;
 }
 
+class SignalRequest{
+  const SignalRequest(this.signal, this.lastOnly, this.withTimestamps, this.currentChartData, this.targetLength, this.multiplier);
+  final String signal;
+  final bool lastOnly;
+  final bool withTimestamps;
+  final List<WaveformChartElement>? currentChartData;  // ebbe csak akkor kell belenézni ha withtimestamps
+  final int? targetLength;
+  final int? multiplier;
+}
+
 class SignalData{  // ha kiadja hogy lastonly-ra iratkoznak fel a widgetek akkor ezen lehet egyszerűsíteni
-  const SignalData(this.signalValue, this.signalValues, this.timestamps);
+  const SignalData(this.signalValue, this.signalValues, this.chartData, this.updatedNum);
   final num? signalValue;
   final List<num>? signalValues;
-  final List<DateTime>? timestamps;
+  final List<WaveformChartElement>? chartData;
+  final int? updatedNum;
 }
 
 class DataResponse{
@@ -132,5 +140,46 @@ void stopDataService(){
 }
 
 Future<void> dataHandling(ReceivePort requests) async{
-  
+  startListener();
+  await for (DataRequest request in requests) {
+    bool success = true;
+    List<SignalData>? signalData = request.signalRequests.map((signalRequest) {
+      if(signalRequest.signal == "STOP"){
+        Isolate.exit();
+      }
+      if(signalRequest.lastOnly && !signalRequest.withTimestamps){  // sima indikátorok
+        return SignalData(signalValues[signalRequest.signal]?.last, null, null, null);
+      }
+      else if(signalRequest.lastOnly && signalRequest.withTimestamps){   // chart most recent only mode
+        List<WaveformChartElement> tmp = signalRequest.currentChartData!.sublist(1); // TODO nem kell másolni
+        tmp.add(WaveformChartElement(signalValues[signalRequest.signal]!.last, signalTimestamps[signalRequest.signal]!.last));
+        return SignalData(null, null, tmp, 1);
+      }
+      else if(signalRequest.lastOnly && !signalRequest.withTimestamps){  // invalid
+        success = false;
+        return const SignalData(null, null, null, null);
+      }
+      else{    // chart initial load mode
+        List<WaveformChartElement> tmp = signalRequest.currentChartData!; // TODO nem kell másolni
+        List? tempVal = signalValues[signalRequest.signal];
+        List<DateTime>? tempTime = signalTimestamps[signalRequest.signal];
+        int newDataStartIdx = tempTime!.length - 1;
+          while(tempTime[newDataStartIdx].isAfter(tmp.last.time)){
+            newDataStartIdx--;
+          }
+          newDataStartIdx++;
+          int added = 0;
+          while(newDataStartIdx < tempTime.length){
+            tmp.add(WaveformChartElement(signalRequest.multiplier! * tempVal![newDataStartIdx], tempTime[newDataStartIdx]));
+            if(tmp.length > signalRequest.targetLength!){
+              tmp.removeAt(0);
+            }
+            added++;
+            newDataStartIdx++;
+          }
+        return SignalData(null, null, tmp, added);
+      }
+    }).toList();
+    request.sender.sendPort.send(DataResponse(success, signalData));
+  }
 }
