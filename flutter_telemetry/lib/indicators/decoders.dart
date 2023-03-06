@@ -45,3 +45,15 @@ String initialCheckupStateDecoder(num value){
     return "INVALID";
   }
 }
+
+String vdcStateDecoder(num value){
+  List<String> map = [
+    "INACTIVE", "POWER ON SEQ", "ACTIVE"
+  ];
+  if(value < map.length && value >= 0){
+    return map[value.toInt()];
+  }
+  else{
+    return "INVALID";
+  }
+}

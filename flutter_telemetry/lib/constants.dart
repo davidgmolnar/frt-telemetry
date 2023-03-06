@@ -143,5 +143,13 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "Xavier_steeringAngleError": "Steering Error",
   "Xavier_crossTrackError": "Crosstrack Error",
   "Xavier_MAX_temperature" : "Xavier Temp",
-  "Xavier_n_updates_last_resample": "Updates last resample"
+  "Xavier_n_updates_last_resample": "Updates last resample",
+  "VDC_Drop_Parameter_New": "Drop New",
+  "VDC_Static_Weight_Distribution": "Weight Distribution",
+  "VDC_Yaw_Control_Weight_Selector": "Yaw Control Weight",
+  "EPOS_Position_actual_value": "EPOS Position",
+  "EPOS_Torque_actual_value": "EPOS Position",
+  "VIRT_ACC_FRONT_YAW_RAD": "Yaw Front",
+  "VIRT_AVG_APPS": "APPS", 
+  "VIRT_AVG_STA": "STA", 
 };

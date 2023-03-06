@@ -81,6 +81,50 @@ List<VirtualSignal> virtualSignals = [
     "VIRT_HV_POWER_OUT"
   ),
   VirtualSignal(
+    ["APPS1_validity", "APPS2_validity"],
+    ((listOfSignals){
+      int first = signalValues[listOfSignals[0]]!.last.toInt();
+      int second = signalValues[listOfSignals[1]]!.last.toInt();
+      return first * second;  // bool and
+    }),
+    "VIRT_APPS_VALID"
+  ),
+  VirtualSignal(
+    ["STA1_validity", "STA1_validity"],
+    ((listOfSignals){
+      int first = signalValues[listOfSignals[0]]!.last.toInt();
+      int second = signalValues[listOfSignals[1]]!.last.toInt();
+      return first * second;  // bool and
+    }),
+    "VIRT_STA_VALID"
+  ),
+  VirtualSignal(
+    ["APPS1_position", "APPS2_posiition"],
+    ((listOfSignals){
+      dynamic first = signalValues[listOfSignals[0]]!.last;
+      dynamic second = signalValues[listOfSignals[1]]!.last;
+      return (first + second)/2;
+    }),
+    "VIRT_AVG_APPS"
+  ),
+  VirtualSignal(
+    ["STA1_position", "STA2_position"],
+    ((listOfSignals){
+      dynamic first = signalValues[listOfSignals[0]]!.last;
+      dynamic second = signalValues[listOfSignals[1]]!.last;
+      return (first + second)/2;
+    }),
+    "VIRT_AVG_STA"
+  ),
+  VirtualSignal(
+    ["Acc_Front_YawRate"],
+    ((listOfSignals){
+      num val = signalValues[listOfSignals[0]]!.last;
+      return val * deg2rad;
+    }),
+    "VIRT_ACC_FRONT_YAW_RAD"
+  ),
+  VirtualSignal(
     ["VDCDCOutput1Average", "IDCDCOutput1Average"],
     ((listOfSignals){
       dynamic first = signalValues[listOfSignals[0]]!.last;

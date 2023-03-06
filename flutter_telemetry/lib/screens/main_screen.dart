@@ -78,13 +78,13 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "TCU": {
                     return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
+                      smallShortcutLabels: const ["VDC Status", "Charts"],
+                      bigShortcutLabels: const ["VDC Status", "Charts"],
+                      smallLayoutBreakpoints: const [0, 900],
+                      bigLayoutBreakpoints: const [0, 900],
                       smallLayout: tcuSmall,
                       bigLayout: tcuBig,
-                      widthThreshold: 1220);
+                      widthThreshold: 1200);
                   }
                   case "MCU": {
                     return TabContainer(

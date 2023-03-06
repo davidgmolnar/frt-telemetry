@@ -3,201 +3,244 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 
-/*class TCUTab extends StatefulWidget{
-  const TCUTab({super.key});
-
-  @override
-  State<StatefulWidget> createState() {
-    return TCUTabState();
-  }
-}
-
-class TCUTabState extends State<TCUTab>{
-	late Timer timer;
-  double threshold = 1220;
-  bool isSmall = false;
-  final ScrollController _controller = ScrollController();
-
-  @override
-  void initState() {
-      super.initState();
-      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS'][0]), (Timer t) => updateLayout());
-    }
-
-  void updateLayout(){
-    if(context.size!.width < threshold && !isSmall){
-      setState(() {
-        isSmall = true;
-      });
-    }
-    else if(context.size!.width > threshold && isSmall){
-      setState(() {
-        isSmall = false;
-      });
-    }
-  }
-  @override
-  Widget build(BuildContext context) {
-    return RawKeyboardListener(
-        autofocus: true,
-        focusNode: FocusNode(),
-        onKey: (event) {
-          
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: secondaryColor,
-            toolbarHeight: 50,
-            elevation: 0,
-            actions: const [],
-          ),
-          body: isSmall ?
-            // Small layout
-            Container(color: Colors.red,)
-            : // Big layout
-            ListView(
-              controller: _controller,
-              children: [
-                Row(
-                  children: const [
-                    NumericPanel(
-                      title: "AMK data",
-                      colsize: 4,
-                      subscribedSignals: [
-                        "AMK1_Torque_Limit_Positive",
-                        "AMK1_Torque_Limit_Negative",
-                        "AMK1_Target_Velocity",
-                        "VDC_Fz_FL",
-                        "AMK2_Torque_Limit_Positive",
-                        "AMK2_Torque_Limit_Negative",
-                        "AMK2_Target_Velocity",
-                        "VDC_Fz_FR",
-                        "AMK3_TorqueLimitPositive",
-                        "AMK3_TorqueLimitNegative",
-                        "AMK3_Target_Velocity",
-                        "VDC_Fz_RL",
-                        "AMK4_TorqueLimitPositive",
-                        "AMK4_TorqueLimitNegative",
-                        "AMK4_Target_Velocity",
-                        "VDC_Fz_RR",
-                      ],
-                    )
-                  ],
-                ),
-                const WaveformChart(
-                  subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], nultiplier: [1,2,1,1],
-                  title: "Torque Limits", min: 0, max: 25000,
-                ),
-                Row(
-                  children: const [
-                    BooleanPanel(
-                      subscribedSignals: [
-                        "VDC_Powerlimiter_Hardcore_On",
-                        "VDC_Powerlimiter_Throttle_On",
-                        "VDC_Powerlimiter_Torque_On",
-                        "VDC_Powerlimiter_Efficiency_On",
-                        "VDC_Slip_Control_ON",
-                        "VDC_Traction_Control_On",
-                        "VDC_Safety_Mode",
-                      ],
-                      colsize: 7, title: "VDC Status"
-                    ),
-                  ],
-                ),
-                Row(
-                  children: const [
-                    SizedBox(
-                      width: 600,
-                      child: WaveformChart(
-                        subscribedSignals: ["VDC_Torque_Demand"], nultiplier: [1],
-                        title: "Torque demand", min: 0, max: 300,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 600,
-                      child: WaveformChart(
-                        subscribedSignals: ["Xavier_Target_Wheel_Angle"], nultiplier: [180/pi],
-                        title: "Target steer °", min: -90, max: 90,
-                      ),
-                    )
-                  ]
-                ),
-              ],
-            )
-        )
-    );
-  }
-
-  @override
-  void dispose() {
-    timer.cancel(); 
-    super.dispose();
-  }
-}*/
-
 List<Widget> tcuBig = [
-                Row(
-                  children: const [
-                    NumericPanel(
-                      title: "AMK data",
-                      colsize: 4,
-                      subscribedSignals: [
-                        "AMK1_Torque_Limit_Positive",
-                        "AMK1_Torque_Limit_Negative",
-                        "AMK1_Target_Velocity",
-                        "VDC_Fz_FL",
-                        "AMK2_Torque_Limit_Positive",
-                        "AMK2_Torque_Limit_Negative",
-                        "AMK2_Target_Velocity",
-                        "VDC_Fz_FR",
-                        "AMK3_TorqueLimitPositive",
-                        "AMK3_TorqueLimitNegative",
-                        "AMK3_Target_Velocity",
-                        "VDC_Fz_RL",
-                        "AMK4_TorqueLimitPositive",
-                        "AMK4_TorqueLimitNegative",
-                        "AMK4_Target_Velocity",
-                        "VDC_Fz_RR",
-                      ],
-                    )
-                  ],
-                ),
-                const WaveformChart(
-                  subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,2,1,1],
-                  title: "Torque Limits", min: 0, max: 25000,
-                ),
-                Row(
-                  children: const [
-                    BooleanPanel(
-                      subscribedSignals: [
-                        "VDC_Powerlimiter_Hardcore_On",
-                        "VDC_Powerlimiter_Throttle_On",
-                        "VDC_Powerlimiter_Torque_On",
-                        "VDC_Powerlimiter_Efficiency_On",
-                        "VDC_Slip_Control_ON",
-                        "VDC_Traction_Control_On",
-                        "VDC_Safety_Mode",
-                      ],
-                      colsize: 7, title: "VDC Status"
-                    ),
-                  ],
-                ),
-                Row(
-                  children: const [
-                    Flexible(
-                      child: WaveformChart(
-                        subscribedSignals: ["VDC_Torque_Demand"], multiplier: [1],
-                        title: "Torque demand", min: 0, max: 300,
-                      ),
-                    ),
-                    Flexible(
-                      child: WaveformChart(
-                        subscribedSignals: ["Xavier_Target_Wheel_Angle"], multiplier: [180/pi],
-                        title: "Target steer °", min: -90, max: 90,
-                      ),
-                    )
-                  ]
-                ),
-              ];
+  const Titlebar(title: "VDC Status",),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      NumericPanel(
+        title: "AMK data",
+        colsize: 4,
+        subscribedSignals: [
+          "AMK1_Torque_Limit_Positive",
+          "AMK1_Torque_Limit_Negative",
+          "AMK1_Target_Velocity",
+          "VDC_Fz_FL",
+          "AMK2_Torque_Limit_Positive",
+          "AMK2_Torque_Limit_Negative",
+          "AMK2_Target_Velocity",
+          "VDC_Fz_FR",
+          "AMK3_TorqueLimitPositive",
+          "AMK3_TorqueLimitNegative",
+          "AMK3_Target_Velocity",
+          "VDC_Fz_RL",
+          "AMK4_TorqueLimitPositive",
+          "AMK4_TorqueLimitNegative",
+          "AMK4_Target_Velocity",
+          "VDC_Fz_RR",
+        ],
+      )
+    ],
+  ),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      BooleanPanel(
+        subscribedSignals: [
+          "VDC_Powerlimiter_Hardcore_On",
+          "VDC_Powerlimiter_Throttle_On",
+          "VDC_Powerlimiter_Torque_On",
+          "VDC_Powerlimiter_Efficiency_On",
+          "VDC_Slip_Control_ON",
+          "VDC_Traction_Control_On",
+          "VDC_Safety_Mode",
+        ],
+        colsize: 7, title: "VDC Status"
+      ),
+      NumericPanel(
+        subscribedSignals: [
+          "VDC_Lateral_Balance",
+          "VDC_Throttle_Breakpoint",
+          "VDC_Static_Weight_Distribution",
+          "VDC_Brake_Force_Max",
+          "VDC_Braking_Torque_Multiplier",
+          "VDC_Driving_Torque_Multiplier",
+          "VDC_Yaw_Control_P",
+          "VDC_Yaw_Control_Balance",
+          "VDC_RPM_Max",
+          "VDC_Power_Max",
+          "VDC_Max_Motor_Torque",
+          "VDC_Powlim_Approx",
+          "VDC_Launch_Control_Mu",
+          "VDC_Drop_Parameter_New",
+          "VDC_Drop_Parameter",
+          "VDC_Efficiency_Tune",
+          "VDC_TC_Threshold",
+          "TCU_CPU_Usage_Max",
+          "VDC_Target_SoC",
+          "VDC_Laps",
+          "v_x"
+          ],
+        colsize: 7, title: "TCU Logic"
+      ),
+    ],
+  ),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const NumericPanel(
+        subscribedSignals: [
+          "VDC_Optimal_Slip",
+          "VDC_Slip_Control_P",
+          "VDC_Slip_Control_I",
+          "VDC_Slip_Control_D",
+          "VDC_M_Yaw",
+          "VDC_M_Yaw_Limit",
+          "VDC_Yaw_Control_Weight_Selector"
+        ],
+        colsize: 7, title: "Slip"
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          NumericPanel(
+            subscribedSignals: [
+              "EPOS_Statusword",
+              "EPOS_Position_actual_value",
+              "EPOS_Torque_actual_value"
+            ],
+            colsize: 3, title: "EPOS"
+          ),
+          StringIndicator(subscribedSignal: "VDC_MCU_State", decoder: vdcStateDecoder),
+          StringIndicator(subscribedSignal: "VDC_EPOS_State", decoder: vdcStateDecoder),
+        ],
+      )
+    ],
+  ),
+  const Titlebar(title: "Charts",),
+  const WaveformChart(
+    subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,2,1,1],
+    title: "Torque Limits", min: 0, max: 25000,
+  ),
+  Row(
+    children: const [
+      Flexible(
+        child: WaveformChart(
+          subscribedSignals: ["VDC_Torque_Demand"], multiplier: [1],
+          title: "Torque demand", min: 0, max: 300,
+        ),
+      ),
+      Flexible(
+        child: WaveformChart(
+          subscribedSignals: ["Xavier_Target_Wheel_Angle"], multiplier: [180/pi],
+          title: "Target steer °", min: -90, max: 90,
+        ),
+      )
+    ]
+  ),
+];
 
-List<Widget> tcuSmall = [];
+List<Widget> tcuSmall = [
+  const Titlebar(title: "VDC Status",),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      NumericPanel(
+        title: "AMK data",
+        colsize: 8,
+        subscribedSignals: [
+          "AMK1_Torque_Limit_Positive",
+          "AMK1_Torque_Limit_Negative",
+          "AMK1_Target_Velocity",
+          "VDC_Fz_FL",
+          "AMK3_TorqueLimitPositive",
+          "AMK3_TorqueLimitNegative",
+          "AMK3_Target_Velocity",
+          "VDC_Fz_RL",
+          "AMK2_Torque_Limit_Positive",
+          "AMK2_Torque_Limit_Negative",
+          "AMK2_Target_Velocity",
+          "VDC_Fz_FR",
+          "AMK4_TorqueLimitPositive",
+          "AMK4_TorqueLimitNegative",
+          "AMK4_Target_Velocity",
+          "VDC_Fz_RR",
+        ],
+      )
+    ],
+  ),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      const BooleanPanel(
+        subscribedSignals: [
+          "VDC_Powerlimiter_Hardcore_On",
+          "VDC_Powerlimiter_Throttle_On",
+          "VDC_Powerlimiter_Torque_On",
+          "VDC_Powerlimiter_Efficiency_On",
+          "VDC_Slip_Control_ON",
+          "VDC_Traction_Control_On",
+          "VDC_Safety_Mode",
+        ],
+        colsize: 7, title: "VDC Status"
+      ),
+      const NumericPanel(
+        subscribedSignals: [
+          "VDC_Optimal_Slip",
+          "VDC_Slip_Control_P",
+          "VDC_Slip_Control_I",
+          "VDC_Slip_Control_D",
+          "VDC_M_Yaw",
+          "VDC_M_Yaw_Limit",
+          "VDC_Yaw_Control_Weight_Selector"
+        ],
+        colsize: 7, title: "Slip"
+      ),
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          NumericPanel(
+            subscribedSignals: [
+              "EPOS_Statusword",
+              "EPOS_Position_actual_value",
+              "EPOS_Torque_actual_value"
+            ],
+            colsize: 3, title: "EPOS"
+          ),
+          StringIndicator(subscribedSignal: "VDC_MCU_State", decoder: vdcStateDecoder),
+          StringIndicator(subscribedSignal: "VDC_EPOS_State", decoder: vdcStateDecoder),
+        ],
+      )
+    ],
+  ),
+  const NumericPanel(
+    subscribedSignals: [
+      "VDC_Lateral_Balance",
+      "VDC_Throttle_Breakpoint",
+      "VDC_Static_Weight_Distribution",
+      "VDC_Brake_Force_Max",
+      "VDC_Braking_Torque_Multiplier",
+      "VDC_Driving_Torque_Multiplier",
+      "VDC_Yaw_Control_P",
+      "VDC_Yaw_Control_Balance",
+      "VDC_RPM_Max",
+      "VDC_Power_Max",
+      "VDC_Max_Motor_Torque",
+      "VDC_Powlim_Approx",
+      "VDC_Launch_Control_Mu",
+      "VDC_Drop_Parameter_New",
+      "VDC_Drop_Parameter",
+      "VDC_Efficiency_Tune",
+      "VDC_TC_Threshold",
+      "TCU_CPU_Usage_Max",
+      "VDC_Target_SoC",
+      "VDC_Laps",
+      "v_x"
+      ],
+    colsize: 7, title: "TCU Logic"
+  ),
+  const Titlebar(title: "Charts",),
+  const WaveformChart(
+    subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,2,1,1],
+    title: "Torque Limits", min: 0, max: 25000,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["VDC_Torque_Demand"], multiplier: [1],
+    title: "Torque demand", min: 0, max: 300,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["Xavier_Target_Wheel_Angle"], multiplier: [180/pi],
+    title: "Target steer °", min: -90, max: 90,
+  ),
+];
