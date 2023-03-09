@@ -21,7 +21,7 @@ List<Widget> dynamicsSmall = [
         colsize: 4, title: "Dynamics"
       ),
       ScaleIndicator(subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
-      ScaleIndicator(subscribedSignal: "VIRT_AVG_APPS", maxValue: 180, minValue: 0),
+      ScaleIndicator(subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
       BooleanPanel(
         subscribedSignals: [
           "APPS_plausiblity",
@@ -34,6 +34,34 @@ List<Widget> dynamicsSmall = [
     ],
   ),
   const Titlebar(title: "Charts"),
+  const WaveformChart(
+    subscribedSignals: ["Brake_Force_sensor"], multiplier: [1],
+    title: "BFS", min: 0, max: 1500,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"], multiplier: [1,1],
+    title: "BPS", min: 0, max: 100,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["AccX_Rear", "AccY_Rear"], multiplier: [1,1],
+    title: "Accel", min: -4, max: 4,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["HV_Current"], multiplier: [1],
+    title: "HV Current", min: -150, max: 200,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["VIRT_HV_POWER_OUT"], multiplier: [1],
+    title: "HV Power", min: -80000, max: 90000,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["Yaw_Rate_Rear"], multiplier: [1],
+    title: "Yaw Rate", min: -10, max: 10,
+  ),
+  const WaveformChart(
+    subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"], multiplier: [1,1],
+    title: "APPS / STA Avg", min: 0, max: 180,
+  ),
 ];
 
 List<Widget> dynamicsBig = [
@@ -56,7 +84,7 @@ List<Widget> dynamicsBig = [
         colsize: 4, title: "Dynamics"
       ),
       ScaleIndicator(subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
-      ScaleIndicator(subscribedSignal: "VIRT_AVG_APPS", maxValue: 180, minValue: 0),
+      ScaleIndicator(subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
       BooleanPanel(
         subscribedSignals: [
           "APPS_plausiblity",
@@ -69,7 +97,7 @@ List<Widget> dynamicsBig = [
     ],
   ),
   const Titlebar(title: "Charts"),
-    Row(
+  Row(
     children: const [
       Flexible(
         child: WaveformChart(
@@ -81,6 +109,42 @@ List<Widget> dynamicsBig = [
         child: WaveformChart(
           subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"], multiplier: [1,1],
           title: "BPS", min: 0, max: 100,
+        ),
+      )
+    ]
+  ),
+  const WaveformChart(
+    subscribedSignals: ["AccX_Rear", "AccY_Rear"], multiplier: [1,1],
+    title: "Accel", min: -4, max: 4,
+  ),
+  Row(
+    children: const [
+      Flexible(
+        child: WaveformChart(
+          subscribedSignals: ["HV_Current"], multiplier: [1],
+          title: "HV Current", min: -150, max: 200,
+        ),
+      ),
+      Flexible(
+        child: WaveformChart(
+          subscribedSignals: ["VIRT_HV_POWER_OUT"], multiplier: [1],
+          title: "HV Power", min: -80000, max: 90000,
+        ),
+      )
+    ]
+  ),
+  Row(
+    children: const [
+      Flexible(
+        child: WaveformChart(
+          subscribedSignals: ["Yaw_Rate_Rear"], multiplier: [1],
+          title: "Yaw Rate", min: -10, max: 10,
+        ),
+      ),
+      Flexible(
+        child: WaveformChart(
+          subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"], multiplier: [1,1],
+          title: "APPS / STA Avg", min: 0, max: 180,
         ),
       )
     ]

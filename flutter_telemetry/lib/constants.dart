@@ -151,5 +151,13 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "EPOS_Torque_actual_value": "EPOS Position",
   "VIRT_ACC_FRONT_YAW_RAD": "Yaw Front",
   "VIRT_AVG_APPS": "APPS", 
-  "VIRT_AVG_STA": "STA", 
+  "VIRT_AVG_STA": "STA",
+  "VIRT_HV_POWER_OUT": "HV Power out",
+  "VIRT_AMK1_LIMIT": "FL Torque Limit",
+  "VIRT_AMK2_LIMIT": "FR Torque Limit",
+  "VIRT_AMK3_LIMIT": "RL Torque Limit",
+  "VIRT_AMK4_LIMIT": "RR Torque Limit",
+  "VIRT_BRIGHTLOOP_OLC": "Overload count",
+  "VIRT_APPS_VALID": "APPS valid",
+  "VIRT_STA_VALID": "STA valid"
 };

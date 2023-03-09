@@ -3,12 +3,25 @@ import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 
 List<Widget> scSmall = [
-
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.center ,
+    children: const [
+      NumericPanel(subscribedSignals: ["SC_ENDLINE", "sc_latch_place_of_error"], colsize: 2, title: "SC"),
+      BooleanIndicator(subscribedSignal: "sc_latch"),
+      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
+      BooleanIndicator(subscribedSignal: "SC_DV_FB"),
+      BooleanIndicator(subscribedSignal: "SC_DV_RELAY_FB"),
+      BooleanIndicator(subscribedSignal: "SC_EBS_FB"),
+      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
+      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
+      BooleanIndicator(subscribedSignal: "SC_MCU_FB"),
+    ],
+  )
 ];
 
 
 List<Widget> scBig = [
-  Row(
+  /*Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: const [
       NumericIndicator(subscribedSignal: "SC_ENDLINE"),
@@ -17,7 +30,7 @@ List<Widget> scBig = [
     ],
   ),
   Container(
-    decoration: BoxDecoration(border: Border.all(color: secondaryColor, width: 1)),
+    decoration: BoxDecoration(border: Border(top: BorderSide(color: secondaryColor, width: 1))),
     width: 1200,
     height: 700,
     child: Stack(
@@ -50,5 +63,19 @@ List<Widget> scBig = [
         ),
       ],
     ),
+  )*/
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: const [
+      NumericPanel(subscribedSignals: ["SC_ENDLINE", "sc_latch_place_of_error"], colsize: 2, title: "SC"),
+      BooleanIndicator(subscribedSignal: "sc_latch"),
+      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
+      BooleanIndicator(subscribedSignal: "SC_DV_FB"),
+      BooleanIndicator(subscribedSignal: "SC_DV_RELAY_FB"),
+      BooleanIndicator(subscribedSignal: "SC_EBS_FB"),
+      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
+      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
+      BooleanIndicator(subscribedSignal: "SC_MCU_FB"),
+    ],
   )
 ];

@@ -47,6 +47,8 @@ class WaveformChartState extends State<WaveformChart>{
     1: Colors.green,
     2: Colors.blue,
     3: Colors.yellow,
+    4: Colors.purple,
+    5: Colors.brown
   };
   List<String> labels = [];
   //List<bool> visibility = [];
@@ -206,7 +208,7 @@ class WaveformChartState extends State<WaveformChart>{
                 xValueMapper: (WaveformChartElement elem, _) => elem.time,
                 yValueMapper: (WaveformChartElement elem, _) => elem.y,
                 color: _colormap[i],
-                animationDuration: 0,
+                animationDuration: settings['chartrefreshTimeMS']![0].toDouble(),
                 //isVisible: visibility[i]
               )
           ]

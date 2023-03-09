@@ -38,7 +38,23 @@ class TerminalDisplayState extends State<TerminalDisplay> {
   @override
   void initState() {
     super.initState();
-    content = terminalQueue;
+    if(terminalQueue.isNotEmpty){
+      int len = terminalQueue.length; // ha ennek futása közben még nőne a lista az csak a kövi körben lesz megjelenítve
+      for(int i = 0; i < len; i++){
+        if(terminalQueue[i].level <= displayLevel){
+          content.add(terminalQueue[i]);
+        }
+      }
+      //terminalQueue.removeRange(0, len); // mások a végére raknak, ez így threadsafe
+      List<TerminalElement> keepList = [];
+      for(int i = content.length - 1; i >= 0; i--){
+        if(keepList.every((element) {return element.message != content[i].message;})){
+          keepList.add(content[i]);
+        }
+      }
+      content = keepList.reversed.toList();
+      keepList.clear();
+    }
     timer = Timer.periodic(const Duration(milliseconds: 200), (Timer t) => update());
   }
 
@@ -50,7 +66,15 @@ class TerminalDisplayState extends State<TerminalDisplay> {
           content.add(terminalQueue[i]);
         }
       }
-      terminalQueue.removeRange(0, len); // mások a végére raknak, ez így threadsafe
+      //terminalQueue.removeRange(0, len); // mások a végére raknak, ez így threadsafe
+      List<TerminalElement> keepList = [];
+      for(int i = content.length - 1; i >= 0; i--){
+        if(keepList.every((element) {return element.message != content[i].message;})){
+          keepList.add(content[i]);
+        }
+      }
+      content = keepList.reversed.toList();
+      keepList.clear();
       setState(() {});
     }
   }
@@ -111,6 +135,7 @@ class TerminalDisplayState extends State<TerminalDisplay> {
                   padding: const EdgeInsets.all(defaultPadding),
                   icon: Icon(Icons.check, color: primaryColor),
                   onPressed: () {
+                    terminalQueue.removeWhere((element) => element.message == content[index].message);
                     content.removeAt(index);
                     setState(() {});
                   },

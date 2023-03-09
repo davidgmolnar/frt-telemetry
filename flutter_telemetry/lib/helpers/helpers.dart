@@ -41,10 +41,10 @@ String representNumber(String ret, {int maxDigit = 10}){
   }
   if(ret.contains('.')){
     while(ret.endsWith('0') && ret.length >= 2){
-      ret = ret.substring(0, ret.length - 2);
+      ret = ret.substring(0, ret.length - 1);
     }}
     if(ret.endsWith('.')){
-      ret = ret.substring(0, ret.length - 2);
+      ret = ret.substring(0, ret.length - 1);
     }
   return ret;
 }

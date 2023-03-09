@@ -58,10 +58,10 @@ class MainScreenState extends State<MainScreen>{
                 switch(activeTab){
                   case "CONFIG": {
                     return TabContainer(
-                      smallShortcutLabels: const ["Settings", "Log", "Alert"],
-                      bigShortcutLabels: const ["Settings", "Alert"],
-                      smallLayoutBreakpoints: const [0, 500, 1000],
-                      bigLayoutBreakpoints: const [0, 500],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
                       smallLayout: configSmall,
                       bigLayout: configBig,
                       widthThreshold: 1100);
@@ -128,10 +128,10 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "DYNAMICS": {
                     return TabContainer(
-                      smallShortcutLabels: const  [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
+                      smallShortcutLabels: const  ["Measurements", "Charts"],
+                      bigShortcutLabels: const ["Measurements", "Charts"],
+                      smallLayoutBreakpoints: const [0, 250],
+                      bigLayoutBreakpoints: const [0, 250],
                       smallLayout: dynamicsSmall,
                       bigLayout: dynamicsBig,
                       widthThreshold: 1220);
