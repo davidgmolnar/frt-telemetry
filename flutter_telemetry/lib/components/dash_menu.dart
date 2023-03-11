@@ -39,7 +39,12 @@ class DashMenuState extends State<DashMenu>{
         backgroundColor: secondaryColor,
         child: ListView(
           children: [
-            DrawerHeader(
+            AnimatedContainer(
+              height: goingToOpen ? 0 : 30,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.linearToEaseOut,
+            ),
+            Container(
               margin: const EdgeInsets.all(0),
               padding: const EdgeInsets.all(0),
               child: Image.asset("assets/images/frt_logo_small.jpg",

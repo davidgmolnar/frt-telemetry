@@ -110,7 +110,7 @@ List<Widget> tcuBig = [
   ),
   const Titlebar(title: "Charts",),
   const WaveformChart(
-    subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,2,1,1],
+    subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,1,1,1],
     title: "Torque Limits", min: 0, max: 25000,
   ),
   Row(
@@ -232,7 +232,7 @@ List<Widget> tcuSmall = [
   ),
   const Titlebar(title: "Charts",),
   const WaveformChart(
-    subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,2,1,1],
+    subscribedSignals: ["VIRT_AMK1_LIMIT", "VIRT_AMK2_LIMIT", "VIRT_AMK3_LIMIT", "VIRT_AMK4_LIMIT"], multiplier: [1,1,1,1],
     title: "Torque Limits", min: 0, max: 25000,
   ),
   const WaveformChart(

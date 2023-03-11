@@ -186,8 +186,8 @@ List<VirtualSignal> virtualSignals = [
 Map<String, List<int>> settings = {  // TODO letekeréskor törölni kell a régieket
   "refreshTimeMS" : [100,50,2000],
   "chartrefreshTimeMS": [100,5,2000],
-  "signalValuesToKeep": [256,48,4096],
-  "chartSignalValuesToKeep": [256,48,4096],
+  "signalValuesToKeep": [512,128,4096],
+  "chartSignalValuesToKeep": [512,128,4096],
   "chartLoadMode": [1,0,1],
   "listenPort": [8998, 1000, 65535]
 };

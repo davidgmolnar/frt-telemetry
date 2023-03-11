@@ -295,7 +295,7 @@ def main(dict_queue1, dict_queue2):
                 time.sleep(0.1)
             else:
                 data = json.dumps(buf).encode('ascii')
-                sock.sendto(data, ("255.255.255.255", 8990))
+                sock.sendto(data, ("255.255.255.255", 8998))
 
 
 def sendtoflutter(dict_queue1, dict_queue2):  # THREAD

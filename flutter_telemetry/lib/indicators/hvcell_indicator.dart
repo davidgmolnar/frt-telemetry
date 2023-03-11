@@ -79,7 +79,7 @@ class HVCellVoltageIndicatorState extends State<HVCellVoltageIndicator>{
           ],
         )
         :
-        Container(color: Colors.red,)
+        Container(color: bgColor,)
     );
   }
 
@@ -140,7 +140,7 @@ class HVCellTempIndicatorState extends State<HVCellTempIndicator>{
       alignment: Alignment.centerLeft,
       child: value != -1 ?
         Text(representNumber(value.toString(), maxDigit: 4), textScaleFactor: widget.textScaleFactor,)
-        : Container(color: Colors.red,)
+        : Container(color: bgColor,)
       ,
     );
   }
@@ -233,6 +233,36 @@ class HVCellColumn extends StatelessWidget{
   }
 }
 
+class HVColorMapLegend extends StatelessWidget{
+  const HVColorMapLegend({super.key});
+  
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(width: 30, child: Text(tempBrakepoints[0].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[0]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[1].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[1]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[2].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[2]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[3].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[3]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[4].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[4]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[5].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[5]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[6].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[6]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[7].toString()),),
+        Container(width: 30, height: 15, color: tempColorBank[7]),
+        SizedBox(width: 30, child: Text(tempBrakepoints[8].toString()),),        
+      ],
+    );
+  }
+  
+}
+
 class HVAccu extends StatelessWidget{
   const HVAccu({super.key});
   
@@ -276,6 +306,8 @@ class HVColorMap extends StatelessWidget{
           HVCellColumn(measIds: [75,73,69,67,62,60,56,54,49,47,43,41,36,34,30,28,23,21,17,15,10,8,4,2], type: ColumnType.colormap),
           HVCellColumn(measIds: [76,72,70,66,63,59,57,53,50,46,44,40,37,33,31,27,24,20,18,14,11,7,5,1], type: ColumnType.colormap),
           HVCellColumn(measIds: [77,71,71,65,64,58,58,52,51,45,45,39,38,32,32,26,25,19,19,13,12,6,6,0], type: ColumnType.colormap),
+          SizedBox(width: 10,),
+          HVColorMapLegend()
         ],
       ),
     );

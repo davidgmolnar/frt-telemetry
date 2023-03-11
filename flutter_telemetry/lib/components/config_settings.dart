@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
+import 'package:flutter_telemetry/helpers/session.dart';
 
 Map<String, String> settingsToLabel = {
   "refreshTimeMS" : "Refresh time in ms",
@@ -92,6 +94,7 @@ class SettingsElementState extends State<SettingsElement> {
               else{
                 showError(context, "Setting must be in range ${settings[widget.label]![1]}:${settings[widget.label]![2]}");
               }
+              SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
               setState(() {});
             },
           )
