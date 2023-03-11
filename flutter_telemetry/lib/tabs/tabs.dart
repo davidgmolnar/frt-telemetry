@@ -16,11 +16,12 @@ export 'dynamics.dart';
 export 'lap.dart';
 
 class TabLayout{ // TODO ebből épüljön fel a tab
-  const TabLayout(this.shortcutLabels, this.layoutBreakpoints, this.layout);
+  const TabLayout(this.shortcutLabels, this.layoutBreakpoints, this.layout, this.minWidth);
 
   final String shortcutLabels;
   final List<double> layoutBreakpoints;
   final List<Widget> layout;
+  final int minWidth;
 }
 
 class TabContainer extends StatefulWidget{

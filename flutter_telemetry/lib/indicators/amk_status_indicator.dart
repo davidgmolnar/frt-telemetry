@@ -36,7 +36,7 @@ class AMKStatusIndicatorState extends State<AMKStatusIndicator>{
       bitString.characters.toList().asMap().forEach((idx, char) {
         bits[idx] = int.tryParse(char);
         if(bits[idx] == null){
-          bits[idx] == 1; // TODO 2 és akkor valami más színű
+          bits[idx] = 1;
         }
       },);
       setState(() {});

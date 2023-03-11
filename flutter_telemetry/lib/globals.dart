@@ -18,7 +18,7 @@ int displayLevel = 3;
 
 List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a main egy isolateben elindít egy alerthandlert
 
-DateTime? last_brightloop_mah;
+DateTime? lastBrightloopMAH;
 
 List<double> tempBrakepoints = [-double.infinity, 1, 20, 30, 35, 40, 45, 50, double.infinity];
 List<Color> tempColorBank = [Colors.white, Colors.blue, Colors.green.shade800, Colors.yellow, Colors.orange.shade800, Colors.red, Colors.purple, Colors.black];
@@ -165,14 +165,14 @@ List<VirtualSignal> virtualSignals = [
       if(i_1 == null || i_2 == null){
         return 0;
       }
-      if(last_brightloop_mah == null){
-        last_brightloop_mah = DateTime.now();
+      if(lastBrightloopMAH == null){
+        lastBrightloopMAH = DateTime.now();
         return 0;
       }
       else{
         DateTime now = DateTime.now();
-        double diffmH = now.difference(last_brightloop_mah!).inMilliseconds / 3600;  // milliHours
-        last_brightloop_mah = now;
+        double diffmH = now.difference(lastBrightloopMAH!).inMilliseconds / 3600;  // milliHours
+        lastBrightloopMAH = now;
         return signalValues["VIRT_BRIGHTLOOP_LV_MAH"]!.last + diffmH * (i_1 + i_2);
       }
     }),

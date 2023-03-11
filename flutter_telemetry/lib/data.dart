@@ -42,7 +42,6 @@ void sockListener(){
         if(result != null) {
           try{
             Map temp = jsonDecode(decoder.convert(result));
-            print(temp);
             processPacket(temp);
           }
           catch(exc){

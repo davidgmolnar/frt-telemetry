@@ -41,7 +41,7 @@ String representMS(int ms){
   int sec = ms ~/ 1000;
   int min = sec ~/ 60;
   sec = sec - min * 60;
-  ms = ms - sec * 1000;
+  ms = ms - sec * 1000 - min * 60000;
   return "${min < 10 ? "0$min" : min}:${sec < 10 ? "0$sec" : sec}.${ms > 100 ? ms : ms > 10 ? "0$ms" : "00$ms"}";
 }
 
@@ -110,7 +110,7 @@ class LapDisplayState extends State<LapDisplay>{
                     const SizedBox(width: 10,),
                     Icon(lapTimerStarted ? Icons.clear : Icons.start),
                     SizedBox(width: lapTimerStarted ? 10 : 0,),
-                    Text(lapTimerStarted ? "Started at ${lapStart.hour}:${lapStart.minute}:${lapStart.second}": "")
+                    Text(lapTimerStarted ? "Started at ${lapStart.hour < 10 ? "0${lapStart.hour}" : lapStart.hour}:${lapStart.minute < 10 ? "0${lapStart.minute}" : lapStart.minute}:${lapStart.second < 10 ? "0${lapStart.second}" : lapStart.second}": "")
                   ],
                 ),
               ),
@@ -159,9 +159,10 @@ class LapDisplayState extends State<LapDisplay>{
             ],
           ),
           Container(
-            decoration: const BoxDecoration(border: Border(bottom: BorderSide(width: 1))),
+            decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: secondaryColor))),
             padding: const EdgeInsets.all(defaultPadding),
           ),
+          const SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: const [

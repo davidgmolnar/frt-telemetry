@@ -31,7 +31,7 @@ class MainScreenState extends State<MainScreen>{
     });
   }
 
-  void handleAlerts(){ // TODO isolate
+  void handleAlerts(){
     if(activeTab == "CONFIG"){ // ilyenkor ott fut a kiértékelés TODO ez így elég bohóc
       return;
     }

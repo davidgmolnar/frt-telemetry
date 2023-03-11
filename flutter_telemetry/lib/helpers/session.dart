@@ -62,7 +62,6 @@ Future<void> loadSession() async {
     activeTab = sessionData["activetab"];
   }
   // TODO auth?
-  // TODO load signalValues.keys as cache
   if(sessionData.containsKey("signals")){
     for (String signal in sessionData["signals"]) {
       signalValues[signal] = [];
@@ -97,7 +96,7 @@ Future<void> saveSession() async {
     sessionData["alerts"][alert.signal] = alert.toJson();
   }
 
-  if(signalValues.keys.isNotEmpty){ // TODO itt össze kéne fésülni nem felülírni?
+  if(signalValues.keys.isNotEmpty){
     sessionData["signals"] = signalValues.keys.toList();
   }
   sessionData["colortheme"] = textColor == textColorDark ? "DARK" : "BRIGHT";
