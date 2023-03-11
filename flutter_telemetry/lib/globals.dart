@@ -3,6 +3,7 @@ import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/indicators/lap_display.dart';
 
 String activeTab = "CONFIG";
 String dir = "";
@@ -21,6 +22,11 @@ DateTime? last_brightloop_mah;
 
 List<double> tempBrakepoints = [-double.infinity, 1, 20, 30, 35, 40, 45, 50, double.infinity];
 List<Color> tempColorBank = [Colors.white, Colors.blue, Colors.green.shade800, Colors.yellow, Colors.orange.shade800, Colors.red, Colors.purple, Colors.black];
+
+DateTime lapStart = DateTime.now();
+bool lapTimerStarted = false;
+bool useAutoTrigger = false;
+List<LapData> lapData = [];
 
 List<VirtualSignal> virtualSignals = [
   VirtualSignal(
@@ -177,6 +183,20 @@ List<VirtualSignal> virtualSignals = [
     ((listOfSignals){
       hvCellTemps[signalValues[listOfSignals[0]]!.last.toString()] = signalValues[listOfSignals[2]]!.last;
       hvCellVoltages[signalValues[listOfSignals[0]]!.last.toString()] = signalValues[listOfSignals[1]]!.last;
+    }),
+    "INDEPENDENT_SIGNAL"
+  ),
+  VirtualSignal(
+    ["HV_Current"],
+    ((listOfSignals){
+      if(lapTimerStarted){
+        if(lapHVCurrent.length < 4320000){  // 12 hours worth of data at 100Hz  ~ 34 MB
+          lapHVCurrent.add(signalValues[listOfSignals[0]]!.last);
+        }
+        else{
+          terminalQueue.add(TerminalElement("Elaludtál he", 0));
+        }
+      }
     }),
     "INDEPENDENT_SIGNAL"
   ),

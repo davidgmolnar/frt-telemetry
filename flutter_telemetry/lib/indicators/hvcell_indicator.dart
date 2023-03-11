@@ -167,7 +167,7 @@ class HVTempColorItem extends StatefulWidget{
 
 class HVTempColorItemState extends State<HVTempColorItem>{
   double temp = -1;
-  Color displayedColor = Colors.grey.shade700;
+  Color displayedColor = Colors.grey.shade600;
   late Timer timer;
 
   @override
@@ -240,23 +240,23 @@ class HVColorMapLegend extends StatelessWidget{
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(width: 30, child: Text(tempBrakepoints[0].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[0]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[1].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[1]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[2].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[2]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[3].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[3]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[4].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[4]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[5].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[5]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[6].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[6]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[7].toString()),),
-        Container(width: 30, height: 15, color: tempColorBank[7]),
-        SizedBox(width: 30, child: Text(tempBrakepoints[8].toString()),),        
+        const Text("-inf"),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[0]),),
+        Text(tempBrakepoints[1].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[1]),),
+        Text(tempBrakepoints[2].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[2]),),
+        Text(tempBrakepoints[3].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[3]),),
+        Text(tempBrakepoints[4].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[4]),),
+        Text(tempBrakepoints[5].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[5]),),
+        Text(tempBrakepoints[6].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[6]),),
+        Text(tempBrakepoints[7].toInt().toString()),
+        Container(width: 30, height: 15, decoration: BoxDecoration(border: Border.all(width: 0), color: tempColorBank[7]),),
+        const Text("inf"),
       ],
     );
   }
@@ -294,22 +294,26 @@ class HVColorMap extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: textColor == textColorBright ? BoxDecoration(border: Border.all(width: 2)): null,
-      child: Row(
-        children: const [
-          HVCellColumn(measIds: [78,84,84,90,91,97,97,103,104,110,110,106,117,123,123,129,130,136,136,142,143,149,149,155], type: ColumnType.colormap),
-          HVCellColumn(measIds: [79,83,85,89,92,96,98,102,105,109,111,115,118,122,124,128,131,135,137,141,144,148,150,154], type: ColumnType.colormap),
-          HVCellColumn(measIds: [80,82,86,88,93,95,99,101,106,108,112,114,119,121,125,127,132,134,138,140,145,147,151,153], type: ColumnType.colormap),
-          HVCellColumn(measIds: [81,81,87,87,94,94,100,100,107,107,113,113,120,120,126,126,133,133,139,139,146,146,152,152], type: ColumnType.colormap),
-          HVCellColumn(measIds: [74,74,68,68,61,61,55,55,48,48,42,42,35,35,29,29,22,22,16,16,9,9,3,3], type: ColumnType.colormap),
-          HVCellColumn(measIds: [75,73,69,67,62,60,56,54,49,47,43,41,36,34,30,28,23,21,17,15,10,8,4,2], type: ColumnType.colormap),
-          HVCellColumn(measIds: [76,72,70,66,63,59,57,53,50,46,44,40,37,33,31,27,24,20,18,14,11,7,5,1], type: ColumnType.colormap),
-          HVCellColumn(measIds: [77,71,71,65,64,58,58,52,51,45,45,39,38,32,32,26,25,19,19,13,12,6,6,0], type: ColumnType.colormap),
-          SizedBox(width: 10,),
-          HVColorMapLegend()
-        ],
-      ),
+    return Row(
+      children: [
+        Container(
+          decoration: BoxDecoration(border: Border.all(width: 1)),
+          child: Row(
+            children: const [
+              HVCellColumn(measIds: [78,84,84,90,91,97,97,103,104,110,110,106,117,123,123,129,130,136,136,142,143,149,149,155], type: ColumnType.colormap),
+              HVCellColumn(measIds: [79,83,85,89,92,96,98,102,105,109,111,115,118,122,124,128,131,135,137,141,144,148,150,154], type: ColumnType.colormap),
+              HVCellColumn(measIds: [80,82,86,88,93,95,99,101,106,108,112,114,119,121,125,127,132,134,138,140,145,147,151,153], type: ColumnType.colormap),
+              HVCellColumn(measIds: [81,81,87,87,94,94,100,100,107,107,113,113,120,120,126,126,133,133,139,139,146,146,152,152], type: ColumnType.colormap),
+              HVCellColumn(measIds: [74,74,68,68,61,61,55,55,48,48,42,42,35,35,29,29,22,22,16,16,9,9,3,3], type: ColumnType.colormap),
+              HVCellColumn(measIds: [75,73,69,67,62,60,56,54,49,47,43,41,36,34,30,28,23,21,17,15,10,8,4,2], type: ColumnType.colormap),
+              HVCellColumn(measIds: [76,72,70,66,63,59,57,53,50,46,44,40,37,33,31,27,24,20,18,14,11,7,5,1], type: ColumnType.colormap),
+              HVCellColumn(measIds: [77,71,71,65,64,58,58,52,51,45,45,39,38,32,32,26,25,19,19,13,12,6,6,0], type: ColumnType.colormap),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10,),
+        const HVColorMapLegend()
+      ],
     );
   }
 }

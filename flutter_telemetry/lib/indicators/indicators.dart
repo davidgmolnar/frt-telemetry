@@ -14,6 +14,7 @@ export 'string_indicator.dart';
 export 'compound_indicator.dart'; // Deprecated with virtual signals
 export 'amk_status_indicator.dart';
 export 'hvcell_indicator.dart';
+export 'lap_display.dart';
 export 'decoders.dart';
 
 class Titlebar extends StatelessWidget{

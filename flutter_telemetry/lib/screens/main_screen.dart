@@ -182,8 +182,8 @@ class MainScreenState extends State<MainScreen>{
                       bigShortcutLabels: [],
                       smallLayoutBreakpoints: [],
                       bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
+                      smallLayout: lapSmall,
+                      bigLayout: lapBig,
                       widthThreshold: 1220);
                   }
                   default: {

@@ -13,6 +13,7 @@ Map<String, List<num>> signalValues = {};
 Map<String, List<DateTime>> signalTimestamps = {};
 Map<String, num> hvCellVoltages = {};
 Map<String, num> hvCellTemps = {};
+List<num> lapHVCurrent = [];
 
 class VirtualSignal {
   const VirtualSignal(this.signals, this.rule, this.name);
@@ -39,8 +40,14 @@ void sockListener(){
       if(event == RawSocketEvent.read){
         Uint8List? result = sock.receive()?.data;
         if(result != null) {
-          Map temp = jsonDecode(decoder.convert(result));
-          processPacket(temp);
+          try{
+            Map temp = jsonDecode(decoder.convert(result));
+            print(temp);
+            processPacket(temp);
+          }
+          catch(exc){
+            print("Error in processing, data was ${decoder.convert(result)}");
+          }
         }
         else{
           if(!initialPacket){
