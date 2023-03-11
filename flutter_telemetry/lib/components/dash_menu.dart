@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
-import 'package:fluttericon/font_awesome5_icons.dart';
 
 class DashMenu extends StatefulWidget{
   const DashMenu({
@@ -57,7 +56,7 @@ class DashMenuState extends State<DashMenu>{
             TabSelector(tab: "OVERVIEW", iconData: Icons.center_focus_weak, title: "Overview", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "TCU", iconData: Icons.speed, title: "TCU", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "MCU", iconData: Icons.water_drop, title: "MCU", tabChange: widget.onTabChange, isWide: isOpened,),
-            TabSelector(tab: "SC", iconData: FontAwesome5.power_off, title: "SC", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "SC", iconData: Icons.power_settings_new, title: "SC", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "BRIGHTLOOP", iconData: Icons.compare_arrows, title: "Brightloop", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "HV_ACCU", iconData: Icons.electric_bolt_outlined, title: "HV Accu", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "DYNAMICS", iconData: Icons.multiline_chart, title: "Dynamics", tabChange: widget.onTabChange, isWide: isOpened,),
