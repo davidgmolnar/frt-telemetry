@@ -31,7 +31,7 @@ class Titlebar extends StatelessWidget{
       padding: const EdgeInsets.all(defaultPadding),
       child: Text(title,
         style: const TextStyle(
-          fontSize: 30,
+          fontSize: titleFontSize,
         ),
         textAlign: TextAlign.center,
       ),

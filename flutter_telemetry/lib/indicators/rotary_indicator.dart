@@ -75,7 +75,7 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
           for(int i = 0; i < widget.numofStates; i+=widget.granularity)
             Transform.translate(  // Ticks
               offset: Offset.fromDirection(-pi + i * pi / (widget.numofStates - 1), 115),
-              child: Text("$i"),),  // TODO offset by +1
+              child: Text("$i"),),  // TODO offset by + 1
         ],
       )
     );

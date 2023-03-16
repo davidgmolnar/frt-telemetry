@@ -48,7 +48,7 @@ class MainScreenState extends State<MainScreen>{
 
   @override
   Widget build(BuildContext context){
-    return Scaffold( //TODO appbar a log letöltéshez meg az aksi snapshot dialoghoz lehet össze lehet vonni a custom topbarral
+    return Scaffold(
       body: SafeArea(
         child: Row(
           children: [
@@ -168,20 +168,20 @@ class MainScreenState extends State<MainScreen>{
                   }
                   case "DATALOGGER": {
                     return TabContainer(
-                      smallShortcutLabels: [],
-                      bigShortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
-                      smallLayout: [],
-                      bigLayout: [],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
+                      smallLayout: dataloggerSmall,
+                      bigLayout: dataloggerBig,
                       widthThreshold: 1220);
                   }
                   case "LAP": {
                     return TabContainer(
-                      smallShortcutLabels: [],
-                      bigShortcutLabels: [],
-                      smallLayoutBreakpoints: [],
-                      bigLayoutBreakpoints: [],
+                      smallShortcutLabels: const [],
+                      bigShortcutLabels: const [],
+                      smallLayoutBreakpoints: const [],
+                      bigLayoutBreakpoints: const [],
                       smallLayout: lapSmall,
                       bigLayout: lapBig,
                       widthThreshold: 1220);

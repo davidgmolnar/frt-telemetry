@@ -16,7 +16,26 @@ class LapData{
   final List<double> motorTemps;
   final List<double> invTemps;
 
-  Widget asWidget(){
+  Widget asWidget(bool isSmallScreen){
+    if(isSmallScreen){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(width: 50, child: Text(representNumber(lapNum.toString(), maxDigit: 5))),
+          SizedBox(width: 100, child: Text(representMS(lapTimeMS))),
+          SizedBox(width: 50, child: Text(representNumber(soc.toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(currentAvg.toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(motorTemps[0].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(motorTemps[1].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(motorTemps[2].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(motorTemps[3].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(invTemps[0].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(invTemps[1].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(invTemps[2].toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(invTemps[3].toString(), maxDigit: 5))),
+        ],
+      );
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -71,8 +90,49 @@ LapData lapDataFromCurrent(lapTimeMS){
   );
 }
 
+class LapDataTracker extends StatefulWidget{
+  const LapDataTracker({super.key, required this.isSmallScreen});
+
+  final bool isSmallScreen;
+
+  @override
+  State<StatefulWidget> createState() {
+    return LapDataTrackerState();
+  }
+}
+
+class LapDataTrackerState extends State<LapDataTracker>{
+  late Timer timer;
+  late LapData lapDataTrack;
+
+  @override
+  void initState() {
+    super.initState();
+    lapDataTrack = lapDataFromCurrent(DateTime.now().difference(lapStart).inMilliseconds);
+    timer = Timer.periodic(const Duration(milliseconds: 16), ((timer) {
+      lapDataTrack = lapDataFromCurrent(DateTime.now().difference(lapStart).inMilliseconds);
+      setState(() {});
+    }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return lapDataTrack.asWidget(widget.isSmallScreen);
+  }
+
+  @override
+  void dispose() {
+    if(timer.isActive){
+      timer.cancel();
+    }
+    super.dispose();
+  }
+}
+
 class LapDisplay extends StatefulWidget{
-  const LapDisplay({super.key});
+  const LapDisplay({super.key, required this.isSmallScreen});
+
+  final bool isSmallScreen;
 
   @override
   State<StatefulWidget> createState() {
@@ -82,11 +142,7 @@ class LapDisplay extends StatefulWidget{
 
 class LapDisplayState extends State<LapDisplay>{
   Timer timer = Timer(const Duration(days: 1), (() {}));
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  LapDataTracker? tracker;
 
   @override
   Widget build(BuildContext context) {
@@ -101,16 +157,17 @@ class LapDisplayState extends State<LapDisplay>{
                 onPressed: () {
                   lapTimerStarted = true;
                   lapData.clear();
+                  tracker ??= LapDataTracker(isSmallScreen: widget.isSmallScreen);
                   lapStart = DateTime.now();
                   setState(() {});
                 },
                 child: Row(
                   children: [
-                    Text(lapTimerStarted ? "Reset" : "Start timer"),
+                    Text(lapTimerStarted ? "Reset" : "Start timer", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),),
                     const SizedBox(width: 10,),
-                    Icon(lapTimerStarted ? Icons.clear : Icons.start),
+                    Icon(lapTimerStarted ? Icons.clear : Icons.start, color: primaryColor, size: subTitleFontSize,),
                     SizedBox(width: lapTimerStarted ? 10 : 0,),
-                    Text(lapTimerStarted ? "Started at ${lapStart.hour < 10 ? "0${lapStart.hour}" : lapStart.hour}:${lapStart.minute < 10 ? "0${lapStart.minute}" : lapStart.minute}:${lapStart.second < 10 ? "0${lapStart.second}" : lapStart.second}": "")
+                    Text(lapTimerStarted ? "Started at ${lapStart.hour < 10 ? "0${lapStart.hour}" : lapStart.hour}:${lapStart.minute < 10 ? "0${lapStart.minute}" : lapStart.minute}:${lapStart.second < 10 ? "0${lapStart.second}" : lapStart.second}": "", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),)
                   ],
                 ),
               ),
@@ -118,6 +175,9 @@ class LapDisplayState extends State<LapDisplay>{
                 onPressed: () {
                   useAutoTrigger = !useAutoTrigger;
                   if(useAutoTrigger){
+                    if(timer.isActive){
+                      timer.cancel();
+                    }
                     // TODO Timer start
                   }
                   else{
@@ -129,9 +189,9 @@ class LapDisplayState extends State<LapDisplay>{
                 },
                 child: Row(
                   children: [
-                    Text(useAutoTrigger ? "Auto" : "Manual"),
+                    Text(useAutoTrigger ? "Auto - WIP" : "Manual", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),),
                     const SizedBox(width: 10,),
-                    Icon(useAutoTrigger ? Icons.auto_mode : Icons.add),
+                    Icon(useAutoTrigger ? Icons.auto_mode : Icons.add, color: primaryColor, size: subTitleFontSize,),
                   ],
                 ),
               ),
@@ -147,10 +207,10 @@ class LapDisplayState extends State<LapDisplay>{
                     setState(() {});
                   },
                   child: Row(
-                    children: const [
-                      Text("Lap"),
-                      SizedBox(width: 10,),
-                      Icon(Icons.add_alarm),                      
+                    children: [
+                      Text("Lap", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),),
+                      const SizedBox(width: 10,),
+                      Icon(Icons.add_alarm, color: primaryColor, size: subTitleFontSize,),                      
                     ]
                   )
                 )
@@ -163,25 +223,10 @@ class LapDisplayState extends State<LapDisplay>{
             padding: const EdgeInsets.all(defaultPadding),
           ),
           const SizedBox(height: 10,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
-              SizedBox(width: 100, child: Text("Lap")),
-              SizedBox(width: 100, child: Text("Laptime")),
-              SizedBox(width: 100, child: Text("SoC")),
-              SizedBox(width: 100, child: Text("Current avg")),
-              SizedBox(width: 100, child: Text("FL Motor T")),
-              SizedBox(width: 100, child: Text("FR Motor T")),
-              SizedBox(width: 100, child: Text("RL Motor T")),
-              SizedBox(width: 100, child: Text("RR Motor T")),
-              SizedBox(width: 100, child: Text("FL Inv T")),
-              SizedBox(width: 100, child: Text("FR Inv T")),
-              SizedBox(width: 100, child: Text("RL Inv T")),
-              SizedBox(width: 100, child: Text("RR Inv T")),
-            ],
-          ),
+          widget.isSmallScreen ? smallHeader : wideHeader,
           for(LapData data in lapData)
-            data.asWidget()
+            data.asWidget(widget.isSmallScreen),
+          tracker != null ? tracker! : const SizedBox(),
         ],
       ),
     );
@@ -193,3 +238,39 @@ class LapDisplayState extends State<LapDisplay>{
     super.dispose();
   }
 }
+
+Widget wideHeader = Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    SizedBox(width: 100, child: Text("Lap", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("Laptime", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("SoC", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("Current avg", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("FL Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("FR Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("RL Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("RR Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("FL Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("FR Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("RL Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("RR Inv T", style: TextStyle(color: primaryColor),)),
+  ],
+);
+
+Widget smallHeader = Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    SizedBox(width: 50, child: Text("Lap", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("Laptime", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 50, child: Text("SoC", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 50, child: Text("I avg", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 60, child: Text("Motor T", style: TextStyle(color: primaryColor),)),
+    const SizedBox(width: 40,),
+    const SizedBox(width: 50,),
+    const SizedBox(width: 50,),
+    SizedBox(width: 50, child: Text("Inv T", style: TextStyle(color: primaryColor),)),
+    const SizedBox(width: 50,),
+    const SizedBox(width: 50,),
+    const SizedBox(width: 50,),
+  ],
+);

@@ -15,6 +15,9 @@ Map<String, num> hvCellVoltages = {};
 Map<String, num> hvCellTemps = {};
 List<num> lapHVCurrent = [];
 
+bool needsTruncate = false;
+int turncateTo = 0;
+
 class VirtualSignal {
   const VirtualSignal(this.signals, this.rule, this.name);
   final String name;
@@ -66,7 +69,7 @@ void processPacket(Map rawJsonMap){
       signalValues[key] = [];
       signalTimestamps[key] = [];
     }   
-    signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]); // TODO itt az add nemtom miért nem jó
+    signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
     signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
     if(signalValues[key]!.length > settings['signalValuesToKeep']![0]){
       signalValues[key]!.removeAt(0);
@@ -84,12 +87,27 @@ void processPacket(Map rawJsonMap){
         signalValues[virtualSignal.name] = [];
         signalTimestamps[virtualSignal.name] = [];
       }
-      signalValues[virtualSignal.name]!.insert(signalValues[virtualSignal.name]!.length, virtualSignal.rule(virtualSignal.signals)); // TODO itt az add nemtom miért nem jó
+      signalValues[virtualSignal.name]!.insert(signalValues[virtualSignal.name]!.length, virtualSignal.rule(virtualSignal.signals));
       signalTimestamps[virtualSignal.name]!.insert(signalTimestamps[virtualSignal.name]!.length, DateTime.now());
       if(signalValues[virtualSignal.name]!.length > settings['signalValuesToKeep']![0]){
         signalValues[virtualSignal.name]!.removeAt(0);
         signalTimestamps[virtualSignal.name]!.removeAt(0);
     }
+    }
+  }
+  if(needsTruncate){
+    truncateData(turncateTo);
+  }
+}
+
+void truncateData(int limit){
+  needsTruncate = false;
+  for(String signal in signalValues.keys){
+    if(signalValues[signal]!.length > limit){
+      signalValues[signal] = signalValues[signal]!.sublist(signalValues[signal]!.length - limit - 1);
+    }
+    if(signalTimestamps[signal]!.length > limit){
+      signalTimestamps[signal] = signalTimestamps[signal]!.sublist(signalTimestamps[signal]!.length - limit - 1);
     }
   }
 }

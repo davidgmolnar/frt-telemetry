@@ -9,17 +9,19 @@ final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessenge
 const int udpPort = 8990;
 const double deg2rad = 0.017453;
 
-const Color primaryColorDark = Color.fromARGB(255, 16, 96, 170);
+const Color primaryColorDark = Color.fromARGB(255, 34, 128, 216);
 const Color secondaryColorDark = Color(0xFF2A2D3E);
 const Color bgColorDark = Color(0xFF212332);
 const Color textColorDark = Color.fromARGB(255, 255, 255, 255);
 
-const Color primaryColorBright = Color.fromARGB(255, 20, 89, 153);
-const Color secondaryColorBright = Color.fromARGB(255, 169, 182, 255);
+const Color primaryColorBright = Color.fromARGB(255, 12, 63, 110);
+const Color secondaryColorBright = Color.fromARGB(255, 137, 149, 221);
 const Color bgColorBright = Color.fromARGB(255, 255, 255, 255);
 const Color textColorBright = Color.fromARGB(255, 0, 0, 0);
 
 const double numericFontSize = 14.0;
+const double subTitleFontSize = 20.0;
+const double titleFontSize = 30.0;
 const double defaultPadding = 8.0;
 const double chartLabelFontSize = 12.0;
 const double hvVoltageWidth = 70.0;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
@@ -26,10 +27,11 @@ Map<String, String> settingsTooltip = {
 class SettingsElement extends StatefulWidget{
   const SettingsElement({
     super.key,
-    required this.label,
+    required this.label, required this.updater,
   });
 
   final String label;
+  final Function updater;
 
   @override
   State<SettingsElement> createState() => SettingsElementState();
@@ -88,14 +90,22 @@ class SettingsElementState extends State<SettingsElement> {
                   showError(context, "Charts cant have more data than the internal buffer");
                 }
                 else{
-                  settings[widget.label]![0] = int.parse(input);
+                  if(widget.label == "signalValuesToKeep" && int.parse(input) < settings["signalValuesToKeep"]![0]){
+                    needsTruncate = true;
+                    turncateTo = int.parse(input);
+                    settings["signalValuesToKeep"]![0] = int.parse(input);
+                    settings["chartSignalValuesToKeep"]![0] = int.parse(input);
+                  }
+                  else{
+                    settings[widget.label]![0] = int.parse(input);
+                  }
                 }
               }
               else{
                 showError(context, "Setting must be in range ${settings[widget.label]![1]}:${settings[widget.label]![2]}");
               }
               SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
-              setState(() {});
+              widget.updater();
             },
           )
         ],
@@ -104,9 +114,18 @@ class SettingsElementState extends State<SettingsElement> {
   }
 }
 
-class SettingsContainer extends StatelessWidget{
+class SettingsContainer extends StatefulWidget{
   const SettingsContainer({super.key});
-  
+
+  @override
+  State<SettingsContainer> createState() => SettingsContainerState();
+}
+
+class SettingsContainerState extends State<SettingsContainer> {
+  void update(){
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -124,7 +143,7 @@ class SettingsContainer extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for(int i = 0; i < settings.keys.length; i++)
-                SettingsElement(label: settings.keys.toList()[i])
+                SettingsElement(label: settings.keys.toList()[i], updater: update)
             ]
           ),
         ),

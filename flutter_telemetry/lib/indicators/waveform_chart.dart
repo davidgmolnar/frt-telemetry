@@ -85,7 +85,7 @@ class WaveformChartState extends State<WaveformChart>{
 
   void updateData(){
     if(settings['chartLoadMode']![0] == 0){ // 0 lazy 1 complete
-      for(int i = 0; i < widget.subscribedSignals.length; i++){ // TODO fetch in isolate chartData[i], signalValues, signalTimestamps => chartData[i] with all new, change cnt (addedindexes = range(len, len-cnt) removed indexes = range(0, cnt)) ezt lehet mindenkinek egyszerre is és akkor listák mennek be és ki
+      for(int i = 0; i < widget.subscribedSignals.length; i++){
         dynamic tempVal = signalValues[widget.subscribedSignals[i]]?.last;
         dynamic tempTime = signalTimestamps[widget.subscribedSignals[i]]?.last;
         if(tempVal == null && tempTime == null && _controller[i] != null){

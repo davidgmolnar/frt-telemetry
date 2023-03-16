@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 
 export 'config_view.dart';
@@ -14,6 +15,7 @@ export 'hvaccu.dart';
 export 'as.dart';
 export 'dynamics.dart';
 export 'lap.dart';
+export 'datalogger.dart';
 
 class TabLayout{ // TODO ebből épüljön fel a tab
   const TabLayout(this.shortcutLabels, this.layoutBreakpoints, this.layout, this.minWidth);
@@ -24,8 +26,33 @@ class TabLayout{ // TODO ebből épüljön fel a tab
   final int minWidth;
 }
 
-class TabContainer extends StatefulWidget{
-  const TabContainer({
+class TabLayoutBuilder extends StatelessWidget{
+  TabLayoutBuilder({super.key, required this.layout});
+
+  final List<TabLayout> layout;
+
+  final ScrollController _controller = ScrollController();
+  final FocusNode _focus = FocusNode();
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints){
+        _focus.requestFocus();
+        TabLayout activeLayout = layout.sorted((a, b) {return a.minWidth.compareTo(b.minWidth);},).firstWhere((element) => constraints.maxWidth > element.minWidth);  // vagy < xd
+        return RawKeyboardListener(
+          autofocus: true,
+          focusNode: _focus,
+          child: Container(),
+        );
+      },
+    );
+  }
+  
+}
+
+class TabContainer extends StatelessWidget{
+  TabContainer({
     super.key,
     required this.smallShortcutLabels,
     required this.bigShortcutLabels,
@@ -44,13 +71,6 @@ class TabContainer extends StatefulWidget{
   final List<Widget> bigLayout;
   final int widthThreshold;
 
-  @override
-  State<StatefulWidget> createState() {
-    return TabContainerState();
-  }
-}
-
-class TabContainerState extends State<TabContainer>{
   final ScrollController _controller = ScrollController();
   final FocusNode _focus = FocusNode();
 
@@ -68,17 +88,17 @@ class TabContainerState extends State<TabContainer>{
               if(idx == null){
                 return;
               }
-              if(constraints.maxWidth < widget.widthThreshold){
-                if(idx < widget.smallShortcutLabels.length){
-                  _controller.animateTo(widget.smallLayoutBreakpoints[idx],
+              if(constraints.maxWidth < widthThreshold){
+                if(idx < smallShortcutLabels.length){
+                  _controller.animateTo(smallLayoutBreakpoints[idx],
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut
                   );
                 }
               }
               else{
-                if(idx < widget.bigShortcutLabels.length){
-                  _controller.animateTo(widget.bigLayoutBreakpoints[idx],
+                if(idx < bigShortcutLabels.length){
+                  _controller.animateTo(bigLayoutBreakpoints[idx],
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.easeInOut
                   );
@@ -91,12 +111,12 @@ class TabContainerState extends State<TabContainer>{
               backgroundColor: secondaryColor,
               toolbarHeight: 50,
               elevation: 0,
-              actions: constraints.maxWidth < widget.widthThreshold ? 
-                widget.smallShortcutLabels.map((label) => 
+              actions: constraints.maxWidth < widthThreshold ? 
+                smallShortcutLabels.map((label) => 
                   TextButton(
                     onPressed: () {
-                      int idx = widget.smallShortcutLabels.indexOf(label);
-                      _controller.animateTo(widget.smallLayoutBreakpoints[idx],
+                      int idx = smallShortcutLabels.indexOf(label);
+                      _controller.animateTo(smallLayoutBreakpoints[idx],
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut
                       );
@@ -104,11 +124,11 @@ class TabContainerState extends State<TabContainer>{
                     child: Text(label, style: TextStyle(color: primaryColor)))
                 ).toList()
                 :
-                widget.bigShortcutLabels.map((label) => 
+                bigShortcutLabels.map((label) => 
                   TextButton(
                     onPressed: () {
-                      int idx = widget.bigShortcutLabels.indexOf(label);
-                      _controller.animateTo(widget.bigLayoutBreakpoints[idx],
+                      int idx = bigShortcutLabels.indexOf(label);
+                      _controller.animateTo(bigLayoutBreakpoints[idx],
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut
                       );
@@ -119,10 +139,9 @@ class TabContainerState extends State<TabContainer>{
             body: 
               ListView(
                 controller: _controller,
-                children: constraints.maxWidth < widget.widthThreshold ? widget.smallLayout : widget.bigLayout,
+                children: constraints.maxWidth < widthThreshold ? smallLayout : bigLayout,
               )
           )
-    
         );
       }
     );
