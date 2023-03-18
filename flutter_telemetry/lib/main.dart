@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/constants.dart';
@@ -7,8 +9,14 @@ import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  if(Platform.isWindows){
+    windowManager.maximize(); // win only
+  }
   await getCurrentDirectory();
   await loadSession();
   await startListener();
@@ -28,9 +36,7 @@ class MyAppState extends State<MyApp> {
   void toggleTheme(){
     toggleColorTheme();
     SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   void rebuildAllChildren(BuildContext context) {

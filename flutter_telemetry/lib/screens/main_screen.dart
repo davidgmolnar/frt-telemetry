@@ -127,64 +127,52 @@ class MainScreenState extends State<MainScreen>{
                       widthThreshold: 1300);
                   }
                   case "DYNAMICS": {
-                    return TabContainer(
-                      smallShortcutLabels: const  ["Measurements", "Charts"],
-                      bigShortcutLabels: const ["Measurements", "Charts"],
-                      smallLayoutBreakpoints: const [0, 250],
-                      bigLayoutBreakpoints: const [0, 250],
-                      smallLayout: dynamicsSmall,
-                      bigLayout: dynamicsBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        dynamicsBigLayout,
+                        dynamicsSmallLayout
+                      ],
+                    );
                   }
                   case "LV_SYSTEM": {
-                    return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: lvSystemSmall,
-                      bigLayout: lvSystemBig,
-                      widthThreshold: 1050);
+                    return TabLayoutBuilder(
+                      layout: [
+                        lvSystemBigLayout,
+                        lvSystemSmallLayout
+                      ],
+                    );
                   }
                   case "ERRORS": {
-                    return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: errorsSmall,
-                      bigLayout: errorsBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        errorsBigLayout,
+                        errorsSmallLayout
+                      ]
+                    );
                   }
                   case "AS": {
-                    return TabContainer(
-                      smallShortcutLabels: const ["AS Status", "AS Signals"],
-                      bigShortcutLabels: const ["AS Status", "AS Signals"],
-                      smallLayoutBreakpoints: const [0, 1000],
-                      bigLayoutBreakpoints: const [0, 600],
-                      smallLayout: asSmall,
-                      bigLayout: asBig,
-                      widthThreshold: 1170);
+                    return TabLayoutBuilder(
+                      layout: [
+                        asBigLayout,
+                        asSmallLayout
+                      ]
+                    );
                   }
                   case "DATALOGGER": {
-                    return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: dataloggerSmall,
-                      bigLayout: dataloggerBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        dataloggerBigLayout,
+                        dataloggerSmallLayout
+                      ]
+                    );
                   }
                   case "LAP": {
-                    return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: lapSmall,
-                      bigLayout: lapBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        lapBigLayout,
+                        lapSmallLayout
+                      ]
+                    );
                   }
                   default: {
                     return Center(child: Text("$activeTab Tab not found"),);

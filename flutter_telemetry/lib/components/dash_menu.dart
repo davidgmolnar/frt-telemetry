@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_telemetry/components/dash_bottom_nav.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/helpers/session.dart';
+import 'package:window_manager/window_manager.dart';
 
 class DashMenu extends StatefulWidget{
   const DashMenu({
@@ -19,8 +25,8 @@ class DashMenu extends StatefulWidget{
 }
 
 class DashMenuState extends State<DashMenu>{
-  bool isOpened = false;
-  bool goingToOpen = false;
+  bool isOpened = true;
+  bool goingToOpen = true;
 
   @override
   Widget build(BuildContext context) {
@@ -66,30 +72,73 @@ class DashMenuState extends State<DashMenu>{
             TabSelector(tab: "DATALOGGER", iconData: Icons.receipt_rounded, title: "Datalogger", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "LAP", iconData: Icons.circle_outlined, title: "Lap", tabChange: widget.onTabChange, isWide: isOpened,),
 
-            IconButton(
-              icon: isOpened ? const Icon(Icons.keyboard_arrow_left) : const Icon(Icons.keyboard_arrow_right),
-              color: textColor,
-              splashRadius: 20,
-              onPressed: () {
-                if(goingToOpen){
-                  goingToOpen = false;
-                  isOpened = false;
-                }
-                else{
-                  goingToOpen = true;
-                }
-                setState(() {
-                  
-                });
-              },
-            ),
-            IconButton(
-              icon: textColor == textColorBright ? const Icon(Icons.sunny) : const Icon(Icons.dark_mode),
-              color: textColor,
-              splashRadius: 20,
-              onPressed: () {
-                widget.onThemeChange();
-              },
+            !isOpened ? SizedBox(
+              height: 4 * (iconSplashRadius + 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DashBottomNavButton(
+                    iconData: Icons.close,
+                    onPressed: () async {
+                      // TODO dialog
+                      SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation).then((_) => exit(0));
+                    }
+                  ),
+                  DashBottomNavButton(
+                    iconData: textColor == textColorBright ? Icons.sunny : Icons.dark_mode,
+                    onPressed: () {widget.onThemeChange();}
+                  ),
+                  DashBottomNavButton(
+                    iconData: !isFullScreen ? Icons.fullscreen_rounded : Icons.fullscreen_exit_outlined,
+                    onPressed: () {
+                      isFullScreen = !isFullScreen; windowManager.setFullScreen(isFullScreen);
+                      setState(() {});
+                    }
+                  ),
+                  DashBottomNavButton(
+                    iconData: isOpened ? Icons.keyboard_arrow_left_rounded : Icons.keyboard_arrow_right_rounded,
+                    onPressed: () {
+                      goingToOpen ? {goingToOpen = false, isOpened = false} : goingToOpen = true;
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
+            )
+            :
+            SizedBox(
+              height: iconSplashRadius + 20,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  DashBottomNavButton(
+                    iconData: Icons.close,
+                    onPressed: () async {
+                      // TODO dialog
+                      SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation).then((_) => exit(0));
+                    }
+                  ),
+                  DashBottomNavButton(
+                    iconData: textColor == textColorBright ? Icons.sunny : Icons.dark_mode,
+                    onPressed: () {widget.onThemeChange();}
+                  ),
+                  DashBottomNavButton(
+                    iconData: !isFullScreen ? Icons.fullscreen_rounded : Icons.fullscreen_exit_outlined,
+                    onPressed: () {
+                      isFullScreen = !isFullScreen; windowManager.setFullScreen(isFullScreen);
+                      setState(() {});
+                    }
+                  ),
+                  DashBottomNavButton(
+                    iconData: isOpened ? Icons.keyboard_arrow_left_rounded : Icons.keyboard_arrow_right_rounded,
+                    onPressed: () {
+                      goingToOpen ? {goingToOpen = false, isOpened = false} : goingToOpen = true;
+                      setState(() {});
+                    },
+                  ),
+                ],
+              ),
             )
           ],
         )
@@ -129,7 +178,7 @@ class TabSelector extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(defaultPadding),
-              child: Icon(iconData, color: primaryColor,),
+              child: Icon(iconData, color: primaryColor),
             ),
             if(isWide)
               Padding(

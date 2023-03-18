@@ -56,8 +56,8 @@ class HVCellVoltageIndicatorState extends State<HVCellVoltageIndicator>{
     return Container(
       decoration: BoxDecoration(
         border: Border.symmetric(
-          horizontal: BorderSide(color: Colors.grey.shade600, width: 2.0),
-          vertical: BorderSide(color: Colors.grey.shade600, width: 1.0),
+          horizontal: BorderSide(color: textColor, width: 2.0),
+          vertical: BorderSide(color: textColor, width: 1.0),
         )
       ),
       width: widget.barWidth + widget.labelWidth + 2,
@@ -69,7 +69,7 @@ class HVCellVoltageIndicatorState extends State<HVCellVoltageIndicator>{
               width: widget.labelWidth,
               height: 25,
               padding: const EdgeInsets.all(2.0),
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               color: secondaryColor,
               child: Text(representNumber(value.toString(), maxDigit: 5), textScaleFactor: widget.textScaleFactor,)
             ),
@@ -130,15 +130,15 @@ class HVCellTempIndicatorState extends State<HVCellTempIndicator>{
     return Container(
       decoration: BoxDecoration(
         border: Border.symmetric(
-          horizontal: BorderSide(color: Colors.grey.shade600, width: 2.0),
-          vertical: BorderSide(color: Colors.grey.shade600, width: 1.0),
+          horizontal: BorderSide(color: textColor, width: 2.0),
+          vertical: BorderSide(color: textColor, width: 1.0),
         )
       ),
       width: widget.width + 2,
       height: 25 + 4,
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: value != -1 ?
-        Text(representNumber(value.toString(), maxDigit: 4), textScaleFactor: widget.textScaleFactor,)
+        Text(representNumber(value.toString(), maxDigit: 3), textScaleFactor: widget.textScaleFactor,)
         : Container(color: bgColor,)
       ,
     );
@@ -221,7 +221,7 @@ class HVCellColumn extends StatelessWidget{
             return HVCellVoltageIndicator(id: idx, barWidth: 60, labelWidth: 35, textScaleFactor: 0.7);
           }
           else if(type == ColumnType.tempMeas){
-            return HVCellTempIndicator(id: idx, width: 30, textScaleFactor: 0.7);
+            return HVCellTempIndicator(id: idx, width: 30, textScaleFactor: 0.8);
           }
           else{
             return HVTempColorItem(id: idx, width: 30, height: 15);

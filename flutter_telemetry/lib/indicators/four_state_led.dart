@@ -24,7 +24,7 @@ class FourStateLed extends StatefulWidget{
 class FourStateLedState extends State<FourStateLed>{
 	late Timer timer;
   num value = 1;
-  Color textColor = Colors.grey;  // default
+  Color textColor = Colors.grey.shade700;  // default
   late String label;
 
   @override
@@ -49,11 +49,11 @@ class FourStateLedState extends State<FourStateLed>{
         }
         else if(temp == 1){
           value == 1;
-          textColor = const Color.fromARGB(255, 244, 67, 54);
+          textColor = const Color.fromARGB(255, 255, 17, 0);
         }
         else if(temp == 2){
           value = 2;
-          textColor = const Color.fromARGB(255, 11, 177, 16);
+          textColor = const Color.fromARGB(255, 0, 255, 8);
         }
         else if(temp == 3){
           value = 3;

@@ -32,6 +32,8 @@ const int widthPerColumnBoolean = 300;
 const int settingsWidth = 400;
 const int hvVoltageMaxDisp = 6000;
 
+const double iconSplashRadius = 20.0;
+
 // Name remaps
 const Map<String,String> labelRemap = {  // _ by default space lesz
   "Brake_force_validity": "BFS validity",

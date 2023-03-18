@@ -7,6 +7,7 @@ import 'package:flutter_telemetry/indicators/lap_display.dart';
 
 String activeTab = "CONFIG";
 String dir = "";
+bool isFullScreen = false;
 
 Color primaryColor = primaryColorDark;
 Color secondaryColor = secondaryColorDark;
@@ -20,8 +21,9 @@ List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a main egy
 
 DateTime? lastBrightloopMAH;
 
+// TODO ennek editor
 List<double> tempBrakepoints = [-double.infinity, 1, 20, 30, 35, 40, 45, 50, double.infinity];
-List<Color> tempColorBank = [Colors.white, Colors.blue, Colors.green.shade800, Colors.yellow, Colors.orange.shade800, Colors.red, Colors.purple, Colors.black];
+List<Color> tempColorBank = [Colors.white, Colors.blue, Colors.green.shade800, Colors.yellow, Colors.orange.shade800, const Color.fromARGB(255, 255, 17, 0), Colors.purple, Colors.black];
 
 DateTime lapStart = DateTime.now();
 bool lapTimerStarted = false;
@@ -203,7 +205,7 @@ List<VirtualSignal> virtualSignals = [
 ];
 
 // live settings  [val, min, max]
-Map<String, List<int>> settings = {  // TODO letekeréskor törölni kell a régieket
+Map<String, List<int>> settings = {
   "refreshTimeMS" : [100,50,2000],
   "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [512,128,4096],

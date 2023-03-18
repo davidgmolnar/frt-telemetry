@@ -17,13 +17,38 @@ export 'dynamics.dart';
 export 'lap.dart';
 export 'datalogger.dart';
 
-class TabLayout{ // TODO ebből épüljön fel a tab
-  const TabLayout(this.shortcutLabels, this.layoutBreakpoints, this.layout, this.minWidth);
+class TabLayout{
+  const TabLayout({
+    required this.shortcutLabels,
+    required this.layoutBreakpoints,
+    required this.layout,
+    required this.minWidth
+  });
 
-  final String shortcutLabels;
+  final List<String> shortcutLabels;
   final List<double> layoutBreakpoints;
   final List<Widget> layout;
   final int minWidth;
+}
+
+TabLayout getDefaultTab(BuildContext context){
+  return TabLayout(
+    shortcutLabels: [],
+    layoutBreakpoints: [],
+    layout: [
+      SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: const Center(
+          child: Text("No layout found for this screen size",
+            style: TextStyle(
+              fontSize: subTitleFontSize
+            ),
+          ),
+        ),
+      )
+    ],
+    minWidth: 0
+  );
 }
 
 class TabLayoutBuilder extends StatelessWidget{
@@ -39,11 +64,44 @@ class TabLayoutBuilder extends StatelessWidget{
     return LayoutBuilder(
       builder: (context, constraints){
         _focus.requestFocus();
-        TabLayout activeLayout = layout.sorted((a, b) {return a.minWidth.compareTo(b.minWidth);},).firstWhere((element) => constraints.maxWidth > element.minWidth);  // vagy < xd
+        TabLayout activeLayout = layout.sorted((a, b) {return a.minWidth.compareTo(b.minWidth);},).lastWhere((element) => constraints.maxWidth > element.minWidth, orElse: () {return getDefaultTab(context);});
         return RawKeyboardListener(
           autofocus: true,
           focusNode: _focus,
-          child: Container(),
+          onKey: (event) {
+            int? idx = int.tryParse(event.logicalKey.keyLabel);
+            if(idx == null){
+              return;
+            }
+            if(idx < activeLayout.shortcutLabels.length){
+              _controller.animateTo(activeLayout.layoutBreakpoints[idx],
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut
+              );
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: secondaryColor,
+              toolbarHeight: 50,
+              elevation: 0,
+              actions: activeLayout.shortcutLabels.map((label) => 
+                TextButton(
+                  onPressed: () {
+                    int idx = activeLayout.shortcutLabels.indexOf(label);
+                    _controller.animateTo(activeLayout.layoutBreakpoints[idx],
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut
+                    );
+                  },
+                  child: Text(label, style: TextStyle(color: primaryColor)))
+              ).toList()
+            ),
+            body: ListView(
+              controller: _controller,
+              children: activeLayout.layout,
+            )
+          ),
         );
       },
     );

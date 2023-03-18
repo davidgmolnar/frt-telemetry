@@ -43,8 +43,8 @@ class WaveformChartState extends State<WaveformChart>{
   final List<ChartSeriesController?> _controller = [];
   late Timer timer;
   static const Map<int, Color> _colormap = {
-    0: Colors.red,
-    1: Colors.green,
+    0: Color.fromARGB(255, 255, 17, 0),
+    1: Color.fromARGB(255, 0, 255, 8),
     2: Colors.blue,
     3: Colors.yellow,
     4: Colors.purple,

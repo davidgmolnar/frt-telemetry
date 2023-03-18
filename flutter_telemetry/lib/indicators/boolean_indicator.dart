@@ -24,7 +24,7 @@ class BooleanIndicator extends StatefulWidget{
 class BooleanIndicatorState extends State<BooleanIndicator>{
 	late Timer timer;
   num value = 1;
-  Color textColor = Colors.red;  // default
+  Color textColor = const Color.fromARGB(255, 255, 17, 0);  // default
   late String label;
 
   @override
@@ -45,11 +45,11 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       setState(() {
         if(temp == 0){
           value = 0;
-          textColor = widget.isInverted == null ? const Color.fromARGB(255, 11, 177, 16) : Colors.red;
+          textColor = widget.isInverted == null ? const Color.fromARGB(255, 0, 255, 8) : const Color.fromARGB(255, 255, 17, 0);
         }
         else if(temp == 1){
           value == 1;
-          textColor = widget.isInverted == null ? Colors.red : const Color.fromARGB(255, 11, 177, 16);
+          textColor = widget.isInverted == null ? const Color.fromARGB(255, 255, 17, 0) : const Color.fromARGB(255, 0, 255, 8);
         }
         else{
           value = 2; // hiba

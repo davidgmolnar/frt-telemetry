@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
+import 'package:flutter_telemetry/tabs/tabs.dart';
 
 List<Widget> hvAccuSmall = [
   const Titlebar(title: "HV Accu"),
@@ -114,3 +115,21 @@ List<Widget> hvAccuBig = [
     ],
   )
 ];
+
+TabLayout hvAccuBigLayout = TabLayout(
+  shortcutLabels: const ["HV Accu", "HV Status"],
+  layoutBreakpoints: const [0, 770],
+  layout: [
+
+  ],
+  minWidth: 1300
+);
+
+TabLayout hvAccuSmallLayout = TabLayout(
+  shortcutLabels: [],
+  layoutBreakpoints: [],
+  layout: [
+    
+  ],
+  minWidth: 800
+);
