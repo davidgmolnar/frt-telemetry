@@ -34,15 +34,26 @@ NS_ :
 BS_:
 
 BU_: Datalogger_2D Xavier MCU HVECU Bosch_Accel_sensor PedalNode Steering TCU SSG_ECU
+VAL_TABLE_ car_State_enum 3 "START" 2 "RTDS" 1 "OFF" 0 "ON" ;
 
+
+BO_ 511 PN_IMU_YPR: 8 Vector__XXX
+ SG_ PN_IMU_Yaw : 7|16@0+ (0.00762939453125,-250) [-4|495.992370605469] "" Vector__XXX
+ SG_ PN_IMU_Roll : 39|16@0+ (0.00762939453125,-250) [-4|495.992370605469] "" Vector__XXX
+ SG_ PN_IMU_Pitch : 23|16@0+ (0.00762939453125,-250) [-250|249.992370605469] "" Vector__XXX
+
+BO_ 510 PN_IMU_ACCEL: 8 Vector__XXX
+ SG_ PN_IMU_Acc_Z : 39|16@0+ (0.0001220703125,-4) [-4|3.9998779296875] "" Vector__XXX
+ SG_ PN_IMU_Acc_Y : 23|16@0+ (0.0001220703125,-4) [-4|3.9998779296875] "" Vector__XXX
+ SG_ PN_IMU_Acc_X : 7|16@0+ (0.0001220703125,-4) [-4|3.9998779296875] "" Vector__XXX
 
 BO_ 1378 Dashboard_status: 8 Vector__XXX
- SG_ Button_START : 9|1@1- (1,0) [0|0] "" Vector__XXX
- SG_ Button_ON_OFF : 8|1@1- (1,0) [0|0] "" Vector__XXX
- SG_ Button_HV : 10|1@1- (1,0) [0|0] "" Vector__XXX
- SG_ Dashboard_heartbeat : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Button_START : 1|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Button_ON_OFF : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Button_HV : 2|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Dashboard_heartbeat : 8|8@1+ (1,0) [0|0] "" Vector__XXX
 
-BO_ 880 SteeringDisplay_const: 8 Vector__XXX
+BO_ 880 DashDisplay_const: 8 Vector__XXX
  SG_ Steering_letter8_const : 56|8@1+ (1,0) [0|0] "char" Vector__XXX
  SG_ Steering_letter7_const : 48|8@1+ (1,0) [0|0] "char" Vector__XXX
  SG_ Steering_letter6_const : 40|8@1+ (1,0) [0|0] "char" Vector__XXX
@@ -224,19 +235,19 @@ BO_ 1157 TCU_Status3: 8 TCU
 
 BO_ 513 Pedal_Node_2: 8 Vector__XXX
  SG_ Pedal_Node_heartbeat : 48|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ STA2_ADC : 11|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ STA1_ADC : 7|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ Brake_pressure_rear_ADC : 35|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ Brake_pressure_front_ADC : 31|12@0+ (1,0) [0|4095] "" Vector__XXX
+ SG_ STA2_ADC : 11|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ STA1_ADC : 7|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ Brake_pressure_rear_ADC : 35|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ Brake_pressure_front_ADC : 31|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
 
 BO_ 512 Pedal_Node_1: 8 Vector__XXX
- SG_ Brake_force_sensor_ADC : 55|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ PPS2_ADC : 35|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ PPS1_ADC : 31|12@0+ (1,0) [0|4095] "" Vector__XXX
- SG_ APPS2_ADC : 11|12@0+ (-1,4095) [0|4095] "" Vector__XXX
- SG_ APPS1_ADC : 7|12@0+ (-1,4095) [0|4095] "" Vector__XXX
+ SG_ Brake_force_sensor_ADC : 55|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ PPS2_ADC : 35|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ PPS1_ADC : 31|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ APPS2_ADC : 11|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
+ SG_ APPS1_ADC : 7|12@0+ (0.001220703125,0) [0|4.998779296875] "V" Vector__XXX
 
-BO_ 873 SteeringDisplay_temp: 8 TCU
+BO_ 873 DashDisplay_temp: 8 Vector__XXX
  SG_ Steering_letter8_temp : 56|8@1+ (1,0) [0|0] "char" Vector__XXX
  SG_ Steering_letter7_temp : 48|8@1+ (1,0) [0|0] "char" Vector__XXX
  SG_ Steering_letter6_temp : 40|8@1+ (1,0) [0|0] "char" Vector__XXX
@@ -267,10 +278,10 @@ BO_ 848 Xavier_Status1: 8 Vector__XXX
  SG_ Xavier_heartbeat : 0|4@1+ (1,0) [0|15] "" Vector__XXX
 
 BO_ 656 Steering_Status: 8 Steering
- SG_ Rotary5 : 24|4@1+ (1,0) [1|12] "" Vector__XXX
- SG_ Rotary4 : 28|4@1+ (1,0) [1|12] "" Vector__XXX
- SG_ Rotary3 : 16|4@1+ (1,0) [1|12] "" Vector__XXX
- SG_ Rotary2 : 20|4@1+ (1,0) [1|12] "" Vector__XXX
+ SG_ Rotary5 : 28|4@1+ (1,0) [1|12] "" Vector__XXX
+ SG_ Rotary4 : 24|4@1+ (1,0) [1|12] "" Vector__XXX
+ SG_ Rotary3 : 20|4@1+ (1,0) [1|12] "" Vector__XXX
+ SG_ Rotary2 : 16|4@1+ (1,0) [1|12] "" Vector__XXX
  SG_ Rotary1 : 8|4@1+ (1,0) [1|12] "" Vector__XXX
  SG_ Button4 : 12|1@1+ (1,0) [0|1] "" Vector__XXX
  SG_ Button3 : 13|1@1+ (1,0) [0|1] "" Vector__XXX
@@ -302,6 +313,7 @@ BO_ 644 AMK1_Actual_Values_1: 8 MCU
  SG_ AMK1_actual_velocity : 16|16@1- (1,0) [-5000|30000] "1/min" Vector__XXX
 
 BO_ 561 Brake_SC_endline: 8 SSG_ECU
+ SG_ SC_ENDLINE_SSG : 51|1@1+ (1,0) [0|0] "" Vector__XXX
  SG_ Brake_pressure_rear_validity : 50|1@1+ (1,0) [0|1] ""  TCU
  SG_ Brake_pressure_rear : 32|16@1+ (0.1,0) [0|1400] "bar"  TCU
  SG_ Brake_pressure_front_validity : 49|1@1+ (1,0) [0|1] ""  TCU
@@ -323,7 +335,6 @@ BO_ 560 Throttle_Steering: 8 SSG_ECU
  SG_ APPS2_posiition : 8|8@1+ (1,0) [0|100] "%"  TCU
  SG_ APPS1_position : 0|8@1+ (1,0) [0|100] "%"  TCU
 
-BO_TX_BU_ 873 : SSG_ECU,TCU;
 
 
 CM_ BO_ 561 "5 ms";
@@ -376,6 +387,12 @@ BA_ "NodeLayerModules" BU_ Steering "CANoeILNLVector.dll";
 BA_ "NodeLayerModules" BU_ TCU "CANoeILNLVector.dll";
 BA_ "NodeLayerModules" BU_ SSG_ECU "CANoeILNLVector.dll";
 BA_ "GenMsgCycleTime" BO_ 819 100;
+BA_ "GenSigStartValue" SG_ 511 PN_IMU_Yaw 32768;
+BA_ "GenSigStartValue" SG_ 511 PN_IMU_Roll 32768;
+BA_ "GenSigStartValue" SG_ 511 PN_IMU_Pitch 32768;
+BA_ "GenSigStartValue" SG_ 510 PN_IMU_Acc_Z 32768;
+BA_ "GenSigStartValue" SG_ 510 PN_IMU_Acc_Y 32768;
+BA_ "GenSigStartValue" SG_ 510 PN_IMU_Acc_X 32768;
 BA_ "GenSigStartValue" SG_ 568 GPS_Long_Rear 2147483647.5;
 BA_ "GenSigStartValue" SG_ 568 GPS_Lat_Rear 2147483647.52381;
 BA_ "GenSigStartValue" SG_ 565 AngularRate_Y 32768;
@@ -414,8 +431,8 @@ BA_ "GenSigStartValue" SG_ 1153 VDC_Drop_Parameter_New 32;
 BA_ "GenSigStartValue" SG_ 1153 VDC_Brake_Balance 32;
 BA_ "GenSigStartValue" SG_ 1153 VDC_Brake_Force_Max 7;
 BA_ "GenSigStartValue" SG_ 1157 VDC_Torque_Demand 128.000667860721;
-BA_ "GenSigStartValue" SG_ 512 APPS2_ADC 4095;
-BA_ "GenSigStartValue" SG_ 512 APPS1_ADC 4095;
+BA_ "GenSigStartValue" SG_ 512 APPS2_ADC 0;
+BA_ "GenSigStartValue" SG_ 512 APPS1_ADC 0;
 BA_ "GenSigStartValue" SG_ 105 Xavier_Target_Wheel_Angle 20000000;
 BA_ "GenSigStartValue" SG_ 656 Rotary5 1;
 BA_ "GenSigStartValue" SG_ 656 Rotary4 1;
