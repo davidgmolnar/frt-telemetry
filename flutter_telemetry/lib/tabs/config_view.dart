@@ -7,55 +7,78 @@ import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/tabs/tabs.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 
-List<Widget> configSmall = [
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      Column(
-        children: const [
-          SettingsContainer(),
-          ConnectionHandler()
-        ],
-      )
-    ],
-  ),
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: const [
-      TerminalDisplay()
-    ],
-  ),
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: const [
-      AlertContainer()
-    ],
-  )
-];
 
-List<Widget> configBig = [
-  Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      const TerminalDisplay(),
-      Column(
-        children: const [
-          SettingsContainer(),
-          ConnectionHandler()
-        ],
-      )
-    ],
-  ),
-  Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: const [
-      AlertContainer()
-    ],
-  )
-];
+TabLayout configBigLayout = TabLayout(
+  shortcutLabels: const [],
+  layoutBreakpoints: const [],
+  layout: [
+    Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          children: const [
+            TerminalDisplay(),
+            AlertContainer()
+          ],
+        ),
+        Column(
+          children: const [
+            SettingsContainer(),
+            ConnectionHandler(),
+            NumericPanel(
+              subscribedSignals: [
+                "rssi",
+              ], colsize: 1, title: "Telemetry Status"
+            ),
+            StringIndicator(subscribedSignal: "error", decoder: raspberryErrorDecoder)
+          ],
+        )
+      ],
+    ),
+  ],
+  minWidth: 1100
+);
+
+TabLayout configSmallLayout = TabLayout(
+  shortcutLabels: const [],
+  layoutBreakpoints: const [],
+  layout: [
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Column(
+          children: const [
+            SettingsContainer(),
+            ConnectionHandler(),
+            NumericPanel(
+              subscribedSignals: [
+                "rssi",
+                "error"
+              ], colsize: 2, title: "Telemetry Status"
+            )
+          ],
+        )
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        TerminalDisplay()
+      ],
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        AlertContainer()
+      ],
+    )
+  ],
+  minWidth: 700
+);
 
 // Connection widget
 class ConnectionHandler extends StatefulWidget{

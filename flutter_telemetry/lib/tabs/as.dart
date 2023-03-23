@@ -136,16 +136,22 @@ TabLayout asSmallLayout = TabLayout(
     const Titlebar(title: "AS Status"),
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: const [
+        ScaleIndicator(subscribedSignal: "Xavier_CPU1_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU2_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU3_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU4_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU5_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU6_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU7_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_CPU8_usage", maxValue: 100, minValue: 0),
+        ScaleIndicator(subscribedSignal: "Xavier_RAM_usage", maxValue: 100, minValue: 0),
+      ],
+    ),
+    Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU1_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU2_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU3_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU4_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU5_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU6_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU7_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_CPU8_usage", maxValue: 100, minValue: 0),
-        const ScaleIndicator(subscribedSignal: "Xavier_RAM_usage", maxValue: 100, minValue: 0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
@@ -156,22 +162,11 @@ TabLayout asSmallLayout = TabLayout(
             BooleanIndicator(subscribedSignal: "START_Car_State"),
           ],
         ),
-      ],
-    ),
-    Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 1),
             FourStateLed(subscribedSignal: "INSPECTION_LED", paddingFactor: 1),
-          ]
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
             FourStateLed(subscribedSignal: "SKIDPAD_LED", paddingFactor: 1),
             FourStateLed(subscribedSignal: "TRACKDRIVE_LED", paddingFactor: 1),
           ]
@@ -181,14 +176,9 @@ TabLayout asSmallLayout = TabLayout(
           children: const [
             StringIndicator(subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
             StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
-          ]
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
             StringIndicator(subscribedSignal: "AS_Mission_selected", decoder: missionSelectDecoder),
             StringIndicator(subscribedSignal: "Initial_Checkup_state", decoder: initialCheckupStateDecoder),
-          ],
+          ]
         ),
       ],
     ),

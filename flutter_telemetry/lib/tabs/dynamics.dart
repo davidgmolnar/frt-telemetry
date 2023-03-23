@@ -3,8 +3,8 @@ import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
 TabLayout dynamicsBigLayout = TabLayout(
-  shortcutLabels: const ["Measurements", "Charts"],
-  layoutBreakpoints: const [0, 250],
+  shortcutLabels: const [],
+  layoutBreakpoints: const [],
   layout: [
     const Titlebar(title: "Dynamics Measurements"),
     Row(
@@ -91,19 +91,19 @@ TabLayout dynamicsBigLayout = TabLayout(
       ]
     ),
   ],
-  minWidth: 1220
+  minWidth: 1000
 );
 
 TabLayout dynamicsSmallLayout = TabLayout(
-  shortcutLabels: const ["Measurements", "Charts"],
-  layoutBreakpoints: const [0, 250],
+  shortcutLabels: const [],
+  layoutBreakpoints: const [],
   layout: [
     const Titlebar(title: "Dynamics Measurements"),
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: const [
-        NumericPanel(
+      children: [
+        const NumericPanel(
           subscribedSignals: [
             "Acc_Front_AccX",
             "AccX_Rear",
@@ -114,18 +114,26 @@ TabLayout dynamicsSmallLayout = TabLayout(
             "VIRT_ACC_FRONT_YAW_RAD",
             "Yaw_Rate_Rear"
           ],
-          colsize: 4, title: "Dynamics"
+          colsize: 8, title: "Dynamics"
         ),
-        ScaleIndicator(subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
-        ScaleIndicator(subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
-        BooleanPanel(
-          subscribedSignals: [
-            "APPS_plausiblity",
-            "STA_plausiblity",
-            "VIRT_APPS_VALID",
-            "VIRT_STA_VALID"
+        Column(
+          children: [
+            const BooleanPanel(
+              subscribedSignals: [
+                "APPS_plausiblity",
+                "STA_plausiblity",
+                "VIRT_APPS_VALID",
+                "VIRT_STA_VALID"
+              ],
+              colsize: 4, title: "Pedal Node"
+            ),
+            Row(
+              children: const [
+                ScaleIndicator(subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
+                ScaleIndicator(subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
+              ],
+            ),
           ],
-          colsize: 4, title: "Pedal Node"
         )
       ],
     ),
@@ -159,5 +167,5 @@ TabLayout dynamicsSmallLayout = TabLayout(
       title: "APPS / STA Avg", min: 0, max: 180,
     ),
   ],
-  minWidth: 600
+  minWidth: 450
 );

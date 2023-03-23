@@ -163,5 +163,7 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "VIRT_AMK4_LIMIT": "RR Torque Limit",
   "VIRT_BRIGHTLOOP_OLC": "Overload count",
   "VIRT_APPS_VALID": "APPS valid",
-  "VIRT_STA_VALID": "STA valid"
+  "VIRT_STA_VALID": "STA valid",
+  "rssi" : "RSSI",
+  "error": "Raspberry error"
 };

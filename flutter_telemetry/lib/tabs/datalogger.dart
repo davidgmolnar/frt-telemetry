@@ -78,7 +78,7 @@ TabLayout dataloggerBigLayout = const TabLayout(
 TabLayout dataloggerSmallLayout = const TabLayout(
   shortcutLabels: [],
   layoutBreakpoints: [],
-  minWidth: 800,
+  minWidth: 900,
   layout: [
     NumericPanel(
       subscribedSignals: [

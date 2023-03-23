@@ -15,7 +15,6 @@ from datetime import datetime
 import TelemetryUtils as Utils
 from TelemetryTest.TelemetryTest import TelemetryTester
 
-
 STOP_QUEUE = Queue()
 STOP_QUEUE.maxsize = 1
 
@@ -89,7 +88,7 @@ CONNECTED_HOSTS = set()
 # TODO load balance
 
 
-def readSock(_stop_queue, _sock_queue1, _sock_queue2):   # THREAD
+def readSock(_stop_queue, _sock_queue1, _sock_queue2):  # THREAD
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         sock_addr = ('127.0.0.1', 8998)  # 172.31.1.148
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -123,7 +122,7 @@ def readSock(_stop_queue, _sock_queue1, _sock_queue2):   # THREAD
                 break
 
 
-def decodeCan(can, multiplexed, _stop_queue, _sock_queue, _dict_queue, _data_queue):   # THREAD
+def decodeCan(can, multiplexed, _stop_queue, _sock_queue, _dict_queue, _data_queue):  # THREAD
     data = []
     batch_limit = 50
     while True:
@@ -143,7 +142,8 @@ def decodeCan(can, multiplexed, _stop_queue, _sock_queue, _dict_queue, _data_que
                     pass  # TODO wait and retry
 
                 for key, value in dict_read.items():
-                    data.append(f"telemetry_signals {key}={float(value)} {_append_time(datetime.utcnow(), WritePrecision.NS)}")
+                    data.append(
+                        f"telemetry_signals {key}={float(value)} {_append_time(datetime.utcnow(), WritePrecision.NS)}")
                 try:
                     if len(data) >= batch_limit:
                         # _data_queue.put_nowait(list(data))
@@ -277,25 +277,37 @@ async def join(websocket):
 def main(dict_queue1, dict_queue2):
     # async with websockets.serve(join, "127.0.0.1", 8990, ping_interval=None):  # 172.31.1.148
     #     await streamData(dict_queue1, dict_queue2)
-    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) as sock:  # UDP
-        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        buf = dict()
-        while True:
-            buf.clear()
-            try:
-                buf = dict_queue1.get_nowait()
-            except Empty:
-                pass
-            try:
-                buf.update(dict_queue2.get_nowait())
-            except Empty:
-                pass
-            if len(buf) < 1:
-                print("Nothing to send, sleeping 0.1 sec")
-                time.sleep(0.1)
-            else:
-                data = json.dumps(buf).encode('ascii')
-                sock.sendto(data, ("255.255.255.255", 8998))
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)  # UDP
+    interfaces = socket.getaddrinfo(host=socket.gethostname(), port=None, family=socket.AF_INET)
+    allips = [ip[-1][0] for ip in interfaces]
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+
+    UDP_IP = "255.255.255.255"
+    UDP_PORT = 8998
+
+    buf = dict()
+    while True:
+        buf.clear()
+        try:
+            buf = dict_queue1.get_nowait()
+        except Empty:
+            pass
+        try:
+            buf.update(dict_queue2.get_nowait())
+        except Empty:
+            pass
+        if len(buf) < 1:
+            print("Nothing to send, sleeping 0.1 sec")
+            time.sleep(0.1)
+        else:
+            data = json.dumps(buf).encode('ascii')
+            for ip in allips:
+                sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)  # UDP
+                sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+                sock.bind((ip,0))
+                sock.sendto(data, (UDP_IP, UDP_PORT))
+                sock.close()
 
 
 def sendtoflutter(dict_queue1, dict_queue2):  # THREAD
@@ -303,7 +315,7 @@ def sendtoflutter(dict_queue1, dict_queue2):  # THREAD
     main(dict_queue1, dict_queue2)
 
 
-def upload(token, org, bucket, _stop_queue, _data_queue):   # THREAD
+def upload(token, org, bucket, _stop_queue, _data_queue):  # THREAD
     with InfluxDBClient(url="http://localhost:8086", token=token, org=org) as client:
         batch = []
         batch_limit = 100
@@ -331,8 +343,10 @@ def upload(token, org, bucket, _stop_queue, _data_queue):   # THREAD
 
 if __name__ == '__main__':
     socket_thread = Process(target=readSock, args=(STOP_QUEUE, SOCK_QUEUE1, SOCK_QUEUE2))
-    decode_thread1 = Process(target=decodeCan, args=(CAN1, MULTIPLEXED_SIGNALS, STOP_QUEUE, SOCK_QUEUE1, DICT_QUEUE1, DATA_QUEUE))
-    decode_thread2 = Process(target=decodeCan, args=(CAN2, MULTIPLEXED_SIGNALS, STOP_QUEUE, SOCK_QUEUE2, DICT_QUEUE2, DATA_QUEUE))
+    decode_thread1 = Process(target=decodeCan,
+                             args=(CAN1, MULTIPLEXED_SIGNALS, STOP_QUEUE, SOCK_QUEUE1, DICT_QUEUE1, DATA_QUEUE))
+    decode_thread2 = Process(target=decodeCan,
+                             args=(CAN2, MULTIPLEXED_SIGNALS, STOP_QUEUE, SOCK_QUEUE2, DICT_QUEUE2, DATA_QUEUE))
     connection_handler = Process(target=sendtoflutter, args=(DICT_QUEUE1, DICT_QUEUE2))
     # upload_thread = Process(target=upload, args=(TOKEN, ORG, BUCKET, STOP_QUEUE, DATA_QUEUE))
 
@@ -361,7 +375,8 @@ if __name__ == '__main__':
         while True:
             time.sleep(check_interval)
             if Utils.isAllAlive(threads):
-                print(f'SOCK-{SOCK_QUEUE1.qsize() + SOCK_QUEUE2.qsize()} DICT-{DICT_QUEUE1.qsize() + DICT_QUEUE2.qsize()} DATA-{DATA_QUEUE.qsize()}')  # TODO ezek is mehetnek a databasebe
+                print(
+                    f'SOCK-{SOCK_QUEUE1.qsize() + SOCK_QUEUE2.qsize()} DICT-{DICT_QUEUE1.qsize() + DICT_QUEUE2.qsize()} DATA-{DATA_QUEUE.qsize()}')  # TODO ezek is mehetnek a databasebe
             else:
                 print("unlucky")
                 print(f"sock   {socket_thread.is_alive()}")

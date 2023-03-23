@@ -53,19 +53,6 @@ TabLayout lvSystemBigLayout = TabLayout(
         ),
         BooleanPanel(
           subscribedSignals: [
-            "APPS1_validity",
-            "APPS2_validity",
-            "STA1_validity",
-            "STA2_validity",
-            "Brake_force_validity",
-            "Brake_pressure_front_validity",
-            "Brake_pressure_rear_validity",
-          ],
-          colsize: 7,
-          title: "Sensors"
-        ),
-        BooleanPanel(
-          subscribedSignals: [
             "Dashboard_heartbeat_error",
             "HVECU_Heartbeat_error",
             "MCU_Heartbeat_error",
@@ -80,6 +67,7 @@ TabLayout lvSystemBigLayout = TabLayout(
     ),
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: const [
         BooleanPanel(
           subscribedSignals: [
@@ -91,6 +79,19 @@ TabLayout lvSystemBigLayout = TabLayout(
             "Dash_XLAT"
           ],
           colsize: 6, title: "Dashboard"
+        ),
+        BooleanPanel(
+          subscribedSignals: [
+            "APPS1_validity",
+            "APPS2_validity",
+            "STA1_validity",
+            "STA2_validity",
+            "Brake_force_validity",
+            "Brake_pressure_front_validity",
+            "Brake_pressure_rear_validity",
+          ],
+          colsize: 7,
+          title: "Sensors"
         ),
         BooleanPanel(
           subscribedSignals: [
@@ -187,8 +188,8 @@ TabLayout lvSystemSmallLayout = TabLayout(
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: const [
-        BooleanPanel(
+      children: [
+        const BooleanPanel(
           subscribedSignals: [
             "Dashboard_heartbeat_error",
             "HVECU_Heartbeat_error",
@@ -200,7 +201,7 @@ TabLayout lvSystemSmallLayout = TabLayout(
           colsize: 6,
           title: "Heartbeats"
         ),
-        BooleanPanel(
+        const BooleanPanel(
           subscribedSignals: [
             "Button_OFF",
             "Button_ON",
@@ -211,25 +212,24 @@ TabLayout lvSystemSmallLayout = TabLayout(
           ],
           colsize: 6, title: "Dashboard"
         ),
-        BooleanPanel(
-          subscribedSignals: [
-            "MCU_EF_State",
-            "MCU_RF_State",
-            "MCU_FRONT_SUPPLY",
-            "MCU_REAR_SUPPLY",
-            "Brake_Light"
+        Column(
+          children: const [
+            BooleanPanel(
+              subscribedSignals: [
+                "MCU_EF_State",
+                "MCU_RF_State",
+                "MCU_FRONT_SUPPLY",
+                "MCU_REAR_SUPPLY",
+                "Brake_Light"
+              ],
+              colsize: 5, title: "Misc"
+            ),
+            NumericIndicator(subscribedSignal: "SC_ENDLINE"),
+            NumericIndicator(subscribedSignal: "BFS_Offset"),
           ],
-          colsize: 5, title: "Misc leds"
-        ),
-        NumericPanel(
-          subscribedSignals: [
-            "SC_ENDLINE",
-            "BFS_Offset"
-          ],
-          colsize: 2, title: "Misc numeric"
         ),
       ],
     ),
   ],
-  minWidth: 600
+  minWidth: 750
 );

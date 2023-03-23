@@ -57,3 +57,15 @@ String vdcStateDecoder(num value){
     return "INVALID";
   }
 }
+
+String raspberryErrorDecoder(num value){
+  List<String> map = [
+    "UNKNOWN", "UART READ ERROR", "UNKNOWN", "UART INIT ERROR", "SOCKET ERROR", "ADDRESS ERROR", "ADDRINFO ERROR", "TIMEOUT ERROR", "INVALID CAN ID", "DBC INIT ERROR", "CHECKSUM ERROR"
+  ];
+  if(value < map.length && value >= 0){
+    return map[value.toInt()];
+  }
+  else{
+    return "INVALID";
+  }
+}

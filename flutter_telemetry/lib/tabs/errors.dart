@@ -267,5 +267,5 @@ TabLayout errorsSmallLayout = TabLayout(
       ],
     ),
   ],
-  minWidth: 600
+  minWidth: 760
 );

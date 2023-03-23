@@ -57,74 +57,60 @@ class MainScreenState extends State<MainScreen>{
               child: (() {
                 switch(activeTab){
                   case "CONFIG": {
-                    return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: configSmall,
-                      bigLayout: configBig,
-                      widthThreshold: 1100);
+                    return TabLayoutBuilder(
+                      layout: [
+                        configBigLayout,
+                        configSmallLayout
+                      ],
+                    );
                   }
                   case "OVERVIEW": {
-                    return TabContainer(
-                      smallShortcutLabels: const ["System and Sensor checks", "Dynamics and Control", "Power and MCUs", "Steering and Lap"],
-                      bigShortcutLabels: const ["System and Sensor checks", "Dynamics and Control", "Power and MCUs", "Steering and Lap"],
-                      smallLayoutBreakpoints: const [0, 750, 1550, 2470],
-                      bigLayoutBreakpoints: const [0, 450, 1000, 1450],
-                      smallLayout: overviewSmall,
-                      bigLayout: overviewBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        overviewBigLayout,
+                        overviewSmallLayout
+                      ],
+                    );
                   }
                   case "TCU": {
-                    return TabContainer(
-                      smallShortcutLabels: const ["VDC Status", "Charts"],
-                      bigShortcutLabels: const ["VDC Status", "Charts"],
-                      smallLayoutBreakpoints: const [0, 900],
-                      bigLayoutBreakpoints: const [0, 900],
-                      smallLayout: tcuSmall,
-                      bigLayout: tcuBig,
-                      widthThreshold: 1200);
+                    return TabLayoutBuilder(
+                      layout: [
+                        tcuBigLayout,
+                        tcuSmallLayout
+                      ],
+                    );
                   }
                   case "MCU": {
-                    return TabContainer(
-                      smallShortcutLabels: const ["AMK Front Status", "AMK Rear Status", "RPM and Temp"],
-                      bigShortcutLabels: const ["AMK Status", "RPM and Temp"],
-                      smallLayoutBreakpoints: const [0, 780, 1560],
-                      bigLayoutBreakpoints: const [0, 780],
-                      smallLayout: mcuSmall,
-                      bigLayout: mucBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        mcuBigLayout,
+                        mcuSmallLayout
+                      ],
+                    );
                   }
                   case "SC": {
-                    return TabContainer(
-                      smallShortcutLabels: const [],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: scSmall,
-                      bigLayout: scBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        scBigLayout,
+                        scSmallLayout
+                      ],
+                    );
                   }
                   case "BRIGHTLOOP": {
-                    return TabContainer(
-                      smallShortcutLabels: const ["Brightloop Charts", "Brightloop Status"],
-                      bigShortcutLabels: const ["Brightloop Charts", "Brightloop Status"],
-                      smallLayoutBreakpoints: const [0, 1050],
-                      bigLayoutBreakpoints: const [0, 700],
-                      smallLayout: brightloopSmall,
-                      bigLayout: brightloopBig,
-                      widthThreshold: 1220);
+                    return TabLayoutBuilder(
+                      layout: [
+                        brightloopBigLayout,
+                        brightloopSmallLayout
+                      ],
+                    );
                   }
                   case "HV_ACCU": {
-                    return TabContainer(
-                      smallShortcutLabels: const ["HV Accu", "HV Status"],
-                      bigShortcutLabels: const [],
-                      smallLayoutBreakpoints: const [0, 770],
-                      bigLayoutBreakpoints: const [],
-                      smallLayout: hvAccuSmall,
-                      bigLayout: hvAccuBig,
-                      widthThreshold: 1300);
+                    return TabLayoutBuilder(
+                      layout: [
+                        hvAccuBigLayout,
+                        hvAccuSmallLayout
+                      ],
+                    );
                   }
                   case "DYNAMICS": {
                     return TabLayoutBuilder(

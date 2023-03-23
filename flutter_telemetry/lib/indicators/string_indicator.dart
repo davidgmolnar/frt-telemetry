@@ -25,7 +25,7 @@ class StringIndicator extends StatefulWidget{
 class StringIndicatorState extends State<StringIndicator>{
 	late Timer timer;
   num value = 0;
-  String display = "UNKNOWN";
+  String display = "NOT SET";
   late String label;
 
   @override
