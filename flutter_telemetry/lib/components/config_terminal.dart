@@ -130,7 +130,7 @@ class TerminalDisplayState extends State<TerminalDisplay> {
               return ListTile(
                 leading: Text("${displayIdLevelMap[content[index].level]} - ${content[index].time} - ${content[index].message}",
                   overflow: TextOverflow.clip,
-                  maxLines: 1,),
+                  maxLines: 3,),
                 trailing: IconButton(
                   padding: const EdgeInsets.all(defaultPadding),
                   icon: Icon(Icons.check, color: primaryColor),

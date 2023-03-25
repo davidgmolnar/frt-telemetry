@@ -12,11 +12,13 @@ class RotaryIndicator extends StatefulWidget{
   required this.subscribedSignal,
   required this.numofStates,
   required this.granularity,
+  required this.offset,
   }) : super(key: key);
 
   final String subscribedSignal;
   final num numofStates;
   final int granularity;
+  final int offset;
   
   @override
   State<StatefulWidget> createState() {
@@ -53,29 +55,32 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 170, minWidth: 250),
+      constraints: const BoxConstraints(minHeight: 250, minWidth: 250),
       child: Stack(
-        alignment: AlignmentDirectional.bottomCenter,
+        alignment: AlignmentDirectional.center,
         children: [
-          Transform.rotate(  // Needle
-            angle: -pi/2 + value * pi / (widget.numofStates - 1),
-            origin: const Offset(0, 50-9),
-            child: Container(
-              width: 3,
-              height: 100,
-              color: primaryColor,
+          Transform.translate(
+            offset: const Offset(0, -50),
+            child: Transform.rotate(  // Needle
+              angle: -0.75*pi + (value - widget.offset) * 1.5 * pi / (widget.numofStates - 1),
+              origin: const Offset(0, 50),
+              child: Container(
+                width: 3,
+                height: 100,
+                color: primaryColor,
+              ),
             ),
           ),
 
           Transform.translate(  // Label
-            offset: const Offset(0, -155),
+            offset: const Offset(0, 115),
             child: Text(label),
           ),
         
           for(int i = 0; i < widget.numofStates; i+=widget.granularity)
             Transform.translate(  // Ticks
-              offset: Offset.fromDirection(-pi + i * pi / (widget.numofStates - 1), 115),
-              child: Text("$i"),),  // TODO offset by + 1
+              offset: Offset.fromDirection(-1.25 * pi + i * 1.5 * pi / (widget.numofStates - 1), 115),
+              child: Text("${i + widget.offset}"),),
         ],
       )
     );

@@ -120,7 +120,7 @@ TabLayout overviewBigLayout = TabLayout(
       children: [
         Column(
           children: const [
-            RotaryIndicator(subscribedSignal: "v_x", numofStates: 51, granularity: 10,),
+            RotaryIndicator(subscribedSignal: "v_x", numofStates: 51, granularity: 5, offset: 0,),
             Plot2D(subscribedSignals: ["Acc_Front_AccX", "Acc_Front_AccY"], title: "Accel Front", maxValue: 4),
           ],
         ),
@@ -245,18 +245,19 @@ TabLayout overviewBigLayout = TabLayout(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 600,
+          height: 700,
           width: 900,
           child: Stack(
             alignment: AlignmentDirectional.bottomCenter,
             children: [
               Transform.translate(
-                offset: Offset.fromDirection(-0.70 * pi ,450),
+                offset: Offset.fromDirection(-0.70 * pi ,500),
                 child:
                   const RotaryIndicator(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary1",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
@@ -266,15 +267,17 @@ TabLayout overviewBigLayout = TabLayout(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary3",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
-                offset: Offset.fromDirection(-0.5 * pi ,50),
+                offset: Offset.fromDirection(-0.5 * pi ,10),
                 child:
                   const RotaryIndicator(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary5",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
@@ -284,15 +287,17 @@ TabLayout overviewBigLayout = TabLayout(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary4",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
-                offset: Offset.fromDirection(-0.3 * pi ,450),
+                offset: Offset.fromDirection(-0.3 * pi ,500),
                 child:
                   const RotaryIndicator(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary2",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
@@ -447,7 +452,7 @@ TabLayout overviewSmallLayout = TabLayout(
       children: [
         Column(
           children: const [
-            RotaryIndicator(subscribedSignal: "v_x", numofStates: 51, granularity: 10,),
+            RotaryIndicator(subscribedSignal: "v_x", numofStates: 51, granularity: 5, offset: 0,),
             Plot2D(subscribedSignals: ["Acc_Front_AccX", "Acc_Front_AccY"], title: "Accel Front", maxValue: 4),
           ],
         ),
@@ -582,12 +587,13 @@ TabLayout overviewSmallLayout = TabLayout(
             alignment: AlignmentDirectional.bottomCenter,
             children: [
               Transform.translate(
-                offset: Offset.fromDirection(-0.65 * pi ,450),
+                offset: Offset.fromDirection(-0.7 * pi ,500),
                 child:
                   const RotaryIndicator(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary1",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
@@ -597,15 +603,17 @@ TabLayout overviewSmallLayout = TabLayout(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary3",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
-                offset: Offset.fromDirection(-0.5 * pi ,50),
+                offset: Offset.fromDirection(-0.5 * pi ,10),
                 child:
                   const RotaryIndicator(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary5",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
@@ -615,15 +623,17 @@ TabLayout overviewSmallLayout = TabLayout(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary4",
+                    offset: 1,
                   ),
               ),
               Transform.translate(
-                offset: Offset.fromDirection(-0.35 * pi ,450),
+                offset: Offset.fromDirection(-0.30 * pi ,500),
                 child:
                   const RotaryIndicator(
                     granularity: 1,
                     numofStates: 12,
                     subscribedSignal: "Rotary2",
+                    offset: 1,
                   ),
               ),
             ],
