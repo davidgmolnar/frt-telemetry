@@ -8,6 +8,22 @@ import 'package:flutter_telemetry/components/dash_menu.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
+Map<String,List<TabLayout>> layoutMap = {
+  "CONFIG": [configBigLayout, configSmallLayout],
+  "OVERVIEW": [overviewBigLayout, overviewSmallLayout],
+  "TCU": [tcuBigLayout, tcuSmallLayout],
+  "MCU": [mcuBigLayout, mcuSmallLayout],
+  "SC": [scBigLayout, scSmallLayout],
+  "BRIGHTLOOP": [brightloopBigLayout, brightloopSmallLayout],
+  "HV_ACCU": [hvAccuBigLayout, hvAccuSmallLayout],
+  "DYNAMICS": [dynamicsBigLayout, dynamicsSmallLayout],
+  "LV_SYSTEM": [lvSystemBigLayout, lvSystemSmallLayout],
+  "ERRORS": [errorsBigLayout, errorsSmallLayout],
+  "AS": [asBigLayout, asSmallLayout],
+  "DATALOGGER": [dataloggerBigLayout, dataloggerSmallLayout],
+  "LAP": [lapBigLayout, lapSmallLayout],
+};
+
 class MainScreen extends StatefulWidget{
   const MainScreen({
     Key? key, required this.toggleTheme,
@@ -32,7 +48,7 @@ class MainScreenState extends State<MainScreen>{
   }
 
   void handleAlerts(){
-    if(activeTab == "CONFIG"){ // ilyenkor ott fut a kiértékelés TODO ez így elég bohóc
+    if(activeTab == "CONFIG"){ // ilyenkor ott fut a kiértékelés
       return;
     }
     for (TelemetryAlert alert in alerts) {
@@ -54,118 +70,13 @@ class MainScreenState extends State<MainScreen>{
           children: [
             DashMenu(onTabChange: changeTab, onThemeChange: widget.toggleTheme,),
             Expanded(
-              child: (() {
-                switch(activeTab){
-                  case "CONFIG": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        configBigLayout,
-                        configSmallLayout
-                      ],
-                    );
-                  }
-                  case "OVERVIEW": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        overviewBigLayout,
-                        overviewSmallLayout
-                      ],
-                    );
-                  }
-                  case "TCU": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        tcuBigLayout,
-                        tcuSmallLayout
-                      ],
-                    );
-                  }
-                  case "MCU": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        mcuBigLayout,
-                        mcuSmallLayout
-                      ],
-                    );
-                  }
-                  case "SC": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        scBigLayout,
-                        scSmallLayout
-                      ],
-                    );
-                  }
-                  case "BRIGHTLOOP": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        brightloopBigLayout,
-                        brightloopSmallLayout
-                      ],
-                    );
-                  }
-                  case "HV_ACCU": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        hvAccuBigLayout,
-                        hvAccuSmallLayout
-                      ],
-                    );
-                  }
-                  case "DYNAMICS": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        dynamicsBigLayout,
-                        dynamicsSmallLayout
-                      ],
-                    );
-                  }
-                  case "LV_SYSTEM": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        lvSystemBigLayout,
-                        lvSystemSmallLayout
-                      ],
-                    );
-                  }
-                  case "ERRORS": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        errorsBigLayout,
-                        errorsSmallLayout
-                      ]
-                    );
-                  }
-                  case "AS": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        asBigLayout,
-                        asSmallLayout
-                      ]
-                    );
-                  }
-                  case "DATALOGGER": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        dataloggerBigLayout,
-                        dataloggerSmallLayout
-                      ]
-                    );
-                  }
-                  case "LAP": {
-                    return TabLayoutBuilder(
-                      layout: [
-                        lapBigLayout,
-                        lapSmallLayout
-                      ]
-                    );
-                  }
-                  default: {
-                    return Center(child: Text("$activeTab Tab not found"),);
-                  }
-                }
-              }())
-            )
+              child: layoutMap.containsKey(activeTab) ? 
+                TabLayoutBuilder(
+                  layout: layoutMap[activeTab]!
+                )
+                :
+                Center(child: Text("$activeTab Tab not found"),)
+            ),
           ],
         ),
       ),

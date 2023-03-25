@@ -48,7 +48,7 @@ void sockListener(){
             processPacket(temp);
           }
           catch(exc){
-            print("Error in processing, data was ${decoder.convert(result)}");
+            terminalQueue.add(TerminalElement("Error in processing, data was ${decoder.convert(result)}", 2));
           }
         }
         else{

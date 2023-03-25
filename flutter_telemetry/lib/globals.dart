@@ -8,6 +8,7 @@ import 'package:flutter_telemetry/indicators/lap_display.dart';
 String activeTab = "CONFIG";
 String dir = "";
 bool isFullScreen = false;
+late BuildContext tabContext;
 
 Color primaryColor = primaryColorDark;
 Color secondaryColor = secondaryColorDark;
@@ -17,7 +18,7 @@ Color textColor = textColorDark;
 List<TerminalElement> terminalQueue = []; // ide mindenki pakol akárhonnan
 int displayLevel = 3;
 
-List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a main egy isolateben elindít egy alerthandlert
+List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a mainscreen nézi hogy mi van
 
 DateTime? lastBrightloopMAH;
 

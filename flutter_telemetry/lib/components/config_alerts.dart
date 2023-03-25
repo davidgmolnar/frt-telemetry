@@ -228,6 +228,7 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
                 }
                 else{
                   widget.alert.hasTriggered = false;
+                  widget.alert.isActive = true;
                   setState((){});
                 }
               },

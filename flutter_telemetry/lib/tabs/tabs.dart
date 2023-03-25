@@ -61,6 +61,7 @@ class TabLayoutBuilder extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    tabContext = context;
     return LayoutBuilder(
       builder: (context, constraints){
         _focus.requestFocus();
