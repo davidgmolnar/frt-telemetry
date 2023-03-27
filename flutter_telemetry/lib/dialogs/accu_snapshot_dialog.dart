@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/dialog.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 
 class AccuSnapshotDialog extends StatefulWidget{
@@ -128,12 +129,13 @@ class AccuSnapshotDialogState extends State<AccuSnapshotDialog>{
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: bgColor,
       child: LayoutBuilder(
         builder: ((context, constraints) {
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              DialogTitleBar(parentContext: context),
+              DialogTitleBar(parentContext: context, title: "Accu Snapshot",),
               SizedBox(
                 height: constraints.maxHeight - dialogTitleBarHeight,
                 child: Row(

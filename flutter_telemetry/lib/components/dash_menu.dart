@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/components/dash_bottom_nav.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/dialogs/confirm_close_dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
-import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:window_manager/window_manager.dart';
 
 class DashMenu extends StatefulWidget{
@@ -80,8 +77,11 @@ class DashMenuState extends State<DashMenu>{
                   DashBottomNavButton(
                     iconData: Icons.close,
                     onPressed: () async {
-                      // TODO dialog
-                      SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation).then((_) => exit(0));
+                      showDialog<Widget>(
+                        barrierDismissible: false,
+                        context: tabContext,
+                        builder: (BuildContext context) => const ConfirmCloseDialog()
+                      );
                     }
                   ),
                   DashBottomNavButton(
@@ -115,8 +115,11 @@ class DashMenuState extends State<DashMenu>{
                   DashBottomNavButton(
                     iconData: Icons.close,
                     onPressed: () async {
-                      // TODO dialog
-                      SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation).then((_) => exit(0));
+                      showDialog<Widget>(
+                        barrierDismissible: false,
+                        context: tabContext,
+                        builder: (BuildContext context) => const ConfirmCloseDialog()
+                      );
                     }
                   ),
                   DashBottomNavButton(
