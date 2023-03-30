@@ -79,6 +79,12 @@ class WaveformChartState extends State<WaveformChart>{
       else{
         chartData[i] = [WaveformChartElement(0, DateTime.now())];
       }
+      int j = 0;
+      for (List<WaveformChartElement> element in chartData) {
+        if(chartData.any((element) => element.isNotEmpty ? element.first.time.isAfter(chartData[i].last.time) : false)){
+          chartData[j] = [WaveformChartElement(0, DateTime.now())];
+        }
+      }
     }
     timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
   }
@@ -121,17 +127,11 @@ class WaveformChartState extends State<WaveformChart>{
       for(int i = 0; i < widget.subscribedSignals.length; i++){
         List? tempVal = signalValues[widget.subscribedSignals[i]];
         List<DateTime>? tempTime = signalTimestamps[widget.subscribedSignals[i]];
+        bool didUpdate = false;
         if((tempVal == null || tempVal.isEmpty) && (tempTime == null || tempTime.isEmpty) && _controller[i] != null){  // Nem jött adat de van controllere
-          if(chartData.any((element) => element.isNotEmpty ? element.first.time.isAfter(chartData[i].last.time) : false)){
-            chartData[i].removeAt(0);
-            chartData[i].add(WaveformChartElement(widget.min - 1000, DateTime.now()));
-            _controller[i]!.updateDataSource(
-              addedDataIndex: chartData[i].length - 1,
-              removedDataIndex: 0
-            );
-          }
+          //pass
         }
-        else if(_controller[i] != null && tempTime!.last.isAfter(chartData[i].last.time)){
+        else if(_controller[i] != null && tempTime!.last.isAfter(chartData[i].last.time) && tempTime.isNotEmpty){
           int newDataStartIdx = tempTime.length - 1;
           while(tempTime[newDataStartIdx].isAfter(chartData[i].last.time)){
             newDataStartIdx--;
@@ -147,11 +147,29 @@ class WaveformChartState extends State<WaveformChart>{
             }
             added++;
             newDataStartIdx++;
+            didUpdate = added > 0 || removed > 0;
           }
           _controller[i]!.updateDataSource(
             addedDataIndexes: List<int>.generate(added, (index) => chartData[i].length - added + index),
             removedDataIndexes: List<int>.generate(removed, (index) => index)
           );
+        }
+        if(!didUpdate){
+          if(chartData.any((element) => element.isNotEmpty ? element.first.time.isAfter(chartData[i].last.time) : false)){
+            chartData[i].removeAt(0); // TODO nem egyesével kéne törölni
+            if(chartData[i].isEmpty){
+              chartData[i].add(WaveformChartElement(widget.min - 1000, DateTime.now()));
+              _controller[i]!.updateDataSource(
+                addedDataIndex: chartData[i].length - 1,
+                removedDataIndex: 0
+              );
+            }
+            else{
+              _controller[i]!.updateDataSource(
+                removedDataIndex: 0
+              );
+            }
+          }
         }
       }
     }
