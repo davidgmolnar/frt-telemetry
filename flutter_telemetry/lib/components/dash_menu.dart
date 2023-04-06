@@ -48,8 +48,8 @@ class DashMenuState extends State<DashMenu>{
             ),
             Container(
               margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.all(0),
-              child: Image.asset("assets/images/frt_logo_small.jpg",
+              padding: const EdgeInsets.symmetric(vertical: 3 * defaultPadding, horizontal: defaultPadding),
+              child: Image.asset(textColor == textColorBright ? "assets/images/frt_logo_transparent_black.png" : "assets/images/frt_logo_transparent_bright.png",
                 alignment: Alignment.center,
                 filterQuality: FilterQuality.high,
                 fit: BoxFit.contain,
