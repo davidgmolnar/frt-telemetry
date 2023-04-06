@@ -8,6 +8,128 @@ import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 
+List<int> fillExcel(String timeString){
+  late List<int> bytes;
+  // params
+  double? filler = -1;
+
+  final xlsio.Workbook excel = xlsio.Workbook();
+  final xlsio.Worksheet sheet = excel.worksheets[0];
+  sheet.name = "Cell Status";
+  sheet.showGridlines = true;
+
+  // metadata
+  sheet.getRangeByName('A1').setText('Time');
+  sheet.getRangeByName('B1').setText(timeString);
+
+  sheet.getRangeByName('A3').setText('Max Temp');
+  hvCellTemps.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).first.value;
+  sheet.getRangeByName('B3').setNumber(hvCellTemps.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).first.value.toDouble());
+  sheet.getRangeByName('A4').setText('Max Temp ID');
+  sheet.getRangeByName('B4').setNumber(double.tryParse(hvCellTemps.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).first.key));
+  
+  sheet.getRangeByName('A6').setText('Max Voltage');
+  sheet.getRangeByName('B6').setNumber(hvCellVoltages.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).first.value.toDouble());
+  sheet.getRangeByName('A7').setText('Max Voltage ID');
+  sheet.getRangeByName('B7').setNumber(double.tryParse(hvCellVoltages.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).first.key));
+  
+  sheet.getRangeByName('A9').setText('Min Temp');
+  sheet.getRangeByName('B9').setNumber(hvCellTemps.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).last.value.toDouble());
+  sheet.getRangeByName('A10').setText('Min Temp ID');
+  sheet.getRangeByName('B10').setNumber(double.tryParse(hvCellTemps.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).last.key));
+  
+  sheet.getRangeByName('A12').setText('Min Voltage');
+  sheet.getRangeByName('B12').setNumber(hvCellVoltages.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).last.value.toDouble());
+  sheet.getRangeByName('A13').setText('Min Voltage ID');
+  sheet.getRangeByName('B13').setNumber(double.tryParse(hvCellVoltages.entries.toList().sorted((a, b) => b.value.compareTo(a.value)).last.key));
+
+  sheet.getRangeByName('A1:B100').autoFitColumns();
+
+  // volt title
+  sheet.getRangeByName('D1')..setText("Cell Voltages")
+                            ..cellStyle.bold = true
+                            ..cellStyle.fontSize = 12
+                            ..cellStyle.hAlign = xlsio.HAlignType.center;
+  sheet.getRangeByName('D1:I1').merge();
+
+  //volt data
+  Map<String, String> voltageExcelMap = {
+    "D2:D25" : "Volt1",
+    "E2:E25" : "Volt2",
+    "F2:F25" : "Volt3",
+    "G2:G25" : "Volt4",
+    "H2:H25" : "Volt5",
+    "I2:I25" : "Volt6",
+  };
+
+  for (String range in voltageExcelMap.keys) {
+    int i = 0;
+    sheet.getRangeByName(range).cells.forEach((cell) {
+      if(hvCellVoltages.containsKey(hvCellIDRemap[voltageExcelMap[range]]![i].toString())){
+        cell.setNumber(hvCellVoltages[hvCellIDRemap[voltageExcelMap[range]]![i].toString()]!.toDouble());
+      }
+      else{
+        cell.setNumber(filler);
+      }
+      i++;
+    });
+  }
+  sheet.getRangeByName('D2:I25').cellStyle.hAlign = xlsio.HAlignType.right;
+
+  // temp title
+  sheet.getRangeByName('D27')..setText("Cell Temps")
+                            ..cellStyle.bold = true
+                            ..cellStyle.fontSize = 12
+                            ..cellStyle.hAlign = xlsio.HAlignType.center;
+  sheet.getRangeByName('D27:K27').merge();
+
+  //temp data
+  Map<String, String> tempExcelMap = {
+    "D28:D51" : "Temp1",
+    "E28:E51" : "Temp2",
+    "F28:F51" : "Temp3",
+    "G28:G51" : "Temp4",
+    "H28:H51" : "Temp5",
+    "I28:I51" : "Temp6",
+    "J28:J51" : "Temp7",
+    "K28:K51" : "Temp8",
+  };
+
+  for (String range in tempExcelMap.keys) {
+    int i = 0;
+    sheet.getRangeByName(range).cells.forEach((cell) {
+      if(hvCellTemps.containsKey(hvCellIDRemap[tempExcelMap[range]]![i].toString())){
+        cell.setNumber(hvCellTemps[hvCellIDRemap[tempExcelMap[range]]![i].toString()]!.toDouble());
+      }
+      else{
+        cell.setNumber(filler);
+      }
+      i++;
+    });
+  }
+  sheet.getRangeByName('D28:K51').cellStyle.hAlign = xlsio.HAlignType.right;
+
+  // final
+  sheet.getRangeByName('D2:K2').columnWidth = 10;
+  // Compile excel
+  bytes = excel.saveAsStream();
+  excel.dispose();
+
+  return bytes;
+}
+
+void handleAccuSnapshotSave() async {
+  String timeString = DateTime.now().toIso8601String();
+  List<int> bytes = fillExcel(timeString);
+  String? outputFile = await FilePicker.platform.saveFile(
+    dialogTitle: 'Please select a save location:',
+    fileName: 'accu_snapshot_${timeString.replaceAll(':', '-')}.xlsx',
+  );
+  if (outputFile != null) {
+    File(outputFile).writeAsBytes(bytes);
+  }
+}
+
 class AccuSnapshotDialog extends StatefulWidget{
   const AccuSnapshotDialog({super.key});
   
@@ -18,113 +140,6 @@ class AccuSnapshotDialog extends StatefulWidget{
 }
 
 class AccuSnapshotDialogState extends State<AccuSnapshotDialog>{
-  late List<int> bytes;
-
-  void fillExcel(String timeString){
-    // params
-    double? filler = -1;
-
-    final xlsio.Workbook excel = xlsio.Workbook();
-    final xlsio.Worksheet sheet = excel.worksheets[0];
-    sheet.name = "Cell Status";
-    sheet.showGridlines = true;
-
-    // metadata
-    sheet.getRangeByName('A1').setText('Time');
-    sheet.getRangeByName('B1').setText(timeString);
-
-    sheet.getRangeByName('A3').setText('Max Temp');
-    sheet.getRangeByName('B3').setText('value');
-    sheet.getRangeByName('A4').setText('Max Temp ID');
-    sheet.getRangeByName('B4').setText('id');
-    
-    sheet.getRangeByName('A6').setText('Max Voltage');
-    sheet.getRangeByName('B6').setText('value');
-    sheet.getRangeByName('A7').setText('Max Voltage ID');
-    sheet.getRangeByName('B7').setText('id');
-    
-    sheet.getRangeByName('A9').setText('Min Temp');
-    sheet.getRangeByName('B9').setText('value');
-    sheet.getRangeByName('A10').setText('Min Temp ID');
-    sheet.getRangeByName('B10').setText('id');
-    
-    sheet.getRangeByName('A12').setText('Min Voltage');
-    sheet.getRangeByName('B12').setText('value');
-    sheet.getRangeByName('A13').setText('Min Voltage ID');
-    sheet.getRangeByName('B13').setText('id');
-
-    sheet.getRangeByName('A1:B100').autoFitColumns();
-
-    // volt title
-    sheet.getRangeByName('D1')..setText("Cell Voltages")
-                              ..cellStyle.bold = true
-                              ..cellStyle.fontSize = 12
-                              ..cellStyle.hAlign = xlsio.HAlignType.center;
-    sheet.getRangeByName('D1:I1').merge();
-
-    //volt data
-    Map<String, String> voltageExcelMap = {
-      "D2:D25" : "Volt1",
-      "E2:E25" : "Volt2",
-      "F2:F25" : "Volt3",
-      "G2:G25" : "Volt4",
-      "H2:H25" : "Volt5",
-      "I2:I25" : "Volt6",
-    };
-
-    for (String range in voltageExcelMap.keys) {
-      int i = 0;
-      sheet.getRangeByName(range).cells.forEach((cell) {
-        if(hvCellVoltages.containsKey(hvCellIDRemap[voltageExcelMap[range]]![i].toString())){
-          cell.setNumber(hvCellVoltages[hvCellIDRemap[voltageExcelMap[range]]![i].toString()]!.toDouble());
-        }
-        else{
-          cell.setNumber(filler);
-        }
-        i++;
-      });
-    }
-    sheet.getRangeByName('D2:I25').cellStyle.hAlign = xlsio.HAlignType.right;
-
-    // temp title
-    sheet.getRangeByName('D27')..setText("Cell Temps")
-                              ..cellStyle.bold = true
-                              ..cellStyle.fontSize = 12
-                              ..cellStyle.hAlign = xlsio.HAlignType.center;
-    sheet.getRangeByName('D27:K27').merge();
-
-    //temp data
-    Map<String, String> tempExcelMap = {
-      "D28:D51" : "Temp1",
-      "E28:E51" : "Temp2",
-      "F28:F51" : "Temp3",
-      "G28:G51" : "Temp4",
-      "H28:H51" : "Temp5",
-      "I28:I51" : "Temp6",
-      "J28:J51" : "Temp7",
-      "K28:K51" : "Temp8",
-    };
-
-    for (String range in tempExcelMap.keys) {
-      int i = 0;
-      sheet.getRangeByName(range).cells.forEach((cell) {
-        if(hvCellTemps.containsKey(hvCellIDRemap[tempExcelMap[range]]![i].toString())){
-          cell.setNumber(hvCellTemps[hvCellIDRemap[tempExcelMap[range]]![i].toString()]!.toDouble());
-        }
-        else{
-          cell.setNumber(filler);
-        }
-        i++;
-      });
-    }
-    sheet.getRangeByName('D28:K51').cellStyle.hAlign = xlsio.HAlignType.right;
-
-    // final
-    sheet.getRangeByName('D2:K2').columnWidth = 10;
-    // Compile excel
-    bytes = excel.saveAsStream();
-    excel.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +157,7 @@ class AccuSnapshotDialogState extends State<AccuSnapshotDialog>{
                   children: [
                     const Expanded(
                       flex: 1,
-                      child: Center(child: Text("Itt majd lesz egy preview"),),
+                      child: Center(child: Text("Itt majd talán lesz egy preview"),),
                     ),
                     SizedBox(
                       width: 300,
@@ -151,15 +166,7 @@ class AccuSnapshotDialogState extends State<AccuSnapshotDialog>{
                         children: [
                           TextButton(
                             onPressed: () async {
-                              String timeString = DateTime.now().toIso8601String();
-                              fillExcel(timeString);
-                              String? outputFile = await FilePicker.platform.saveFile(
-                                dialogTitle: 'Please select a save location:',
-                                fileName: 'accu_snapshot_${timeString.replaceAll(':', '-')}.xlsx',
-                              );
-                              if (outputFile != null) {
-                                File(outputFile).writeAsBytes(bytes);
-                              }
+                              handleAccuSnapshotSave();
                               // ignore: use_build_context_synchronously
                               Navigator.of(context).pop();
                             },

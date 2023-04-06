@@ -142,7 +142,6 @@ class LapDisplay extends StatefulWidget{
 
 class LapDisplayState extends State<LapDisplay>{
   Timer timer = Timer(const Duration(days: 1), (() {}));
-  LapDataTracker? tracker;
 
   @override
   Widget build(BuildContext context) {
@@ -155,15 +154,16 @@ class LapDisplayState extends State<LapDisplay>{
             children: [
               TextButton(
                 onPressed: () {
-                  lapTimerStarted = true;
+                  lapTimerStarted = !lapTimerStarted;
                   lapData.clear();
-                  tracker ??= LapDataTracker(isSmallScreen: widget.isSmallScreen);
-                  lapStart = DateTime.now();
+                  if(lapTimerStarted){
+                    lapStart = DateTime.now();
+                  }
                   setState(() {});
                 },
                 child: Row(
                   children: [
-                    Text(lapTimerStarted ? "Reset" : "Start timer", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),),
+                    Text(lapTimerStarted ? "Stop" : "Start timer", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),),
                     const SizedBox(width: 10,),
                     Icon(lapTimerStarted ? Icons.clear : Icons.start, color: primaryColor, size: subTitleFontSize,),
                     SizedBox(width: lapTimerStarted ? 10 : 0,),
@@ -226,7 +226,8 @@ class LapDisplayState extends State<LapDisplay>{
           widget.isSmallScreen ? smallHeader : wideHeader,
           for(LapData data in lapData)
             data.asWidget(widget.isSmallScreen),
-          tracker != null ? tracker! : const SizedBox(),
+          if(lapTimerStarted)
+            LapDataTracker(isSmallScreen: widget.isSmallScreen)
         ],
       ),
     );
