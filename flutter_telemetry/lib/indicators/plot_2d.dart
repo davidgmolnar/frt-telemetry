@@ -68,7 +68,18 @@ class Plot2DState extends State<Plot2D>{
         children: [
           Transform.translate(
             offset: const Offset(0, -300 * 0.85),
-            child: Text(widget.title),
+            child: Tooltip(
+              message: "Listening to ${widget.subscribedSignals[0]} and ${widget.subscribedSignals[1]}",
+              decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(5.0)
+              ),
+              textStyle: TextStyle(color: textColor),
+              showDuration: Duration(milliseconds: tooltipShowMs),
+              waitDuration: Duration(milliseconds: tooltipWaitMs),
+              verticalOffset: 10,
+              child: Text(widget.title)
+            ),
           ),
           Transform.translate(
             offset: const Offset(0, -300 * 0.07),

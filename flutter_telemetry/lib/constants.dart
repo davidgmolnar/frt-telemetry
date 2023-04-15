@@ -6,10 +6,9 @@ extension ListSorted<T> on List<T> {
 
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
-const int udpPort = 8990;
 const double deg2rad = 0.017453;
 
-const Color primaryColorDark = Color.fromARGB(255, 34, 128, 216);
+const Color primaryColorDark = Color.fromARGB(255, 22, 108, 189);
 const Color secondaryColorDark = Color(0xFF2A2D3E);
 const Color bgColorDark = Color(0xFF212332);
 const Color textColorDark = Color.fromARGB(255, 255, 255, 255);
@@ -184,5 +183,6 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "VIRT_APPS_VALID": "APPS valid",
   "VIRT_STA_VALID": "STA valid",
   "rssi" : "RSSI",
-  "error": "Raspberry error"
+  "error": "Raspberry error",
+  "last_singal_update_cnt": "Signals received"
 };

@@ -24,7 +24,7 @@ class BooleanIndicator extends StatefulWidget{
 class BooleanIndicatorState extends State<BooleanIndicator>{
 	late Timer timer;
   num value = 1;
-  Color textColor = const Color.fromARGB(255, 255, 17, 0);  // default
+  Color localTextColor = const Color.fromARGB(255, 255, 17, 0);  // default
   late String label;
 
   @override
@@ -45,15 +45,15 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       setState(() {
         if(temp == 0){
           value = 0;
-          textColor = widget.isInverted == null ? const Color.fromARGB(255, 0, 255, 8) : const Color.fromARGB(255, 255, 17, 0);
+          localTextColor = widget.isInverted == null ? const Color.fromARGB(255, 0, 255, 8) : const Color.fromARGB(255, 255, 17, 0);
         }
         else if(temp == 1){
           value == 1;
-          textColor = widget.isInverted == null ? const Color.fromARGB(255, 255, 17, 0) : const Color.fromARGB(255, 0, 255, 8);
+          localTextColor = widget.isInverted == null ? const Color.fromARGB(255, 255, 17, 0) : const Color.fromARGB(255, 0, 255, 8);
         }
         else{
           value = 2; // hiba
-          textColor = Colors.black; // hiba
+          localTextColor = Colors.black; // hiba
         }
       });
     }
@@ -63,10 +63,21 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
   Widget build(BuildContext context) {
     return Padding( 
       padding: const EdgeInsets.all(defaultPadding),
-      child: Text(label,
-        textAlign: TextAlign.left,
-        maxLines: 1,
-        style: TextStyle(fontSize: numericFontSize, color: textColor),),
+      child: Tooltip(
+        message: "Listening to ${widget.subscribedSignal}",
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.circular(5.0)
+        ),
+        textStyle: TextStyle(color: textColor),
+        showDuration: Duration(milliseconds: tooltipShowMs),
+        waitDuration: Duration(milliseconds: tooltipWaitMs),
+        verticalOffset: 10,
+        child: Text(label,
+          textAlign: TextAlign.left,
+          maxLines: 1,
+          style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
+      ),
     );
   }
 

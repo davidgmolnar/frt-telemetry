@@ -61,9 +61,20 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
         children:[
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
+            child: Tooltip(
+              message: "Listening to ${widget.subscribedSignal}",
+              decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(5.0)
+              ),
+              textStyle: TextStyle(color: textColor),
+              showDuration: Duration(milliseconds: tooltipShowMs),
+              waitDuration: Duration(milliseconds: tooltipWaitMs),
+              verticalOffset: 10,
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Container(

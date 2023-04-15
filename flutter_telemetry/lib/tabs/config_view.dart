@@ -32,7 +32,8 @@ TabLayout configBigLayout = TabLayout(
             NumericPanel(
               subscribedSignals: [
                 "rssi",
-              ], colsize: 1, title: "Telemetry Status"
+                "last_singal_update_cnt"
+              ], colsize: 2, title: "Telemetry Status"
             ),
             StringIndicator(subscribedSignal: "error", decoder: raspberryErrorDecoder)
           ],
@@ -57,7 +58,8 @@ TabLayout configSmallLayout = TabLayout(
             NumericPanel(
               subscribedSignals: [
                 "rssi",
-              ], colsize: 1, title: "Telemetry Status"
+                "last_singal_update_cnt"
+              ], colsize: 2, title: "Telemetry Status"
             ),
             StringIndicator(subscribedSignal: "error", decoder: raspberryErrorDecoder)
           ],

@@ -181,8 +181,19 @@ class WaveformChartState extends State<WaveformChart>{
             for(int i = 0; i < widget.subscribedSignals.length; i++)
               TextButton(
                 onPressed: () { /* TODO toggle plot visibility ezt vhogy setstate nélkül kéne mert az valahogy leválasztja a timert a widgettől */ },
-                child: Text(labels[i],
-                  style: TextStyle(color: _colormap[i], fontSize: chartLabelFontSize),
+                child: Tooltip(
+                  message: "Listening to ${widget.subscribedSignals[i]}",
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(5.0)
+                  ),
+                  textStyle: TextStyle(color: textColor),
+                  showDuration: Duration(milliseconds: tooltipShowMs),
+                  waitDuration: Duration(milliseconds: tooltipWaitMs),
+                  verticalOffset: 10,
+                  child: Text(labels[i],
+                    style: TextStyle(color: _colormap[i], fontSize: chartLabelFontSize),
+                  ),
                 ),
               ),
           ],

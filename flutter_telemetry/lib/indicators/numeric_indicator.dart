@@ -56,11 +56,22 @@ class NumericIndicatorState extends State<NumericIndicator>{
           children:[
             Padding(
               padding: const EdgeInsets.only(right: defaultPadding),
-              child: Text(label,
-                textAlign: TextAlign.left,
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: numericFontSize
+              child: Tooltip(
+                message: "Listening to ${widget.subscribedSignal}",
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(5.0)
+                ),
+                textStyle: TextStyle(color: textColor),
+                showDuration: Duration(milliseconds: tooltipShowMs),
+                waitDuration: Duration(milliseconds: tooltipWaitMs),
+                verticalOffset: 10,
+                child: Text(label,
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: numericFontSize
+                  ),
                 ),
               ),
             ),

@@ -74,7 +74,18 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
 
           Transform.translate(  // Label
             offset: const Offset(0, 115),
-            child: Text(label),
+            child: Tooltip(
+              message: "Listening to ${widget.subscribedSignal}",
+              decoration: BoxDecoration(
+                color: secondaryColor,
+                borderRadius: BorderRadius.circular(5.0)
+              ),
+              textStyle: TextStyle(color: textColor),
+              showDuration: Duration(milliseconds: tooltipShowMs),
+              waitDuration: Duration(milliseconds: tooltipWaitMs),
+              verticalOffset: 10,
+              child: Text(label)
+            ),
           ),
         
           for(int i = 0; i < widget.numofStates; i+=widget.granularity)

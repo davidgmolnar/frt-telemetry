@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/dialogs/accu_snapshot_dialog.dart';
+import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
@@ -38,15 +39,10 @@ TabLayout hvAccuBigLayout = TabLayout(
               title: "HV Status"
             ),
             TextButton(
-              /*onPressed: () => showDialog<Widget>(
-                barrierDismissible: false,
-                context: tabContext,
-                builder: (BuildContext context) => const AccuSnapshotDialog()
-              ),*/
               onPressed: () async {
                 handleAccuSnapshotSave();
               },
-              child: const Text("Accu Snapshot")
+              child: Text("Accu Snapshot", style: TextStyle(color: primaryColor),)
             )
           ],
         ),
@@ -90,8 +86,8 @@ TabLayout hvAccuSmallLayout = TabLayout(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Column(
-          children: const [
-            BooleanPanel(
+          children: [
+            const BooleanPanel(
               subscribedSignals: [
                 "AIR_minus_state",
                 "AIR_plus_state",
@@ -113,6 +109,12 @@ TabLayout hvAccuSmallLayout = TabLayout(
               colsize: 16,
               title: "HV Status"
             ),
+            TextButton(
+              onPressed: () async {
+                handleAccuSnapshotSave();
+              },
+              child: Text("Accu Snapshot", style: TextStyle(color: primaryColor),)
+            )
           ],
         ),
         Column(

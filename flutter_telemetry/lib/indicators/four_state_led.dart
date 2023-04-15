@@ -24,7 +24,7 @@ class FourStateLed extends StatefulWidget{
 class FourStateLedState extends State<FourStateLed>{
 	late Timer timer;
   num value = 1;
-  Color textColor = Colors.grey.shade700;  // default
+  Color localTextColor = Colors.grey.shade700;  // default
   late String label;
 
   @override
@@ -45,23 +45,23 @@ class FourStateLedState extends State<FourStateLed>{
       setState(() {
         if(temp == 0){
           value = 0;
-          textColor = const Color.fromARGB(255, 158, 158, 158);
+          localTextColor = const Color.fromARGB(255, 158, 158, 158);
         }
         else if(temp == 1){
           value == 1;
-          textColor = const Color.fromARGB(255, 255, 17, 0);
+          localTextColor = const Color.fromARGB(255, 255, 17, 0);
         }
         else if(temp == 2){
           value = 2;
-          textColor = const Color.fromARGB(255, 0, 255, 8);
+          localTextColor = const Color.fromARGB(255, 0, 255, 8);
         }
         else if(temp == 3){
           value = 3;
-          textColor = const Color.fromARGB(255, 255, 152, 0);
+          localTextColor = const Color.fromARGB(255, 255, 152, 0);
         }
         else{
           value = 4; // hiba
-          textColor = const Color.fromARGB(255, 0, 0, 0); // hiba
+          localTextColor = const Color.fromARGB(255, 0, 0, 0); // hiba
         }
       });
     }
@@ -71,10 +71,21 @@ class FourStateLedState extends State<FourStateLed>{
   Widget build(BuildContext context) {
     return Container( 
       padding: EdgeInsets.all(widget.paddingFactor * defaultPadding),
-      child: Text(label,
-        textAlign: TextAlign.left,
-        maxLines: 1,
-        style: TextStyle(fontSize: numericFontSize, color: textColor),),
+      child: Tooltip(
+        message: "Listening to ${widget.subscribedSignal}",
+        decoration: BoxDecoration(
+          color: secondaryColor,
+          borderRadius: BorderRadius.circular(5.0)
+        ),
+        textStyle: TextStyle(color: textColor),
+        showDuration: Duration(milliseconds: tooltipShowMs),
+        waitDuration: Duration(milliseconds: tooltipWaitMs),
+        verticalOffset: 10,
+        child: Text(label,
+          textAlign: TextAlign.left,
+          maxLines: 1,
+          style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
+      ),
     );
   }
 

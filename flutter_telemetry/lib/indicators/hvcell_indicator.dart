@@ -133,7 +133,8 @@ class HVCellTempIndicatorState extends State<HVCellTempIndicator>{
         border: Border.symmetric(
           horizontal: BorderSide(color: textColor, width: 2.0),
           vertical: BorderSide(color: textColor, width: 1.0),
-        )
+        ),
+        color: bgColor
       ),
       width: widget.width + 2,
       height: 25 + 4,
@@ -206,6 +207,7 @@ class HVCellColumn extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    int i = -1;
     if(measIds.length != 24){
       return RotatedBox(
         quarterTurns: 1,
@@ -216,18 +218,31 @@ class HVCellColumn extends StatelessWidget{
       );
     }
     else {
-      return Column(
-        children: measIds.map((idx) {
-          if(type == ColumnType.voltageMeas){
-            return HVCellVoltageIndicator(id: idx, barWidth: 60, labelWidth: 35, textScaleFactor: 0.7);
-          }
-          else if(type == ColumnType.tempMeas){
-            return HVCellTempIndicator(id: idx, width: 30, textScaleFactor: 0.8);
-          }
-          else{
-            return HVTempColorItem(id: idx, width: 30, height: 15);
-          }
-        }).toList()
+      return Container(
+        color: primaryColor,
+        child: Column(
+          children: measIds.map((idx) {
+            i++;
+            return Padding(padding: EdgeInsets.only(
+              bottom: 
+                type == ColumnType.colormap ? 0
+                :
+                [3,11,19].any((element) => element == i) ? 1.5
+                :
+                [7,15].any((element) => element == i) ?  3
+                :
+                0),
+              child:
+                type == ColumnType.voltageMeas ?
+                  HVCellVoltageIndicator(id: idx, barWidth: 60, labelWidth: 35, textScaleFactor: 0.7)
+                  :
+                type == ColumnType.tempMeas ? 
+                  HVCellTempIndicator(id: idx, width: 30, textScaleFactor: 0.8)
+                  :
+                  HVTempColorItem(id: idx, width: 30, height: 15)
+            );
+          }).toList()
+        ),
       );
     }
   }
@@ -269,7 +284,9 @@ class HVAccu extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: 715 ,child: Column(children: const [Spacer(), Text('-', style: TextStyle(color: Colors.red, fontSize: titleFontSize),)],)),
         HVCellColumn(measIds: hvCellIDRemap["Temp1"]!, type: ColumnType.tempMeas),
         HVCellColumn(measIds: hvCellIDRemap["Volt1"]!, type: ColumnType.voltageMeas),
         HVCellColumn(measIds: hvCellIDRemap["Temp2"]!, type: ColumnType.tempMeas),
@@ -277,6 +294,7 @@ class HVAccu extends StatelessWidget{
         HVCellColumn(measIds: hvCellIDRemap["Temp3"]!, type: ColumnType.tempMeas),
         HVCellColumn(measIds: hvCellIDRemap["Volt3"]!, type: ColumnType.voltageMeas),
         HVCellColumn(measIds: hvCellIDRemap["Temp4"]!, type: ColumnType.tempMeas),
+        Container(width: 3, height: 707, color: primaryColor,),
         HVCellColumn(measIds: hvCellIDRemap["Temp5"]!, type: ColumnType.tempMeas),
         HVCellColumn(measIds: hvCellIDRemap["Volt4"]!, type: ColumnType.voltageMeas),
         HVCellColumn(measIds: hvCellIDRemap["Temp6"]!, type: ColumnType.tempMeas),
@@ -284,6 +302,7 @@ class HVAccu extends StatelessWidget{
         HVCellColumn(measIds: hvCellIDRemap["Temp7"]!, type: ColumnType.tempMeas),
         HVCellColumn(measIds: hvCellIDRemap["Volt6"]!, type: ColumnType.voltageMeas),
         HVCellColumn(measIds: hvCellIDRemap["Temp8"]!, type: ColumnType.tempMeas),
+        SizedBox(height: 715 ,child: Column(children: const [Spacer(), Text('+', style: TextStyle(color: Colors.red, fontSize: titleFontSize),)],)),
       ],
     );
   }

@@ -214,3 +214,6 @@ Map<String, List<int>> settings = {
   "chartLoadMode": [1,0,1],
   "listenPort": [8998, 1000, 65535]
 };
+
+int tooltipShowMs = 0;
+int tooltipWaitMs = 1000;
