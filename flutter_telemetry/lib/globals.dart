@@ -21,6 +21,7 @@ int displayLevel = 3;
 List<TelemetryAlert> alerts = []; // ide csak a config tab pakol, és a mainscreen nézi hogy mi van
 
 DateTime? lastBrightloopMAH;
+DateTime appstartdate = DateTime.now();
 
 // TODO ennek editor
 List<double> tempBrakepoints = [-double.infinity, 1, 20, 30, 35, 40, 45, 50, double.infinity];

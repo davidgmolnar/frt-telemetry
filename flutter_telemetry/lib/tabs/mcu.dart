@@ -122,6 +122,7 @@ TabLayout mcuBigLayout = TabLayout(
       max: 80,
       multiplier: [1,1,1,1]
     ),
+    //const TimeSeriesChart(subscribedSignals: ["AMK1_actual_velocity", "AMK2_actual_velocity"], title: "Test Chart", min: 0, max: 100)
   ],
   minWidth: 1220
 );

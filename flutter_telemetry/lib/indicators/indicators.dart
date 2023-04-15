@@ -16,6 +16,7 @@ export 'amk_status_indicator.dart';
 export 'hvcell_indicator.dart';
 export 'lap_display.dart';
 export 'decoders.dart';
+export 'time_series_chart.dart';
 
 class Titlebar extends StatelessWidget{
   const Titlebar({
