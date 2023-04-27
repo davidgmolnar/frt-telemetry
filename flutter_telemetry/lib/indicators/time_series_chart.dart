@@ -12,7 +12,7 @@ class TimeSeriesPoint{
   final DateTime timestamp;
 }
 
-double titleHeight = 20;
+double titleHeight = 30;
 double fullHeight = 300;
 double canvasHeight = fullHeight - titleHeight - 2 * defaultPadding - 2 * borderWidth;
 double yAxisWidth = 30;
@@ -39,6 +39,31 @@ class TimeSeriesChart extends StatefulWidget{
 }
 
 class TimeSeriesChartState extends State<TimeSeriesChart>{
+  List<String> labels = [];
+  static const Map<int, Color> _colormap = {
+    0: Color.fromARGB(255, 255, 17, 0),
+    1: Color.fromARGB(255, 0, 255, 8),
+    2: Colors.blue,
+    3: Colors.yellow,
+    4: Colors.purple,
+    5: Colors.brown
+  };
+
+  late Function toggleVisibility;
+
+  @override
+  void initState() {
+    for(int i = 0; i < widget.subscribedSignals.length; i++){
+      if(labelRemap.containsKey(widget.subscribedSignals[i])){
+        labels.add(labelRemap[widget.subscribedSignals[i]]!);
+      }
+      else{
+        labels.add(widget.subscribedSignals[i].replaceAll('_', ' '));
+      }
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -53,10 +78,20 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
               SizedBox(
                 height: titleHeight,
                 child: Row(
-                  children: const [
-                    Text("Title"),
-                    Spacer(),
-                    Text('Labels')
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: defaultPadding * 6),
+                      child: Text(widget.title, style: const TextStyle(fontSize: subTitleFontSize),),
+                    ),
+                    const Spacer(),
+                    for(int i = 0; i < labels.length; i++)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
+                        child: TextButton(
+                          onPressed: () {toggleVisibility(i);},
+                          child: Text(labels[i], style: TextStyle(color: _colormap[i]),)
+                        ),
+                      )
                   ],
                 ),
               ),
@@ -84,6 +119,9 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                         min: widget.min,
                         canvasHeight: canvasHeight,
                         canvasWidth: canvasWidth,
+                        visibilitySetter: (setter) {
+                          toggleVisibility = setter;
+                        },
                       )
                     )
                   ],
@@ -104,7 +142,8 @@ class TimeSeriesPlotArea extends StatefulWidget{ // TODO ennek egyben kell kezel
     required this.min,
     required this.max,
     required this.canvasHeight,
-    required this.canvasWidth
+    required this.canvasWidth,
+    required this.visibilitySetter
   });
 
   final List<String> subscribedSignals;
@@ -112,6 +151,7 @@ class TimeSeriesPlotArea extends StatefulWidget{ // TODO ennek egyben kell kezel
   final double max;
   final double canvasHeight;
   final double canvasWidth;
+  final Function visibilitySetter;
 
   @override
   State<StatefulWidget> createState() {
@@ -125,6 +165,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
   late double yScale;
   late double xScale;
   late double xStart;
+  List<bool> visibility = [];
 
   late Timer timer;
   static const Map<int, Color> _colormap = {
@@ -135,7 +176,6 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     4: Colors.purple,
     5: Colors.brown
   };
-  List<String> labels = [];
 
   double refreshXStart(){
     if(chartDataPoints.isEmpty || chartDataPoints.every((element) => element.isEmpty)){
@@ -151,6 +191,13 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     return chartDataPoints.fold(double.infinity, (previousValue, element) => previousValue = min(previousValue, widget.canvasWidth / (element.last.dx - element.first.dx)));
   }
 
+  void toggleVisibility(int i){
+    if(i < visibility.length){
+      visibility[i] = !visibility[i];
+      setState(() {});
+    }
+  }
+
     @override
   void initState() {
     yScale = widget.canvasHeight / (widget.max - widget.min);
@@ -158,66 +205,65 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     for(int i = 0; i < widget.subscribedSignals.length; i++){
       chartData.add([]);
       chartDataPoints.add([]);
-      // DEBUG
-      chartData[i] = widget.subscribedSignals[i] == "AMK1_actual_velocity" ? 
-      [
-        TimeSeriesPoint(10, DateTime.now().add(const Duration(seconds: 1))),
-        TimeSeriesPoint(15, DateTime.now().add(const Duration(seconds: 2))),
-        TimeSeriesPoint(60, DateTime.now().add(const Duration(seconds: 4))),
-      ]
-      :
-      [
-        TimeSeriesPoint(10, DateTime.now().add(const Duration(seconds: 1))),
-        TimeSeriesPoint(70, DateTime.now().add(const Duration(seconds: 4))),
-        TimeSeriesPoint(15, DateTime.now().add(const Duration(seconds: 11))),
-      ];
-      // DEBUG
-      for(int j = 0; j < chartData[i].length; j++){
-        chartDataPoints[i].add(Offset(
-          chartData[i][j].timestamp.difference(appstartdate).inMilliseconds.toDouble(),
-          chartData[i][j].signalValue * yScale
-        ));
-      }
+      visibility.add(true);
     }
     xScale = refreshXScale();
     xStart = refreshXStart();
+    
     super.initState();
+    widget.visibilitySetter(toggleVisibility);
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
   }
 
   void updateData(){
-    DateTime updateTimeLimit = DateTime.now().subtract(const Duration(seconds: 30)); // param
+    DateTime updateTimeLimit = DateTime.now().subtract(const Duration(seconds: 60)); // param
     if(settings['chartLoadMode']![0] == 0){ // 0 lazy 1 complete
       // remélhetőleg nem lesz
     }
     else{
       for(int i = 0; i < widget.subscribedSignals.length; i++){
-        List? tempVal = signalValues[widget.subscribedSignals[i]];
-        List<DateTime>? tempTime = signalTimestamps[widget.subscribedSignals[i]];
-        if((tempVal == null || tempVal.isEmpty) && (tempTime == null || tempTime.isEmpty)){
+        List? tempVal = [];
+        List<DateTime>? tempTime = [];
+        int toSkip = 0;
+
+        if(chartData[i].isEmpty){
+          tempTime = signalTimestamps[widget.subscribedSignals[i]];
+          if(tempTime == null){
+            return;
+          }
+          tempVal = signalValues[widget.subscribedSignals[i]];
+        }
+        else{
+          tempTime = signalTimestamps[widget.subscribedSignals[i]]?.skipWhile((value) => !value.isAfter(chartData[i].last.timestamp)).toList();
+          if(tempTime == null){
+            return;
+          }
+          toSkip = signalValues[widget.subscribedSignals[i]]!.length - tempTime.length;
+          tempVal = signalValues[widget.subscribedSignals[i]]?.skip(toSkip).toList();
+        }
+
+        if((tempVal == null || tempVal.isEmpty) && (tempTime.isEmpty)){
           //pass
         }
-        else if(tempTime!.last.isAfter(chartData[i].last.timestamp) && tempTime.isNotEmpty){
-          int newDataStartIdx = tempTime.length - 1;
-          while(tempTime[newDataStartIdx].isAfter(chartData[i].last.timestamp)){
-            newDataStartIdx--;
-          }
-          newDataStartIdx++;
-          while(newDataStartIdx < tempTime.length){
-            chartData[i].add(TimeSeriesPoint(tempVal![newDataStartIdx], tempTime[newDataStartIdx]));
+        else if(chartData[i].isEmpty || tempTime.isNotEmpty && tempTime.last.isAfter(chartData[i].last.timestamp)){
+          for(int j = 0; j < tempTime.length; j++){
+            chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
             chartDataPoints[i].add(Offset(
-              tempTime[newDataStartIdx].difference(appstartdate).inMilliseconds.toDouble(),
-              tempVal[newDataStartIdx] * yScale
+              tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
+              tempVal[j] * yScale
             ));
-            newDataStartIdx++;
           }
+          
           // Split at last x sec
           chartData[i] = chartData[i].skipWhile((value) => value.timestamp.isBefore(updateTimeLimit)).toList();
-          chartDataPoints[i] = chartDataPoints[i].skipWhile((value) => value.dx < updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble()).toList();
+          toSkip = chartDataPoints[i].length - chartData[i].length;
+          chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
         }
       }
       xScale = refreshXScale();
       xStart = refreshXStart();
     }
+    setState(() {});
   }
 
   @override
@@ -226,11 +272,20 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       clipBehavior: Clip.none, // clip is inside ChartLinePainter
       children: [
         for(int i = 0; i < widget.subscribedSignals.length; i++)
-          CustomPaint(
-            painter: ChartLinePainter(widget.canvasWidth, widget.canvasHeight, chartDataPoints[i], xScale, xStart, _colormap[i]!),
-          )
+          if(visibility[i])
+            CustomPaint(
+              painter: ChartLinePainter(widget.canvasWidth, widget.canvasHeight, chartDataPoints[i], xScale, xStart, _colormap[i]!),
+            )
+          else
+            Container()
       ]
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }
 
@@ -246,7 +301,7 @@ class ChartLinePainter extends CustomPainter{
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint painter = Paint()..color = lineColor..style = PaintingStyle.stroke..strokeWidth = 2;  // ez kinn
+    Paint painter = Paint()..color = lineColor..style = PaintingStyle.stroke..strokeWidth = 3;  // TODO ez kinn
     bool first = true;
     for(int i = 0; i < points.length; i++){
       if(first){
@@ -266,7 +321,7 @@ class ChartLinePainter extends CustomPainter{
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 
 }

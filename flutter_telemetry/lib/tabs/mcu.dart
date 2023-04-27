@@ -98,7 +98,7 @@ TabLayout mcuBigLayout = TabLayout(
       ],
     ),
     const Titlebar(title: "RPM and Temp"),
-    const WaveformChart(
+    const TimeSeriesChart(
       subscribedSignals: [
         "AMK1_actual_velocity",
         "AMK2_actual_velocity",
@@ -108,9 +108,9 @@ TabLayout mcuBigLayout = TabLayout(
       title: "AMK RPM",
       min: 0,
       max: 25000,
-      multiplier: [1,1,1,1]
+      //multiplier: [1,1,1,1]
     ),
-    const WaveformChart(
+    const TimeSeriesChart(
       subscribedSignals: [
         "AMK1_temp_inverter",
         "AMK2_temp_inverter",
@@ -120,9 +120,8 @@ TabLayout mcuBigLayout = TabLayout(
       title: "AMK Inverter temp",
       min: 0,
       max: 80,
-      multiplier: [1,1,1,1]
+      //multiplier: [1,1,1,1]
     ),
-    //const TimeSeriesChart(subscribedSignals: ["AMK1_actual_velocity", "AMK2_actual_velocity"], title: "Test Chart", min: 0, max: 100)
   ],
   minWidth: 1220
 );
