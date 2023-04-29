@@ -212,8 +212,9 @@ Map<String, List<int>> settings = {
   "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [512,128,4096],
   "chartSignalValuesToKeep": [512,128,4096],
+  "chartShowSeconds": [40,1,180],
   "chartLoadMode": [1,0,1],
-  "listenPort": [8998, 1000, 65535]
+  "listenPort": [8998, 1000, 65535],
 };
 
 int tooltipShowMs = 0;

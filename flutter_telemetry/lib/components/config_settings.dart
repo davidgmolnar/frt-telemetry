@@ -13,6 +13,7 @@ Map<String, String> settingsToLabel = {
   "chartSignalValuesToKeep": "Data points on chart",
   "chartLoadMode": "Chart loading mode",
   "listenPort": "Port to listen",
+  "chartShowSeconds": "Chart timespan in sec"
 };
 
 Map<String, String> settingsTooltip = {
@@ -21,7 +22,8 @@ Map<String, String> settingsTooltip = {
   "signalValuesToKeep": "The last x values are going to be stored in memory, to be used by charts or time averaged signals",
   "chartSignalValuesToKeep": "Data points on charts",
   "chartLoadMode": "0 - Use the single most recent value each time the chart attempts to refresh (Power saver with potential data loss) \n1 - Update the charts with all the new values since it was last refreshed (More performance intensive, data loss only if more data arrived than would fill a chart)",
-  "listenPort": "This port will be used to receive UDP data to be displayed"
+  "listenPort": "This port will be used to receive UDP data to be displayed",
+  "chartShowSeconds": "The charts will show data received in the last x seconds"
 };
 
 class SettingsElement extends StatefulWidget{
