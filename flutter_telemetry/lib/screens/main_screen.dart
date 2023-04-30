@@ -11,10 +11,14 @@ import 'package:flutter_telemetry/tabs/tabs.dart';
 Map<String, List<TabLayout>> layoutMap = {
   "CONFIG": [configBigLayout, configSmallLayout],
   "OVERVIEW": [overviewBigLayout, overviewSmallLayout],
-  "TCU": [tcuBigLayout, tcuSmallLayout],
-  "MCU": [mcuBigLayout, mcuSmallLayout],
+  "TCU": [tcuBigLayout, tcuSmallLayout, tcuMobileLayout],
+  "MCU": [mcuBigLayout, mcuSmallLayout, mcuMobileLayout],
   "SC": [scBigLayout, scSmallLayout],
-  "BRIGHTLOOP": [brightloopBigLayout, brightloopSmallLayout],
+  "BRIGHTLOOP": [
+    brightloopBigLayout,
+    brightloopSmallLayout,
+    brightloopMobileLayout
+  ],
   "HV_ACCU": [hvAccuBigLayout, hvAccuSmallLayout],
   "DYNAMICS": [dynamicsBigLayout, dynamicsSmallLayout, dynamicsMobileLayout],
   "LV_SYSTEM": [lvSystemBigLayout, lvSystemSmallLayout, lvSystemMobileLayout],

@@ -269,6 +269,7 @@ TabLayout asSmallLayout = TabLayout(
   ],
   minWidth: 600,
 );
+
 TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
   0,
   2000
