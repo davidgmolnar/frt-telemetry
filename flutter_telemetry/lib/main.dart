@@ -11,10 +11,10 @@ import 'package:flutter_telemetry/screens/main_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  if(Platform.isWindows){
+  if (Platform.isWindows) {
     windowManager.maximize(); // win only
   }
   await getCurrentDirectory();
@@ -33,9 +33,10 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  void toggleTheme(){
+  void toggleTheme() {
     toggleColorTheme();
-    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
+    SchedulerBinding.instance
+        .scheduleTask(() => saveSession(), Priority.animation);
     setState(() {});
   }
 
@@ -44,10 +45,11 @@ class MyAppState extends State<MyApp> {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
+
     (context as Element).visitChildren(rebuild);
   }
 
-	@override
+  @override
   Widget build(BuildContext context) {
     rebuildAllChildren(context); // a const widgetek is rebuildelnek
     return MaterialApp(
@@ -56,16 +58,20 @@ class MyAppState extends State<MyApp> {
       scaffoldMessengerKey: snackbarKey,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: textColor),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: textColor),
         canvasColor: bgColor,
       ),
-      home: MainScreen(toggleTheme: toggleTheme,),
+      home: MainScreen(
+        toggleTheme: toggleTheme,
+      ),
     );
   }
 
   @override
-  void dispose(){
-    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
+  void dispose() {
+    SchedulerBinding.instance
+        .scheduleTask(() => saveSession(), Priority.animation);
     super.dispose();
   }
 }
