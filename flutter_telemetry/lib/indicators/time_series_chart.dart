@@ -283,7 +283,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
             for(int j = 0; j < tempTime!.length; j++){
               chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
               chartDataPoints[i].add(Offset(
-                tempTime[j].difference(appstartdate).inMilliseconds.toDouble() * xScale,
+                tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
                 tempVal[j] * yScale + borderWidth
               ));
             }
@@ -295,6 +295,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
         chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
       }
       xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
+      xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
     }
     setState(() {});
   }
@@ -340,11 +341,11 @@ class ChartLinePainter extends CustomPainter{
         canvas.clipRect(Rect.fromPoints(const Offset(0,0), Offset(width, height - borderWidth)));
         canvas.translate(-xScale * xStart, height);
         canvas.scale(1, -1);
-        path.moveTo(points[i].dx, points[i].dy);
+        path.moveTo(points[i].dx * xScale, points[i].dy);
         first = false;
         continue;
       }
-      path.lineTo(points[i].dx, points[i].dy);
+      path.lineTo(points[i].dx * xScale, points[i].dy);
     }
     canvas.drawPath(path, painter);
   }

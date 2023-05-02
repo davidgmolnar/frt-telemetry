@@ -14,25 +14,17 @@ Map<String, List<TabLayout>> layoutMap = {
   "TCU": [tcuBigLayout, tcuSmallLayout, tcuMobileLayout],
   "MCU": [mcuBigLayout, mcuSmallLayout, mcuMobileLayout],
   "SC": [scBigLayout, scSmallLayout],
-  "BRIGHTLOOP": [
-    brightloopBigLayout,
-    brightloopSmallLayout,
-    brightloopMobileLayout
-  ],
+  "BRIGHTLOOP": [brightloopBigLayout, brightloopSmallLayout, brightloopMobileLayout],
   "HV_ACCU": [hvAccuBigLayout, hvAccuSmallLayout],
   "DYNAMICS": [dynamicsBigLayout, dynamicsSmallLayout, dynamicsMobileLayout],
   "LV_SYSTEM": [lvSystemBigLayout, lvSystemSmallLayout, lvSystemMobileLayout],
   "ERRORS": [errorsBigLayout, errorsSmallLayout, errorsMobileLayout],
   "AS": [asBigLayout, asSmallLayout, asMobileLayout],
-  "DATALOGGER": [
-    dataloggerBigLayout,
-    dataloggerSmallLayout,
-    dataloggerMobileLayout
-  ],
+  "DATALOGGER": [dataloggerBigLayout, dataloggerSmallLayout, dataloggerMobileLayout],
   "LAP": [lapBigLayout, lapSmallLayout],
 };
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget{
   const MainScreen({
     Key? key,
     required this.toggleTheme,
@@ -50,13 +42,12 @@ class MainScreenState extends State<MainScreen> {
   late Timer timer;
 
   void changeTab() {
-    SchedulerBinding.instance
-        .scheduleTask(() => saveSession(), Priority.animation);
+    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     setState(() {});
   }
 
-  void handleAlerts() {
-    if (activeTab == "CONFIG") {
+  void handleAlerts(){
+    if (activeTab == "CONFIG"){
       // ilyenkor ott fut a kiértékelés
       return;
     }
@@ -66,14 +57,14 @@ class MainScreenState extends State<MainScreen> {
   }
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
     timer = Timer.periodic(
         const Duration(milliseconds: 1000), (Timer t) => handleAlerts());
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       body: SafeArea(
         child: Row(

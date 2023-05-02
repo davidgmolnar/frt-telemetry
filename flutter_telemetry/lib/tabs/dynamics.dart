@@ -195,33 +195,29 @@ TabLayout dynamicsSmallLayout =
 TabLayout dynamicsMobileLayout =
     TabLayout(layoutBreakpoints: const [], shortcutLabels: const [], layout: [
   const Titlebar(title: "Dynamics Measurements"),
-  Column(
-    children: [
-      const NumericPanel(subscribedSignals: [
-        "Acc_Front_AccX",
-        "AccX_Rear",
-        "Acc_Front_AccY",
-        "AccY_Rear",
-        "Acc_Front_RollRate",
-        "Vectornav_yaw_rate_rear_value",
-        "VIRT_ACC_FRONT_YAW_RAD",
-        "Yaw_Rate_Rear"
-      ], colsize: 8, title: "Dynamics"),
-      const BooleanPanel(subscribedSignals: [
-        "APPS_plausiblity",
-        "STA_plausiblity",
-        "VIRT_APPS_VALID",
-        "VIRT_STA_VALID"
-      ], colsize: 4, title: "Pedal Node"),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          ScaleIndicator(
-              subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
-          ScaleIndicator(
-              subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
-        ],
-      ),
+  const NumericPanel(subscribedSignals: [
+    "Acc_Front_AccX",
+    "AccX_Rear",
+    "Acc_Front_AccY",
+    "AccY_Rear",
+    "Acc_Front_RollRate",
+    "Vectornav_yaw_rate_rear_value",
+    "VIRT_ACC_FRONT_YAW_RAD",
+    "Yaw_Rate_Rear"
+  ], colsize: 8, title: "Dynamics"),
+  const BooleanPanel(subscribedSignals: [
+    "APPS_plausiblity",
+    "STA_plausiblity",
+    "VIRT_APPS_VALID",
+    "VIRT_STA_VALID"
+  ], colsize: 4, title: "Pedal Node"),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: const [
+      ScaleIndicator(
+          subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
+      ScaleIndicator(
+          subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
     ],
   ),
   const WaveformChart(

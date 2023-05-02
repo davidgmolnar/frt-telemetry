@@ -14,7 +14,7 @@ import 'package:window_manager/window_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-  if (Platform.isWindows) {
+  if(Platform.isWindows){
     windowManager.maximize(); // win only
   }
   await getCurrentDirectory();
@@ -33,10 +33,9 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  void toggleTheme() {
+  void toggleTheme(){
     toggleColorTheme();
-    SchedulerBinding.instance
-        .scheduleTask(() => saveSession(), Priority.animation);
+    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     setState(() {});
   }
 
@@ -45,7 +44,6 @@ class MyAppState extends State<MyApp> {
       el.markNeedsBuild();
       el.visitChildren(rebuild);
     }
-
     (context as Element).visitChildren(rebuild);
   }
 
@@ -58,8 +56,7 @@ class MyAppState extends State<MyApp> {
       scaffoldMessengerKey: snackbarKey,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: textColor),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: textColor),
         canvasColor: bgColor,
       ),
       home: MainScreen(
@@ -70,8 +67,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    SchedulerBinding.instance
-        .scheduleTask(() => saveSession(), Priority.animation);
+    SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     super.dispose();
   }
 }

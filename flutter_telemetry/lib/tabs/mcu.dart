@@ -267,9 +267,9 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
   1000,
   2000
 ], layout: [
-  Titlebar(title: "AMK Front Status"),
+  const Titlebar(title: "AMK Front Status"),
   Column(
-    children: [
+    children: const [
       NumericPanel(subscribedSignals: [
         "AMK1_torque_current",
         "AMK1_magnetizing_current",
@@ -286,7 +286,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
     ],
   ),
   Column(
-    children: [
+    children: const [
       NumericPanel(subscribedSignals: [
         "AMK2_torque_current",
         "AMK2_magnetizing_current",
@@ -302,9 +302,9 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       AMKStatusIndicator(subscribedSignal: "AMK2_Status")
     ],
   ),
-  Titlebar(title: "AMK Rear Status"),
+  const Titlebar(title: "AMK Rear Status"),
   Column(
-    children: [
+    children: const [
       NumericPanel(subscribedSignals: [
         "AMK3_torque_current",
         "AMK3_magnetizing_current",
@@ -321,7 +321,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
     ],
   ),
   Column(
-    children: [
+    children: const [
       NumericPanel(subscribedSignals: [
         "AMK4_torque_current",
         "AMK4_magnetizing_current",
@@ -337,7 +337,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       AMKStatusIndicator(subscribedSignal: "AMK4_Status")
     ],
   ),
-  Titlebar(title: "RPM and Temp"),
+  const Titlebar(title: "RPM and Temp"),
   const WaveformChart(
       subscribedSignals: [
         "AMK1_actual_velocity",

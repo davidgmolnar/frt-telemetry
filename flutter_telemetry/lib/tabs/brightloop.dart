@@ -177,10 +177,10 @@ TabLayout brightloopSmallLayout = TabLayout(shortcutLabels: const [
   ),
 ], minWidth: 600);
 
-TabLayout brightloopMobileLayout = TabLayout(shortcutLabels: const [
+TabLayout brightloopMobileLayout = TabLayout(shortcutLabels: [
   "Brightloop Charts",
   "Brightloop Status"
-], layoutBreakpoints: const [
+], layoutBreakpoints: [
   0,
   1050
 ], layout: [
@@ -207,46 +207,44 @@ TabLayout brightloopMobileLayout = TabLayout(shortcutLabels: const [
       max: 18000,
       multiplier: [1, 1]),
   const Titlebar(title: "Brightloop Status"),
+  const NumericPanel(subscribedSignals: [
+    "VDCDCOutput1Max",
+    "VDCDCOutput1Min",
+    "VDCDCOutput2Max",
+    "VDCDCOutput2Min",
+    "IDCDCOutput1Max",
+    "IDCDCOutput1Min",
+    "IDCDCOutput2Max",
+    "IDCDCOutput2Min",
+  ], colsize: 8, title: "Channel minmax"),
+  const NumericPanel(subscribedSignals: [
+    "VDCDCLV1Setpoint",
+    "VDCDCLV2Setpoint",
+    "VDCDCHVSetpoint",
+    "IDCDCLV1Limit",
+    "IDCDCLV2Limit",
+    "IDCDCHVLimit",
+  ], colsize: 6, title: "Setpoints"),
+  const NumericPanel(subscribedSignals: [
+    "TDCDCBB1Measured",
+    "TDCDCBB2Measured",
+    "TDCDCBB3Measured",
+    "TDCDCSR1Measured",
+    "TDCDCSR2Measured",
+    "VIRT_BRIGHTLOOP_LV_MAH",
+  ], colsize: 6, title: "Temps and mAh"),
+  const NumericPanel(subscribedSignals: [
+    "VDCDCHVInAverage",
+    "IDCDCHVInAverage",
+    "IDCDCOutput1UnBalance",
+    "VIRT_BRIGHTLOOP_OLC",
+  ], colsize: 4, title: "Misc"),
   Column(
-    children: [
-      NumericPanel(subscribedSignals: [
-        "VDCDCOutput1Max",
-        "VDCDCOutput1Min",
-        "VDCDCOutput2Max",
-        "VDCDCOutput2Min",
-        "IDCDCOutput1Max",
-        "IDCDCOutput1Min",
-        "IDCDCOutput2Max",
-        "IDCDCOutput2Min",
-      ], colsize: 8, title: "Channel minmax"),
-      NumericPanel(subscribedSignals: [
-        "VDCDCLV1Setpoint",
-        "VDCDCLV2Setpoint",
-        "VDCDCHVSetpoint",
-        "IDCDCLV1Limit",
-        "IDCDCLV2Limit",
-        "IDCDCHVLimit",
-      ], colsize: 6, title: "Setpoints"),
-      const NumericPanel(subscribedSignals: [
-        "TDCDCBB1Measured",
-        "TDCDCBB2Measured",
-        "TDCDCBB3Measured",
-        "TDCDCSR1Measured",
-        "TDCDCSR2Measured",
-        "VIRT_BRIGHTLOOP_LV_MAH",
-      ], colsize: 6, title: "Temps and mAh"),
-      NumericPanel(subscribedSignals: [
-        "VDCDCHVInAverage",
-        "IDCDCHVInAverage",
-        "IDCDCOutput1UnBalance",
-        "VIRT_BRIGHTLOOP_OLC",
-      ], colsize: 4, title: "Misc"),
+    children: const [
       BooleanIndicator(subscribedSignal: "BDCDCUmbilicalOn"),
       BooleanIndicator(subscribedSignal: "BDCDCRegenerationOn"),
       BooleanIndicator(subscribedSignal: "BDCDCOutput1Requested"),
-      BooleanIndicator(
-        subscribedSignal: "BDCDCOutput2Requested",
-      ),
-    ],
+      BooleanIndicator(subscribedSignal: "BDCDCOutput2Requested")
+    ]
   )
 ], minWidth: 300);
