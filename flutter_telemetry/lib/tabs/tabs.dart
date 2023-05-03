@@ -16,14 +16,14 @@ export 'as.dart';
 export 'dynamics.dart';
 export 'lap.dart';
 export 'datalogger.dart';
+export 'asmap.dart';
 
-class TabLayout{
-  const TabLayout({
-    required this.shortcutLabels,
-    required this.layoutBreakpoints,
-    required this.layout,
-    required this.minWidth
-  });
+class TabLayout {
+  const TabLayout(
+      {required this.shortcutLabels,
+      required this.layoutBreakpoints,
+      required this.layout,
+      required this.minWidth});
 
   final List<String> shortcutLabels;
   final List<double> layoutBreakpoints;
@@ -31,27 +31,21 @@ class TabLayout{
   final int minWidth;
 }
 
-TabLayout getDefaultTab(BuildContext context){
-  return TabLayout(
-    shortcutLabels: [],
-    layoutBreakpoints: [],
-    layout: [
-      SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: const Center(
-          child: Text("No layout found for this screen size",
-            style: TextStyle(
-              fontSize: subTitleFontSize
-            ),
-          ),
+TabLayout getDefaultTab(BuildContext context) {
+  return TabLayout(shortcutLabels: [], layoutBreakpoints: [], layout: [
+    SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: const Center(
+        child: Text(
+          "No layout found for this screen size",
+          style: TextStyle(fontSize: subTitleFontSize),
         ),
-      )
-    ],
-    minWidth: 0
-  );
+      ),
+    )
+  ], minWidth: 0);
 }
 
-class TabLayoutBuilder extends StatelessWidget{
+class TabLayoutBuilder extends StatelessWidget {
   TabLayoutBuilder({super.key, required this.layout});
 
   final List<TabLayout> layout;
@@ -63,64 +57,68 @@ class TabLayoutBuilder extends StatelessWidget{
   Widget build(BuildContext context) {
     tabContext = context;
     return LayoutBuilder(
-      builder: (context, constraints){
+      builder: (context, constraints) {
         _focus.requestFocus();
-        TabLayout activeLayout = layout.sorted((a, b) {return a.minWidth.compareTo(b.minWidth);},).lastWhere((element) => constraints.maxWidth > element.minWidth, orElse: () {return getDefaultTab(context);});
+        TabLayout activeLayout = layout.sorted(
+          (a, b) {
+            return a.minWidth.compareTo(b.minWidth);
+          },
+        ).lastWhere((element) => constraints.maxWidth > element.minWidth,
+            orElse: () {
+          return getDefaultTab(context);
+        });
         return RawKeyboardListener(
           autofocus: true,
           focusNode: _focus,
           onKey: (event) {
             int? idx = int.tryParse(event.logicalKey.keyLabel);
-            if(idx == null){
+            if (idx == null) {
               return;
             }
-            if(idx < activeLayout.shortcutLabels.length){
+            if (idx < activeLayout.shortcutLabels.length) {
               _controller.animateTo(activeLayout.layoutBreakpoints[idx],
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.easeInOut
-              );
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeInOut);
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: secondaryColor,
-              toolbarHeight: 50,
-              elevation: 0,
-              actions: activeLayout.shortcutLabels.map((label) => 
-                TextButton(
-                  onPressed: () {
-                    int idx = activeLayout.shortcutLabels.indexOf(label);
-                    _controller.animateTo(activeLayout.layoutBreakpoints[idx],
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut
-                    );
-                  },
-                  child: Text(label, style: TextStyle(color: primaryColor)))
-              ).toList()
-            ),
-            body: ListView(
-              controller: _controller,
-              children: activeLayout.layout,
-            )
-          ),
+              appBar: AppBar(
+                  backgroundColor: secondaryColor,
+                  toolbarHeight: 50,
+                  elevation: 0,
+                  actions: activeLayout.shortcutLabels
+                      .map((label) => TextButton(
+                          onPressed: () {
+                            int idx =
+                                activeLayout.shortcutLabels.indexOf(label);
+                            _controller.animateTo(
+                                activeLayout.layoutBreakpoints[idx],
+                                duration: const Duration(milliseconds: 500),
+                                curve: Curves.easeInOut);
+                          },
+                          child: Text(label,
+                              style: TextStyle(color: primaryColor))))
+                      .toList()),
+              body: ListView(
+                controller: _controller,
+                children: activeLayout.layout,
+              )),
         );
       },
     );
   }
-  
 }
 
-class TabContainer extends StatelessWidget{
-  TabContainer({
-    super.key,
-    required this.smallShortcutLabels,
-    required this.bigShortcutLabels,
-    required this.smallLayoutBreakpoints,
-    required this.bigLayoutBreakpoints,
-    required this.smallLayout,
-    required this.bigLayout,
-    required this.widthThreshold
-  });
+class TabContainer extends StatelessWidget {
+  TabContainer(
+      {super.key,
+      required this.smallShortcutLabels,
+      required this.bigShortcutLabels,
+      required this.smallLayoutBreakpoints,
+      required this.bigLayoutBreakpoints,
+      required this.smallLayout,
+      required this.bigLayout,
+      required this.widthThreshold});
 
   final List<String> smallShortcutLabels;
   final List<String> bigShortcutLabels;
@@ -135,74 +133,67 @@ class TabContainer extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        _focus.requestFocus();
-        return RawKeyboardListener(
+    return LayoutBuilder(builder: (context, constraints) {
+      _focus.requestFocus();
+      return RawKeyboardListener(
           autofocus: true,
           focusNode: _focus,
           onKey: (event) {
-            if (event is RawKeyDownEvent){
+            if (event is RawKeyDownEvent) {
               int? idx = int.tryParse(event.logicalKey.keyLabel);
-              if(idx == null){
+              if (idx == null) {
                 return;
               }
-              if(constraints.maxWidth < widthThreshold){
-                if(idx < smallShortcutLabels.length){
+              if (constraints.maxWidth < widthThreshold) {
+                if (idx < smallShortcutLabels.length) {
                   _controller.animateTo(smallLayoutBreakpoints[idx],
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut
-                  );
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut);
                 }
-              }
-              else{
-                if(idx < bigShortcutLabels.length){
+              } else {
+                if (idx < bigShortcutLabels.length) {
                   _controller.animateTo(bigLayoutBreakpoints[idx],
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.easeInOut
-                  );
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.easeInOut);
                 }
               }
             }
           },
           child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: secondaryColor,
-              toolbarHeight: 50,
-              elevation: 0,
-              actions: constraints.maxWidth < widthThreshold ? 
-                smallShortcutLabels.map((label) => 
-                  TextButton(
-                    onPressed: () {
-                      int idx = smallShortcutLabels.indexOf(label);
-                      _controller.animateTo(smallLayoutBreakpoints[idx],
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut
-                      );
-                    },
-                    child: Text(label, style: TextStyle(color: primaryColor)))
-                ).toList()
-                :
-                bigShortcutLabels.map((label) => 
-                  TextButton(
-                    onPressed: () {
-                      int idx = bigShortcutLabels.indexOf(label);
-                      _controller.animateTo(bigLayoutBreakpoints[idx],
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut
-                      );
-                    },
-                    child: Text(label, style: TextStyle(color: primaryColor)))
-                ).toList()
-            ),
-            body: 
-              ListView(
+              appBar: AppBar(
+                  backgroundColor: secondaryColor,
+                  toolbarHeight: 50,
+                  elevation: 0,
+                  actions: constraints.maxWidth < widthThreshold
+                      ? smallShortcutLabels
+                          .map((label) => TextButton(
+                              onPressed: () {
+                                int idx = smallShortcutLabels.indexOf(label);
+                                _controller.animateTo(
+                                    smallLayoutBreakpoints[idx],
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
+                              },
+                              child: Text(label,
+                                  style: TextStyle(color: primaryColor))))
+                          .toList()
+                      : bigShortcutLabels
+                          .map((label) => TextButton(
+                              onPressed: () {
+                                int idx = bigShortcutLabels.indexOf(label);
+                                _controller.animateTo(bigLayoutBreakpoints[idx],
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInOut);
+                              },
+                              child: Text(label,
+                                  style: TextStyle(color: primaryColor))))
+                          .toList()),
+              body: ListView(
                 controller: _controller,
-                children: constraints.maxWidth < widthThreshold ? smallLayout : bigLayout,
-              )
-          )
-        );
-      }
-    );
+                children: constraints.maxWidth < widthThreshold
+                    ? smallLayout
+                    : bigLayout,
+              )));
+    });
   }
 }

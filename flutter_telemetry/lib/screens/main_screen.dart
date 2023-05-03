@@ -30,6 +30,7 @@ Map<String, List<TabLayout>> layoutMap = {
     dataloggerMobileLayout
   ],
   "LAP": [lapBigLayout, lapSmallLayout],
+  "AS_MAP": [asmapBigLayout]
 };
 
 class MainScreen extends StatefulWidget {
