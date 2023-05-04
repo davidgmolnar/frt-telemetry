@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
@@ -110,32 +108,29 @@ TabLayout tcuBigLayout = TabLayout(shortcutLabels: const [
   const Titlebar(
     title: "Charts",
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: [
       "VIRT_AMK1_LIMIT",
       "VIRT_AMK2_LIMIT",
       "VIRT_AMK3_LIMIT",
       "VIRT_AMK4_LIMIT"
     ],
-    multiplier: [1, 1, 1, 1],
     title: "Torque Limits",
     min: 0,
     max: 25000,
   ),
   Row(children: const [
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["VDC_Torque_Demand"],
-        multiplier: [1],
         title: "Torque demand",
         min: 0,
         max: 300,
       ),
     ),
     Flexible(
-      child: WaveformChart(
-        subscribedSignals: ["Xavier_Target_Wheel_Angle"],
-        multiplier: [180 / pi],
+      child: TimeSeriesChart(
+        subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
         title: "Target steer °",
         min: -90,
         max: 90,
@@ -241,28 +236,25 @@ TabLayout tcuSmallLayout = TabLayout(shortcutLabels: const [
   const Titlebar(
     title: "Charts",
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: [
       "VIRT_AMK1_LIMIT",
       "VIRT_AMK2_LIMIT",
       "VIRT_AMK3_LIMIT",
       "VIRT_AMK4_LIMIT"
     ],
-    multiplier: [1, 1, 1, 1],
     title: "Torque Limits",
     min: 0,
     max: 25000,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["VDC_Torque_Demand"],
-    multiplier: [1],
     title: "Torque demand",
     min: 0,
     max: 300,
   ),
-  const WaveformChart(
-    subscribedSignals: ["Xavier_Target_Wheel_Angle"],
-    multiplier: [180 / pi],
+  const TimeSeriesChart(
+    subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
     title: "Target steer °",
     min: -90,
     max: 90,
@@ -350,28 +342,25 @@ TabLayout tcuMobileLayout = const TabLayout(shortcutLabels: [
   Titlebar(
     title: "Charts",
   ),
-  WaveformChart(
+  TimeSeriesChart(
     subscribedSignals: [
       "VIRT_AMK1_LIMIT",
       "VIRT_AMK2_LIMIT",
       "VIRT_AMK3_LIMIT",
       "VIRT_AMK4_LIMIT"
     ],
-    multiplier: [1, 1, 1, 1],
     title: "Torque Limits",
     min: 0,
     max: 25000,
   ),
-  WaveformChart(
+  TimeSeriesChart(
     subscribedSignals: ["VDC_Torque_Demand"],
-    multiplier: [1],
     title: "Torque demand",
     min: 0,
     max: 300,
   ),
-  WaveformChart(
-    subscribedSignals: ["Xavier_Target_Wheel_Angle"],
-    multiplier: [180 / pi],
+  TimeSeriesChart(
+    subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
     title: "Target steer °",
     min: -90,
     max: 90,

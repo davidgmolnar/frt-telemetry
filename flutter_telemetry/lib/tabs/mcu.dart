@@ -234,7 +234,7 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
     ],
   ),
   const Titlebar(title: "RPM and Temp"),
-  const WaveformChart(
+  const TimeSeriesChart(
       subscribedSignals: [
         "AMK1_actual_velocity",
         "AMK2_actual_velocity",
@@ -243,9 +243,8 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
       ],
       title: "AMK RPM",
       min: 0,
-      max: 25000,
-      multiplier: [1, 1, 1, 1]),
-  const WaveformChart(
+      max: 25000,),
+  const TimeSeriesChart(
       subscribedSignals: [
         "AMK1_temp_inverter",
         "AMK2_temp_inverter",
@@ -254,8 +253,7 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
       ],
       title: "AMK Inverter temp",
       min: 0,
-      max: 80,
-      multiplier: [1, 1, 1, 1]),
+      max: 80,),
 ], minWidth: 750);
 
 TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
@@ -264,8 +262,8 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
   "RPM and Temp"
 ], layoutBreakpoints: const [
   0,
-  1000,
-  2000
+  1500,
+  3000
 ], layout: [
   const Titlebar(title: "AMK Front Status"),
   Column(
@@ -338,7 +336,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
     ],
   ),
   const Titlebar(title: "RPM and Temp"),
-  const WaveformChart(
+  const TimeSeriesChart(
       subscribedSignals: [
         "AMK1_actual_velocity",
         "AMK2_actual_velocity",
@@ -347,9 +345,8 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       ],
       title: "AMK RPM",
       min: 0,
-      max: 25000,
-      multiplier: [1, 1, 1, 1]),
-  const WaveformChart(
+      max: 25000,),
+  const TimeSeriesChart(
       subscribedSignals: [
         "AMK1_temp_inverter",
         "AMK2_temp_inverter",
@@ -358,6 +355,5 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       ],
       title: "AMK Inverter temp",
       min: 0,
-      max: 80,
-      multiplier: [1, 1, 1, 1]),
+      max: 80,),
 ], minWidth: 300);

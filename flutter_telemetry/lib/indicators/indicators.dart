@@ -8,10 +8,8 @@ export 'numeric_panel.dart';
 export 'plot_2d.dart';
 export 'rotary_indicator.dart';
 export 'scale_indicator.dart';
-export 'waveform_chart.dart';
 export 'four_state_led.dart';
 export 'string_indicator.dart';
-export 'compound_indicator.dart'; // Deprecated with virtual signals
 export 'amk_status_indicator.dart';
 export 'hvcell_indicator.dart';
 export 'lap_display.dart';

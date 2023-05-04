@@ -119,6 +119,10 @@ List<VirtualSignal> virtualSignals = [
     num val = signalValues[listOfSignals[0]]!.last;
     return val * deg2rad;
   }), "VIRT_ACC_FRONT_YAW_RAD"),
+  VirtualSignal(["Xavier_Target_Wheel_Angle"], ((listOfSignals) {
+    num val = signalValues[listOfSignals[0]]!.last;
+    return val / deg2rad;
+  }), "VIRT_XAVIER_TARGET_ANGLE_DEG"),
   VirtualSignal(["VDCDCOutput1Average", "IDCDCOutput1Average"],
       ((listOfSignals) {
     dynamic first = signalValues[listOfSignals[0]]!.last;
@@ -173,26 +177,27 @@ List<VirtualSignal> virtualSignals = [
       }
     }
   }), "INDEPENDENT_SIGNAL"),
-  VirtualSignal(["Xavier_Status3"], ((listOfSignals) {
-    String id = signalValues[listOfSignals[0]]![5].toString();
-    num x = signalValues[listOfSignals[0]]![4];
-    num y = signalValues[listOfSignals[0]]![3];
+  VirtualSignal(["Xavier_landmark_id", "Xavier_landmark_x", "Xavier_landmark_y", "Xavier_landmark_color"], ((listOfSignals) {
+    String id = signalValues[listOfSignals[0]]!.last.toString();
+    num x = signalValues[listOfSignals[1]]!.last;
+    num y = signalValues[listOfSignals[2]]!.last;
     Color col;
-    num colId = signalValues[listOfSignals[0]]![6];
-
-    // TODO: valódi színek nem tudom mik
+    num colId = signalValues[listOfSignals[3]]!.last;
     switch (colId) {
       case 0:
-        col = Colors.black;
+        col = Colors.blue;
         break;
       case 1:
-        col = Colors.red;
+        col = Colors.yellow;
         break;
       case 2:
+        col = Colors.red;
+        break;
+      case 3:
         col = Colors.orange;
         break;
       default:
-        col = Colors.green;
+        col = Colors.black;
         break;
     }
     conesOnTrack[id] = Cone(Offset(x.toDouble(), y.toDouble()), col);
@@ -204,10 +209,9 @@ Map<String, List<int>> settings = {
   "refreshTimeMS" : [100,50,2000],
   "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [512,128,4096],
-  "chartSignalValuesToKeep": [512,128,4096],
   "chartShowSeconds": [40,1,180],
-  "chartLoadMode": [1,0,1],
   "listenPort": [8998, 1000, 65535],
+  "scrollCache": [200, 0, 2000]
 };
 
 int tooltipShowMs = 0;

@@ -250,55 +250,51 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
 
   void updateData(){
     DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']![0])); // param
-    if(settings['chartLoadMode']![0] == 0){ // 0 lazy 1 complete
-      // remélhetőleg nem lesz
-    }
-    else{
-      for(int i = 0; i < widget.subscribedSignals.length; i++){
-        List? tempVal = [];
-        List<DateTime>? tempTime = [];
-        int toSkip = 0;
-        bool needsUpdate = false;
+    for(int i = 0; i < widget.subscribedSignals.length; i++){
+      List? tempVal = [];
+      List<DateTime>? tempTime = [];
+      int toSkip = 0;
+      bool needsUpdate = false;
 
-        if(chartData[i].isEmpty){
-          tempTime = signalTimestamps[widget.subscribedSignals[i]];
-          if(tempTime != null){
-            tempVal = signalValues[widget.subscribedSignals[i]];
-            needsUpdate = true;
-          }
+      if(chartData[i].isEmpty){
+        tempTime = signalTimestamps[widget.subscribedSignals[i]];
+        if(tempTime != null){
+          tempVal = signalValues[widget.subscribedSignals[i]];
+          needsUpdate = true;
         }
-        else{
-          tempTime = signalTimestamps[widget.subscribedSignals[i]]?.skipWhile((value) => !value.isAfter(chartData[i].last.timestamp)).toList();
-          if(tempTime != null){
-            toSkip = signalValues[widget.subscribedSignals[i]]!.length - tempTime.length;
-            tempVal = signalValues[widget.subscribedSignals[i]]?.skip(toSkip).toList();
-            needsUpdate = true;
-          }
-        }
-        if(needsUpdate){
-          if((tempVal == null || tempVal.isEmpty) && (tempTime!.isEmpty)){
-            //pass
-          }
-          else if(chartData[i].isEmpty || tempTime!.isNotEmpty && tempTime.last.isAfter(chartData[i].last.timestamp)){
-            for(int j = 0; j < tempTime!.length; j++){
-              chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
-              chartDataPoints[i].add(Offset(
-                tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
-                tempVal[j] * yScale + borderWidth
-              ));
-            }
-          }
-        }
-        // Split at last x sec
-        chartData[i] = chartData[i].skipWhile((value) => value.timestamp.isBefore(updateTimeLimit)).toList();
-        toSkip = chartDataPoints[i].length - chartData[i].length;
-        chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
       }
-      xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
-      xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
+      else{
+        tempTime = signalTimestamps[widget.subscribedSignals[i]]?.skipWhile((value) => !value.isAfter(chartData[i].last.timestamp)).toList();
+        if(tempTime != null){
+          toSkip = signalValues[widget.subscribedSignals[i]]!.length - tempTime.length;
+          tempVal = signalValues[widget.subscribedSignals[i]]?.skip(toSkip).toList();
+          needsUpdate = true;
+        }
+      }
+      if(needsUpdate){
+        if((tempVal == null || tempVal.isEmpty) && (tempTime!.isEmpty)){
+          //pass
+        }
+        else if(chartData[i].isEmpty || tempTime!.isNotEmpty && tempTime.last.isAfter(chartData[i].last.timestamp)){
+          for(int j = 0; j < tempTime!.length; j++){
+            chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
+            chartDataPoints[i].add(Offset(
+              tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
+              tempVal[j] * yScale + borderWidth
+            ));
+          }
+        }
+      }
+      // Split at last x sec
+      chartData[i] = chartData[i].skipWhile((value) => value.timestamp.isBefore(updateTimeLimit)).toList();
+      toSkip = chartDataPoints[i].length - chartData[i].length;
+      chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
     }
-    setState(() {});
-  }
+    xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
+    xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
+  
+  setState(() {});
+}
 
   @override
   Widget build(BuildContext context) {

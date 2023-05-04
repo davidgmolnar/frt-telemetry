@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 
@@ -101,99 +100,11 @@ class TabLayoutBuilder extends StatelessWidget {
                       .toList()),
               body: ListView(
                 controller: _controller,
+                cacheExtent: settings["scrollCache"]![0].toDouble(),
                 children: activeLayout.layout,
               )),
         );
       },
     );
-  }
-}
-
-class TabContainer extends StatelessWidget {
-  TabContainer(
-      {super.key,
-      required this.smallShortcutLabels,
-      required this.bigShortcutLabels,
-      required this.smallLayoutBreakpoints,
-      required this.bigLayoutBreakpoints,
-      required this.smallLayout,
-      required this.bigLayout,
-      required this.widthThreshold});
-
-  final List<String> smallShortcutLabels;
-  final List<String> bigShortcutLabels;
-  final List<double> smallLayoutBreakpoints;
-  final List<double> bigLayoutBreakpoints;
-  final List<Widget> smallLayout;
-  final List<Widget> bigLayout;
-  final int widthThreshold;
-
-  final ScrollController _controller = ScrollController();
-  final FocusNode _focus = FocusNode();
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      _focus.requestFocus();
-      return RawKeyboardListener(
-          autofocus: true,
-          focusNode: _focus,
-          onKey: (event) {
-            if (event is RawKeyDownEvent) {
-              int? idx = int.tryParse(event.logicalKey.keyLabel);
-              if (idx == null) {
-                return;
-              }
-              if (constraints.maxWidth < widthThreshold) {
-                if (idx < smallShortcutLabels.length) {
-                  _controller.animateTo(smallLayoutBreakpoints[idx],
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                }
-              } else {
-                if (idx < bigShortcutLabels.length) {
-                  _controller.animateTo(bigLayoutBreakpoints[idx],
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut);
-                }
-              }
-            }
-          },
-          child: Scaffold(
-              appBar: AppBar(
-                  backgroundColor: secondaryColor,
-                  toolbarHeight: 50,
-                  elevation: 0,
-                  actions: constraints.maxWidth < widthThreshold
-                      ? smallShortcutLabels
-                          .map((label) => TextButton(
-                              onPressed: () {
-                                int idx = smallShortcutLabels.indexOf(label);
-                                _controller.animateTo(
-                                    smallLayoutBreakpoints[idx],
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeInOut);
-                              },
-                              child: Text(label,
-                                  style: TextStyle(color: primaryColor))))
-                          .toList()
-                      : bigShortcutLabels
-                          .map((label) => TextButton(
-                              onPressed: () {
-                                int idx = bigShortcutLabels.indexOf(label);
-                                _controller.animateTo(bigLayoutBreakpoints[idx],
-                                    duration: const Duration(milliseconds: 500),
-                                    curve: Curves.easeInOut);
-                              },
-                              child: Text(label,
-                                  style: TextStyle(color: primaryColor))))
-                          .toList()),
-              body: ListView(
-                controller: _controller,
-                children: constraints.maxWidth < widthThreshold
-                    ? smallLayout
-                    : bigLayout,
-              )));
-    });
   }
 }

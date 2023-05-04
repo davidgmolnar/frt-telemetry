@@ -66,7 +66,7 @@ TabLayout hvAccuBigLayout = TabLayout(
       ],
     )
   ],
-  minWidth: 1290
+  minWidth: 1330
 );
 
 TabLayout hvAccuSmallLayout = TabLayout(
@@ -137,5 +137,5 @@ TabLayout hvAccuSmallLayout = TabLayout(
       ],
     )
   ],
-  minWidth: 840
+  minWidth: 880
 );

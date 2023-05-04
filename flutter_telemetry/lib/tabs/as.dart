@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
@@ -69,18 +67,16 @@ TabLayout asBigLayout = TabLayout(
     ),
     Row(children: const [
       Flexible(
-        child: WaveformChart(
+        child: TimeSeriesChart(
           subscribedSignals: ["Xavier_Target_speed"],
-          multiplier: [1],
           title: "Target speed m/s",
           min: 0,
           max: 120,
         ),
       ),
       Flexible(
-        child: WaveformChart(
-          subscribedSignals: ["Xavier_Target_Wheel_Angle"],
-          multiplier: [180 / pi],
+        child: TimeSeriesChart(
+          subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
           title: "Target steer °",
           min: -90,
           max: 90,
@@ -122,22 +118,20 @@ TabLayout asBigLayout = TabLayout(
     ),
     Row(children: const [
       Flexible(
-        child: WaveformChart(
+        child: TimeSeriesChart(
           subscribedSignals: ["Xavier_headingErrorSS", "Xavier_yawRateError"],
-          multiplier: [1, 1],
           title: "HeadingSS-Yaw",
           min: -26,
           max: 26,
         ),
       ),
       Flexible(
-        child: WaveformChart(
+        child: TimeSeriesChart(
           subscribedSignals: [
             "Xavier_headingError",
             "Xavier_steeringAngleError",
             "Xavier_crossTrackError"
           ],
-          multiplier: [1, 1, 1],
           title: "Heading-Steering",
           min: -4,
           max: 4,
@@ -150,7 +144,7 @@ TabLayout asBigLayout = TabLayout(
 
 TabLayout asSmallLayout = TabLayout(
   shortcutLabels: const ["AS Status", "AS Signals"],
-  layoutBreakpoints: const [0, 1000],
+  layoutBreakpoints: const [0, 1100],
   layout: [
     const Titlebar(title: "AS Status"),
     Row(
@@ -210,16 +204,14 @@ TabLayout asSmallLayout = TabLayout(
         ]),
       ],
     ),
-    const WaveformChart(
+    const TimeSeriesChart(
       subscribedSignals: ["Xavier_Target_speed"],
-      multiplier: [1],
       title: "Target speed m/s",
       min: 0,
       max: 120,
     ),
-    const WaveformChart(
-      subscribedSignals: ["Xavier_Target_Wheel_Angle"],
-      multiplier: [180 / pi],
+    const TimeSeriesChart(
+      subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
       title: "Target steer °",
       min: -90,
       max: 90,
@@ -248,20 +240,18 @@ TabLayout asSmallLayout = TabLayout(
         ], colsize: 6, title: "Xavier Status"),
       ],
     ),
-    const WaveformChart(
+    const TimeSeriesChart(
       subscribedSignals: ["Xavier_headingErrorSS", "Xavier_yawRateError"],
-      multiplier: [1, 1],
       title: "HeadingSS-Yaw",
       min: -26,
       max: 26,
     ),
-    const WaveformChart(
+    const TimeSeriesChart(
       subscribedSignals: [
         "Xavier_headingError",
         "Xavier_steeringAngleError",
         "Xavier_crossTrackError"
       ],
-      multiplier: [1, 1, 1],
       title: "Heading-Steering",
       min: -4,
       max: 4,
@@ -272,7 +262,7 @@ TabLayout asSmallLayout = TabLayout(
 
 TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
   0,
-  2000
+  1450
 ], shortcutLabels: [
   "AS Status",
   "AS Signals"
@@ -369,16 +359,14 @@ TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
           ]),
     ],
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Xavier_Target_speed"],
-    multiplier: [1],
     title: "Target speed m/s",
     min: 0,
     max: 120,
   ),
-  const WaveformChart(
-    subscribedSignals: ["Xavier_Target_Wheel_Angle"],
-    multiplier: [180 / pi],
+  const TimeSeriesChart(
+    subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
     title: "Target steer °",
     min: -90,
     max: 90,
@@ -411,20 +399,18 @@ TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
       )
     ],
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Xavier_headingErrorSS", "Xavier_yawRateError"],
-    multiplier: [1, 1],
     title: "HeadingSS-Yaw",
     min: -26,
     max: 26,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: [
       "Xavier_headingError",
       "Xavier_steeringAngleError",
       "Xavier_crossTrackError"
     ],
-    multiplier: [1, 1, 1],
     title: "Heading-Steering",
     min: -4,
     max: 4,

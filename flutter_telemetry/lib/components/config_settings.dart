@@ -10,20 +10,18 @@ Map<String, String> settingsToLabel = {
   "refreshTimeMS" : "Refresh time in ms",
   "chartrefreshTimeMS": "Chart refresh time in ms",
   "signalValuesToKeep": "Internal buffer",
-  "chartSignalValuesToKeep": "Data points on chart",
-  "chartLoadMode": "Chart loading mode",
   "listenPort": "Port to listen",
-  "chartShowSeconds": "Chart timespan in sec"
+  "chartShowSeconds": "Chart timespan in sec",
+  "scrollCache": "Scrolling cache"
 };
 
 Map<String, String> settingsTooltip = {
   "refreshTimeMS" : "Each indicator will periodically attempt to refresh its value with the most recent value possible",
   "chartrefreshTimeMS": "Same as ^^ but for charts",
   "signalValuesToKeep": "The last x values are going to be stored in memory, to be used by charts or time averaged signals",
-  "chartSignalValuesToKeep": "Data points on charts",
-  "chartLoadMode": "0 - Use the single most recent value each time the chart attempts to refresh (Power saver with potential data loss) \n1 - Update the charts with all the new values since it was last refreshed (More performance intensive, data loss only if more data arrived than would fill a chart)",
   "listenPort": "This port will be used to receive UDP data to be displayed",
-  "chartShowSeconds": "The charts will show data received in the last x seconds"
+  "chartShowSeconds": "The charts will show data received in the last x seconds",
+  "scrollCache": "Widgets are loaded out of sight within this vertical distance"
 };
 
 class SettingsElement extends StatefulWidget{
@@ -88,19 +86,13 @@ class SettingsElementState extends State<SettingsElement> {
             icon: Icon(Icons.check, color: primaryColor,), 
             onPressed: () {
               if(settings[widget.label]![1] <= int.parse(input) && int.parse(input) <= settings[widget.label]![2]){
-                if(widget.label == "chartSignalValuesToKeep" && int.parse(input) > settings["signalValuesToKeep"]![0]){
-                  showError(context, "Charts cant have more data than the internal buffer");
+                if(widget.label == "signalValuesToKeep" && int.parse(input) < settings["signalValuesToKeep"]![0]){
+                  needsTruncate = true;
+                  turncateTo = int.parse(input);
+                  settings["signalValuesToKeep"]![0] = int.parse(input);
                 }
                 else{
-                  if(widget.label == "signalValuesToKeep" && int.parse(input) < settings["signalValuesToKeep"]![0]){
-                    needsTruncate = true;
-                    turncateTo = int.parse(input);
-                    settings["signalValuesToKeep"]![0] = int.parse(input);
-                    settings["chartSignalValuesToKeep"]![0] = int.parse(input);
-                  }
-                  else{
-                    settings[widget.label]![0] = int.parse(input);
-                  }
+                  settings[widget.label]![0] = int.parse(input);
                 }
               }
               else{

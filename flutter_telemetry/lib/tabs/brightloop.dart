@@ -14,32 +14,29 @@ TabLayout brightloopBigLayout = TabLayout(shortcutLabels: const [
     crossAxisAlignment: CrossAxisAlignment.start,
     children: const [
       Flexible(
-        child: WaveformChart(
+        child: TimeSeriesChart(
             subscribedSignals: ["VDCDCOutput1Average", "VDCDCOutput2Average"],
             title: "Channel Voltages",
             min: 0,
-            max: 60,
-            multiplier: [1, 1]),
+            max: 60,),
       ),
       Flexible(
-        child: WaveformChart(
+        child: TimeSeriesChart(
             subscribedSignals: ["IDCDCOutput1Average", "IDCDCOutput2Average"],
             title: "Channel Currents",
             min: -100,
-            max: 300,
-            multiplier: [1, 1]),
+            max: 300,),
       ),
     ],
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
       subscribedSignals: [
         "VIRT_BRIGHTLOOP_CH1_POWER",
         "VIRT_BRIGHTLOOP_CH2_POWER",
       ],
       title: "Channel Powers",
       min: -6000,
-      max: 18000,
-      multiplier: [1, 1]),
+      max: 18000,),
   const Titlebar(title: "Brightloop Status"),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -99,27 +96,24 @@ TabLayout brightloopSmallLayout = TabLayout(shortcutLabels: const [
   1050
 ], layout: [
   const Titlebar(title: "Brightloop Charts"),
-  const WaveformChart(
+  const TimeSeriesChart(
       subscribedSignals: ["VDCDCOutput1Average", "VDCDCOutput2Average"],
       title: "Channel Voltages",
       min: 0,
-      max: 60,
-      multiplier: [1, 1]),
-  const WaveformChart(
+      max: 60,),
+  const TimeSeriesChart(
       subscribedSignals: ["IDCDCOutput1Average", "IDCDCOutput2Average"],
       title: "Channel Currents",
       min: -100,
-      max: 300,
-      multiplier: [1, 1]),
-  const WaveformChart(
+      max: 300,),
+  const TimeSeriesChart(
       subscribedSignals: [
         "VIRT_BRIGHTLOOP_CH1_POWER",
         "VIRT_BRIGHTLOOP_CH2_POWER",
       ],
       title: "Channel Powers",
       min: -6000,
-      max: 18000,
-      multiplier: [1, 1]),
+      max: 18000,),
   const Titlebar(title: "Brightloop Status"),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -185,27 +179,24 @@ TabLayout brightloopMobileLayout = TabLayout(shortcutLabels: [
   1050
 ], layout: [
   const Titlebar(title: "Brightloop Charts"),
-  const WaveformChart(
+  const TimeSeriesChart(
       subscribedSignals: ["VDCDCOutput1Average", "VDCDCOutput2Average"],
       title: "Channel Voltages",
       min: 0,
-      max: 60,
-      multiplier: [1, 1]),
-  const WaveformChart(
+      max: 60,),
+  const TimeSeriesChart(
       subscribedSignals: ["IDCDCOutput1Average", "IDCDCOutput2Average"],
       title: "Channel Currents",
       min: -100,
-      max: 300,
-      multiplier: [1, 1]),
-  const WaveformChart(
+      max: 300,),
+  const TimeSeriesChart(
       subscribedSignals: [
         "VIRT_BRIGHTLOOP_CH1_POWER",
         "VIRT_BRIGHTLOOP_CH2_POWER",
       ],
       title: "Channel Powers",
       min: -6000,
-      max: 18000,
-      multiplier: [1, 1]),
+      max: 18000,),
   const Titlebar(title: "Brightloop Status"),
   const NumericPanel(subscribedSignals: [
     "VDCDCOutput1Max",

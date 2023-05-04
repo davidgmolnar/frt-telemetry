@@ -184,5 +184,6 @@ const Map<String,String> labelRemap = {  // _ by default space lesz
   "VIRT_STA_VALID": "STA valid",
   "rssi" : "RSSI",
   "error": "Raspberry error",
-  "last_singal_update_cnt": "Signals received"
+  "last_singal_update_cnt": "Signals received",
+  "VIRT_XAVIER_TARGET_ANGLE_DEG": "Xavier Target Steer"
 };

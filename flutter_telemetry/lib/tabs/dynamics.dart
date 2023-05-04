@@ -34,45 +34,40 @@ TabLayout dynamicsBigLayout =
   const Titlebar(title: "Charts"),
   Row(children: const [
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["Brake_Force_sensor"],
-        multiplier: [1],
         title: "BFS",
         min: 0,
         max: 1500,
       ),
     ),
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
-        multiplier: [1, 1],
         title: "BPS",
         min: 0,
         max: 100,
       ),
     )
   ]),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["AccX_Rear", "AccY_Rear"],
-    multiplier: [1, 1],
     title: "Accel",
     min: -4,
     max: 4,
   ),
   Row(children: const [
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["HV_Current"],
-        multiplier: [1],
         title: "HV Current",
         min: -150,
         max: 200,
       ),
     ),
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["VIRT_HV_POWER_OUT"],
-        multiplier: [1],
         title: "HV Power",
         min: -80000,
         max: 90000,
@@ -81,18 +76,16 @@ TabLayout dynamicsBigLayout =
   ]),
   Row(children: const [
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["Yaw_Rate_Rear"],
-        multiplier: [1],
         title: "Yaw Rate",
         min: -10,
         max: 10,
       ),
     ),
     Flexible(
-      child: WaveformChart(
+      child: TimeSeriesChart(
         subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"],
-        multiplier: [1, 1],
         title: "APPS / STA Avg",
         min: 0,
         max: 180,
@@ -141,51 +134,44 @@ TabLayout dynamicsSmallLayout =
     ],
   ),
   const Titlebar(title: "Charts"),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Brake_Force_sensor"],
-    multiplier: [1],
     title: "BFS",
     min: 0,
     max: 1500,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
-    multiplier: [1, 1],
     title: "BPS",
     min: 0,
     max: 100,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["AccX_Rear", "AccY_Rear"],
-    multiplier: [1, 1],
     title: "Accel",
     min: -4,
     max: 4,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["HV_Current"],
-    multiplier: [1],
     title: "HV Current",
     min: -150,
     max: 200,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["VIRT_HV_POWER_OUT"],
-    multiplier: [1],
     title: "HV Power",
     min: -80000,
     max: 90000,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Yaw_Rate_Rear"],
-    multiplier: [1],
     title: "Yaw Rate",
     min: -10,
     max: 10,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"],
-    multiplier: [1, 1],
     title: "APPS / STA Avg",
     min: 0,
     max: 180,
@@ -220,51 +206,44 @@ TabLayout dynamicsMobileLayout =
           subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
     ],
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Brake_Force_sensor"],
-    multiplier: [1],
     title: "BFS",
     min: 0,
     max: 1500,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
-    multiplier: [1, 1],
     title: "BPS",
     min: 0,
     max: 100,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["AccX_Rear", "AccY_Rear"],
-    multiplier: [1, 1],
     title: "Accel",
     min: -4,
     max: 4,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["HV_Current"],
-    multiplier: [1],
     title: "HV Current",
     min: -150,
     max: 200,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["VIRT_HV_POWER_OUT"],
-    multiplier: [1],
     title: "HV Power",
     min: -80000,
     max: 90000,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["Yaw_Rate_Rear"],
-    multiplier: [1],
     title: "Yaw Rate",
     min: -10,
     max: 10,
   ),
-  const WaveformChart(
+  const TimeSeriesChart(
     subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"],
-    multiplier: [1, 1],
     title: "APPS / STA Avg",
     min: 0,
     max: 180,

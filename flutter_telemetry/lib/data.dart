@@ -1,11 +1,9 @@
 import 'dart:convert';
-import 'dart:isolate';
 import 'dart:ui';
 import 'dart:typed_data';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
-import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:universal_io/io.dart';
 
 bool isconnected = false;
@@ -126,7 +124,7 @@ void truncateData(int limit) {
     }
   }
 }
-
+/*
 //
 // Isolate based Data service
 //
@@ -235,3 +233,4 @@ Future<void> dataHandling(ReceivePort requests) async {
     request.sender.sendPort.send(DataResponse(success, signalData));
   }
 }
+*/
