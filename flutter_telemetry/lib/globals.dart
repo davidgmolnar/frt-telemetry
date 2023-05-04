@@ -201,7 +201,6 @@ List<VirtualSignal> virtualSignals = [
 
 // live settings  [val, min, max]
 Map<String, List<int>> settings = {
-<<<<<<< HEAD
   "refreshTimeMS" : [100,50,2000],
   "chartrefreshTimeMS": [100,5,2000],
   "signalValuesToKeep": [512,128,4096],
@@ -209,14 +208,6 @@ Map<String, List<int>> settings = {
   "chartShowSeconds": [40,1,180],
   "chartLoadMode": [1,0,1],
   "listenPort": [8998, 1000, 65535],
-=======
-  "refreshTimeMS": [100, 50, 2000],
-  "chartrefreshTimeMS": [100, 5, 2000],
-  "signalValuesToKeep": [512, 128, 4096],
-  "chartSignalValuesToKeep": [512, 128, 4096],
-  "chartLoadMode": [1, 0, 1],
-  "listenPort": [8998, 1000, 65535]
->>>>>>> mobile_layouts
 };
 
 int tooltipShowMs = 0;
