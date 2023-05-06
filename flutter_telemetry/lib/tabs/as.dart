@@ -71,7 +71,7 @@ TabLayout asBigLayout = TabLayout(
           subscribedSignals: ["Xavier_Target_speed"],
           title: "Target speed m/s",
           min: 0,
-          max: 120 / 3.6,
+          max: 65,
         ),
       ),
       Flexible(
@@ -208,7 +208,7 @@ TabLayout asSmallLayout = TabLayout(
       subscribedSignals: ["Xavier_Target_speed"],
       title: "Target speed m/s",
       min: 0,
-      max: 120 / 3.6,
+      max: 65,
     ),
     const TimeSeriesChart(
       subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
@@ -363,7 +363,7 @@ TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
     subscribedSignals: ["Xavier_Target_speed"],
     title: "Target speed m/s",
     min: 0,
-    max: 120 / 3.6,
+    max: 65,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["VIRT_XAVIER_TARGET_ANGLE_DEG"],
