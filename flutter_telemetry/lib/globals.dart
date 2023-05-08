@@ -177,7 +177,12 @@ List<VirtualSignal> virtualSignals = [
       }
     }
   }), "INDEPENDENT_SIGNAL"),
-  VirtualSignal(["Xavier_landmark_id", "Xavier_landmark_x", "Xavier_landmark_y", "Xavier_landmark_color"], ((listOfSignals) {
+  VirtualSignal([
+    "Xavier_landmark_id",
+    "Xavier_landmark_x",
+    "Xavier_landmark_y",
+    "Xavier_landmark_color"
+  ], ((listOfSignals) {
     String id = signalValues[listOfSignals[0]]!.last.toString();
     num x = signalValues[listOfSignals[1]]!.last;
     num y = signalValues[listOfSignals[2]]!.last;
@@ -197,7 +202,7 @@ List<VirtualSignal> virtualSignals = [
         col = Colors.orange;
         break;
       default:
-        col = Colors.black;
+        col = Colors.purple;
         break;
     }
     conesOnTrack[id] = Cone(Offset(x.toDouble(), y.toDouble()), col);
@@ -206,10 +211,10 @@ List<VirtualSignal> virtualSignals = [
 
 // live settings  [val, min, max]
 Map<String, List<int>> settings = {
-  "refreshTimeMS" : [100,50,2000],
-  "chartrefreshTimeMS": [100,5,2000],
-  "signalValuesToKeep": [512,128,4096],
-  "chartShowSeconds": [40,1,180],
+  "refreshTimeMS": [100, 50, 2000],
+  "chartrefreshTimeMS": [100, 5, 2000],
+  "signalValuesToKeep": [512, 128, 4096],
+  "chartShowSeconds": [40, 1, 180],
   "listenPort": [8998, 1000, 65535],
   "scrollCache": [200, 0, 2000]
 };

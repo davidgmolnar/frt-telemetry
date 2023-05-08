@@ -13,20 +13,11 @@ class Cone {
     pos = p;
   }
 
-  void convertToTrackNormal(Size size) {
-    pos = Offset(pos.dx / size.width, pos.dy / size.height);
-  }
-
   void convertToViewport(Size canvasSize) {
     // (0,0) is top left
-    pos = Offset(pos.dx * canvasSize.width,
-        trackSize.height - pos.dy * canvasSize.height);
-  }
-}
-
-void convertConesToTrackNormal(Size size) {
-  for (int i = 0; i < conesOnTrack.length; i++) {
-    conesOnTrack[i]!.convertToTrackNormal(size);
+    pos = Offset(pos.dx / trackSize.width, pos.dy / trackSize.height);
+    pos = Offset((pos.dx / trackSize.width) * canvasSize.width,
+        canvasSize.height - (pos.dy / trackSize.height) * canvasSize.height);
   }
 }
 
@@ -38,16 +29,14 @@ void convertConesToViewport(Size canvasSize) {
 
 // TODO
 class TrackMap extends StatefulWidget {
-  const TrackMap({
+  TrackMap({
     Key? key,
     required this.subscribedSignals,
     required this.title,
-    required this.mapSize,
   }) : super(key: key);
 
-  final List<String> subscribedSignals;
-  final String title;
-  final Size mapSize;
+  late List<String> subscribedSignals;
+  late String title;
 
   @override
   State<StatefulWidget> createState() {
@@ -57,23 +46,37 @@ class TrackMap extends StatefulWidget {
 
 // TODO
 class TrackMapState extends State<TrackMap> {
+  late List<Cone> conesToDisplay = [];
+  late Offset carToDisplay = Offset(0, 0);
+
   @override
   void initState() {
     super.initState();
   }
 
-  void updateData() {}
+  void updateData() {
+    if (conesOnTrack.isEmpty) {
+      return;
+    }
+    conesToDisplay = conesOnTrack.values.toList(); // i guess
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        CustomPaint(
-          painter: TrackMapPainter(), // TODO
-        )
-      ],
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return InteractiveViewer(
+          child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          CustomPaint(
+            painter: TrackMapPainter(), // TODO
+          ),
+          CustomPaint(
+            painter: CarPainter(), // TODO
+          )
+        ],
+      ));
+    });
   }
 
   @override
@@ -86,11 +89,10 @@ class TrackMapState extends State<TrackMap> {
 class TrackMapPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    // converts cone pos to [0,1] space
-    convertConesToTrackNormal(trackSize); // from dbc, landmark interval [0,255]
     // converts cone pos to canvas coordinates
     convertConesToViewport(size);
     for (int i = 0; i < conesOnTrack.length; i++) {
+      // TODO színenként kiválogatni és egybe rajzolni
       // create a list with one point
       List<Offset> singlePoint = [conesOnTrack[i]!.pos];
       // set the color, size, etc.
