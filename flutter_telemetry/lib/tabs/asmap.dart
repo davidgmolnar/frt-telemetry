@@ -9,5 +9,5 @@ TabLayout asmapBigLayout = TabLayout(
     minWidth: 1220,
     layout: [
       const Titlebar(title: "As Map"),
-      TrackMap(subscribedSignals: const [], title: "Track Map")
+      TrackMap(subscribedSignals: const [], title: "Track Map") // mi a subscibed signal?
     ]);

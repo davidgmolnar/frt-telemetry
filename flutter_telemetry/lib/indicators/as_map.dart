@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 
 class Cone {
   late Color color;
@@ -29,14 +30,14 @@ void convertConesToViewport(Size canvasSize) {
 
 // TODO
 class TrackMap extends StatefulWidget {
-  TrackMap({
+  const TrackMap({
     Key? key,
     required this.subscribedSignals,
     required this.title,
   }) : super(key: key);
 
-  late List<String> subscribedSignals;
-  late String title;
+  final List<String> subscribedSignals;
+  final String title;
 
   @override
   State<StatefulWidget> createState() {
@@ -64,18 +65,26 @@ class TrackMapState extends State<TrackMap> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
+      double sideLength =
+          constraints.maxWidth - 2 * defaultPadding - 2 * borderWidth;
       return InteractiveViewer(
-          child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          CustomPaint(
-            painter: TrackMapPainter(), // TODO
-          ),
-          CustomPaint(
-            painter: CarPainter(), // TODO
-          )
-        ],
-      ));
+          child: Container(
+              decoration: BoxDecoration(border: Border.all(width: borderWidth)),
+              height: sideLength,
+              width: sideLength,
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  CustomPaint(
+                    painter:
+                        TrackMapPainter(Size(sideLength, sideLength)), // TODO
+                  ),
+                  CustomPaint(
+                    painter: CarPainter(), // TODO
+                  )
+                ],
+              )));
     });
   }
 
@@ -87,10 +96,13 @@ class TrackMapState extends State<TrackMap> {
 
 // TODO test
 class TrackMapPainter extends CustomPainter {
+  final Size canvasSize;
+  TrackMapPainter(this.canvasSize);
+
   @override
   void paint(Canvas canvas, Size size) {
     // converts cone pos to canvas coordinates
-    convertConesToViewport(size);
+    convertConesToViewport(canvasSize);
     for (int i = 0; i < conesOnTrack.length; i++) {
       // TODO színenként kiválogatni és egybe rajzolni
       // create a list with one point
