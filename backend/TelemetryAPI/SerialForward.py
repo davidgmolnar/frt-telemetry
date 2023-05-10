@@ -11,13 +11,14 @@ UDP_IP = "255.255.255.255"
 UDP_PORT = 8998
 
 # sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)  # UDP
-interfaces = socket.getaddrinfo(host=socket.gethostname(), port=None, family=socket.AF_INET)
+interfaces = socket.getaddrinfo(
+    host=socket.gethostname(), port=None, family=socket.AF_INET)
 allips = [ip[-1][0] for ip in interfaces]
 # sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 # sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-CAN1 = load_file('DBC_2023/CAN1.dbc')
-CAN2 = load_file('DBC_2023/CAN2.dbc')
+CAN1 = load_file('C:\FRT\Elektro\DBC_2023/CAN1.dbc')
+CAN2 = load_file('C:\FRT\Elektro\DBC_2023/CAN2.dbc')
 
 payload = dict()
 
@@ -33,12 +34,13 @@ def twos_comp(val, bits):
 
 def decode(buffer):
     for i in range(0, len(buffer), 10):
-        # print(buffer[i: i + 2])
         try:
-            payload.update(CAN1.decode_message(int.from_bytes(buffer[i: i + 2], 'big'), buffer[i + 2: i + 10]))
+            payload.update(CAN1.decode_message(int.from_bytes(
+                buffer[i: i + 2], 'big'), buffer[i + 2: i + 10]))
         except KeyError:
             try:
-                payload.update(CAN2.decode_message(int.from_bytes(buffer[i: i + 2], 'big'), buffer[i + 2: i + 10]))
+                payload.update(CAN2.decode_message(int.from_bytes(
+                    buffer[i: i + 2], 'big'), buffer[i + 2: i + 10]))
             except KeyError:
                 pass
                 # print("Nincs is ilyen can id")
@@ -49,28 +51,29 @@ def decode(buffer):
     return payload
 
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)  # UDP
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,
+                     socket.IPPROTO_UDP)  # UDP
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 time = datetime.now()
 bytecnt = 0
 ne_ddosoljal = 10
 
-with Serial('COM5', 256000, timeout=1) as ser:
+with Serial('COM10', 468000, timeout=1) as ser:
     i = 0
     while True:
         try:
             startByte = ser.read()
             while startByte != b'\x02':
                 startByte = ser.read()
-            msg = ser.read(14)
-            rssi = msg[-2]
-            # print("RSSI" + twos_comp(rssi, 8).__str__())
-            payload.update(decode(msg[2:-2]))
-            i += 1
-            if i < ne_ddosoljal:
+            command = ser.read()
+            if command != b'\x81':
                 continue
-            i = 0
+            length = ser.read()
+            msg = ser.read(int.from_bytes(length, 'big') - 1)
+            rssi = ser.read()
+            #print("RSSI" + twos_comp(rssi, 8).__str__())
+            payload.update(decode(msg))
             sock.sendto(dumps(payload).encode(), (UDP_IP, UDP_PORT))
 
             # bytecnt += 15
@@ -80,34 +83,3 @@ with Serial('COM5', 256000, timeout=1) as ser:
             #     bytecnt = 0
         except Exception as e:
             print(e)
-
-        #     cmd = ser.read(1)  # 1byte cmd byte
-        #     length = ser.read(1)  # + 1byte length byte
-        #     print(f"Length {int.from_bytes(length, 'big')}")
-        #
-        #     buffer = ser.read(int.from_bytes(length, 'big'))
-        #
-        #     payload.clear()
-        #     for i in range(0, len(buffer), 10):
-        #         try:
-        #             payload.update(CAN1.decode_message(int.from_bytes(buffer[i: i + 2], 'big'), buffer[i + 2: i + 10]))
-        #         except KeyError:
-        #             try:
-        #                 payload.update(CAN2.decode_message(int.from_bytes(buffer[i: i + 2], 'big'), buffer[i + 2: i + 10]))
-        #             except KeyError:
-        #                 print("Nincs is ilyen can id wtf")
-        #         except Exception as e:
-        #             print(f"Decode exception {e.__class__}: {e}")
-        #     strength = ser.read(1)  # 1 byte field strength
-        #     print(f"RSSI {strength}")
-        #     cs = ser.read(1)  # + 1 byte CS
-        #     for ip in allips:
-        #         print(payload)
-        #         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)  # UDP
-        #         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        #         sock.bind((ip, 0))
-        #         sock.sendto(dumps(payload), (UDP_IP, UDP_PORT))
-        #         sock.close()
-        #
-        # except Exception as e:
-        #     print(f"hupsz {e.__class__}: {e}")
