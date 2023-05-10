@@ -129,7 +129,9 @@ class ConnectionHandlerState extends State<ConnectionHandler>{
           TextButton(
             child: const Text("Connect", textAlign: TextAlign.center),
             onPressed: () async {
-              await startListener();
+              if(!isconnected){
+                await startListener();
+              }
             },
           ),
           TextButton(

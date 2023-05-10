@@ -30,14 +30,16 @@ class VirtualSignal {
 Future<void> startListener() async {
   sock = await RawDatagramSocket.bind(
       InternetAddress.anyIPv4, settings["listenPort"]![0]);
-  sock.port == settings["listenPort"]![0]
-      ? terminalQueue.add(TerminalElement(
-          "UDP socket bind successful on port ${settings['listenPort']![0]}",
-          3))
-      : terminalQueue.add(TerminalElement(
-          "UDP socket bind failed on port ${settings['listenPort1']![0]}", 0));
-  isconnected = true;
-  sockListener();
+  if(sock.port == settings["listenPort"]![0]){
+      terminalQueue.add(TerminalElement(
+          "UDP socket bind successful on port ${settings['listenPort']![0]}",3));
+      isconnected = true;
+      sockListener();
+  }
+  else{
+      terminalQueue.add(TerminalElement(
+          "UDP socket bind failed on port ${settings['listenPort']![0]}", 0));
+  }
 }
 
 void sockListener() {
@@ -52,8 +54,13 @@ void sockListener() {
             Map temp = jsonDecode(decoder.convert(result));
             processPacket(temp);
           } catch (exc) {
+            try{
             terminalQueue.add(TerminalElement(
                 "Error in processing, data was ${decoder.convert(result)}", 2));
+            } catch (exc2) {
+            terminalQueue.add(TerminalElement(
+                "Error in processing, received payload was not ascii-decodeable", 2));
+            }
           }
         } else {
           if (!initialPacket) {

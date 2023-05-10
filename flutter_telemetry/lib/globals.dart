@@ -212,7 +212,7 @@ List<VirtualSignal> virtualSignals = [
 // live settings  [val, min, max]
 Map<String, List<int>> settings = {
   "refreshTimeMS": [100, 50, 2000],
-  "chartrefreshTimeMS": [100, 5, 2000],
+  "chartrefreshTimeMS": [16, 5, 2000],
   "signalValuesToKeep": [512, 128, 4096],
   "chartShowSeconds": [40, 1, 180],
   "listenPort": [8998, 1000, 65535],
