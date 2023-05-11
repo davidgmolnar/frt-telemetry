@@ -115,7 +115,7 @@ List<VirtualSignal> virtualSignals = [
     dynamic second = signalValues[listOfSignals[1]]!.last;
     return (first + second) / 2;
   }), "VIRT_AVG_STA"),
-  VirtualSignal(["Acc_Front_YawRate"], ((listOfSignals) {
+  VirtualSignal(["Yaw_Rate_Vectornav"], ((listOfSignals) {
     num val = signalValues[listOfSignals[0]]!.last;
     return val * deg2rad;
   }), "VIRT_ACC_FRONT_YAW_RAD"),
@@ -213,7 +213,7 @@ List<VirtualSignal> virtualSignals = [
 Map<String, List<int>> settings = {
   "refreshTimeMS": [100, 50, 2000],
   "chartrefreshTimeMS": [16, 5, 2000],
-  "signalValuesToKeep": [512, 128, 4096],
+  "signalValuesToKeep": [8192, 128, 32768],
   "chartShowSeconds": [40, 1, 180],
   "listenPort": [8998, 1000, 65535],
   "scrollCache": [200, 0, 2000]

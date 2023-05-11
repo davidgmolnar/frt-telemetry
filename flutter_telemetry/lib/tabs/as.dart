@@ -33,19 +33,7 @@ TabLayout asBigLayout = TabLayout(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             BooleanIndicator(subscribedSignal: "ASMS"),
-            BooleanIndicator(subscribedSignal: "ON_Car_State"),
-            BooleanIndicator(subscribedSignal: "OFF_Car_State"),
-            BooleanIndicator(subscribedSignal: "RTDS_Car_State"),
-            BooleanIndicator(subscribedSignal: "START_Car_State"),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 1),
-            FourStateLed(subscribedSignal: "INSPECTION_LED", paddingFactor: 1),
-            FourStateLed(subscribedSignal: "SKIDPAD_LED", paddingFactor: 1),
-            FourStateLed(subscribedSignal: "TRACKDRIVE_LED", paddingFactor: 1),
+            FourStateLed(subscribedSignal: "Xavier_LED", paddingFactor: 1),
           ],
         ),
         Column(
@@ -178,18 +166,9 @@ TabLayout asSmallLayout = TabLayout(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
             BooleanIndicator(subscribedSignal: "ASMS"),
-            BooleanIndicator(subscribedSignal: "ON_Car_State"),
-            BooleanIndicator(subscribedSignal: "OFF_Car_State"),
-            BooleanIndicator(subscribedSignal: "RTDS_Car_State"),
-            BooleanIndicator(subscribedSignal: "START_Car_State"),
+            FourStateLed(subscribedSignal: "Xavier_LED", paddingFactor: 1),
           ],
         ),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
-          FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 1),
-          FourStateLed(subscribedSignal: "INSPECTION_LED", paddingFactor: 1),
-          FourStateLed(subscribedSignal: "SKIDPAD_LED", paddingFactor: 1),
-          FourStateLed(subscribedSignal: "TRACKDRIVE_LED", paddingFactor: 1),
-        ]),
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: const [
           StringIndicator(
               subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
@@ -320,23 +299,9 @@ TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
       Column(
         children: const [
           BooleanIndicator(subscribedSignal: "ASMS"),
-          BooleanIndicator(subscribedSignal: "ON_Car_State"),
-          BooleanIndicator(subscribedSignal: "OFF_Car_State"),
-          BooleanIndicator(subscribedSignal: "RTDS_Car_State"),
-          BooleanIndicator(subscribedSignal: "START_Car_State"),
+            FourStateLed(subscribedSignal: "Xavier_LED", paddingFactor: 1),
         ],
       ),
-      Column(
-        children: const [
-          FourStateLed(
-              subscribedSignal: "ASB_ERROR_LED", paddingFactor: 1),
-          FourStateLed(
-              subscribedSignal: "INSPECTION_LED", paddingFactor: 1),
-          FourStateLed(subscribedSignal: "SKIDPAD_LED", paddingFactor: 1),
-          FourStateLed(
-              subscribedSignal: "TRACKDRIVE_LED", paddingFactor: 1),
-        ],
-      )
     ],
   ),
   Row(

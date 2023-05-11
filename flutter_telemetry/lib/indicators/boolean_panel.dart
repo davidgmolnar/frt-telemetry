@@ -9,9 +9,11 @@ class BooleanPanel extends StatelessWidget{
   required this.subscribedSignals,
   required this.colsize,
   required this.title,
+  this.reverseIndexes,
   }) : super(key: key);
 
   final List<String> subscribedSignals;
+  final List<bool?>? reverseIndexes;
   final int colsize;
   final String title;
 
@@ -43,7 +45,7 @@ class BooleanPanel extends StatelessWidget{
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         for(int j = 0; j < colsize && (i * colsize + j) < subscribedSignals.length; j++)
-                          BooleanIndicator(subscribedSignal: subscribedSignals[i * colsize + j])
+                          BooleanIndicator(subscribedSignal: subscribedSignals[i * colsize + j], isInverted: reverseIndexes?[i * colsize + j],)
                       ]
                     ),
                   )

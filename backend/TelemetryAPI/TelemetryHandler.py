@@ -30,8 +30,8 @@ DICT_QUEUE1.maxsize = 10000
 DICT_QUEUE2 = Queue()
 DICT_QUEUE2.maxsize = 10000
 
-CAN1 = cantools.db.load_file('DBC_2022/CAN1_matrix_2022.dbc')
-CAN2 = cantools.db.load_file('DBC_2022/CAN2_matrix_2022.dbc')
+CAN1 = cantools.db.load_file('DBC_2023/CAN1.dbc')
+CAN2 = cantools.db.load_file('DBC_2023/CAN2.dbc')
 MULTIPLEXED_SIGNALS = [913, 915]
 
 DATA_QUEUE = Queue()
@@ -366,7 +366,7 @@ if __name__ == '__main__':
     try:
         if True:  # TEST MODE
             tester = TelemetryTester()
-            tester.send_interval = 0.1  # 0.01
+            tester.send_interval = 0.05  # 0.01
             test_thread = Process(target=tester.run)
             time.sleep(1)
             test_thread.start()
