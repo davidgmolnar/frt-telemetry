@@ -366,7 +366,7 @@ if __name__ == '__main__':
     try:
         if True:  # TEST MODE
             tester = TelemetryTester()
-            tester.send_interval = 0.05  # 0.01
+            tester.send_interval = 0.1  # 0.01
             test_thread = Process(target=tester.run)
             time.sleep(1)
             test_thread.start()

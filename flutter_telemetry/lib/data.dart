@@ -84,7 +84,7 @@ void processPacket(Map rawJsonMap) {
     signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
     signalTimestamps[key]!
         .insert(signalTimestamps[key]!.length, DateTime.now());
-    if (signalValues[key]!.length > settings['signalValuesToKeep']![0]) {
+    while (signalValues[key]!.length > settings['signalValuesToKeep']![0]) {
       signalValues[key]!.removeAt(0);
       signalTimestamps[key]!.removeAt(0);
     }

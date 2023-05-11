@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/dialogs/chart_rescale_dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
@@ -58,11 +59,23 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
     4: Colors.purple,
     5: Colors.brown
   };
+  late double trueMax;
+  late double trueMin;
 
   late Function toggleVisibility;
 
   @override
   void initState() {
+    String folded = widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element");
+    if(chartLimits.keys.contains(folded)){
+      trueMax = chartLimits[folded]!.dx;
+      trueMin = chartLimits[folded]!.dy;
+    }
+    else{
+      trueMax = widget.max;
+      trueMin = widget.min;
+    }
+
     for(int i = 0; i < widget.subscribedSignals.length; i++){
       if(labelRemap.containsKey(widget.subscribedSignals[i])){
         labels.add(labelRemap[widget.subscribedSignals[i]]!);
@@ -72,6 +85,14 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
       }
     }
     super.initState();
+  }
+
+  void update(double newMax, double newMin){
+    chartLimits[widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element")] = Offset(newMax, newMin);
+    setState(() {
+      trueMax = newMax;
+      trueMin = newMin;
+    });
   }
 
   @override
@@ -91,8 +112,8 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                 height: yAxisHeight,
                 width: yAxisWidth,
                 child: YAxis(
-                  max: widget.max,
-                  min: widget.min,
+                  max: trueMax,
+                  min: trueMin,
                   height: yAxisHeight,
                   topInset: titleHeight,
                   bottomInset: xAxisHeight,
@@ -106,9 +127,18 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                       height: titleHeight,
                       child: Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: defaultPadding * 6),
-                            child: Text(widget.title, style: const TextStyle(fontSize: subTitleFontSize),),
+                          GestureDetector(
+                            onTap: () async {
+                              showDialog<Widget>(
+                                barrierDismissible: false,
+                                context: tabContext,
+                                builder: (BuildContext context) => ChartRescaleDialog(updater: update,)
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: defaultPadding * 6),
+                              child: Text(widget.title, style: const TextStyle(fontSize: subTitleFontSize),),
+                            ),
                           ),
                           const Spacer(),
                           for(int i = 0; i < labels.length; i++)
@@ -155,8 +185,8 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                                 ),
                               TimeSeriesPlotArea(
                                 subscribedSignals: widget.subscribedSignals,
-                                max: widget.max,
-                                min: widget.min,
+                                max: trueMax,
+                                min: trueMin,
                                 canvasHeight: canvasHeight,
                                 canvasWidth: canvasWidth,
                                 visibilitySetter: (setter) {
@@ -212,6 +242,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
   List<List<TimeSeriesPoint>> chartData = [];
   List<List<Offset>> chartDataPoints = [];
   late double yScale;
+  late double yStart;
   late double xScale;
   late double xStart;
   List<bool> visibility = [];
@@ -243,13 +274,20 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     xStart = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']![0])).difference(appstartdate).inMilliseconds.toDouble();
     xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
     yScale = widget.canvasHeight / (widget.max - widget.min);
+    yStart = widget.min;
     super.initState();
     widget.visibilitySetter(toggleVisibility);
     timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
   }
 
   void updateData(){
-    DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']![0])); // param
+    DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']![0]));
+    
+    xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
+    xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
+    yStart = widget.min;
+    yScale = widget.canvasHeight / (widget.max - widget.min);
+
     for(int i = 0; i < widget.subscribedSignals.length; i++){
       List? tempVal = [];
       List<DateTime>? tempTime = [];
@@ -265,6 +303,8 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       }
       else{
         tempTime = signalTimestamps[widget.subscribedSignals[i]]?.skipWhile((value) => !value.isAfter(chartData[i].last.timestamp)).toList();
+        //tempTime = signalTimestamps[widget.subscribedSignals[i]]?.reversed.takeWhile((value) => !value.isBefore(chartData[i].last.timestamp)).toList().reversed.toList();
+        
         if(tempTime != null){
           toSkip = signalValues[widget.subscribedSignals[i]]!.length - tempTime.length;
           tempVal = signalValues[widget.subscribedSignals[i]]?.skip(toSkip).toList();
@@ -280,7 +320,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
             chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
             chartDataPoints[i].add(Offset(
               tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
-              tempVal[j] * yScale + borderWidth
+              tempVal[j].toDouble()
             ));
           }
         }
@@ -290,8 +330,6 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       toSkip = chartDataPoints[i].length - chartData[i].length;
       chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
     }
-    xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
-    xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
   
   setState(() {});
 }
@@ -304,7 +342,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
         for(int i = 0; i < widget.subscribedSignals.length; i++)
           if(visibility[i])
             CustomPaint(
-              painter: ChartLinePainter(widget.canvasWidth, widget.canvasHeight, chartDataPoints[i], xScale, xStart, _colormap[i]!),
+              painter: ChartLinePainter(widget.canvasWidth, widget.canvasHeight, chartDataPoints[i], xScale, xStart, yScale, yStart, _colormap[i]!),
             )
       ]
     );
@@ -322,10 +360,12 @@ class ChartLinePainter extends CustomPainter{
   final double height;
   final double xScale;
   final double xStart;
+  final double yScale;
+  final double yStart;
   final Color lineColor;
   List<Offset> points;
 
-  ChartLinePainter(this.width, this.height, this.points, this.xScale, this.xStart, this.lineColor);
+  ChartLinePainter(this.width, this.height, this.points, this.xScale, this.xStart, this.yScale, this.yStart, this.lineColor);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -335,13 +375,13 @@ class ChartLinePainter extends CustomPainter{
     for(int i = 0; i < points.length; i++){
       if(first){
         canvas.clipRect(Rect.fromPoints(const Offset(0,0), Offset(width, height - borderWidth)));
-        canvas.translate(-xScale * xStart, height);
+        canvas.translate(-xScale * xStart, height + yStart * yScale);
         canvas.scale(1, -1);
-        path.moveTo(points[i].dx * xScale, points[i].dy);
+        path.moveTo(points[i].dx * xScale, points[i].dy * yScale);
         first = false;
         continue;
       }
-      path.lineTo(points[i].dx * xScale, points[i].dy);
+      path.lineTo(points[i].dx * xScale, points[i].dy * yScale);
     }
     canvas.drawPath(path, painter);
   }
@@ -378,7 +418,7 @@ class YAxis extends StatelessWidget{
               children: [
                 Transform.translate(
                   offset: const Offset(-tickLength, -chartLabelFontSize* 3/4),
-                  child: Text(representNumber("${max - i * valueIncrement}", maxDigit: 5), style: const TextStyle(fontSize: chartLabelFontSize),)
+                  child: Text(representNumber("${max - i * valueIncrement}", maxDigit: 6), style: const TextStyle(fontSize: chartLabelFontSize),)
                 ),
                 CustomPaint(painter: TickPainter(true),),
               ],
