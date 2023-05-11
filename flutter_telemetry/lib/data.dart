@@ -76,6 +76,7 @@ void sockListener() {
 
 void processPacket(Map rawJsonMap) {
   rawJsonMap["last_singal_update_cnt"] = rawJsonMap.keys.length;
+  int maxSignalNum = settings['signalValuesToKeep']![0] + 1000;
   for (String key in rawJsonMap.keys) {
     if (!signalValues.containsKey(key)) {
       signalValues[key] = [];
@@ -84,9 +85,11 @@ void processPacket(Map rawJsonMap) {
     signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
     signalTimestamps[key]!
         .insert(signalTimestamps[key]!.length, DateTime.now());
-    while (signalValues[key]!.length > settings['signalValuesToKeep']![0]) {
-      signalValues[key]!.removeAt(0);
-      signalTimestamps[key]!.removeAt(0);
+    if (signalValues[key]!.length > maxSignalNum) {
+      //signalValues[key]!.removeAt(0);
+      //signalTimestamps[key]!.removeAt(0);
+      signalValues[key]!.removeRange(0, 1000);
+      signalTimestamps[key]!.removeRange(0, 1000);
     }
   }
   // process virtual signals
@@ -106,10 +109,11 @@ void processPacket(Map rawJsonMap) {
           virtualSignal.rule(virtualSignal.signals));
       signalTimestamps[virtualSignal.name]!
           .insert(signalTimestamps[virtualSignal.name]!.length, DateTime.now());
-      if (signalValues[virtualSignal.name]!.length >
-          settings['signalValuesToKeep']![0]) {
-        signalValues[virtualSignal.name]!.removeAt(0);
-        signalTimestamps[virtualSignal.name]!.removeAt(0);
+      if (signalValues[virtualSignal.name]!.length > maxSignalNum) {
+        //signalValues[virtualSignal.name]!.removeAt(0);
+        //signalTimestamps[virtualSignal.name]!.removeAt(0);
+        signalValues[virtualSignal.name]!.removeRange(0, 1000);
+        signalTimestamps[virtualSignal.name]!.removeRange(0, 1000);
       }
     }
   }

@@ -213,7 +213,7 @@ List<VirtualSignal> virtualSignals = [
 Map<String, List<int>> settings = {
   "refreshTimeMS": [100, 50, 2000],
   "chartrefreshTimeMS": [16, 5, 2000],
-  "signalValuesToKeep": [1024, 128, 32768],
+  "signalValuesToKeep": [8192, 128, 32768],
   "chartShowSeconds": [40, 1, 180],
   "listenPort": [8998, 1000, 65535],
   "scrollCache": [200, 0, 2000]

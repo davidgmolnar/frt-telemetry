@@ -302,12 +302,11 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
         }
       }
       else{
-        tempTime = signalTimestamps[widget.subscribedSignals[i]]?.skipWhile((value) => !value.isAfter(chartData[i].last.timestamp)).toList();
-        //tempTime = signalTimestamps[widget.subscribedSignals[i]]?.reversed.takeWhile((value) => !value.isBefore(chartData[i].last.timestamp)).toList().reversed.toList();
+        tempTime = signalTimestamps[widget.subscribedSignals[i]]?.reversed.takeWhile((value) => !value.isBefore(chartData[i].last.timestamp)).toList().reversed.toList();
         
         if(tempTime != null){
           toSkip = signalValues[widget.subscribedSignals[i]]!.length - tempTime.length;
-          tempVal = signalValues[widget.subscribedSignals[i]]?.skip(toSkip).toList();
+          tempVal = signalValues[widget.subscribedSignals[i]]?.reversed.take(toSkip).toList().reversed.toList();
           needsUpdate = true;
         }
       }
