@@ -305,7 +305,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
         tempTime = signalTimestamps[widget.subscribedSignals[i]]?.reversed.takeWhile((value) => !value.isBefore(chartData[i].last.timestamp)).toList().reversed.toList();
         
         if(tempTime != null){
-          toSkip = signalValues[widget.subscribedSignals[i]]!.length - tempTime.length;
+          toSkip = tempTime.length;
           tempVal = signalValues[widget.subscribedSignals[i]]?.reversed.take(toSkip).toList().reversed.toList();
           needsUpdate = true;
         }
