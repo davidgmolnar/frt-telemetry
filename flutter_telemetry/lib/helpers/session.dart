@@ -68,6 +68,11 @@ Future<void> loadSession() async {
       signalTimestamps[signal] = [];
     }
   }
+  if(sessionData.containsKey("canPathList")){
+    for(String path in sessionData["canPathList"]){
+      canPathList.add(path);
+    }
+  }
   terminalQueue.add(TerminalElement("Session file found, settings loaded", 3));
 }
 
@@ -101,6 +106,7 @@ Future<void> saveSession() async {
   }
   sessionData["colortheme"] = textColor == textColorDark ? "DARK" : "BRIGHT";
   sessionData["activetab"] = activeTab;
+  sessionData["canPathList"] = canPathList;
   // Alerts
 
   sessionFile = await sessionFile.writeAsString(const JsonEncoder.withIndent('    ').convert(sessionData));

@@ -11,6 +11,8 @@ String dir = "";
 bool isFullScreen = false;
 late BuildContext tabContext;
 
+List<String> canPathList = [];
+
 Color primaryColor = primaryColorDark;
 Color secondaryColor = secondaryColorDark;
 Color bgColor = bgColorDark;

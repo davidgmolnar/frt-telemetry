@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'dart:typed_data';
+import 'package:dart_dbc_parser/dart_dbc_parser.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
@@ -8,6 +9,7 @@ import 'package:universal_io/io.dart';
 
 bool isconnected = false;
 late RawDatagramSocket sock;
+late DBCDatabase can;
 
 Map<String, List<num>> signalValues = {};
 Map<String, List<DateTime>> signalTimestamps = {};
@@ -34,6 +36,15 @@ Future<void> startListener() async {
       terminalQueue.add(TerminalElement(
           "UDP socket bind successful on port ${settings['listenPort']![0]}",3));
       isconnected = true;
+      try{
+        can = await DBCDatabase.loadFromFile(canPathList.map((e) => File(e)).toList());
+        if(can.database.keys.isEmpty){
+          throw Exception();
+        }
+      }
+      catch (exc) {
+        terminalQueue.add(TerminalElement("Failed to load dbc",0));
+      }
       sockListener();
   }
   else{
@@ -50,6 +61,7 @@ void sockListener() {
       if (event == RawSocketEvent.read) {
         Uint8List? result = sock.receive()?.data;
         if (result != null) {
+          /*
           try {
             Map temp = jsonDecode(decoder.convert(result));
             processPacket(temp);
@@ -62,6 +74,10 @@ void sockListener() {
                 "Error in processing, received payload was not ascii-decodeable", 2));
             }
           }
+          */          
+          Map<String, num> temp = can.decode(result);
+          processPacket(temp);
+
         } else {
           if (!initialPacket) {
             terminalQueue
