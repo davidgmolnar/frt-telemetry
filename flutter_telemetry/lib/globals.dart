@@ -137,7 +137,7 @@ List<VirtualSignal> virtualSignals = [
     dynamic second = signalValues[listOfSignals[1]]!.last;
     return first * second;
   }), "VIRT_BRIGHTLOOP_CH2_POWER"),
-  VirtualSignal(["NDCDCOutputOverload1Count", "NDCDCOutputOverload2Count"],
+  VirtualSignal(["NDCDCOutputOverload1Count m4", "NDCDCOutputOverload2Count m4"],
       ((listOfSignals) {
     dynamic first = signalValues[listOfSignals[0]]!.last;
     dynamic second = signalValues[listOfSignals[1]]!.last;
