@@ -10,14 +10,14 @@ TabLayout dynamicsBigLayout =
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
       NumericPanel(subscribedSignals: [
-        "Acc_Front_AccX",
-        "AccX_Rear",
-        "Acc_Front_AccY",
-        "AccY_Rear",
-        "Acc_Front_RollRate",
-        "Vectornav_yaw_rate_rear_value",
+        "AccX_Bosch",
+        "AccY_Bosch",
+        "AccX_Vectornav",
+        "AccY_Vectornav",
+        "RollRate_Bosch",
+        "PN_IMU_Yaw",
+        "Yaw_Rate_Vectornav",
         "VIRT_ACC_FRONT_YAW_RAD",
-        "Yaw_Rate_Rear"
       ], colsize: 4, title: "Dynamics"),
       ScaleIndicator(
           subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
@@ -28,7 +28,7 @@ TabLayout dynamicsBigLayout =
         "STA_plausiblity",
         "VIRT_APPS_VALID",
         "VIRT_STA_VALID"
-      ], colsize: 4, title: "Pedal Node")
+      ], reverseIndexes: [true, true, true, true], colsize: 4, title: "Pedal Node")
     ],
   ),
   const Titlebar(title: "Charts"),
@@ -51,7 +51,7 @@ TabLayout dynamicsBigLayout =
     )
   ]),
   const TimeSeriesChart(
-    subscribedSignals: ["AccX_Rear", "AccY_Rear"],
+    subscribedSignals: ["AccX_Bosch", "AccY_Bosch"],
     title: "Accel",
     min: -4,
     max: 4,
@@ -77,7 +77,7 @@ TabLayout dynamicsBigLayout =
   Row(children: const [
     Flexible(
       child: TimeSeriesChart(
-        subscribedSignals: ["Yaw_Rate_Rear"],
+        subscribedSignals: ["Yaw_Rate_Vectornav"],
         title: "Yaw Rate",
         min: -10,
         max: 10,
@@ -102,14 +102,14 @@ TabLayout dynamicsSmallLayout =
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
       const NumericPanel(subscribedSignals: [
-        "Acc_Front_AccX",
-        "AccX_Rear",
-        "Acc_Front_AccY",
-        "AccY_Rear",
-        "Acc_Front_RollRate",
-        "Vectornav_yaw_rate_rear_value",
+        "AccX_Bosch",
+        "AccY_Bosch",
+        "AccX_Vectornav",
+        "AccY_Vectornav",
+        "RollRate_Bosch",
+        "PN_IMU_Yaw",
+        "Yaw_Rate_Vectornav",
         "VIRT_ACC_FRONT_YAW_RAD",
-        "Yaw_Rate_Rear"
       ], colsize: 8, title: "Dynamics"),
       Column(
         children: [
@@ -118,7 +118,7 @@ TabLayout dynamicsSmallLayout =
             "STA_plausiblity",
             "VIRT_APPS_VALID",
             "VIRT_STA_VALID"
-          ], colsize: 4, title: "Pedal Node"),
+          ], reverseIndexes: [true, true, true, true], colsize: 4, title: "Pedal Node"),
           Row(
             children: const [
               ScaleIndicator(
@@ -147,7 +147,7 @@ TabLayout dynamicsSmallLayout =
     max: 100,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["AccX_Rear", "AccY_Rear"],
+    subscribedSignals: ["AccX_Bosch", "AccY_Bosch"],
     title: "Accel",
     min: -4,
     max: 4,
@@ -165,7 +165,7 @@ TabLayout dynamicsSmallLayout =
     max: 90000,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["Yaw_Rate_Rear"],
+    subscribedSignals: ["Yaw_Rate_Vectornav"],
     title: "Yaw Rate",
     min: -10,
     max: 10,
@@ -182,21 +182,22 @@ TabLayout dynamicsMobileLayout =
     TabLayout(layoutBreakpoints: const [], shortcutLabels: const [], layout: [
   const Titlebar(title: "Dynamics Measurements"),
   const NumericPanel(subscribedSignals: [
-    "Acc_Front_AccX",
-    "AccX_Rear",
-    "Acc_Front_AccY",
-    "AccY_Rear",
-    "Acc_Front_RollRate",
-    "Vectornav_yaw_rate_rear_value",
+    "AccX_Bosch",
+    "AccY_Bosch",
+    "AccX_Vectornav",
+    "AccY_Vectornav",
+    "RollRate_Bosch",
+    "PN_IMU_Yaw",
+    "Yaw_Rate_Vectornav",
     "VIRT_ACC_FRONT_YAW_RAD",
-    "Yaw_Rate_Rear"
   ], colsize: 8, title: "Dynamics"),
   const BooleanPanel(subscribedSignals: [
     "APPS_plausiblity",
     "STA_plausiblity",
     "VIRT_APPS_VALID",
-    "VIRT_STA_VALID"
-  ], colsize: 4, title: "Pedal Node"),
+    "VIRT_STA_VALID" ,
+  ], reverseIndexes: [true, true, true, true],
+    colsize: 4, title: "Pedal Node"),
   Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: const [
@@ -219,7 +220,7 @@ TabLayout dynamicsMobileLayout =
     max: 100,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["AccX_Rear", "AccY_Rear"],
+    subscribedSignals: ["AccX_Bosch", "AccX_Bosch"],
     title: "Accel",
     min: -4,
     max: 4,
@@ -237,7 +238,7 @@ TabLayout dynamicsMobileLayout =
     max: 90000,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["Yaw_Rate_Rear"],
+    subscribedSignals: ["Yaw_Rate_Vectornav"],
     title: "Yaw Rate",
     min: -10,
     max: 10,

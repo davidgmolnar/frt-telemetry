@@ -25,6 +25,7 @@ TabLayout overviewBigLayout = TabLayout(
             "Brake_pressure_front_validity",
             "Brake_pressure_rear_validity",
           ],
+          reverseIndexes: [true, true, true, true, true, true, true, true, true],
           colsize: 9,
           title: "Sensor leds"
         ),
@@ -38,45 +39,36 @@ TabLayout overviewBigLayout = TabLayout(
               ScaleIndicator(subscribedSignal: "STA2_position", maxValue: 180, minValue: 0),
               ScaleIndicator(subscribedSignal: "PPS1", maxValue: 10, minValue: 0),
               ScaleIndicator(subscribedSignal: "PPS2", maxValue: 10, minValue: 0),
-              ScaleIndicator(subscribedSignal: "Brake_pressure_rear_ADC", maxValue: 700, minValue: 0),
-              ScaleIndicator(subscribedSignal: "Brake_pressure_front_ADC", maxValue: 700, minValue: 0),
+              ScaleIndicator(subscribedSignal: "Brake_pressure_rear_ADC", maxValue: 5, minValue: 0),
+              ScaleIndicator(subscribedSignal: "Brake_pressure_front_ADC", maxValue: 5, minValue: 0),
               ScaleIndicator(subscribedSignal: "Brake_Force_sensor", maxValue: 1500, minValue: 0),
             ],),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  children: const [
-                    FourStateLed(subscribedSignal: "AMS_LED", paddingFactor: 2,),
-                    FourStateLed(subscribedSignal: "HV_LED", paddingFactor: 2,)
-                  ],
-                ),
-                Column(
-                  children: const [
-                    FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 2,),
-                    FourStateLed(subscribedSignal: "TS_OFF_LED", paddingFactor: 2,)
-                  ],
-                ),
-                Column(
-                  children: const [
-                    FourStateLed(subscribedSignal: "IMD_LED", paddingFactor: 2,),
-                    FourStateLed(subscribedSignal: "TCU_LED", paddingFactor: 2,)
-                  ],
-                ),
-                Column(
-                  children: const [
-                    FourStateLed(subscribedSignal: "MCU1_LED", paddingFactor: 2,),
-                    FourStateLed(subscribedSignal: "MCU2_LED", paddingFactor: 2,)
-                  ],
-                ),
-                Column(
-                  children: const [
-                    FourStateLed(subscribedSignal: "MCU3_LED", paddingFactor: 2,),
-                    FourStateLed(subscribedSignal: "MCU4_LED", paddingFactor: 2,)
-                  ],
-                ),
-              ],
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: const [
+              FourStateLed(
+                subscribedSignal: "Xavier_LED",
+                paddingFactor: 2,
+              ),
+              FourStateLed(
+                subscribedSignal: "TS_OFF_LED",
+                paddingFactor: 2,
+              ),
+              FourStateLed(
+                subscribedSignal: "TCU_LED",
+                paddingFactor: 2,
+              ),
+              FourStateLed(
+                subscribedSignal: "MCU_LED",
+                paddingFactor: 2,
+              ),
+              FourStateLed(
+                subscribedSignal: "IMD_LED",
+                paddingFactor: 2,
+              ),
+              FourStateLed(
+                subscribedSignal: "AMS_LED",
+                paddingFactor: 2,
+              ),
+            ]),
           ]
         ),
         Column(
@@ -121,7 +113,7 @@ TabLayout overviewBigLayout = TabLayout(
         Column(
           children: const [
             RotaryIndicator(subscribedSignal: "v_x", numofStates: 51, granularity: 5, offset: 0,),
-            Plot2D(subscribedSignals: ["Acc_Front_AccX", "Acc_Front_AccY"], title: "Accel Front", maxValue: 4),
+            Plot2D(subscribedSignals: ["AccX_Bosch", "AccY_Bosch"], title: "Accel Front", maxValue: 4),
           ],
         ),
         Column(
@@ -131,15 +123,15 @@ TabLayout overviewBigLayout = TabLayout(
               subscribedSignals: [
                 "v_x",
                 "v_y",
-                "Acc_Front_AccX",
-                "Acc_Front_AccY",
-                "AccX_Rear",
-                "AccY_Rear",
-                "Bosch_yaw_rate",
-                "Vectornav_yaw_rate_rear_value",
-                "Yaw_Rate_Rear",
+                "AccX_Bosch",
+                "AccY_Bosch",
+                "Yaw_rate",
+                "PN_IMU_Yaw",
+                "Yaw_Rate_Vectornav",
+                "Brake_pressure_rear",
+                "Brake_pressure_front"
               ],
-              colsize: 10, title: "Dynamics"
+              colsize: 9, title: "Dynamics"
             ),
           ],
         ),
@@ -353,6 +345,7 @@ TabLayout overviewSmallLayout = TabLayout(
             "Brake_pressure_front_validity",
             "Brake_pressure_rear_validity",
           ],
+          reverseIndexes: [true, true, true, true, true, true, true, true, true],
           colsize: 9,
           title: "Sensor leds"
         ),
@@ -402,47 +395,37 @@ TabLayout overviewSmallLayout = TabLayout(
             ScaleIndicator(subscribedSignal: "STA2_position", maxValue: 180, minValue: 0),
             ScaleIndicator(subscribedSignal: "PPS1", maxValue: 10, minValue: 0),
             ScaleIndicator(subscribedSignal: "PPS2", maxValue: 10, minValue: 0),
-            ScaleIndicator(subscribedSignal: "Brake_pressure_rear_ADC", maxValue: 700, minValue: 0),
-            ScaleIndicator(subscribedSignal: "Brake_pressure_front_ADC", maxValue: 700, minValue: 0),
+            ScaleIndicator(subscribedSignal: "Brake_pressure_rear_ADC", maxValue: 5, minValue: 0),
+            ScaleIndicator(subscribedSignal: "Brake_pressure_front_ADC", maxValue: 5, minValue: 0),
             ScaleIndicator(subscribedSignal: "Brake_Force_sensor", maxValue: 1500, minValue: 0),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
-              children: const [
-                FourStateLed(subscribedSignal: "AMS_LED", paddingFactor: 2,),
-                FourStateLed(subscribedSignal: "HV_LED", paddingFactor: 2,)
-              ],
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: const [
+            FourStateLed(
+              subscribedSignal: "Xavier_LED",
+              paddingFactor: 2,
             ),
-            Column(
-              children: const [
-                FourStateLed(subscribedSignal: "ASB_ERROR_LED", paddingFactor: 2,),
-                FourStateLed(subscribedSignal: "TS_OFF_LED", paddingFactor: 2,)
-              ],
+            FourStateLed(
+              subscribedSignal: "TS_OFF_LED",
+              paddingFactor: 2,
             ),
-            Column(
-              children: const [
-                FourStateLed(subscribedSignal: "IMD_LED", paddingFactor: 2,),
-                FourStateLed(subscribedSignal: "TCU_LED", paddingFactor: 2,)
-              ],
+            FourStateLed(
+              subscribedSignal: "TCU_LED",
+              paddingFactor: 2,
             ),
-            Column(
-              children: const [
-                FourStateLed(subscribedSignal: "MCU1_LED", paddingFactor: 2,),
-                FourStateLed(subscribedSignal: "MCU2_LED", paddingFactor: 2,)
-              ],
+            FourStateLed(
+              subscribedSignal: "MCU_LED",
+              paddingFactor: 2,
             ),
-            Column(
-              children: const [
-                FourStateLed(subscribedSignal: "MCU3_LED", paddingFactor: 2,),
-                FourStateLed(subscribedSignal: "MCU4_LED", paddingFactor: 2,)
-              ],
+            FourStateLed(
+              subscribedSignal: "IMD_LED",
+              paddingFactor: 2,
             ),
-          ],
-        ),
+            FourStateLed(
+              subscribedSignal: "AMS_LED",
+              paddingFactor: 2,
+            ),
+          ]),
       ]
     ),
     const Titlebar(title: "Dynamics and Control"),
@@ -453,7 +436,7 @@ TabLayout overviewSmallLayout = TabLayout(
         Column(
           children: const [
             RotaryIndicator(subscribedSignal: "v_x", numofStates: 51, granularity: 5, offset: 0,),
-            Plot2D(subscribedSignals: ["Acc_Front_AccX", "Acc_Front_AccY"], title: "Accel Front", maxValue: 4),
+            Plot2D(subscribedSignals: ["AccX_Bosch", "AccY_Bosch"], title: "Accel Front", maxValue: 4),
           ],
         ),
         Column(
@@ -463,15 +446,15 @@ TabLayout overviewSmallLayout = TabLayout(
               subscribedSignals: [
                 "v_x",
                 "v_y",
-                "Acc_Front_AccX",
-                "Acc_Front_AccY",
-                "AccX_Rear",
-                "AccY_Rear",
-                "Bosch_yaw_rate",
-                "Vectornav_yaw_rate_rear_value",
-                "Yaw_Rate_Rear",
+                "AccX_Bosch",
+                "AccY_Bosch",
+                "Yaw_rate",
+                "PN_IMU_Yaw",
+                "Yaw_Rate_Vectornav",
+                "Brake_pressure_rear",
+                "Brake_pressure_front"
               ],
-              colsize: 10, title: "Dynamics"
+              colsize: 9, title: "Dynamics"
             ),
           ],
         ),

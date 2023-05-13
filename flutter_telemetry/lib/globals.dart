@@ -11,6 +11,8 @@ String dir = "";
 bool isFullScreen = false;
 late BuildContext tabContext;
 
+List<String> canPathList = [];
+
 Color primaryColor = primaryColorDark;
 Color secondaryColor = secondaryColorDark;
 Color bgColor = bgColorDark;
@@ -115,7 +117,7 @@ List<VirtualSignal> virtualSignals = [
     dynamic second = signalValues[listOfSignals[1]]!.last;
     return (first + second) / 2;
   }), "VIRT_AVG_STA"),
-  VirtualSignal(["Acc_Front_YawRate"], ((listOfSignals) {
+  VirtualSignal(["Yaw_Rate_Vectornav"], ((listOfSignals) {
     num val = signalValues[listOfSignals[0]]!.last;
     return val * deg2rad;
   }), "VIRT_ACC_FRONT_YAW_RAD"),
@@ -135,7 +137,7 @@ List<VirtualSignal> virtualSignals = [
     dynamic second = signalValues[listOfSignals[1]]!.last;
     return first * second;
   }), "VIRT_BRIGHTLOOP_CH2_POWER"),
-  VirtualSignal(["NDCDCOutputOverload1Count", "NDCDCOutputOverload2Count"],
+  VirtualSignal(["NDCDCOutputOverload1Count m4", "NDCDCOutputOverload2Count m4"],
       ((listOfSignals) {
     dynamic first = signalValues[listOfSignals[0]]!.last;
     dynamic second = signalValues[listOfSignals[1]]!.last;
@@ -162,9 +164,9 @@ List<VirtualSignal> virtualSignals = [
   }), "VIRT_BRIGHTLOOP_LV_MAH"),
   VirtualSignal(["HV_Cell_ID", "HV_Cell_Voltage", "HV_Cell_Temperature"],
       ((listOfSignals) {
-    hvCellTemps[signalValues[listOfSignals[0]]!.last.toString()] =
+    hvCellTemps[signalValues[listOfSignals[0]]!.last.toInt().toString()] =
         signalValues[listOfSignals[2]]!.last;
-    hvCellVoltages[signalValues[listOfSignals[0]]!.last.toString()] =
+    hvCellVoltages[signalValues[listOfSignals[0]]!.last.toInt().toString()] =
         signalValues[listOfSignals[1]]!.last;
   }), "INDEPENDENT_SIGNAL"),
   VirtualSignal(["HV_Current"], ((listOfSignals) {
@@ -213,11 +215,14 @@ List<VirtualSignal> virtualSignals = [
 Map<String, List<int>> settings = {
   "refreshTimeMS": [100, 50, 2000],
   "chartrefreshTimeMS": [16, 5, 2000],
-  "signalValuesToKeep": [512, 128, 4096],
+  "signalValuesToKeep": [8192, 128, 32768],
   "chartShowSeconds": [40, 1, 180],
   "listenPort": [8998, 1000, 65535],
   "scrollCache": [200, 0, 2000]
 };
+
+// [signals concatenated] = (max,min)
+Map<String,Offset> chartLimits = {};
 
 int tooltipShowMs = 0;
 int tooltipWaitMs = 1000;

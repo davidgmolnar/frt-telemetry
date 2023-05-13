@@ -8,15 +8,7 @@ TabLayout lvSystemBigLayout =
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
       FourStateLed(
-        subscribedSignal: "AMS_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "HV_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "ASB_ERROR_LED",
+        subscribedSignal: "Xavier_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
@@ -24,27 +16,19 @@ TabLayout lvSystemBigLayout =
         paddingFactor: 2,
       ),
       FourStateLed(
-        subscribedSignal: "IMD_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
         subscribedSignal: "TCU_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
-        subscribedSignal: "MCU1_LED",
+        subscribedSignal: "MCU_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
-        subscribedSignal: "MCU2_LED",
+        subscribedSignal: "IMD_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
-        subscribedSignal: "MCU3_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU4_LED",
+        subscribedSignal: "AMS_LED",
         paddingFactor: 2,
       ),
     ],
@@ -123,15 +107,7 @@ TabLayout lvSystemSmallLayout =
     TabLayout(shortcutLabels: [], layoutBreakpoints: [], layout: [
   Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: const [
     FourStateLed(
-      subscribedSignal: "AMS_LED",
-      paddingFactor: 2,
-    ),
-    FourStateLed(
-      subscribedSignal: "HV_LED",
-      paddingFactor: 2,
-    ),
-    FourStateLed(
-      subscribedSignal: "ASB_ERROR_LED",
+      subscribedSignal: "Xavier_LED",
       paddingFactor: 2,
     ),
     FourStateLed(
@@ -139,35 +115,22 @@ TabLayout lvSystemSmallLayout =
       paddingFactor: 2,
     ),
     FourStateLed(
+      subscribedSignal: "TCU_LED",
+      paddingFactor: 2,
+    ),
+    FourStateLed(
+      subscribedSignal: "MCU_LED",
+      paddingFactor: 2,
+    ),
+    FourStateLed(
       subscribedSignal: "IMD_LED",
       paddingFactor: 2,
     ),
+    FourStateLed(
+      subscribedSignal: "AMS_LED",
+      paddingFactor: 2,
+    ),
   ]),
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: const [
-      FourStateLed(
-        subscribedSignal: "TCU_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU1_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU2_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU3_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU4_LED",
-        paddingFactor: 2,
-      ),
-    ],
-  ),
   Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -241,21 +204,11 @@ TabLayout lvSystemSmallLayout =
 
 TabLayout lvSystemMobileLayout =
     TabLayout(shortcutLabels: [], layoutBreakpoints: [], layout: [
-  Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: const [
-    FourStateLed(
-      subscribedSignal: "AMS_LED",
-      paddingFactor: 2,
-    ),
-    FourStateLed(
-      subscribedSignal: "HV_LED",
-      paddingFactor: 2,
-    )
-  ]),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
       FourStateLed(
-        subscribedSignal: "ASB_ERROR_LED",
+        subscribedSignal: "Xavier_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
@@ -268,37 +221,24 @@ TabLayout lvSystemMobileLayout =
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
       FourStateLed(
+        subscribedSignal: "TCU_LED",
+        paddingFactor: 2,
+      ),
+      FourStateLed(
+        subscribedSignal: "MCU_LED",
+        paddingFactor: 2,
+      )
+    ],
+  ),
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: const [
+      FourStateLed(
         subscribedSignal: "IMD_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
-        subscribedSignal: "TCU_LED",
-        paddingFactor: 2,
-      )
-    ],
-  ),
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: const [
-      FourStateLed(
-        subscribedSignal: "MCU1_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU2_LED",
-        paddingFactor: 2,
-      )
-    ],
-  ),
-  Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: const [
-      FourStateLed(
-        subscribedSignal: "MCU3_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU4_LED",
+        subscribedSignal: "AMS_LED",
         paddingFactor: 2,
       )
     ],

@@ -29,11 +29,11 @@ class NumericIndicatorState extends State<NumericIndicator>{
   @override
   void initState() {
       super.initState();
-      if(labelRemap.containsKey(widget.subscribedSignal)){
-        label = labelRemap[widget.subscribedSignal]!;
+      if(labelRemap.containsKey(widget.subscribedSignal.split(' ').first)){
+        label = labelRemap[widget.subscribedSignal.split(' ').first]!;
       }
       else{
-        label = widget.subscribedSignal.replaceAll('_', ' ');
+        label = widget.subscribedSignal.split(' ').first.replaceAll('_', ' ');
       }
       timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS']![0]), (Timer t) => updateData());
     }

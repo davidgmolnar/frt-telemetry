@@ -193,6 +193,12 @@ class HVTempColorItemState extends State<HVTempColorItem>{
       color: displayedColor,
     );
   }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
 }
 
 class HVCellColumn extends StatelessWidget{
