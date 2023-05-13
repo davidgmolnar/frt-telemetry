@@ -164,9 +164,9 @@ List<VirtualSignal> virtualSignals = [
   }), "VIRT_BRIGHTLOOP_LV_MAH"),
   VirtualSignal(["HV_Cell_ID", "HV_Cell_Voltage", "HV_Cell_Temperature"],
       ((listOfSignals) {
-    hvCellTemps[signalValues[listOfSignals[0]]!.last.toString()] =
+    hvCellTemps[signalValues[listOfSignals[0]]!.last.toInt().toString()] =
         signalValues[listOfSignals[2]]!.last;
-    hvCellVoltages[signalValues[listOfSignals[0]]!.last.toString()] =
+    hvCellVoltages[signalValues[listOfSignals[0]]!.last.toInt().toString()] =
         signalValues[listOfSignals[1]]!.last;
   }), "INDEPENDENT_SIGNAL"),
   VirtualSignal(["HV_Current"], ((listOfSignals) {
