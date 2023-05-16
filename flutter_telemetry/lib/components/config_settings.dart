@@ -5,6 +5,7 @@ import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 
 Map<String, String> settingsToLabel = {
   "refreshTimeMS" : "Refresh time in ms",
@@ -50,18 +51,10 @@ class SettingsElementState extends State<SettingsElement> {
         children: [
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
-            child: Tooltip(
-              message: settingsTooltip[widget.label]!,
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: BorderRadius.circular(5.0)
-              ),
-              textStyle: TextStyle(color: textColor),
-              showDuration: const Duration(milliseconds: 200),
-              waitDuration: const Duration(milliseconds: 200),
-              verticalOffset: 10,
-              child: Text(settingsToLabel[widget.label]!),
-            ),
+            child: AdvancedTooltip(
+              tooltipText: settingsTooltip[widget.label]!,
+              child: Text(settingsToLabel[widget.label]!)
+            )
           ),
           const Spacer(),
           Container(

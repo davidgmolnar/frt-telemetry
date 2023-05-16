@@ -6,6 +6,7 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 
 List<int> fillExcel(String timeString){
@@ -119,6 +120,10 @@ List<int> fillExcel(String timeString){
 }
 
 void handleAccuSnapshotSave() async {
+  if(hvCellTemps.isEmpty || hvCellVoltages.isEmpty){
+    showError(tabContext, "No data to save");
+    return;
+  }
   String timeString = DateTime.now().toIso8601String();
   List<int> bytes = fillExcel(timeString);
   String? outputFile = await FilePicker.platform.saveFile(

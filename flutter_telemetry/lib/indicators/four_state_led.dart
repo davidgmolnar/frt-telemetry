@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 
 class FourStateLed extends StatefulWidget{
   const FourStateLed({
@@ -71,21 +72,10 @@ class FourStateLedState extends State<FourStateLed>{
   Widget build(BuildContext context) {
     return Container( 
       padding: EdgeInsets.all(widget.paddingFactor * defaultPadding),
-      child: Tooltip(
-        message: "Listening to ${widget.subscribedSignal}",
-        decoration: BoxDecoration(
-          color: secondaryColor,
-          borderRadius: BorderRadius.circular(5.0)
-        ),
-        textStyle: TextStyle(color: textColor),
-        showDuration: Duration(milliseconds: tooltipShowMs),
-        waitDuration: Duration(milliseconds: tooltipWaitMs),
-        verticalOffset: 10,
-        child: Text(label,
-          textAlign: TextAlign.left,
-          maxLines: 1,
-          style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
-      ),
+      child: AdvancedTooltip(
+        tooltipText: "Listening to ${widget.subscribedSignal}",
+        child: Text(label, textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
+      )
     );
   }
 

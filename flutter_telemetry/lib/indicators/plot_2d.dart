@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 
 class Plot2D extends StatefulWidget{
   const Plot2D({
@@ -68,16 +69,8 @@ class Plot2DState extends State<Plot2D>{
         children: [
           Transform.translate(
             offset: const Offset(0, -300 * 0.85),
-            child: Tooltip(
-              message: "Listening to ${widget.subscribedSignals[0]} and ${widget.subscribedSignals[1]}",
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: BorderRadius.circular(5.0)
-              ),
-              textStyle: TextStyle(color: textColor),
-              showDuration: Duration(milliseconds: tooltipShowMs),
-              waitDuration: Duration(milliseconds: tooltipWaitMs),
-              verticalOffset: 10,
+            child: AdvancedTooltip(
+              tooltipText: "Listening to ${widget.subscribedSignals[0]} and ${widget.subscribedSignals[1]}",
               child: Text(widget.title)
             ),
           ),

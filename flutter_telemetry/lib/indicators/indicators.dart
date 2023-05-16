@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
+import 'package:flutter_telemetry/globals.dart';
 
 export 'boolean_indicator.dart';
 export 'boolean_panel.dart';
@@ -34,6 +35,30 @@ class Titlebar extends StatelessWidget{
         ),
         textAlign: TextAlign.center,
       ),
+    );
+  }
+}
+
+class AdvancedTooltip extends StatelessWidget{
+  const AdvancedTooltip({super.key, required this.tooltipText, required this.child});
+
+  final String tooltipText;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltipText,
+      decoration: BoxDecoration(
+        color: secondaryColor,
+        border: Border.all(color: primaryColor, width: 0),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(7.5), bottomRight: Radius.circular(7.5))
+      ),
+      textStyle: TextStyle(color: textColor),
+      showDuration: Duration(milliseconds: tooltipShowMs),
+      waitDuration: Duration(milliseconds: tooltipWaitMs),
+      verticalOffset: 10,
+      child: child,
     );
   }
 }

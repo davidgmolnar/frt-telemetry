@@ -6,9 +6,28 @@ import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/chart_rescale_dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
+
+class ChartSettings{
+  ChartSettings({required this.identifier, required this.yLimits, required this.showSeconds, required this.gridOn, required this.showIndexes});
+
+  final String identifier;
+  Offset yLimits;
+  double showSeconds;
+  bool gridOn;
+  List<bool> showIndexes;
+
+  void update({Offset? yLimits, double? showSeconds, bool? gridOn, List<bool>? showIndexes}){
+    this.yLimits = yLimits ?? this.yLimits;
+    this.showSeconds = showSeconds ?? this.showSeconds;
+    this.gridOn = gridOn ?? this.gridOn;
+    this.showIndexes = showIndexes ?? this.showIndexes;
+  }  
+}
 
 class TimeSeriesPoint{
   const TimeSeriesPoint(this.signalValue, this.timestamp);
+
   final num signalValue;
   final DateTime timestamp;
 }
@@ -146,16 +165,8 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                               padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
                               child: TextButton(
                                 onPressed: () {toggleVisibility(i);},
-                                child: Tooltip(
-                                  message: "Listening to ${widget.subscribedSignals[i]}",
-                                  decoration: BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius: BorderRadius.circular(5.0)
-                                  ),
-                                  textStyle: TextStyle(color: textColor),
-                                  showDuration: Duration(milliseconds: tooltipShowMs),
-                                  waitDuration: Duration(milliseconds: tooltipWaitMs),
-                                  verticalOffset: 10,
+                                child: AdvancedTooltip(
+                                  tooltipText: "Listening to ${widget.subscribedSignals[i]}",
                                   child: Text(labels[i], style: TextStyle(color: _colormap[i], fontSize: chartLabelFontSize),)
                                 )
                               ),

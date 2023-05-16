@@ -5,6 +5,7 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 
 class ScaleIndicator extends StatefulWidget{
   const ScaleIndicator({
@@ -61,21 +62,10 @@ class ScaleIndicatorState extends State<ScaleIndicator>{
         children:[
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
-            child: Tooltip(
-              message: "Listening to ${widget.subscribedSignal}",
-              decoration: BoxDecoration(
-                color: secondaryColor,
-                borderRadius: BorderRadius.circular(5.0)
-              ),
-              textStyle: TextStyle(color: textColor),
-              showDuration: Duration(milliseconds: tooltipShowMs),
-              waitDuration: Duration(milliseconds: tooltipWaitMs),
-              verticalOffset: 10,
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-              ),
-            ),
+            child: AdvancedTooltip(
+              tooltipText: "Listening to ${widget.subscribedSignal}",
+              child: Text(label, textAlign: TextAlign.left, maxLines: 1, style: const TextStyle( fontSize: numericFontSize ),)
+            )
           ),
           Container(
             constraints: const BoxConstraints(minHeight: 120),
