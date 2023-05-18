@@ -13,6 +13,8 @@ late BuildContext tabContext;
 
 List<String> canPathList = [];
 
+List<Color> coneColors = [Colors.orange, Colors.purple, Colors.red, Colors.yellow, Colors.blue];
+
 Color primaryColor = primaryColorDark;
 Color secondaryColor = secondaryColorDark;
 Color bgColor = bgColorDark;
@@ -208,6 +210,7 @@ List<VirtualSignal> virtualSignals = [
         break;
     }
     conesOnTrack[id] = Cone(Offset(x.toDouble(), y.toDouble()), col);
+    //print(x.toDouble().toString() + y.toDouble().toString() + col.toString());
   }), "INDEPENDENT_SIGNAL")
 ];
 

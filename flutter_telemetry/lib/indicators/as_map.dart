@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -9,22 +10,21 @@ import 'package:flutter_telemetry/indicators/indicators.dart';
 class Cone {
   late Color color;
   late Offset pos;
-  Cone(p, c) {
-    color = c;
-    pos = p;
-  }
+  Cone(this.pos, this.color);
 
   void convertToViewport(Size canvasSize) {
     // (0,0) is top left
-    pos = Offset(pos.dx / trackSize.width, pos.dy / trackSize.height);
-    pos = Offset((pos.dx / trackSize.width) * canvasSize.width,
-        canvasSize.height - (pos.dy / trackSize.height) * canvasSize.height);
+
+    pos = Offset((pos.dx + trackOffset.dx) / trackSize.width, (pos.dy + trackOffset.dy) / trackSize.height);
+    pos = Offset(pos.dx * canvasSize.width,
+        canvasSize.height - (pos.dy * canvasSize.height));
   }
 }
 
 void convertConesToViewport(Size canvasSize) {
-  for (int i = 0; i < conesOnTrack.length; i++) {
-    conesOnTrack[i]!.convertToViewport(canvasSize);
+  for(String key in conesOnTrack.keys) {
+    conesOnTrack[key]!.convertToViewport(canvasSize);
+    
   }
 }
 
@@ -48,11 +48,14 @@ class TrackMap extends StatefulWidget {
 // TODO
 class TrackMapState extends State<TrackMap> {
   late List<Cone> conesToDisplay = [];
-  late Offset carToDisplay = Offset(0, 0);
+  late Offset carToDisplay = const Offset(0, 0);
+  late Timer timer;
 
   @override
   void initState() {
     super.initState();
+
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
   }
 
   void updateData() {
@@ -60,6 +63,7 @@ class TrackMapState extends State<TrackMap> {
       return;
     }
     conesToDisplay = conesOnTrack.values.toList(); // i guess
+    setState(() { });
   }
 
   @override
@@ -68,28 +72,30 @@ class TrackMapState extends State<TrackMap> {
       double sideLength =
           constraints.maxWidth - 2 * defaultPadding - 2 * borderWidth;
       return InteractiveViewer(
-          child: Container(
-              decoration: BoxDecoration(border: Border.all(width: borderWidth)),
-              height: sideLength,
-              width: sideLength,
-              child: Stack(
-                clipBehavior: Clip.none,
-                alignment: Alignment.center,
-                children: [
-                  CustomPaint(
-                    painter:
-                        TrackMapPainter(Size(sideLength, sideLength)), // TODO
-                  ),
-                  CustomPaint(
-                    painter: CarPainter(), // TODO
-                  )
-                ],
-              )));
+        child: Container(
+            decoration: BoxDecoration(border: Border.all(width: borderWidth)),
+            height: sideLength,
+            width: sideLength,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: AlignmentDirectional.topStart,
+              children: [
+                CustomPaint(
+                  painter:
+                      TrackMapPainter(Size(sideLength, sideLength)), // TODO
+                ),
+                CustomPaint(
+                  painter: CarPainter(), // TODO
+                )
+              ],
+            )),
+      );
     });
   }
 
   @override
   void dispose() {
+    timer.cancel();
     super.dispose();
   }
 }
@@ -103,16 +109,24 @@ class TrackMapPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // converts cone pos to canvas coordinates
     convertConesToViewport(canvasSize);
-    for (int i = 0; i < conesOnTrack.length; i++) {
-      // TODO színenként kiválogatni és egybe rajzolni
-      // create a list with one point
-      List<Offset> singlePoint = [conesOnTrack[i]!.pos];
-      // set the color, size, etc.
+
+    List<Cone> oneColorCones = [];
+    for(Color col in coneColors){
+      for(String key in conesOnTrack.keys){
+
+        if(conesOnTrack[key]!.color == col){
+          
+          oneColorCones.add(conesOnTrack[key]!);
+        }
+      } 
       Paint conePaint = Paint();
-      conePaint.color = conesOnTrack[i]!.color;
-      // draw the point
-      canvas.drawPoints(PointMode.points, singlePoint, conePaint);
+      conePaint.color = col;
+      conePaint.strokeWidth = 10;
+
+      canvas.drawPoints(PointMode.points, oneColorCones.map((e) => e.pos).toList(), conePaint);
     }
+   
+    canvas.drawPoints(PointMode.points, [const Offset(700, 700)], Paint());
   }
 
   @override
