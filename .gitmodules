@@ -1,3 +1,0 @@
-[submodule "flutter_telemetry/packages/dart_dbc_parser"]
-	path = flutter_telemetry/packages/dart_dbc_parser
-	url = git@github.com:BME-FRT/dart_dbc_parser.git
