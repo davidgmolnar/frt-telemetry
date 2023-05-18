@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/components/config_alerts.dart';
@@ -40,28 +38,10 @@ class MainScreen extends StatefulWidget{
 }
 
 class MainScreenState extends State<MainScreen> {
-  late Timer timer;
 
   void changeTab() {
     SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
     setState(() {});
-  }
-
-  void handleAlerts(){
-    if (activeTab == "CONFIG"){
-      // ilyenkor ott fut a kiértékelés
-      return;
-    }
-    for (TelemetryAlert alert in alerts) {
-      alert.risingEdge();
-    }
-  }
-
-  @override
-  void initState(){
-    super.initState();
-    timer = Timer.periodic(
-        const Duration(milliseconds: 1000), (Timer t) => handleAlerts());
   }
 
   @override
@@ -88,7 +68,6 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   void dispose() {
-    timer.cancel();
     super.dispose();
   }
 }

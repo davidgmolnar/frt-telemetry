@@ -29,13 +29,13 @@ class TelemetryAlert{
     if(hasTriggered || !isActive || !isFinalized){
       return false;
     }
-    List<dynamic>? tmp = signalValues[signal];
-    if(tmp != null && tmp.any((element) => _evaluateCondition(element))){
+    num? value= signalValues[signal]?.last;
+    if(value != null && _evaluateCondition(value)){
       snackbarKey.currentState?.showSnackBar(
         SnackBar(
           duration: const Duration(seconds: 1),
           backgroundColor: Colors.red,
-          content: Text("Alert for signal $signal triggered")
+          content: Text("Alert for signal $signal triggered with value $value")
         )
       );
       hasTriggered = true;
@@ -78,23 +78,6 @@ class TelemetryAlertWidget extends StatefulWidget {
 }
 
 class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
-  late Timer timer;
-
-  @override
-  void initState() {
-    super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: 1000), (Timer t) => update());
-  }
-
-  void update(){
-    if(!widget.alert.isFinalized){
-      return;
-    }
-    if(widget.alert.risingEdge()){
-      setState(() {});
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -228,7 +211,7 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
                 }
                 else{
                   widget.alert.hasTriggered = false;
-                  widget.alert.isActive = true;
+                  //widget.alert.isActive = true;
                   setState((){});
                 }
               },
@@ -240,7 +223,6 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
 
   @override
   void dispose() {
-    timer.cancel();
     super.dispose();
   }
 }
@@ -253,6 +235,16 @@ class AlertContainer extends StatefulWidget {
 }
 
 class AlertContainerState extends State<AlertContainer> {
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(milliseconds: 100), ((timer) {
+      setState(() {});
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -293,5 +285,11 @@ class AlertContainerState extends State<AlertContainer> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel(); 
+    super.dispose();
   }
 }
