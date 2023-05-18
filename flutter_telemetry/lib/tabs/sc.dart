@@ -51,18 +51,14 @@ TabLayout scBigLayout =
   Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: const [
-      NumericPanel(
-          subscribedSignals: ["SC_ENDLINE", "sc_latch_place_of_error"],
-          colsize: 2,
-          title: "SC"),
-      BooleanIndicator(subscribedSignal: "sc_latch"),
-      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
-      BooleanIndicator(subscribedSignal: "SC_DV_FB"),
-      BooleanIndicator(subscribedSignal: "SC_DV_RELAY_FB"),
-      BooleanIndicator(subscribedSignal: "SC_EBS_FB"),
-      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
-      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
+      BooleanIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
+      BooleanIndicator(subscribedSignal: "SC_HVECU_TSMS_FB"),
+      BooleanIndicator(subscribedSignal: "SC_RES_FB"),
       BooleanIndicator(subscribedSignal: "SC_MCU_FB"),
+      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
+      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
+      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
+      BooleanIndicator(subscribedSignal: "SC_START"),
     ],
   )
 ], minWidth: 1220);
@@ -72,18 +68,14 @@ TabLayout scSmallLayout =
   Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: const [
-      NumericPanel(
-          subscribedSignals: ["SC_ENDLINE", "sc_latch_place_of_error"],
-          colsize: 2,
-          title: "SC"),
-      BooleanIndicator(subscribedSignal: "sc_latch"),
-      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
-      BooleanIndicator(subscribedSignal: "SC_DV_FB"),
-      BooleanIndicator(subscribedSignal: "SC_DV_RELAY_FB"),
-      BooleanIndicator(subscribedSignal: "SC_EBS_FB"),
-      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
-      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
+      BooleanIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
+      BooleanIndicator(subscribedSignal: "SC_HVECU_TSMS_FB"),
+      BooleanIndicator(subscribedSignal: "SC_RES_FB"),
       BooleanIndicator(subscribedSignal: "SC_MCU_FB"),
+      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
+      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
+      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
+      BooleanIndicator(subscribedSignal: "SC_START"),
     ],
   )
 ], minWidth: widthPerColumnNumeric);

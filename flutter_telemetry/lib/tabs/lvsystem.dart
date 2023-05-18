@@ -96,7 +96,7 @@ TabLayout lvSystemBigLayout =
         "Brake_Light"
       ], colsize: 5, title: "Misc leds"),
       NumericPanel(
-          subscribedSignals: ["SC_ENDLINE", "BFS_Offset"],
+          subscribedSignals: ["SC_ENDLINE_SSG", "BFS_Offset"],
           colsize: 2,
           title: "Misc numeric"),
     ],
@@ -194,7 +194,7 @@ TabLayout lvSystemSmallLayout =
             "MCU_REAR_SUPPLY",
             "Brake_Light"
           ], colsize: 5, title: "Misc"),
-          NumericIndicator(subscribedSignal: "SC_ENDLINE"),
+          NumericIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
           NumericIndicator(subscribedSignal: "BFS_Offset"),
         ],
       ),
@@ -295,6 +295,6 @@ TabLayout lvSystemMobileLayout =
     "MCU_REAR_SUPPLY",
     "Brake_Light"
   ], colsize: 5, title: "Misc"),
-  const NumericIndicator(subscribedSignal: "SC_ENDLINE"),
+  const NumericIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
   const NumericIndicator(subscribedSignal: "BFS_Offset")
 ], minWidth: 300);

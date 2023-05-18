@@ -60,10 +60,10 @@ packages:
   dart_dbc_parser:
     dependency: "direct main"
     description:
-      path: "packages/dart_dbc_parser"
-      relative: true
-    source: path
-    version: "1.0.0"
+      name: dart_dbc_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:

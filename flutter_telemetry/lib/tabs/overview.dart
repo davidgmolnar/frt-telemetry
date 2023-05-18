@@ -75,18 +75,18 @@ TabLayout overviewBigLayout = TabLayout(
           children: const [
             BooleanPanel(
               subscribedSignals: [
-                "SC_BSPD_FB",
-                "SC_DV_FB",
-                "SC_DV_RELAY_FB",
-                "SC_EBS_FB",
-                "SC_FRONT_FB",
-                "SC_HOOP_FB",
+                "SC_HVECU_TSMS_FB",
+                "SC_RES_FB",
                 "SC_MCU_FB",
+                "SC_FRONT_FB",
+                "SC_BSPD_FB",
+                "SC_HOOP_FB",
+                "SC_START",
+                "SC_ENDLINE_SSG"
               ],
-              colsize: 7,
+              colsize: 8,
               title: "SC leds"
             ),
-            NumericIndicator(subscribedSignal: "SC_ENDLINE")
           ],
         ),
         Column(
@@ -353,18 +353,18 @@ TabLayout overviewSmallLayout = TabLayout(
           children: const [
             BooleanPanel(
               subscribedSignals: [
-                "SC_BSPD_FB",
-                "SC_DV_FB",
-                "SC_DV_RELAY_FB",
-                "SC_EBS_FB",
-                "SC_FRONT_FB",
-                "SC_HOOP_FB",
+                "SC_HVECU_TSMS_FB",
+                "SC_RES_FB",
                 "SC_MCU_FB",
+                "SC_FRONT_FB",
+                "SC_BSPD_FB",
+                "SC_HOOP_FB",
+                "SC_START",
+                "SC_ENDLINE_SSG"
               ],
-              colsize: 7,
+              colsize: 8,
               title: "SC leds"
             ),
-            NumericIndicator(subscribedSignal: "SC_ENDLINE")
           ],
         ),
         Column(

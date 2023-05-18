@@ -31,8 +31,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dart_dbc_parser:
-    path: ./packages/dart_dbc_parser
 
   google_fonts: ^3.0.1
   udp: ^5.0.3
@@ -40,6 +38,7 @@ dependencies:
   window_manager: ^0.3.1
   file_picker: ^5.2.6
   syncfusion_flutter_xlsio: ^20.4.54-beta
+  dart_dbc_parser: ^1.0.2
 
 dev_dependencies:
   flutter_test:
