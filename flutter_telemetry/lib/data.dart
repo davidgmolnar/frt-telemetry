@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'dart:typed_data';
 import 'package:dart_dbc_parser/dart_dbc_parser.dart';
+import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
@@ -134,6 +135,13 @@ void processPacket(Map rawJsonMap) {
       }
     }
   }
+
+  for(TelemetryAlert alert in alerts){
+    if(rawJsonMap.containsKey(alert.signal)){
+      alert.risingEdge();
+    }
+  }
+
   if (needsTruncate) {
     truncateData(turncateTo);
   }
