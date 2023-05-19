@@ -78,6 +78,7 @@ void sockListener() {
           }
           */          
           Map<String, num> temp = can.decode(result);
+          temp["rssi"] = result.last.toSigned(8);
           processPacket(temp);
 
         } else {
