@@ -66,7 +66,7 @@ class DashMenuState extends State<DashMenu>{
             TabSelector(tab: "LV_SYSTEM", iconData: Icons.power, title: "LV System", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "ERRORS", iconData: Icons.error_outline, title: "Errors", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "AS", iconData: Icons.contactless_outlined, title: "AS", tabChange: widget.onTabChange, isWide: isOpened,),
-            //TabSelector(tab: "AS_MAP", iconData: Icons.map, title: "Map", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "AS_MAP", iconData: Icons.map, title: "Map", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "DATALOGGER", iconData: Icons.receipt_rounded, title: "Datalogger", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "LAP", iconData: Icons.circle_outlined, title: "Lap", tabChange: widget.onTabChange, isWide: isOpened,),
 
