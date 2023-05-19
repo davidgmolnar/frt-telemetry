@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';

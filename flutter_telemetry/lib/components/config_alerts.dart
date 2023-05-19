@@ -3,20 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/dialogs/alert_add_dialog.dart';
+import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
-import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class TelemetryAlert{
-  String signal = "NO_KEYS";
-  num min = -double.infinity;
-  num max = double.infinity;
-  bool inRange = true;
+  final String signal;
+  final num min;
+  final num max;
+  final bool inRange;
   final UniqueKey id = UniqueKey();
-  bool isFinalized;
   bool isActive = true;
   bool hasTriggered = false;
 
-  TelemetryAlert(this.isFinalized);
+  TelemetryAlert(this.signal, this.min, this.max, this.inRange);
 
   bool _evaluateCondition(value){  // will trigger is condition is not met
     if(inRange){
@@ -26,7 +26,7 @@ class TelemetryAlert{
   }
 
   bool risingEdge(){
-    if(hasTriggered || !isActive || !isFinalized){
+    if(hasTriggered || !isActive){
       return false;
     }
     num? value= signalValues[signal]?.last;
@@ -49,28 +49,24 @@ class TelemetryAlert{
       "min": min,
       "max": max,
       "inRange": inRange ? 1 : 0,
-      "isFinalized": isFinalized ? 1 : 0,
       "isActive": isActive ? 1 : 0
     };
   }
 
-  TelemetryAlert fillFromJson(Map<String,dynamic> json, String setSignal){
-    signal = setSignal;
-    if(json.containsKey("min") && json.containsKey("max") && json.containsKey("inRange") && json.containsKey("isFinalized") && json.containsKey("isActive")){
-      min = json["min"]!;
-      max = json["max"]!;
-      inRange = json["inRange"] == 1 ? true : false;
-      isFinalized = json["isFinalized"] == 1 ? true : false;
-      isActive = json["isActive"] == 1 ? true : false;
-    }
-    return this;
+  static TelemetryAlert fillFromJson(Map<String,dynamic> json, String setSignal){
+    String signal = setSignal;
+    num min = json["min"]!;
+    num max = json["max"]!;
+    bool inRange = json["inRange"] == 1 ? true : false;
+    bool isActive = json["isActive"] == 1 ? true : false;
+    return TelemetryAlert(signal, min, max, inRange)..isActive = isActive;
   }
 }
 
 class TelemetryAlertWidget extends StatefulWidget {
-  TelemetryAlertWidget({super.key, required this.alert, required this.onDelete});
+  const TelemetryAlertWidget({super.key, required this.alert, required this.onDelete});
 
-  TelemetryAlert alert;
+  final TelemetryAlert alert;
   final Function onDelete;
 
   @override
@@ -84,146 +80,48 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
       width: 700,
       height: 50,
       child: Row(
-        children: !widget.alert.isFinalized ? 
-          [
-            Container(
-              padding: const EdgeInsets.all(defaultPadding),
-              width: 330,
-              child: DropdownButton(
-                underline: Container(),
-                icon: Icon(Icons.arrow_drop_down, color: primaryColor, size: 19),
-                value: signalValues.keys.isNotEmpty ? (widget.alert.signal == "NO_KEYS" ? signalValues.keys.toList().sorted((a, b) => a.compareTo(b)).first : widget.alert.signal) : "NO_KEYS",
-                items: signalValues.keys.isNotEmpty ?
-                  signalValues.keys.toList().sorted((a, b) => a.compareTo(b)).map((e) => DropdownMenuItem(value: e, child: Text(e))).toList()
-                  :
-                  [const DropdownMenuItem(value: "NO_KEYS", child: Text("NO_KEYS"))],
-                onChanged: (value) {
-                  if(value != null){
-                    widget.alert.signal = value;
-                    setState(() {});
-                  }
-                },
-              ),
-            ),
-            Container(
-              width: 80,
-              padding: const EdgeInsets.all(defaultPadding),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
-                  enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  hintText: "MIN",
-                  hintStyle: const TextStyle(color: Colors.grey)
-                ),
-                onChanged:(value) {
-                  try{
-                    widget.alert.min = num.parse(value);
-                  }
-                  catch (_){}
-                },
-              ),
-            ),
-            Container(
-              width: 80,
-              padding: const EdgeInsets.all(defaultPadding),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
-                  enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                  hintText: "MAX",
-                  hintStyle: const TextStyle(color: Colors.grey)
-                ),
-                onChanged:(value) {
-                  try{
-                    widget.alert.max = num.parse(value);
-                  }
-                  catch (_){}
-                },
-              ),
-            ),
-            SizedBox(
-              width: 110,
-              child: TextButton(
-                onPressed: () {
-                  widget.alert.inRange = !widget.alert.inRange;
-                  setState((){});
-                },
-                child: Text(widget.alert.inRange ? "In range" : "Out of range", style: TextStyle(color: primaryColor),),
-              ),
-            ),
-            SizedBox(
-              width: 40,
-              child: IconButton(
-                splashRadius: 20,
-                icon: Icon(Icons.check, color: primaryColor),
-                onPressed: () {
-                  if(widget.alert.signal == "NO_KEYS"){
-                    showError(context, "Please select a signal");
-                    return;
-                  }
-                  if(widget.alert.min > widget.alert.max){
-                    showError(context, "Min > max ?");
-                    return;
-                  }
-                  widget.alert.isFinalized = true;
-                  setState((){});
-                },
-              ),
-            ),
-            IconButton(
-              splashRadius: 20,
-              icon: Icon(Icons.delete, color: primaryColor,),
-              onPressed: () { widget.onDelete(); },
-            )
-          ]
-          :
-          [
-            Container(
-              width: 330,
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Text(widget.alert.signal, style: TextStyle(color: widget.alert.hasTriggered ? Colors.red : Colors.green),),
-            ),
-            Container(
-              width: 110,
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Text(widget.alert.inRange ? "In range" : "Out of range", style: TextStyle(color: textColor),),
-            ),
-            Container(
-              width: 160,
-              padding: const EdgeInsets.all(defaultPadding),
-              child: Text("${widget.alert.min} : ${widget.alert.max}", style: TextStyle(color: textColor),),
-            ),
-            IconButton(
-              icon: Icon(widget.alert.isActive ? Icons.stop : Icons.play_arrow, color: primaryColor,),
-              splashRadius: 20,
-              onPressed: () {
-                widget.alert.isActive = !widget.alert.isActive;
-                alerts.where((element) => element.id == UniqueKey()).every((element) => element.isActive = !element.isActive);
+        children: [
+          Container(
+            width: 330,
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Text(widget.alert.signal, style: TextStyle(color: widget.alert.hasTriggered ? Colors.red : Colors.green),),
+          ),
+          Container(
+            width: 110,
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Text(widget.alert.inRange ? "In range" : "Out of range", style: TextStyle(color: textColor),),
+          ),
+          Container(
+            width: 160,
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Text("${widget.alert.min} : ${widget.alert.max}", style: TextStyle(color: textColor),),
+          ),
+          IconButton(
+            icon: Icon(widget.alert.isActive ? Icons.stop : Icons.play_arrow, color: primaryColor,),
+            splashRadius: 20,
+            onPressed: () {
+              widget.alert.isActive = !widget.alert.isActive;
+              alerts.where((element) => element.id == UniqueKey()).every((element) => element.isActive = !element.isActive);
+              setState((){});
+            },
+          ),
+          IconButton(
+            icon: Icon(widget.alert.hasTriggered ? Icons.alarm : Icons.delete, color: primaryColor,),
+            splashRadius: 20,
+            onPressed: () {
+              if(!widget.alert.hasTriggered){
+                widget.onDelete();
+              }
+              else{
+                widget.alert.hasTriggered = false;
+                //widget.alert.isActive = true;
                 setState((){});
-              },
-            ),
-            IconButton(
-              icon: Icon(widget.alert.hasTriggered ? Icons.alarm : Icons.delete, color: primaryColor,),
-              splashRadius: 20,
-              onPressed: () {
-                if(!widget.alert.hasTriggered){
-                  widget.onDelete();
-                }
-                else{
-                  widget.alert.hasTriggered = false;
-                  //widget.alert.isActive = true;
-                  setState((){});
-                }
-              },
-            )
-          ]
+              }
+            },
+          )
+        ]
       )
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }
 
@@ -258,9 +156,14 @@ class AlertContainerState extends State<AlertContainer> {
             IconButton(
               icon: Icon(Icons.add, color: primaryColor,),
               splashRadius: 20,
-              onPressed: () {
-                alerts.insert(0, TelemetryAlert(false));
-                setState(() {});
+              onPressed: () async {
+                //alerts.insert(0, TelemetryAlert(false));
+                //setState(() {});
+                showDialog<Widget>(
+                    barrierDismissible: false,
+                    context: tabContext,
+                    builder: (BuildContext context) => const DialogBase(title: "New alert", dialog: AlertAddDialog())
+                );
               },
             )
           ],

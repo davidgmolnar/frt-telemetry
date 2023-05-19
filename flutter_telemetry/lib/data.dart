@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'dart:typed_data';
 import 'package:dart_dbc_parser/dart_dbc_parser.dart';
@@ -57,29 +56,29 @@ Future<void> startListener() async {
 
 void sockListener() {
   bool initialPacket = true;
-  AsciiDecoder decoder = const AsciiDecoder();
+  //AsciiDecoder decoder = const AsciiDecoder();
   if (isconnected) {
     sock.listen((event) {
       if (event == RawSocketEvent.read) {
-        Uint8List? result = sock.receive()?.data;
-        if (result != null) {
+        Uint8List? udpPayload = sock.receive()?.data;
+        if (udpPayload != null && udpPayload.isNotEmpty) {
           /*
           try {
-            Map temp = jsonDecode(decoder.convert(result));
-            processPacket(temp);
+            Map decoded = jsonDecode(decoder.convert(udpPayload));
+            processPacket(decoded);
           } catch (exc) {
             try{
             terminalQueue.add(TerminalElement(
-                "Error in processing, data was ${decoder.convert(result)}", 2));
+                "Error in processing, data was ${decoder.convert(udpPayload)}", 2));
             } catch (exc2) {
             terminalQueue.add(TerminalElement(
                 "Error in processing, received payload was not ascii-decodeable", 2));
             }
           }
           */          
-          Map<String, num> temp = can.decode(result);
-          temp["rssi"] = result.last.toSigned(8);
-          processPacket(temp);
+          Map<String, num> decoded = can.decode(udpPayload);
+          decoded["rssi"] = udpPayload.last.toSigned(8);
+          processPacket(decoded);
 
         } else {
           if (!initialPacket) {

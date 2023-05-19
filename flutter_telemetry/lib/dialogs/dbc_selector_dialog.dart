@@ -1,14 +1,12 @@
 import 'package:dart_dbc_parser/dart_dbc_parser.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
-import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:universal_io/io.dart';
 
 class DBCSelectorDialog extends StatefulWidget {

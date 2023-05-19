@@ -43,13 +43,17 @@ Future<void> loadSession() async {
   if(sessionData.containsKey("settings")){
     for(String sessionSetting in sessionData["settings"].keys){
       if(settings.containsKey(sessionSetting)){
-        settings[sessionSetting]![0] = sessionData["settings"][sessionSetting]; // check chartnum < buffernum
+        if(sessionData["settings"][sessionSetting] > settings[sessionSetting]![1] && sessionData["settings"][sessionSetting] < settings[sessionSetting]![2]){
+          settings[sessionSetting]![0] = sessionData["settings"][sessionSetting];
+        }
       }
     }
   }
   if(sessionData.containsKey("alerts")){
     for(String alertSignal in sessionData["alerts"].keys){
-      alerts.add(TelemetryAlert(false).fillFromJson(sessionData["alerts"][alertSignal], alertSignal));
+      if(sessionData["alerts"][alertSignal].containsKey("min") && sessionData["alerts"][alertSignal].containsKey("max") && sessionData["alerts"][alertSignal].containsKey("inRange") && sessionData["alerts"][alertSignal].containsKey("isActive")){
+        alerts.add(TelemetryAlert.fillFromJson(sessionData["alerts"][alertSignal], alertSignal));
+      }
     }
   }
   if(sessionData.containsKey("colortheme")){
@@ -61,7 +65,7 @@ Future<void> loadSession() async {
   if(sessionData.containsKey("activetab")){
     activeTab = sessionData["activetab"];
   }
-  // TODO auth?
+
   if(sessionData.containsKey("signals")){
     for (String signal in sessionData["signals"]) {
       signalValues[signal] = [];
@@ -87,18 +91,18 @@ Future<void> saveSession() async {
     sessionFile = await sessionFile.create();
   }
 
-  if(!sessionData.containsKey("settings")){
-    sessionData["settings"] = {};
-  }
+  sessionData["settings"] = {};
   for(String setting in settings.keys){
     sessionData["settings"][setting] = settings[setting]![0];
   }
 
-  if(!sessionData.containsKey("alerts")){
+  if(!sessionData.containsKey("alerts") || alerts.isEmpty){
     sessionData["alerts"] = {};
   }
-  for(TelemetryAlert alert in alerts){
-    sessionData["alerts"][alert.signal] = alert.toJson();
+  else{
+    for(TelemetryAlert alert in alerts){
+      sessionData["alerts"][alert.signal] = alert.toJson();
+    }
   }
 
   if(signalValues.keys.isNotEmpty){

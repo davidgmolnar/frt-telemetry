@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
