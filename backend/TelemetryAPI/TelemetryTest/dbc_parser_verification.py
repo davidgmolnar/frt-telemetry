@@ -10,12 +10,15 @@ CAN2 = cantools.db.load_file('../DBC_2023/CAN2.dbc')
 
 general_payloads = [
     b'\x12\x34\x56\x78\x9a\xbc\xde\xf0',
-    b'\x45\x7c\x13\x7b\x41\x63\xae\x7a'
+    b'\x45\x7c\x13\x7b\x41\x63\xae\x7a',
+    b'\x65\x2d\x1f\x6a\xb1\x69\x0e\xca',
+    b'\xff\xff\xff\xff\xff\xff\xff\xff'
 ]
 
 multiplexed_payloads = [
     b'\x01\x34\xd0\x00\x9a\xbc\xde\xf0',
-    b'\x02\x7c\x60\x10\x41\x63\xae\x7a'
+    b'\x02\x7c\x60\x10\x41\x63\xae\x7a',
+    b'\x09\x7c\x60\x20\x41\x63\xae\x7a',
 ]
 
 CAN_IDS = [105, 361, 389, 390, 393, 394, 401, 417, 512, 513, 528, 530, 532, 560, 561, 617, 624, 644, 645, 646, 647,
@@ -103,7 +106,7 @@ def automatedTests():
                     print(f"ERROR {signal}  -  Python gave {py_decoded[signal]}, dart gave {dart_decoded[signal]}")
                 else:
                     pass
-                    # print(f"INFO {signal} matches")
+                    # print(f"INFO {signal} matches {py_decoded[signal]} {dart_decoded[signal]}")
 
     print("Dikk")
 
