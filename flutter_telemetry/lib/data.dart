@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:typed_data';
 import 'package:dart_dbc_parser/dart_dbc_parser.dart';
 import 'package:flutter_telemetry/components/config_alerts.dart';
+import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
@@ -32,10 +33,10 @@ class VirtualSignal {
 
 Future<void> startListener() async {
   sock = await RawDatagramSocket.bind(
-      InternetAddress.anyIPv4, settings["listenPort"]![0]);
-  if(sock.port == settings["listenPort"]![0]){
+      InternetAddress.anyIPv4, settings["listenPort"]!.value);
+  if(sock.port == settings["listenPort"]!.value){
       terminalQueue.add(TerminalElement(
-          "UDP socket bind successful on port ${settings['listenPort']![0]}",3));
+          "UDP socket bind successful on port ${settings['listenPort']!.value}",3));
       isconnected = true;
       try{
         can = await DBCDatabase.loadFromFile(canPathList.map((e) => File(e)).toList());
@@ -50,7 +51,7 @@ Future<void> startListener() async {
   }
   else{
       terminalQueue.add(TerminalElement(
-          "UDP socket bind failed on port ${settings['listenPort']![0]}", 0));
+          "UDP socket bind failed on port ${settings['listenPort']!.value}", 0));
   }
 }
 
@@ -94,7 +95,7 @@ void sockListener() {
 
 void processPacket(Map rawJsonMap) {
   rawJsonMap["last_singal_update_cnt"] = rawJsonMap.keys.length;
-  int maxSignalNum = settings['signalValuesToKeep']![0] + 1000;
+  int maxSignalNum = settings['signalValuesToKeep']!.value + 1000;
   for (String key in rawJsonMap.keys) {
     if (!signalValues.containsKey(key)) {
       signalValues[key] = [];

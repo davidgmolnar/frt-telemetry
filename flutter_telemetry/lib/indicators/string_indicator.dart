@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
@@ -38,7 +39,7 @@ class StringIndicatorState extends State<StringIndicator>{
       else{
         label = widget.subscribedSignal.replaceAll('_', ' ');
       }
-      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS']![0]), (Timer t) => updateData());
+      timer = Timer.periodic(Duration(milliseconds: settings['refreshTimeMS']!.value), (Timer t) => updateData());
     }
 
   void updateData(){

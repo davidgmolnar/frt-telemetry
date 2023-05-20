@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
@@ -55,7 +56,7 @@ class TrackMapState extends State<TrackMap> {
   void initState() {
     super.initState();
 
-    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']!.value), (Timer t) => updateData());
   }
 
   void updateData() {

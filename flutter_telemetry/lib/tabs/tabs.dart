@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 
@@ -100,7 +101,7 @@ class TabLayoutBuilder extends StatelessWidget {
                       .toList()),
               body: ListView(
                 controller: _controller,
-                cacheExtent: settings["scrollCache"]![0].toDouble(),
+                cacheExtent: settings["scrollCache"]!.value.toDouble(),
                 children: activeLayout.layout,
               )),
         );

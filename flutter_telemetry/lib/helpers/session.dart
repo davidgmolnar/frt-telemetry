@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_telemetry/components/config_alerts.dart';
+import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
@@ -43,8 +44,8 @@ Future<void> loadSession() async {
   if(sessionData.containsKey("settings")){
     for(String sessionSetting in sessionData["settings"].keys){
       if(settings.containsKey(sessionSetting)){
-        if(sessionData["settings"][sessionSetting] > settings[sessionSetting]![1] && sessionData["settings"][sessionSetting] < settings[sessionSetting]![2]){
-          settings[sessionSetting]![0] = sessionData["settings"][sessionSetting];
+        if(sessionData["settings"][sessionSetting] > settings[sessionSetting]!.minValue && sessionData["settings"][sessionSetting] < settings[sessionSetting]!.maxValue){
+          settings[sessionSetting]!.value = sessionData["settings"][sessionSetting];
         }
       }
     }
@@ -93,7 +94,7 @@ Future<void> saveSession() async {
 
   sessionData["settings"] = {};
   for(String setting in settings.keys){
-    sessionData["settings"][setting] = settings[setting]![0];
+    sessionData["settings"][setting] = settings[setting]!.value;
   }
 
   if(!sessionData.containsKey("alerts") || alerts.isEmpty){

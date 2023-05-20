@@ -25,6 +25,27 @@ Map<String, String> settingsTooltip = {
   "scrollCache": "Widgets are loaded out of sight within this vertical distance"
 };
 
+class Setting{
+  int value;
+  final int maxValue;
+  final int minValue;
+
+  Setting({
+    required this.value,
+    required this.maxValue,
+    required this.minValue
+  });
+}
+
+Map<String, Setting> settings = {
+  "refreshTimeMS": Setting(value: 100, minValue: 50, maxValue: 2000),
+  "chartrefreshTimeMS": Setting(value: 16, minValue: 5, maxValue: 2000),
+  "signalValuesToKeep": Setting(value: 8192, minValue: 128, maxValue: 32768),
+  "chartShowSeconds": Setting(value: 40, minValue: 1, maxValue: 180),
+  "listenPort": Setting(value: 8998, minValue: 1000, maxValue: 65535),
+  "scrollCache": Setting(value: 200, minValue: 0, maxValue: 2000)
+};
+
 class SettingsElement extends StatefulWidget{
   const SettingsElement({
     super.key,
@@ -65,7 +86,7 @@ class SettingsElementState extends State<SettingsElement> {
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
                 enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                hintText: settings[widget.label]![0].toString(),
+                hintText: settings[widget.label]!.value.toString(),
                 hintStyle: const TextStyle(color: Colors.grey)
               ),
               onChanged:(value) {
@@ -78,18 +99,18 @@ class SettingsElementState extends State<SettingsElement> {
             padding: const EdgeInsets.all(defaultPadding),
             icon: Icon(Icons.check, color: primaryColor,), 
             onPressed: () {
-              if(settings[widget.label]![1] <= int.parse(input) && int.parse(input) <= settings[widget.label]![2]){
-                if(widget.label == "signalValuesToKeep" && int.parse(input) < settings["signalValuesToKeep"]![0]){
+              if(settings[widget.label]!.minValue <= int.parse(input) && int.parse(input) <= settings[widget.label]!.maxValue){
+                if(widget.label == "signalValuesToKeep" && int.parse(input) < settings["signalValuesToKeep"]!.value){
                   needsTruncate = true;
                   turncateTo = int.parse(input);
-                  settings["signalValuesToKeep"]![0] = int.parse(input);
+                  settings["signalValuesToKeep"]!.value = int.parse(input);
                 }
                 else{
-                  settings[widget.label]![0] = int.parse(input);
+                  settings[widget.label]!.value = int.parse(input);
                 }
               }
               else{
-                showError(context, "Setting must be in range ${settings[widget.label]![1]}:${settings[widget.label]![2]}");
+                showError(context, "Setting must be in range ${settings[widget.label]!.maxValue}:${settings[widget.label]!.minValue}");
               }
               SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
               widget.updater();

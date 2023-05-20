@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/chart_rescale_dialog.dart';
@@ -282,20 +283,20 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       chartDataPoints.add([]);
       visibility.add(true);
     }
-    xStart = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']![0])).difference(appstartdate).inMilliseconds.toDouble();
-    xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
+    xStart = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']!.value)).difference(appstartdate).inMilliseconds.toDouble();
+    xScale = widget.canvasWidth / (settings['chartShowSeconds']!.value * 1000);
     yScale = widget.canvasHeight / (widget.max - widget.min);
     yStart = widget.min;
     super.initState();
     widget.visibilitySetter(toggleVisibility);
-    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']![0]), (Timer t) => updateData());
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']!.value), (Timer t) => updateData());
   }
 
   void updateData(){
-    DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']![0]));
+    DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']!.value));
     
     xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
-    xScale = widget.canvasWidth / (settings['chartShowSeconds']![0] * 1000);
+    xScale = widget.canvasWidth / (settings['chartShowSeconds']!.value * 1000);
     yStart = widget.min;
     yScale = widget.canvasHeight / (widget.max - widget.min);
 
@@ -447,7 +448,7 @@ class XAxis extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     double increment = (width - borderWidth) / (verticalTickCount + 1);
-    double valueIncrement = settings['chartShowSeconds']![0] / (verticalTickCount + 1);
+    double valueIncrement = settings['chartShowSeconds']!.value / (verticalTickCount + 1);
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -460,7 +461,7 @@ class XAxis extends StatelessWidget{
                 CustomPaint(painter: TickPainter(false)),
                 Transform.translate(
                   offset: const Offset(-chartLabelFontSize, tickLength),
-                  child: Text("-${representNumber("${settings['chartShowSeconds']![0] - (i + 1) * valueIncrement}", maxDigit: 4)} s", style: const TextStyle(fontSize: chartLabelFontSize),)
+                  child: Text("-${representNumber("${settings['chartShowSeconds']!.value - (i + 1) * valueIncrement}", maxDigit: 4)} s", style: const TextStyle(fontSize: chartLabelFontSize),)
                 )
               ],
             ),
