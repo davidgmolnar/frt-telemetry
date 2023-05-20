@@ -4,6 +4,7 @@ import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
+import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/indicators/lap_display.dart';
 
 String activeTab = "CONFIG";
@@ -227,6 +228,7 @@ List<VirtualSignal> virtualSignals = [
 
 // [signals concatenated] = (max,min)
 Map<String,Offset> chartLimits = {};
+//Map<String,ChartSettings> chartSettings = {};
 
 int tooltipShowMs = 0;
 int tooltipWaitMs = 1000;

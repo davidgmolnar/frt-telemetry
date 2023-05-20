@@ -10,16 +10,17 @@ import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 
 class ChartSettings{
-  ChartSettings({required this.identifier, required this.yLimits, required this.showSeconds, required this.gridOn, required this.showIndexes});
+  ChartSettings({required this.yMax, required this.yMin, required this.showSeconds, required this.gridOn, required this.showIndexes});
 
-  final String identifier;
-  Offset yLimits;
+  double yMax;
+  double yMin;
   double showSeconds;
   bool gridOn;
   List<bool> showIndexes;
 
-  void update({Offset? yLimits, double? showSeconds, bool? gridOn, List<bool>? showIndexes}){
-    this.yLimits = yLimits ?? this.yLimits;
+  void update({double? yMax, double? yMin, double? showSeconds, bool? gridOn, List<bool>? showIndexes}){
+    this.yMax = yMax ?? this.yMax;
+    this.yMin = yMin ?? this.yMin;
     this.showSeconds = showSeconds ?? this.showSeconds;
     this.gridOn = gridOn ?? this.gridOn;
     this.showIndexes = showIndexes ?? this.showIndexes;

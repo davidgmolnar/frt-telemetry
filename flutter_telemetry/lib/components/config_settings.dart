@@ -11,18 +11,22 @@ Map<String, String> settingsToLabel = {
   "refreshTimeMS" : "Refresh time in ms",
   "chartrefreshTimeMS": "Chart refresh time in ms",
   "signalValuesToKeep": "Internal buffer",
-  "listenPort": "Port to listen",
+  "listenPort": "UDP Port",
   "chartShowSeconds": "Chart timespan in sec",
-  "scrollCache": "Scrolling cache"
+  "scrollCache": "Scrolling cache",
+  "tooltipShowMs": "Tooltip show duration",
+  "tooltipWaitMs": "Tooltip wait duration",
 };
 
 Map<String, String> settingsTooltip = {
   "refreshTimeMS" : "Each indicator will periodically attempt to refresh its value with the most recent value possible",
-  "chartrefreshTimeMS": "Same as ^^ but for charts",
-  "signalValuesToKeep": "The last x values are going to be stored in memory, to be used by charts or time averaged signals",
+  "chartrefreshTimeMS": "Each chart will periodically attempt to refresh its values with the most recent values possible",
+  "signalValuesToKeep": "The number of values that are going to be stored in memory, to be used by charts or time averaged signals",
   "listenPort": "This port will be used to receive UDP data to be displayed",
-  "chartShowSeconds": "The charts will show data received in the last x seconds",
-  "scrollCache": "Widgets are loaded out of sight within this vertical distance"
+  "chartShowSeconds": "The length of time in seconds that any chart will display by default",
+  "scrollCache": "Widgets are loaded out of sight within this scolling distance",
+  "tooltipShowMs": "The length of time in ms that the tooltip will be shown after a hover is released",
+  "tooltipWaitMs": "The length of time in ms that a pointer must hover over a tooltip's widget before the tooltip will be shown",
 };
 
 class Setting{
@@ -43,7 +47,9 @@ Map<String, Setting> settings = {
   "signalValuesToKeep": Setting(value: 8192, minValue: 128, maxValue: 32768),
   "chartShowSeconds": Setting(value: 40, minValue: 1, maxValue: 180),
   "listenPort": Setting(value: 8998, minValue: 1000, maxValue: 65535),
-  "scrollCache": Setting(value: 200, minValue: 0, maxValue: 2000)
+  "scrollCache": Setting(value: 200, minValue: 0, maxValue: 2000),
+  //"tooltipShowMs": Setting(value: 0, maxValue: 10000, minValue: 0),
+  //"tooltipWaitMs": Setting(value: 1000, maxValue: 10000, minValue: 0),
 };
 
 class SettingsElement extends StatefulWidget{
