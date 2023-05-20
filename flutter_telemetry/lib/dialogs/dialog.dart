@@ -33,16 +33,16 @@ class DialogTitleBar extends StatelessWidget{
 class DialogBase extends StatelessWidget{
   final String title;
   final Widget dialog;
+  final double width;
 
-  const DialogBase({super.key, required this.title, required this.dialog});
+  const DialogBase({super.key, required this.title, required this.dialog, required this.width});
   
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Dialog(
       elevation: 10,
       child: Container(
-        width: size.width * 0.3,
+        width: width,
         decoration: BoxDecoration(
           border: Border.all(color: primaryColor, width: 1),
           color: bgColor
