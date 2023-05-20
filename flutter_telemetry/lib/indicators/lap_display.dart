@@ -64,11 +64,13 @@ String representMS(int ms){
   return "${min < 10 ? "0$min" : min}:${sec < 10 ? "0$sec" : sec}.${ms > 100 ? ms : ms > 10 ? "0$ms" : "00$ms"}";
 }
 
-LapData lapDataFromCurrent(lapTimeMS){
+LapData lapDataFromCurrent(int lapTimeMS, bool clear){
   double currentAvg = -1;
   if(lapHVCurrent.isNotEmpty){
     currentAvg = lapHVCurrent.reduce((value, element) => value + element) / lapHVCurrent.length;
-    lapHVCurrent.clear();
+    if(clear){
+      lapHVCurrent.clear();
+    }
   }
   return LapData(
     lapData.isEmpty ? 1 : lapData.last.lapNum + 1,
@@ -108,9 +110,9 @@ class LapDataTrackerState extends State<LapDataTracker>{
   @override
   void initState() {
     super.initState();
-    lapDataTrack = lapDataFromCurrent(DateTime.now().difference(lapStart).inMilliseconds);
+    lapDataTrack = lapDataFromCurrent(DateTime.now().difference(lapStart).inMilliseconds, false);
     timer = Timer.periodic(const Duration(milliseconds: 16), ((timer) {
-      lapDataTrack = lapDataFromCurrent(DateTime.now().difference(lapStart).inMilliseconds);
+      lapDataTrack = lapDataFromCurrent(DateTime.now().difference(lapStart).inMilliseconds, false);
       setState(() {});
     }));
   }
@@ -142,6 +144,7 @@ class LapDisplay extends StatefulWidget{
 
 class LapDisplayState extends State<LapDisplay>{
   Timer timer = Timer(const Duration(days: 1), (() {}));
+  ScrollController controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -202,8 +205,9 @@ class LapDisplayState extends State<LapDisplay>{
                       return;
                     }
                     DateTime lapEnd = DateTime.now();
-                    lapData.add(lapDataFromCurrent(lapEnd.difference(lapStart).inMilliseconds));
+                    lapData.add(lapDataFromCurrent(lapEnd.difference(lapStart).inMilliseconds, true));
                     lapStart = lapEnd;
+                    controller.animateTo(lapData.length * 30, duration: const Duration(milliseconds: 100), curve: Curves.easeInOut);
                     setState(() {});
                   },
                   child: Row(
@@ -224,10 +228,18 @@ class LapDisplayState extends State<LapDisplay>{
           ),
           const SizedBox(height: 10,),
           widget.isSmallScreen ? smallHeader : wideHeader,
-          for(LapData data in lapData)
-            data.asWidget(widget.isSmallScreen),
-          if(lapTimerStarted)
-            LapDataTracker(isSmallScreen: widget.isSmallScreen)
+          SizedBox(
+            height: MediaQuery.of(context).size.height - 150,
+            child: ListView(
+              controller: controller,
+              children: [
+                for(LapData data in lapData)
+                  data.asWidget(widget.isSmallScreen),
+                if(lapTimerStarted)
+                  LapDataTracker(isSmallScreen: widget.isSmallScreen)
+              ],
+            ),
+          )
         ],
       ),
     );

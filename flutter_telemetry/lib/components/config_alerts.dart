@@ -6,6 +6,7 @@ import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/alert_add_dialog.dart';
 import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
+import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class TelemetryAlert{
   final String signal;
@@ -15,6 +16,7 @@ class TelemetryAlert{
   final UniqueKey id = UniqueKey();
   bool isActive = true;
   bool hasTriggered = false;
+  num triggerValue = -1;
 
   TelemetryAlert(this.signal, this.min, this.max, this.inRange);
 
@@ -31,6 +33,7 @@ class TelemetryAlert{
     }
     num? value= signalValues[signal]?.last;
     if(value != null && _evaluateCondition(value)){
+      triggerValue = value;
       snackbarKey.currentState?.showSnackBar(
         SnackBar(
           duration: const Duration(seconds: 1),
@@ -82,9 +85,14 @@ class TelemetryAlertWidgetState extends State<TelemetryAlertWidget> {
       child: Row(
         children: [
           Container(
-            width: 330,
+            width: 260,
             padding: const EdgeInsets.all(defaultPadding),
             child: Text(widget.alert.signal, style: TextStyle(color: widget.alert.hasTriggered ? Colors.red : Colors.green),),
+          ),
+          Container(
+            width: 80,
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Text(widget.alert.hasTriggered ? representNumber(widget.alert.triggerValue.toString(), maxDigit: 8) : representNumber(signalValues[widget.alert.signal]!.last.toString(), maxDigit: 8)),
           ),
           Container(
             width: 110,
@@ -156,9 +164,7 @@ class AlertContainerState extends State<AlertContainer> {
             IconButton(
               icon: Icon(Icons.add, color: primaryColor,),
               splashRadius: 20,
-              onPressed: () async {
-                //alerts.insert(0, TelemetryAlert(false));
-                //setState(() {});
+              onPressed: () {
                 showDialog<Widget>(
                     barrierDismissible: false,
                     context: tabContext,

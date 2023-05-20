@@ -4,7 +4,7 @@ import 'package:flutter_telemetry/tabs/tabs.dart';
 
 TabLayout dynamicsBigLayout =
     TabLayout(shortcutLabels: const [], layoutBreakpoints: const [], layout: [
-  const Titlebar(title: "Dynamics Measurements"),
+  const Titlebar(title: "Sensors"),
   Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -12,23 +12,29 @@ TabLayout dynamicsBigLayout =
       NumericPanel(subscribedSignals: [
         "AccX_Bosch",
         "AccY_Bosch",
+        "YawRate_Bosch",
+        "RollRate_Bosch"
+      ], colsize: 4, title: "Bosch"),
+      NumericPanel(subscribedSignals: [
         "AccX_Vectornav",
         "AccY_Vectornav",
-        "RollRate_Bosch",
-        "PN_IMU_Yaw",
+        "AccZ_Vectornav",
+        "AngularRate_X",
+        "AngularRate_Y",
         "Yaw_Rate_Vectornav",
-        "VIRT_ACC_FRONT_YAW_RAD",
-      ], colsize: 4, title: "Dynamics"),
-      ScaleIndicator(
-          subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
-      ScaleIndicator(
-          subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
-      BooleanPanel(subscribedSignals: [
-        "APPS_plausiblity",
-        "STA_plausiblity",
-        "VIRT_APPS_VALID",
-        "VIRT_STA_VALID"
-      ], reverseIndexes: [true, true, true, true], colsize: 4, title: "Pedal Node")
+        "v_x_FM",
+        "v_y_FM",
+        "INS_v_x",
+        "INS_v_y"
+      ], colsize: 5, title: "Vectornav"),
+      NumericPanel(subscribedSignals: [
+        "PN_IMU_Acc_X",
+        "PN_IMU_Acc_Y",
+        "PN_IMU_Acc_Z",
+        "PN_IMU_Yaw",
+        "PN_IMU_Pitch",
+        "PN_IMU_Roll",
+      ], colsize: 6, title: "Pedal Node and Bosch"),
     ],
   ),
   const Titlebar(title: "Charts"),
@@ -36,7 +42,7 @@ TabLayout dynamicsBigLayout =
     Flexible(
       child: TimeSeriesChart(
         subscribedSignals: ["Brake_Force_sensor"],
-        title: "BFS",
+        title: "BFS [N]",
         min: 0,
         max: 1500,
       ),
@@ -44,7 +50,7 @@ TabLayout dynamicsBigLayout =
     Flexible(
       child: TimeSeriesChart(
         subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
-        title: "BPS",
+        title: "BPS bar",
         min: 0,
         max: 100,
       ),
@@ -60,7 +66,7 @@ TabLayout dynamicsBigLayout =
     Flexible(
       child: TimeSeriesChart(
         subscribedSignals: ["HV_Current"],
-        title: "HV Current",
+        title: "HV Current [A]",
         min: -150,
         max: 200,
       ),
@@ -68,7 +74,7 @@ TabLayout dynamicsBigLayout =
     Flexible(
       child: TimeSeriesChart(
         subscribedSignals: ["VIRT_HV_POWER_OUT"],
-        title: "HV Power",
+        title: "HV Power [W]",
         min: -80000,
         max: 90000,
       ),
@@ -78,7 +84,7 @@ TabLayout dynamicsBigLayout =
     Flexible(
       child: TimeSeriesChart(
         subscribedSignals: ["Yaw_Rate_Vectornav"],
-        title: "Yaw Rate",
+        title: "Yaw Rate [rad/s]",
         min: -10,
         max: 10,
       ),
@@ -92,57 +98,53 @@ TabLayout dynamicsBigLayout =
       ),
     )
   ]),
-], minWidth: 1000);
+], minWidth: 1200);
 
 TabLayout dynamicsSmallLayout =
     TabLayout(shortcutLabels: const [], layoutBreakpoints: const [], layout: [
-  const Titlebar(title: "Dynamics Measurements"),
+  const Titlebar(title: "Sensors"),
+  const NumericPanel(subscribedSignals: [
+    "AccX_Vectornav",
+    "AccY_Vectornav",
+    "AccZ_Vectornav",
+    "AngularRate_X",
+    "AngularRate_Y",
+    "Yaw_Rate_Vectornav",
+    "v_x_FM",
+    "v_y_FM",
+    "INS_v_x",
+    "INS_v_y"
+  ], colsize: 5, title: "Vectornav"),
   Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: [
-      const NumericPanel(subscribedSignals: [
+    children: const [
+      NumericPanel(subscribedSignals: [
         "AccX_Bosch",
         "AccY_Bosch",
-        "AccX_Vectornav",
-        "AccY_Vectornav",
-        "RollRate_Bosch",
+        "YawRate_Bosch",
+        "RollRate_Bosch"
+      ], colsize: 4, title: "Bosch"),
+      NumericPanel(subscribedSignals: [
+        "PN_IMU_Acc_X",
+        "PN_IMU_Acc_Y",
+        "PN_IMU_Acc_Z",
         "PN_IMU_Yaw",
-        "Yaw_Rate_Vectornav",
-        "VIRT_ACC_FRONT_YAW_RAD",
-      ], colsize: 8, title: "Dynamics"),
-      Column(
-        children: [
-          const BooleanPanel(subscribedSignals: [
-            "APPS_plausiblity",
-            "STA_plausiblity",
-            "VIRT_APPS_VALID",
-            "VIRT_STA_VALID"
-          ], reverseIndexes: [true, true, true, true], colsize: 4, title: "Pedal Node"),
-          Row(
-            children: const [
-              ScaleIndicator(
-                  subscribedSignal: "VIRT_AVG_APPS",
-                  maxValue: 100,
-                  minValue: 0),
-              ScaleIndicator(
-                  subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
-            ],
-          ),
-        ],
-      )
+        "PN_IMU_Pitch",
+        "PN_IMU_Roll",
+      ], colsize: 6, title: "Pedal Node and Bosch"),
     ],
   ),
   const Titlebar(title: "Charts"),
   const TimeSeriesChart(
     subscribedSignals: ["Brake_Force_sensor"],
-    title: "BFS",
+    title: "BFS [N]",
     min: 0,
     max: 1500,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
-    title: "BPS",
+    title: "BPS [bar]",
     min: 0,
     max: 100,
   ),
@@ -154,19 +156,19 @@ TabLayout dynamicsSmallLayout =
   ),
   const TimeSeriesChart(
     subscribedSignals: ["HV_Current"],
-    title: "HV Current",
+    title: "HV Current [A]",
     min: -150,
     max: 200,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["VIRT_HV_POWER_OUT"],
-    title: "HV Power",
+    title: "HV Power [W]",
     min: -80000,
     max: 90000,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["Yaw_Rate_Vectornav"],
-    title: "Yaw Rate",
+    title: "Yaw Rate [rad/s]",
     min: -10,
     max: 10,
   ),
@@ -179,71 +181,72 @@ TabLayout dynamicsSmallLayout =
 ], minWidth: 450);
 
 TabLayout dynamicsMobileLayout =
-    TabLayout(layoutBreakpoints: const [], shortcutLabels: const [], layout: [
-  const Titlebar(title: "Dynamics Measurements"),
-  const NumericPanel(subscribedSignals: [
+    const TabLayout(layoutBreakpoints: [], shortcutLabels: [], layout: [
+  Titlebar(title: "Dynamics Measurements"),
+  NumericPanel(subscribedSignals: [
     "AccX_Bosch",
     "AccY_Bosch",
+    "YawRate_Bosch",
+    "RollRate_Bosch"
+  ], colsize: 4, title: "Bosch"),
+  NumericPanel(subscribedSignals: [
     "AccX_Vectornav",
     "AccY_Vectornav",
-    "RollRate_Bosch",
-    "PN_IMU_Yaw",
+    "AccZ_Vectornav",
+    "AngularRate_X",
+    "AngularRate_Y",
     "Yaw_Rate_Vectornav",
-    "VIRT_ACC_FRONT_YAW_RAD",
-  ], colsize: 8, title: "Dynamics"),
-  const BooleanPanel(subscribedSignals: [
-    "APPS_plausiblity",
-    "STA_plausiblity",
-    "VIRT_APPS_VALID",
-    "VIRT_STA_VALID" ,
-  ], reverseIndexes: [true, true, true, true],
-    colsize: 4, title: "Pedal Node"),
-  Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: const [
-      ScaleIndicator(
-          subscribedSignal: "VIRT_AVG_APPS", maxValue: 100, minValue: 0),
-      ScaleIndicator(
-          subscribedSignal: "VIRT_AVG_STA", maxValue: 180, minValue: 0),
-    ],
-  ),
-  const TimeSeriesChart(
+    "v_x_FM",
+    "v_y_FM",
+    "INS_v_x",
+    "INS_v_y"
+  ], colsize: 10, title: "Vectornav"),
+  NumericPanel(subscribedSignals: [
+    "PN_IMU_Acc_X",
+    "PN_IMU_Acc_Y",
+    "PN_IMU_Acc_Z",
+    "PN_IMU_Yaw",
+    "PN_IMU_Pitch",
+    "PN_IMU_Roll",
+  ], colsize: 6, title: "Pedal Node and Bosch"),
+  Titlebar(title: "Charts"),
+  TimeSeriesChart(
     subscribedSignals: ["Brake_Force_sensor"],
-    title: "BFS",
+    title: "BFS [N]",
     min: 0,
     max: 1500,
   ),
-  const TimeSeriesChart(
+  TimeSeriesChart(
     subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
-    title: "BPS",
+    title: "BPS [bar]",
     min: 0,
     max: 100,
   ),
-  const TimeSeriesChart(
+  TimeSeriesChart(
     subscribedSignals: ["AccX_Bosch", "AccX_Bosch"],
     title: "Accel",
     min: -4,
     max: 4,
   ),
-  const TimeSeriesChart(
+  TimeSeriesChart(
     subscribedSignals: ["HV_Current"],
-    title: "HV Current",
+    title: "HV Current [A]",
     min: -150,
     max: 200,
   ),
-  const TimeSeriesChart(
+  TimeSeriesChart(
     subscribedSignals: ["VIRT_HV_POWER_OUT"],
-    title: "HV Power",
+    title: "HV Power [W]",
     min: -80000,
     max: 90000,
   ),
-  const TimeSeriesChart(
+  TimeSeriesChart(
     subscribedSignals: ["Yaw_Rate_Vectornav"],
-    title: "Yaw Rate",
+    title: "Yaw Rate [rad/s]",
     min: -10,
     max: 10,
   ),
-  const TimeSeriesChart(
+  TimeSeriesChart(
     subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"],
     title: "APPS / STA Avg",
     min: 0,
