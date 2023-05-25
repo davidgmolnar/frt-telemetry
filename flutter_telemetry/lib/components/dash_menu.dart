@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/components/dash_bottom_nav.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/dialogs/confirm_close_dialog.dart';
+import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -81,7 +82,7 @@ class DashMenuState extends State<DashMenu>{
                       showDialog<Widget>(
                         barrierDismissible: false,
                         context: tabContext,
-                        builder: (BuildContext context) => const ConfirmCloseDialog()
+                        builder: (BuildContext context) => const DialogBase(title: "Confirm close", dialog: ConfirmCloseDialog(), minWidth: 200, maxWidth: 200,)
                       );
                     }
                   ),
@@ -119,7 +120,7 @@ class DashMenuState extends State<DashMenu>{
                       showDialog<Widget>(
                         barrierDismissible: false,
                         context: tabContext,
-                        builder: (BuildContext context) => const ConfirmCloseDialog()
+                        builder: (BuildContext context) => const DialogBase(title: "Confirm close", dialog: ConfirmCloseDialog(), minWidth: 200, maxWidth: 200,)
                       );
                     }
                   ),

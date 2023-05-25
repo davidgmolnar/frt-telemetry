@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
@@ -34,16 +36,21 @@ class DialogBase extends StatelessWidget{
   final String title;
   final Widget dialog;
   final double minWidth;
+  final double? maxWidth;
 
-  const DialogBase({super.key, required this.title, required this.dialog, required this.minWidth});
+  const DialogBase({super.key, required this.title, required this.dialog, required this.minWidth, this.maxWidth});
   
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    double width = max(size.width * 0.3, minWidth);
+    if(maxWidth != null){
+      width = min(width, maxWidth!);
+    }
     return Dialog(
       elevation: 10,
       child: Container(
-        width: size.width * 0.3 > minWidth ? size.width * 0.3 : minWidth,
+        width: width,
         decoration: BoxDecoration(
           border: Border.all(color: primaryColor, width: 1),
           color: bgColor

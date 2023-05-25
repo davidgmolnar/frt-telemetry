@@ -7,6 +7,7 @@ import 'package:flutter_telemetry/components/config_terminal.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/dbc_selector_dialog.dart';
+import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
@@ -44,7 +45,7 @@ TabLayout configBigLayout = TabLayout(
                   showDialog<Widget>(
                     barrierDismissible: false,
                     context: tabContext,
-                    builder: (BuildContext context) => const DBCSelectorDialog()
+                    builder: (BuildContext context) => const DialogBase(title: "DBC Menu", dialog: DBCSelectorDialog(), minWidth: 700)
                   );
                 },
                 child: const Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize),),
@@ -83,7 +84,7 @@ TabLayout configSmallLayout = TabLayout(
                   showDialog<Widget>(
                     barrierDismissible: false,
                     context: tabContext,
-                    builder: (BuildContext context) => const DBCSelectorDialog()
+                    builder: (BuildContext context) => const DialogBase(title: "DBC Menu", dialog: DBCSelectorDialog(), minWidth: 700)
                   );
                 },
                 child: const Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize),),
