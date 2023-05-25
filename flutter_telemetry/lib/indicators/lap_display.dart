@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
+import 'package:flutter_telemetry/dialogs/dialog.dart';
+import 'package:flutter_telemetry/dialogs/lapdata_save_dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
@@ -143,8 +145,11 @@ class LapDisplay extends StatefulWidget{
 }
 
 class LapDisplayState extends State<LapDisplay>{
-  Timer timer = Timer(const Duration(days: 1), (() {}));
   ScrollController controller = ScrollController();
+
+  void update(){
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,12 +162,20 @@ class LapDisplayState extends State<LapDisplay>{
             children: [
               TextButton(
                 onPressed: () {
-                  lapTimerStarted = !lapTimerStarted;
-                  lapData.clear();
-                  if(lapTimerStarted){
-                    lapStart = DateTime.now();
+                  if(!lapTimerStarted && lapData.isNotEmpty){
+                    showDialog<Widget>(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) => DialogBase(title: "Lap tracking restart", dialog: LapDataSaveDialog(updater: update,), minWidth: 300,)
+                    );
                   }
-                  setState(() {});
+                  else{
+                    lapTimerStarted = !lapTimerStarted;
+                    if(lapTimerStarted){
+                      lapStart = DateTime.now();
+                    }
+                    setState(() {});
+                  }
                 },
                 child: Row(
                   children: [
@@ -177,17 +190,7 @@ class LapDisplayState extends State<LapDisplay>{
               TextButton(
                 onPressed: () {
                   useAutoTrigger = !useAutoTrigger;
-                  if(useAutoTrigger){
-                    if(timer.isActive){
-                      timer.cancel();
-                    }
-                    // TODO Timer start
-                  }
-                  else{
-                    if(timer.isActive){
-                      timer.cancel();
-                    }
-                  }
+                  // TODO
                   setState(() {});
                 },
                 child: Row(
@@ -247,7 +250,6 @@ class LapDisplayState extends State<LapDisplay>{
 
   @override
   void dispose() {
-    timer.cancel();
     super.dispose();
   }
 }

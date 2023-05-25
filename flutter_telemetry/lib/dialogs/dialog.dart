@@ -33,16 +33,17 @@ class DialogTitleBar extends StatelessWidget{
 class DialogBase extends StatelessWidget{
   final String title;
   final Widget dialog;
-  final double width;
+  final double minWidth;
 
-  const DialogBase({super.key, required this.title, required this.dialog, required this.width});
+  const DialogBase({super.key, required this.title, required this.dialog, required this.minWidth});
   
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Dialog(
       elevation: 10,
       child: Container(
-        width: width,
+        width: size.width * 0.3 > minWidth ? size.width * 0.3 : minWidth,
         decoration: BoxDecoration(
           border: Border.all(color: primaryColor, width: 1),
           color: bgColor

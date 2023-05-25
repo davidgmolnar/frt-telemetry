@@ -168,7 +168,7 @@ class AlertContainerState extends State<AlertContainer> {
                 showDialog<Widget>(
                     barrierDismissible: false,
                     context: tabContext,
-                    builder: (BuildContext context) => const DialogBase(title: "New alert", dialog: AlertAddDialog(), width: 520,)
+                    builder: (BuildContext context) => const DialogBase(title: "New alert", dialog: AlertAddDialog(), minWidth: 520,)
                 );
               },
             )

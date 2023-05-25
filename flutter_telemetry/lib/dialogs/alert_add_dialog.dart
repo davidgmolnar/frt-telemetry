@@ -12,7 +12,6 @@ enum SortLogic{
   CONTAINS
 }
 
-
 class AlertAddDialog extends StatefulWidget {
   const AlertAddDialog({super.key});
 
