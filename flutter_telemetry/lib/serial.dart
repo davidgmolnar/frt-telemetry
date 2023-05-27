@@ -14,7 +14,7 @@ class SerialPortManager{
 
   static final SerialPortManager _instance = SerialPortManager._internal();
   // Ahol a host fogad
-  static final ReceivePort _hostReceivePort = ReceivePort();
+  static ReceivePort _hostReceivePort = ReceivePort();
   // Ahol a host küld
   static SendPort? _hostSendPort;
 
@@ -34,6 +34,7 @@ class SerialPortManager{
     if(_isolate != null){
       kill();
     }
+    _hostReceivePort = ReceivePort();
     try{
       _isolate = await Isolate.spawn(_isolateCycle, _hostReceivePort.sendPort).timeout(const Duration(milliseconds: 1000));
       _hostSendPort = await _hostReceivePort.first.timeout(const Duration(milliseconds: 1000));
