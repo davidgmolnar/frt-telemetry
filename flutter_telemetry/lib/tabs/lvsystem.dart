@@ -87,7 +87,7 @@ TabLayout lvSystemBigLayout =
         "Brake_force_validity",
         "Brake_pressure_front_validity",
         "Brake_pressure_rear_validity",
-      ], colsize: 7, title: "Sensors"),
+      ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true]),
       BooleanPanel(subscribedSignals: [
         "MCU_EF_State",
         "MCU_RF_State",
@@ -163,7 +163,7 @@ TabLayout lvSystemSmallLayout =
           "Brake_force_validity",
           "Brake_pressure_front_validity",
           "Brake_pressure_rear_validity",
-        ], colsize: 7, title: "Sensors"),
+        ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true]),
       ]),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -271,7 +271,7 @@ TabLayout lvSystemMobileLayout =
     "Brake_force_validity",
     "Brake_pressure_front_validity",
     "Brake_pressure_rear_validity",
-  ], colsize: 7, title: "Sensors"),
+  ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true],),
   const BooleanPanel(subscribedSignals: [
     "Dashboard_heartbeat_error",
     "HVECU_Heartbeat_error",
