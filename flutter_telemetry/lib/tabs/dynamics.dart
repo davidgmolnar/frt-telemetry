@@ -115,7 +115,6 @@ TabLayout dynamicsBigLayout =
 
 TabLayout dynamicsSmallLayout =
     TabLayout(shortcutLabels: const [], layoutBreakpoints: const [], layout: [
-  const Titlebar(title: "Sensors"),
   const NumericPanel(subscribedSignals: [
     "AccX_Vectornav",
     "AccY_Vectornav",
@@ -148,12 +147,26 @@ TabLayout dynamicsSmallLayout =
       ], colsize: 6, title: "Pedal Node"),
     ],
   ),
-  const Titlebar(title: "Charts"),
-  const TimeSeriesChart(
-    subscribedSignals: ["Brake_Force_sensor"],
-    title: "BFS [N]",
-    min: 0,
-    max: 1500,
+  Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Flexible(
+        child: TimeSeriesChart(
+          subscribedSignals: ["Brake_Force_sensor"],
+          title: "BFS [N]",
+          min: 0,
+          max: 1500,
+        ),
+      ),
+      NumericPanel(
+        subscribedSignals: [
+          "v_x",
+          "v_y"
+        ],
+        colsize: 6,
+        title: "Dynamics"
+      )
+    ],
   ),
   const TimeSeriesChart(
     subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],

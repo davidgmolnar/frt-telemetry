@@ -8,6 +8,7 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/dbc_selector_dialog.dart';
 import 'package:flutter_telemetry/dialogs/dialog.dart';
+import 'package:flutter_telemetry/dialogs/serial_selector.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
@@ -39,7 +40,7 @@ TabLayout configBigLayout = TabLayout(
             ),
             const StringIndicator(subscribedSignal: "error", decoder: raspberryErrorDecoder),
             Padding(
-              padding: const EdgeInsets.all(defaultPadding * 2),
+              padding: const EdgeInsets.all(defaultPadding),
               child: TextButton(
                 onPressed: () async {
                   showDialog<Widget>(
@@ -50,7 +51,20 @@ TabLayout configBigLayout = TabLayout(
                 },
                 child: const Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize),),
               ),
-            )
+            ),
+            /*Padding(
+              padding: const EdgeInsets.all(defaultPadding),
+              child: TextButton(
+                onPressed: () async {
+                  showDialog<Widget>(
+                    barrierDismissible: false,
+                    context: tabContext,
+                    builder: (BuildContext context) => const DialogBase(title: "Serial Menu", dialog: SerialPortSelectorDialog(), minWidth: 700)
+                  );
+                },
+                child: const Text("Serial Menu", style: TextStyle(fontSize: subTitleFontSize),),
+              ),
+            )*/
           ],
         )
       ],
