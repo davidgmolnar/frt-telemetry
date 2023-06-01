@@ -49,8 +49,9 @@ TabLayout tcuBigLayout = TabLayout(shortcutLabels: const [
         "VDC_Powerlimiter_Efficiency_On",
         "VDC_Slip_Control_ON",
         "VDC_Traction_Control_On",
+        "VDC_Iterative_On",
         "VDC_Safety_Mode",
-      ], colsize: 7, title: "VDC Status"),
+      ], colsize: 8, title: "VDC Status"),
       NumericPanel(subscribedSignals: [
         "VDC_Lateral_Balance",
         "VDC_Throttle_Breakpoint",
@@ -188,8 +189,9 @@ TabLayout tcuSmallLayout = TabLayout(shortcutLabels: const [
             "VDC_Powerlimiter_Efficiency_On",
             "VDC_Slip_Control_ON",
             "VDC_Traction_Control_On",
+            "VDC_Iterative_On",
             "VDC_Safety_Mode",
-          ], colsize: 7, title: "VDC Status"),
+          ], colsize: 8, title: "VDC Status"),
           StringIndicator(
               subscribedSignal: "VDC_MCU_State", decoder: vdcStateDecoder),
           StringIndicator(
@@ -298,8 +300,9 @@ TabLayout tcuMobileLayout = const TabLayout(shortcutLabels: [
     "VDC_Powerlimiter_Efficiency_On",
     "VDC_Slip_Control_ON",
     "VDC_Traction_Control_On",
+    "VDC_Iterative_On",
     "VDC_Safety_Mode",
-  ], colsize: 14, title: "VDC Status"),
+  ], colsize: 8, title: "VDC Status"),
   StringIndicator(
       subscribedSignal: "VDC_MCU_State", decoder: vdcStateDecoder),
   StringIndicator(
