@@ -3,13 +3,10 @@ import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
 TabLayout brightloopBigLayout = TabLayout(shortcutLabels: const [
-  "Brightloop Charts",
-  "Brightloop Status"
 ], layoutBreakpoints: const [
   0,
   700
 ], layout: [
-  const Titlebar(title: "Brightloop Charts"),
   Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: const [
@@ -29,15 +26,20 @@ TabLayout brightloopBigLayout = TabLayout(shortcutLabels: const [
       ),
     ],
   ),
-  const TimeSeriesChart(
-      subscribedSignals: [
-        "VIRT_BRIGHTLOOP_CH1_POWER",
-        "VIRT_BRIGHTLOOP_CH2_POWER",
-      ],
-      title: "Channel Powers",
-      min: -6000,
-      max: 18000,),
-  const Titlebar(title: "Brightloop Status"),
+  Row(
+    children: const [
+      Flexible(
+        child: TimeSeriesChart(
+            subscribedSignals: [
+              "VIRT_BRIGHTLOOP_CH1_POWER",
+              "VIRT_BRIGHTLOOP_CH2_POWER",
+            ],
+            title: "Channel Powers",
+            min: -6000,
+            max: 18000,),
+      ),
+    ],
+  ),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     crossAxisAlignment: CrossAxisAlignment.start,

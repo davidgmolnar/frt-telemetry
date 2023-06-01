@@ -4,7 +4,6 @@ import 'package:flutter_telemetry/tabs/tabs.dart';
 
 TabLayout dynamicsBigLayout =
     TabLayout(shortcutLabels: const [], layoutBreakpoints: const [], layout: [
-  const Titlebar(title: "Sensors"),
   Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -34,10 +33,30 @@ TabLayout dynamicsBigLayout =
         "PN_IMU_Yaw",
         "PN_IMU_Pitch",
         "PN_IMU_Roll",
-      ], colsize: 6, title: "Pedal Node and Bosch"),
+      ], colsize: 6, title: "Pedal Node"),
     ],
   ),
-  const Titlebar(title: "Charts"),
+  Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: const [
+      Flexible(
+        child: TimeSeriesChart(
+          subscribedSignals: ["AccX_Bosch", "AccY_Bosch"],
+          title: "Accel",
+          min: -4,
+          max: 4,
+        ),
+      ),
+      NumericPanel(
+        subscribedSignals: [
+          "v_x",
+          "v_y"
+        ],
+        colsize: 6,
+        title: "Dynamics"
+      )
+    ],
+  ),
   Row(children: const [
     Flexible(
       child: TimeSeriesChart(
@@ -56,12 +75,6 @@ TabLayout dynamicsBigLayout =
       ),
     )
   ]),
-  const TimeSeriesChart(
-    subscribedSignals: ["AccX_Bosch", "AccY_Bosch"],
-    title: "Accel",
-    min: -4,
-    max: 4,
-  ),
   Row(children: const [
     Flexible(
       child: TimeSeriesChart(
@@ -132,7 +145,7 @@ TabLayout dynamicsSmallLayout =
         "PN_IMU_Yaw",
         "PN_IMU_Pitch",
         "PN_IMU_Roll",
-      ], colsize: 6, title: "Pedal Node and Bosch"),
+      ], colsize: 6, title: "Pedal Node"),
     ],
   ),
   const Titlebar(title: "Charts"),
@@ -208,7 +221,7 @@ TabLayout dynamicsMobileLayout =
     "PN_IMU_Yaw",
     "PN_IMU_Pitch",
     "PN_IMU_Roll",
-  ], colsize: 6, title: "Pedal Node and Bosch"),
+  ], colsize: 6, title: "Pedal Node"),
   Titlebar(title: "Charts"),
   TimeSeriesChart(
     subscribedSignals: ["Brake_Force_sensor"],
