@@ -52,19 +52,19 @@ TabLayout configBigLayout = TabLayout(
                 child: const Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize),),
               ),
             ),
-            /*Padding(
+            Padding(
               padding: const EdgeInsets.all(defaultPadding),
               child: TextButton(
                 onPressed: () async {
                   showDialog<Widget>(
                     barrierDismissible: false,
                     context: tabContext,
-                    builder: (BuildContext context) => const DialogBase(title: "Serial Menu", dialog: SerialPortSelectorDialog(), minWidth: 700)
+                    builder: (BuildContext context) => const DialogBase(title: "Serial Menu", dialog: SerialPortSelectorDialog(), minWidth: 600)
                   );
                 },
                 child: const Text("Serial Menu", style: TextStyle(fontSize: subTitleFontSize),),
               ),
-            )*/
+            )
           ],
         )
       ],

@@ -12,6 +12,14 @@ import 'package:universal_io/io.dart';
   ..parity = SerialPortParity.none
   ..bits = 8;
 
+const Map<int,String> parityMap = {
+  0: "None",
+  1: "Odd",
+  2: "Even",
+  3: "Mark",
+  4: "Space",
+};
+
 extension ReadWithOneSecTimeout on SerialPort{
   Future<Uint8List> readWithTimeout(int bytes) => Future.delayed(const Duration(microseconds: 100), () {return read(bytes);});
 }
@@ -40,6 +48,10 @@ class SerialPortManager{
   static void kill() {
     _isolate?.kill(priority: Isolate.immediate);
     _isolate = null;
+  }
+
+  static bool isOpen(){
+    return _isolate != null;
   }
 }
 
