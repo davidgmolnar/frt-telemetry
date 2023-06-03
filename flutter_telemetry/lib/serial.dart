@@ -68,20 +68,20 @@ void _isolateCycle(String com) async {
   Uint8List batch = Uint8List.fromList([]);
 
   while(true) {
-    Uint8List startByte = await serial.readWithTimeout(1);
+    Uint8List startByte = serial.read(1);
     while(startByte.isEmpty || startByte.first != 0x02){
       startByte = await serial.readWithTimeout(1);
     }
-    Uint8List cmd = await serial.readWithTimeout(1);
+    Uint8List cmd = serial.read(1);
     if(cmd.isEmpty || cmd.first != 0x81){
       continue;
     }
-    Uint8List length = await serial.readWithTimeout(1);
+    Uint8List length = serial.read(1);
     if(length.isEmpty){
       continue;
     }
-    Uint8List msg = await serial.readWithTimeout(length.first);
-    Uint8List rssi = await serial.readWithTimeout(1);
+    Uint8List msg = serial.read(length.first);
+    Uint8List rssi = serial.read(1);
     batch = Uint8List.fromList(batch.toList()..addAll(msg.toList()));
     if(batch.length >= 100){
       batch = Uint8List.fromList(batch.toList()..add(rssi.first));

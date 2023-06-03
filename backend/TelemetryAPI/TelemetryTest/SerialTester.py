@@ -2,13 +2,13 @@ from math import sin
 from time import sleep
 import serial
 
-ser = serial.Serial('COM10', 468000, timeout=1)
+ser = serial.Serial('COM2', 468000, timeout=1)
 t = 0
 while True:
     to_send = []
 
     to_send.append(0x02)
-    to_send.append(0x00)
+    to_send.append(0x81)
     to_send.append(10)
     to_send.append(0x02)
     to_send.append(0x84)
@@ -22,6 +22,7 @@ while True:
     to_send.append((rpm >> 8) & 0xFF)
     for i in range(4):
         to_send.append(0)
+    to_send.append(0x20)  # rssi
     cs = 0
     for byte in to_send:
         cs ^= byte
