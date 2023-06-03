@@ -95,7 +95,7 @@ class SerialPortSettingElementState extends State<SerialPortSettingElement> {
         )
         :
         SizedBox(
-          width: 140,
+          width: 80,
           child: DropdownButton(
             value: conf.parity,
             items: parityMap.keys.map((e) => 
@@ -166,11 +166,12 @@ class SerialPortSelectorState extends State<SerialPortSelector> {
         SizedBox(
           width: 200,
           child: DropdownButton(
-            value: "NOT_SET",
+            value: com,
             items: items,
             onChanged: (value) {
               if(value != null){
                 com = value;
+                setState(() {});
               }
             },
           ),

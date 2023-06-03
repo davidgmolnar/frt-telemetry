@@ -2,7 +2,7 @@ from math import sin
 from time import sleep
 import serial
 
-ser = serial.Serial('COM2', 468000, timeout=1)
+ser = serial.Serial('COM2', 460800, timeout=1)
 t = 0
 while True:
     to_send = []
