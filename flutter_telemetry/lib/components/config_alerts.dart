@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/dialogs/alert_add_dialog.dart';
@@ -34,6 +35,7 @@ class TelemetryAlert{
     num? value= signalValues[signal]?.last;
     if(value != null && _evaluateCondition(value)){
       triggerValue = value;
+      SystemSound.play(SystemSoundType.alert);
       snackbarKey.currentState?.showSnackBar(
         SnackBar(
           duration: const Duration(seconds: 1),
