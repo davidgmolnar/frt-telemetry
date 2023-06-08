@@ -117,8 +117,8 @@ TabLayout tcuBigLayout = TabLayout(shortcutLabels: const [
       "VIRT_AMK4_LIMIT"
     ],
     title: "Torque Limits",
-    min: 0,
-    max: 25000,
+    min: -21,
+    max: 21,
   ),
   Row(children: const [
     Flexible(
@@ -246,8 +246,8 @@ TabLayout tcuSmallLayout = TabLayout(shortcutLabels: const [
       "VIRT_AMK4_LIMIT"
     ],
     title: "Torque Limits",
-    min: 0,
-    max: 25000,
+    min: -21,
+    max: 21,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["VDC_Torque_Demand"],
@@ -353,8 +353,8 @@ TabLayout tcuMobileLayout = const TabLayout(shortcutLabels: [
       "VIRT_AMK4_LIMIT"
     ],
     title: "Torque Limits",
-    min: 0,
-    max: 25000,
+    min: -21,
+    max: 21,
   ),
   TimeSeriesChart(
     subscribedSignals: ["VDC_Torque_Demand"],
