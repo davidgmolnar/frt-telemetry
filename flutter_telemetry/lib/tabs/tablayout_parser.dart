@@ -11,16 +11,16 @@ import 'package:flutter_telemetry/tabs/tabs.dart';
 abstract class TabLayoutParser{
 
   static TabLayout get failedToParseTab => const TabLayout(shortcutLabels: [], layoutBreakpoints: [], layout: [
-        SizedBox(
-          height: 300,
-          child: Center(
-            child: Text(
-              "Failed to parse tab",
-              style: TextStyle(fontSize: subTitleFontSize),
-            ),
-          ),
-        )
-      ], minWidth: 0);
+    SizedBox(
+      height: 300,
+      child: Center(
+        child: Text(
+          "Failed to parse tab, check config tab for more info",
+          style: TextStyle(fontSize: subTitleFontSize),
+        ),
+      ),
+    )
+  ], minWidth: 0);
 
   static NumericIndicator? _decodeNumeric(Map<String, dynamic> widgetData){
     if(widgetData.containsKey('signal') && widgetData['signal'] is String){
@@ -68,7 +68,6 @@ abstract class TabLayoutParser{
       if(widgetData['signals'].isEmpty || !widgetData['signals'].every((signal) => signal is String)){
         return null;
       }
-      // TODO Support isInverted flags
       return BooleanPanel(subscribedSignals: widgetData['signals'].map<String>((e) => e.toString()).toList(), title: widgetData['title'], colsize: widgetData['column_size'],);
     }
     else{
@@ -189,16 +188,19 @@ abstract class TabLayoutParser{
     if(shortcutLabels.length != layoutBreakpoints.length){
       return null;
     }
-
     return TabLayout(shortcutLabels: shortcutLabels, layoutBreakpoints: layoutBreakpoints, layout: layout, minWidth: minWidth);
   }
 
   static Future<TabLayout> load(String relativePath) async {
-    TabLayout? tabLayout = await _tryParseFromFile(relativePath);
+    TabLayout? tabLayout;
+    try{
+      tabLayout = await _tryParseFromFile(relativePath);
+    } catch(exc){
+      return failedToParseTab;
+    }
     if(tabLayout == null){
       return failedToParseTab;
     }
     return tabLayout;
   }
-
 }

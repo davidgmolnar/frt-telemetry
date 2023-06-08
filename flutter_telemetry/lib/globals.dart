@@ -5,7 +5,6 @@ import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/indicators/as_map.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
-import 'package:flutter_telemetry/indicators/lap_display.dart';
 
 String activeTab = "CONFIG";
 String dir = "";

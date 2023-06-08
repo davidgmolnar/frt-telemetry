@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/constants.dart';
-import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
