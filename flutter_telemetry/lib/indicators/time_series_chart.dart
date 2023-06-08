@@ -83,6 +83,7 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
   ChartSetting chartSetting = ChartSetting(yMax: 100, yMin: 0, showSeconds: settings['chartShowSeconds']!.value, gridOn: true);
 
   late Function toggleVisibility;
+  late Function resetState;
 
   @override
   void initState() {
@@ -108,6 +109,7 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
 
   void update(ChartSetting newSetting){
     chartSettings[widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element")] = newSetting;
+    resetState();
     setState(() {});
   }
 
@@ -201,8 +203,9 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                                 canvasHeight: canvasHeight,
                                 canvasWidth: canvasWidth,
                                 chartSetting: chartSetting,
-                                visibilitySetter: (setter) {
-                                  toggleVisibility = setter;
+                                onInitialized: (Function visibility, Function reset) {
+                                  toggleVisibility = visibility;
+                                  resetState = reset;
                                 },
                               ),
                             ]
@@ -235,7 +238,7 @@ class TimeSeriesPlotArea extends StatefulWidget{
     required this.canvasHeight,
     required this.canvasWidth,
     required this.chartSetting,
-    required this.visibilitySetter
+    required this.onInitialized
   });
 
   final List<String> subscribedSignals;
@@ -244,7 +247,7 @@ class TimeSeriesPlotArea extends StatefulWidget{
   final double canvasHeight;
   final double canvasWidth;
   final ChartSetting chartSetting;
-  final Function visibilitySetter;
+  final Function onInitialized;
 
   @override
   State<StatefulWidget> createState() {
@@ -278,6 +281,19 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     }
   }
 
+  void resetState(){
+    if(timer.isActive){
+      timer.cancel();
+    }
+    chartData = [];
+    chartDataPoints = [];
+    for(int i = 0; i < widget.subscribedSignals.length; i++){
+      chartData.add([]);
+      chartDataPoints.add([]);
+    }
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']!.value), (Timer t) => updateData());
+  }
+
     @override
   void initState() {
     for(int i = 0; i < widget.subscribedSignals.length; i++){
@@ -290,7 +306,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     yScale = widget.canvasHeight / (widget.max - widget.min);
     yStart = widget.min;
     super.initState();
-    widget.visibilitySetter(toggleVisibility);
+    widget.onInitialized(toggleVisibility, resetState);
     timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']!.value), (Timer t) => updateData());
   }
 
