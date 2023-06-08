@@ -183,6 +183,7 @@ class SerialPortSelectorState extends State<SerialPortSelector> {
               return;
             }
             SerialPortManager.startListenerOnPort(com);
+            Navigator.of(context).pop();
           },
           child: const Text("Open", style: TextStyle(fontSize: subTitleFontSize),),
         )
