@@ -70,6 +70,7 @@ class DashMenuState extends State<DashMenu>{
             //TabSelector(tab: "AS_MAP", iconData: Icons.map, title: "Map", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "DATALOGGER", iconData: Icons.receipt_rounded, title: "Datalogger", tabChange: widget.onTabChange, isWide: isOpened,),
             TabSelector(tab: "LAP", iconData: Icons.circle_outlined, title: "Lap", tabChange: widget.onTabChange, isWide: isOpened,),
+            TabSelector(tab: "CUSTOM", iconData: Icons.dashboard_customize_sharp, title: "Custom", tabChange: widget.onTabChange, isWide: isOpened,),
 
             !isOpened ? SizedBox(
               height: 4 * (iconSplashRadius + 20),
@@ -174,9 +175,9 @@ class TabSelector extends StatelessWidget {
     return Container(
       color: tab == activeTab ? bgColor : secondaryColor,
       child: TextButton(
-        onPressed: () {
+        onPressed: () async {
           activeTab = tab;
-          tabChange();
+          await tabChange();
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,

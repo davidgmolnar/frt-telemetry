@@ -125,21 +125,29 @@ class TerminalDisplayState extends State<TerminalDisplay> {
           height: 400,
           child: ListView.builder(
             itemCount: content.length,
-            itemExtent: 40,
             itemBuilder: (BuildContext context, int index){
-              return ListTile(
-                leading: Text("${displayIdLevelMap[content[index].level]} - ${content[index].time} - ${content[index].message}",
-                  overflow: TextOverflow.clip,
-                  maxLines: 3,),
-                trailing: IconButton(
-                  padding: const EdgeInsets.all(defaultPadding),
-                  icon: Icon(Icons.check, color: primaryColor),
-                  onPressed: () {
-                    terminalQueue.removeWhere((element) => element.message == content[index].message);
-                    content.removeAt(index);
-                    setState(() {});
-                  },
-                  splashRadius: 20,
+              return Padding(
+                padding: const EdgeInsets.all(defaultPadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 600,
+                      child: Text("${displayIdLevelMap[content[index].level]} - ${content[index].time} - ${content[index].message}",
+                        overflow: TextOverflow.clip,
+                        maxLines: 5,),
+                    ),
+                    IconButton(
+                      padding: const EdgeInsets.all(defaultPadding),
+                      icon: Icon(Icons.check, color: primaryColor),
+                      onPressed: () {
+                        terminalQueue.removeWhere((element) => element.message == content[index].message);
+                        content.removeAt(index);
+                        setState(() {});
+                      },
+                      splashRadius: 20,
+                    ),
+                  ]
                 ),
               );
             },

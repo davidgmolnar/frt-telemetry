@@ -8,6 +8,7 @@ import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
 import 'package:flutter_telemetry/screens/main_screen.dart';
+import 'package:flutter_telemetry/tabs/tablayout_parser.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -20,6 +21,7 @@ void main() async {
   await getCurrentDirectory();
   await loadSession();
   await startListener();
+  layoutMap['CUSTOM'] = [await TabLayoutParser.load('custom.json')];
   runApp(const MyApp());
 }
 

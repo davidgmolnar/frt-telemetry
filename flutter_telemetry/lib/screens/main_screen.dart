@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/components/dash_menu.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
+import 'package:flutter_telemetry/tabs/tablayout_parser.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
 Map<String, List<TabLayout>> layoutMap = {
@@ -19,7 +20,8 @@ Map<String, List<TabLayout>> layoutMap = {
   "AS": [asBigLayout, asSmallLayout, asMobileLayout],
   "DATALOGGER": [dataloggerBigLayout, dataloggerSmallLayout, dataloggerMobileLayout],
   "LAP": [lapBigLayout, lapSmallLayout],
-  "AS_MAP": [asmapBigLayout]
+  "AS_MAP": [asmapBigLayout],
+  "CUSTOM": [TabLayoutParser.failedToParseTab]
 };
 
 class MainScreen extends StatefulWidget{
@@ -38,8 +40,11 @@ class MainScreen extends StatefulWidget{
 
 class MainScreenState extends State<MainScreen> {
 
-  void changeTab() {
+  void changeTab() async {
     SchedulerBinding.instance.scheduleTask(() => saveSession(), Priority.animation);
+    if(activeTab == 'CUSTOM'){
+      layoutMap['CUSTOM'] = [await TabLayoutParser.load('custom.json')];
+    }
     setState(() {});
   }
 
