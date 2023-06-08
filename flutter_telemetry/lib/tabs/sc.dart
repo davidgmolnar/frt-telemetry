@@ -51,14 +51,14 @@ TabLayout scBigLayout =
   Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: const [
-      BooleanIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
-      BooleanIndicator(subscribedSignal: "SC_HVECU_TSMS_FB"),
-      BooleanIndicator(subscribedSignal: "SC_RES_FB"),
-      BooleanIndicator(subscribedSignal: "SC_MCU_FB"),
-      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
-      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
-      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
-      BooleanIndicator(subscribedSignal: "SC_START"),
+      BooleanIndicator(subscribedSignal: "SC_ENDLINE_SSG", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_HVECU_TSMS_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_RES_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_MCU_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_FRONT_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_BSPD_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_HOOP_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_START", isInverted: true,),
     ],
   )
 ], minWidth: 1220);
@@ -68,14 +68,14 @@ TabLayout scSmallLayout =
   Column(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: const [
-      BooleanIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
-      BooleanIndicator(subscribedSignal: "SC_HVECU_TSMS_FB"),
-      BooleanIndicator(subscribedSignal: "SC_RES_FB"),
-      BooleanIndicator(subscribedSignal: "SC_MCU_FB"),
-      BooleanIndicator(subscribedSignal: "SC_FRONT_FB"),
-      BooleanIndicator(subscribedSignal: "SC_BSPD_FB"),
-      BooleanIndicator(subscribedSignal: "SC_HOOP_FB"),
-      BooleanIndicator(subscribedSignal: "SC_START"),
+      BooleanIndicator(subscribedSignal: "SC_ENDLINE_SSG", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_HVECU_TSMS_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_RES_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_MCU_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_FRONT_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_BSPD_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_HOOP_FB", isInverted: true,),
+      BooleanIndicator(subscribedSignal: "SC_START", isInverted: true,),
     ],
   )
 ], minWidth: widthPerColumnNumeric);
