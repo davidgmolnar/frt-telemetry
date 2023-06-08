@@ -4,26 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/data.dart';
-import 'package:flutter_telemetry/dialogs/chart_rescale_dialog.dart';
+import 'package:flutter_telemetry/dialogs/chart_settings_dialog.dart';
+import 'package:flutter_telemetry/dialogs/dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 
-class ChartSettings{
-  ChartSettings({required this.yMax, required this.yMin, required this.showSeconds, required this.gridOn, required this.showIndexes});
+class ChartSetting{
+  ChartSetting({required this.yMax, required this.yMin, required this.showSeconds, required this.gridOn});
 
   double yMax;
   double yMin;
-  double showSeconds;
+  int showSeconds;
   bool gridOn;
-  List<bool> showIndexes;
 
-  void update({double? yMax, double? yMin, double? showSeconds, bool? gridOn, List<bool>? showIndexes}){
+  ChartSetting update({double? yMax, double? yMin, int? showSeconds, bool? gridOn}){
     this.yMax = yMax ?? this.yMax;
     this.yMin = yMin ?? this.yMin;
     this.showSeconds = showSeconds ?? this.showSeconds;
     this.gridOn = gridOn ?? this.gridOn;
-    this.showIndexes = showIndexes ?? this.showIndexes;
+    return this;
   }  
 }
 
@@ -80,21 +80,19 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
     4: Colors.purple,
     5: Colors.brown
   };
-  late double trueMax;
-  late double trueMin;
+  ChartSetting chartSetting = ChartSetting(yMax: 100, yMin: 0, showSeconds: settings['chartShowSeconds']!.value, gridOn: true);
 
   late Function toggleVisibility;
 
   @override
   void initState() {
     String folded = widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element");
-    if(chartLimits.keys.contains(folded)){
-      trueMax = chartLimits[folded]!.dx;
-      trueMin = chartLimits[folded]!.dy;
+    if(chartSettings.keys.contains(folded)){
+      chartSetting = chartSettings[folded]!;
     }
     else{
-      trueMax = widget.max;
-      trueMin = widget.min;
+      chartSetting.yMax = widget.max;
+      chartSetting.yMin = widget.min;
     }
 
     for(int i = 0; i < widget.subscribedSignals.length; i++){
@@ -108,12 +106,9 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
     super.initState();
   }
 
-  void update(double newMax, double newMin){
-    chartLimits[widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element")] = Offset(newMax, newMin);
-    setState(() {
-      trueMax = newMax;
-      trueMin = newMin;
-    });
+  void update(ChartSetting newSetting){
+    chartSettings[widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element")] = newSetting;
+    setState(() {});
   }
 
   @override
@@ -133,8 +128,8 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                 height: yAxisHeight,
                 width: yAxisWidth,
                 child: YAxis(
-                  max: trueMax,
-                  min: trueMin,
+                  max: chartSetting.yMax,
+                  min: chartSetting.yMin,
                   height: yAxisHeight,
                   topInset: titleHeight,
                   bottomInset: xAxisHeight,
@@ -148,18 +143,21 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                       height: titleHeight,
                       child: Row(
                         children: [
-                          GestureDetector(
-                            onTap: () async {
+                          Padding(
+                            padding: const EdgeInsets.only(left: defaultPadding * 6),
+                            child: Text(widget.title, style: const TextStyle(fontSize: subTitleFontSize),),
+                          ),
+                          IconButton(
+                            onPressed: () async {
                               showDialog<Widget>(
                                 barrierDismissible: false,
                                 context: tabContext,
-                                builder: (BuildContext context) => ChartRescaleDialog(updater: update,)
+                                builder: (BuildContext context) => DialogBase(title: "Chart settings for ${widget.title}", dialog: ChartSettingDialog(updater: update, chartSetting: chartSetting,), minWidth: 400, maxWidth: 500,)
                               );
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: defaultPadding * 6),
-                              child: Text(widget.title, style: const TextStyle(fontSize: subTitleFontSize),),
-                            ),
+                            padding: const EdgeInsets.all(0),
+                            splashRadius: iconSplashRadius,
+                            icon: Icon(Icons.settings, color: primaryColor,),
                           ),
                           const Spacer(),
                           for(int i = 0; i < labels.length; i++)
@@ -198,10 +196,11 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                                 ),
                               TimeSeriesPlotArea(
                                 subscribedSignals: widget.subscribedSignals,
-                                max: trueMax,
-                                min: trueMin,
+                                max: chartSetting.yMax,
+                                min: chartSetting.yMin,
                                 canvasHeight: canvasHeight,
                                 canvasWidth: canvasWidth,
+                                chartSetting: chartSetting,
                                 visibilitySetter: (setter) {
                                   toggleVisibility = setter;
                                 },
@@ -212,7 +211,7 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                         SizedBox(
                           height: xAxisHeight,
                           width: canvasWidth,
-                          child: XAxis(width: canvasWidth,),
+                          child: XAxis(width: canvasWidth, chartSetting: chartSetting,),
                         )
                       ],
                     ),
@@ -235,6 +234,7 @@ class TimeSeriesPlotArea extends StatefulWidget{
     required this.max,
     required this.canvasHeight,
     required this.canvasWidth,
+    required this.chartSetting,
     required this.visibilitySetter
   });
 
@@ -243,6 +243,7 @@ class TimeSeriesPlotArea extends StatefulWidget{
   final double max;
   final double canvasHeight;
   final double canvasWidth;
+  final ChartSetting chartSetting;
   final Function visibilitySetter;
 
   @override
@@ -284,8 +285,8 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       chartDataPoints.add([]);
       visibility.add(true);
     }
-    xStart = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']!.value)).difference(appstartdate).inMilliseconds.toDouble();
-    xScale = widget.canvasWidth / (settings['chartShowSeconds']!.value * 1000);
+    xStart = DateTime.now().subtract(Duration(seconds: widget.chartSetting.showSeconds)).difference(appstartdate).inMilliseconds.toDouble();
+    xScale = widget.canvasWidth / (widget.chartSetting.showSeconds * 1000);
     yScale = widget.canvasHeight / (widget.max - widget.min);
     yStart = widget.min;
     super.initState();
@@ -294,10 +295,10 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
   }
 
   void updateData(){
-    DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: settings['chartShowSeconds']!.value));
+    DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: widget.chartSetting.showSeconds));
     
     xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
-    xScale = widget.canvasWidth / (settings['chartShowSeconds']!.value * 1000);
+    xScale = widget.canvasWidth / (widget.chartSetting.showSeconds * 1000);
     yStart = widget.min;
     yScale = widget.canvasHeight / (widget.max - widget.min);
 
@@ -442,14 +443,15 @@ class YAxis extends StatelessWidget{
 }
 
 class XAxis extends StatelessWidget{
-  const XAxis({super.key, required this.width});
+  const XAxis({super.key, required this.width, required this.chartSetting});
 
   final double width;
+  final ChartSetting chartSetting;
 
   @override
   Widget build(BuildContext context) {
     double increment = (width - borderWidth) / (verticalTickCount + 1);
-    double valueIncrement = settings['chartShowSeconds']!.value / (verticalTickCount + 1);
+    double valueIncrement = chartSetting.showSeconds / (verticalTickCount + 1);
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -462,7 +464,7 @@ class XAxis extends StatelessWidget{
                 CustomPaint(painter: TickPainter(false)),
                 Transform.translate(
                   offset: const Offset(-chartLabelFontSize, tickLength),
-                  child: Text("-${representNumber("${settings['chartShowSeconds']!.value - (i + 1) * valueIncrement}", maxDigit: 4)} s", style: const TextStyle(fontSize: chartLabelFontSize),)
+                  child: Text("-${representNumber("${chartSetting.showSeconds - (i + 1) * valueIncrement}", maxDigit: 4)} s", style: const TextStyle(fontSize: chartLabelFontSize),)
                 )
               ],
             ),

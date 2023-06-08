@@ -226,9 +226,8 @@ List<VirtualSignal> virtualSignals = [
 };
 */
 
-// [signals concatenated] = (max,min)
-Map<String,Offset> chartLimits = {};
-//Map<String,ChartSettings> chartSettings = {};
+// [signals concatenated] = (setting)
+Map<String,ChartSetting> chartSettings = {};
 
 int tooltipShowMs = 0;
 int tooltipWaitMs = 1000;
