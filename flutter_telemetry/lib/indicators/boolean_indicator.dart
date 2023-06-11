@@ -66,7 +66,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       padding: const EdgeInsets.all(defaultPadding),
       child: AdvancedTooltip(
         tooltipText: "Listening to ${widget.subscribedSignal} ${widget.isInverted == null ? "0 -> green" : "1 -> green"}",
-        child: Text(label, textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
+        child: Text("$label - $value", textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
       )
     );
   }
