@@ -32,7 +32,7 @@ TabLayout asBigLayout = TabLayout(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            BooleanIndicator(subscribedSignal: "ASMS"),
+            BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             FourStateLed(subscribedSignal: "Xavier_LED", paddingFactor: 1),
           ],
         ),
@@ -165,7 +165,7 @@ TabLayout asSmallLayout = TabLayout(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            BooleanIndicator(subscribedSignal: "ASMS"),
+            BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             FourStateLed(subscribedSignal: "Xavier_LED", paddingFactor: 1),
           ],
         ),
@@ -298,7 +298,7 @@ TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
     children: [
       Column(
         children: const [
-          BooleanIndicator(subscribedSignal: "ASMS"),
+          BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             FourStateLed(subscribedSignal: "Xavier_LED", paddingFactor: 1),
         ],
       ),

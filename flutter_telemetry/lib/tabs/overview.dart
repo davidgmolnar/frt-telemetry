@@ -75,15 +75,16 @@ TabLayout overviewBigLayout = TabLayout(
           children: const [
             BooleanPanel(
               subscribedSignals: [
+                "SC_ENDLINE_SSG",
                 "SC_HVECU_TSMS_FB",
                 "SC_RES_FB",
                 "SC_MCU_FB",
                 "SC_FRONT_FB",
                 "SC_BSPD_FB",
                 "SC_HOOP_FB",
-                "SC_START",
-                "SC_ENDLINE_SSG"
+                "SC_START"
               ],
+              reverseIndexes: [true, true, true, true, true, true, true, true],
               colsize: 8,
               title: "SC leds"
             ),
@@ -95,11 +96,8 @@ TabLayout overviewBigLayout = TabLayout(
             StringIndicator(subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
             StringIndicator(subscribedSignal: "AS_Mission_selected", decoder: missionSelectDecoder),
             StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
-            BooleanIndicator(subscribedSignal: "ON_Car_State"),
-            BooleanIndicator(subscribedSignal: "OFF_Car_State"),
-            BooleanIndicator(subscribedSignal: "RTDS_Car_State"),
-            BooleanIndicator(subscribedSignal: "START_Car_State"),
-            BooleanIndicator(subscribedSignal: "ASMS"),
+            BooleanIndicator(subscribedSignal: "Car_state"),
+            BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             BooleanIndicator(subscribedSignal: "RES_GO_Signal"),
           ],
         )
@@ -353,15 +351,16 @@ TabLayout overviewSmallLayout = TabLayout(
           children: const [
             BooleanPanel(
               subscribedSignals: [
+                "SC_ENDLINE_SSG",
                 "SC_HVECU_TSMS_FB",
                 "SC_RES_FB",
                 "SC_MCU_FB",
                 "SC_FRONT_FB",
                 "SC_BSPD_FB",
                 "SC_HOOP_FB",
-                "SC_START",
-                "SC_ENDLINE_SSG"
+                "SC_START"
               ],
+              reverseIndexes: [true, true, true, true, true, true, true, true],
               colsize: 8,
               title: "SC leds"
             ),
@@ -373,11 +372,8 @@ TabLayout overviewSmallLayout = TabLayout(
             StringIndicator(subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
             StringIndicator(subscribedSignal: "AS_Mission_selected", decoder: missionSelectDecoder),
             StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
-            BooleanIndicator(subscribedSignal: "ON_Car_State"),
-            BooleanIndicator(subscribedSignal: "OFF_Car_State"),
-            BooleanIndicator(subscribedSignal: "RTDS_Car_State"),
-            BooleanIndicator(subscribedSignal: "START_Car_State"),
-            BooleanIndicator(subscribedSignal: "ASMS"),
+            BooleanIndicator(subscribedSignal: "Car_state"),
+            BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             BooleanIndicator(subscribedSignal: "RES_GO_Signal"),
           ],
         ),

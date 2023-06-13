@@ -72,7 +72,7 @@ class ChartSettingDialogState extends State<ChartSettingDialog> {
             widget.updater(widget.chartSetting.update(yMax: max, yMin: min, showSeconds: time));
             Navigator.of(context).pop();
           },
-          icon: const Icon(Icons.check),
+          icon: Icon(Icons.check, color: primaryColor,),
           splashRadius: iconSplashRadius,
         )
       ],

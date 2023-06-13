@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/components/config_settings.dart';
@@ -49,7 +50,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
           localTextColor = widget.isInverted == null ? const Color.fromARGB(255, 0, 255, 8) : const Color.fromARGB(255, 255, 17, 0);
         }
         else if(temp == 1){
-          value == 1;
+          value = 1;
           localTextColor = widget.isInverted == null ? const Color.fromARGB(255, 255, 17, 0) : const Color.fromARGB(255, 0, 255, 8);
         }
         else{
@@ -66,7 +67,7 @@ class BooleanIndicatorState extends State<BooleanIndicator>{
       padding: const EdgeInsets.all(defaultPadding),
       child: AdvancedTooltip(
         tooltipText: "Listening to ${widget.subscribedSignal} ${widget.isInverted == null ? "0 -> green" : "1 -> green"}",
-        child: Text("$label - $value", textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
+        child: Text("$label - $value", textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor, fontFamily: "Poppins", fontWeight: FontWeight.w400, fontFeatures: const [FontFeature.tabularFigures()]), ),
       )
     );
   }
