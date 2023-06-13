@@ -32,7 +32,7 @@ TabLayout mcuBigLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK1_Enable"),
           BooleanIndicator(subscribedSignal: "AMK1_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK1_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK1_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK1_status")
         ],
       ),
       Column(
@@ -53,7 +53,7 @@ TabLayout mcuBigLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK2_Enable"),
           BooleanIndicator(subscribedSignal: "AMK2_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK2_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK2_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK2_status")
         ],
       ),
       Column(
@@ -74,7 +74,7 @@ TabLayout mcuBigLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK3_Enable"),
           BooleanIndicator(subscribedSignal: "AMK3_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK3_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK3_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK3_status")
         ],
       ),
       Column(
@@ -95,7 +95,7 @@ TabLayout mcuBigLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK4_Enable"),
           BooleanIndicator(subscribedSignal: "AMK4_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK4_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK4_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK4_status")
         ],
       ),
     ],
@@ -159,7 +159,7 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK1_Enable"),
           BooleanIndicator(subscribedSignal: "AMK1_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK1_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK1_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK1_status")
         ],
       ),
       Column(
@@ -180,7 +180,7 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK2_Enable"),
           BooleanIndicator(subscribedSignal: "AMK2_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK2_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK2_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK2_status")
         ],
       ),
     ],
@@ -207,7 +207,7 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK3_Enable"),
           BooleanIndicator(subscribedSignal: "AMK3_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK3_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK3_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK3_status")
         ],
       ),
       Column(
@@ -228,7 +228,7 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
           BooleanIndicator(subscribedSignal: "AMK4_Enable"),
           BooleanIndicator(subscribedSignal: "AMK4_Error_Reset"),
           BooleanIndicator(subscribedSignal: "AMK4_Inverter_On"),
-          AMKStatusIndicator(subscribedSignal: "AMK4_Status")
+          AMKStatusIndicator(subscribedSignal: "AMK4_status")
         ],
       ),
     ],
@@ -280,7 +280,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       BooleanIndicator(subscribedSignal: "AMK1_Enable"),
       BooleanIndicator(subscribedSignal: "AMK1_Error_Reset"),
       BooleanIndicator(subscribedSignal: "AMK1_Inverter_On"),
-      AMKStatusIndicator(subscribedSignal: "AMK1_Status")
+      AMKStatusIndicator(subscribedSignal: "AMK1_status")
     ],
   ),
   Column(
@@ -297,7 +297,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       BooleanIndicator(subscribedSignal: "AMK2_Enable"),
       BooleanIndicator(subscribedSignal: "AMK2_Error_Reset"),
       BooleanIndicator(subscribedSignal: "AMK2_Inverter_On"),
-      AMKStatusIndicator(subscribedSignal: "AMK2_Status")
+      AMKStatusIndicator(subscribedSignal: "AMK2_status")
     ],
   ),
   const Titlebar(title: "AMK Rear Status"),
@@ -315,7 +315,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       BooleanIndicator(subscribedSignal: "AMK3_Enable"),
       BooleanIndicator(subscribedSignal: "AMK3_Error_Reset"),
       BooleanIndicator(subscribedSignal: "AMK3_Inverter_On"),
-      AMKStatusIndicator(subscribedSignal: "AMK3_Status")
+      AMKStatusIndicator(subscribedSignal: "AMK3_status")
     ],
   ),
   Column(
@@ -332,7 +332,7 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
       BooleanIndicator(subscribedSignal: "AMK4_Enable"),
       BooleanIndicator(subscribedSignal: "AMK4_Error_Reset"),
       BooleanIndicator(subscribedSignal: "AMK4_Inverter_On"),
-      AMKStatusIndicator(subscribedSignal: "AMK4_Status")
+      AMKStatusIndicator(subscribedSignal: "AMK4_status")
     ],
   ),
   const Titlebar(title: "RPM and Temp"),

@@ -85,9 +85,7 @@ TabLayout asBigLayout = TabLayout(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: const [
-            BooleanIndicator(subscribedSignal: "Driving_State_Active"),
-            BooleanIndicator(subscribedSignal: "nEBS_SET_ACTIVE"),
-            BooleanIndicator(subscribedSignal: "DV_SDC_READY"),
+            BooleanIndicator(subscribedSignal: "nEBS_ENGAGE"),
             BooleanIndicator(subscribedSignal: "Xavier_missionFinished"),
             BooleanIndicator(subscribedSignal: "Xavier_loopClosed"),
           ],
@@ -210,9 +208,7 @@ TabLayout asSmallLayout = TabLayout(
           "Xavier_n_updates_last_resample"
         ], colsize: 7, title: "Xavier data"),
         BooleanPanel(subscribedSignals: [
-          "Driving_State_Active",
-          "nEBS_SET_ACTIVE",
-          "DV_SDC_READY",
+          "nEBS_ENGAGE",
           "Xavier_missionFinished",
           "Xavier_loopClosed",
           "BAG_START"
@@ -353,9 +349,7 @@ TabLayout asMobileLayout = TabLayout(layoutBreakpoints: [
             "Xavier_n_updates_last_resample"
           ], colsize: 7, title: "Xavier data"),
           BooleanPanel(subscribedSignals: [
-            "Driving_State_Active",
-            "nEBS_SET_ACTIVE",
-            "DV_SDC_READY",
+            "nEBS_ENGAGE",
             "Xavier_missionFinished",
             "Xavier_loopClosed",
             "BAG_START"

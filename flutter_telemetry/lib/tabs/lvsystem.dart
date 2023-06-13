@@ -72,12 +72,9 @@ TabLayout lvSystemBigLayout =
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
       BooleanPanel(subscribedSignals: [
-        "Button_OFF",
-        "Button_ON",
+        "Button_ON_OFF",
         "Button_START",
-        "Dash_BLANK",
-        "Dash_MODE",
-        "Dash_XLAT"
+        "Dash_HV",
       ], colsize: 6, title: "Dashboard"),
       BooleanPanel(subscribedSignals: [
         "APPS1_validity",
@@ -89,11 +86,8 @@ TabLayout lvSystemBigLayout =
         "Brake_pressure_rear_validity",
       ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true]),
       BooleanPanel(subscribedSignals: [
-        "MCU_EF_State",
-        "MCU_RF_State",
-        "MCU_FRONT_SUPPLY",
-        "MCU_REAR_SUPPLY",
-        "Brake_Light"
+        "MCU_ENABLE",
+        "Brake_Light" 
       ], colsize: 5, title: "Misc leds"),
       NumericPanel(
           subscribedSignals: ["SC_ENDLINE_SSG", "BFS_Offset"],
@@ -178,21 +172,15 @@ TabLayout lvSystemSmallLayout =
         "TCU_Heartbeat_error"
       ], colsize: 6, title: "Heartbeats"),
       const BooleanPanel(subscribedSignals: [
-        "Button_OFF",
-        "Button_ON",
+        "Button_ON_OFF",
         "Button_START",
-        "Dash_BLANK",
-        "Dash_MODE",
-        "Dash_XLAT"
+        "Dash_HV",
       ], colsize: 6, title: "Dashboard"),
       Column(
         children: const [
           BooleanPanel(subscribedSignals: [
-            "MCU_EF_State",
-            "MCU_RF_State",
-            "MCU_FRONT_SUPPLY",
-            "MCU_REAR_SUPPLY",
-            "Brake_Light"
+            "MCU_ENABLE",
+            "Brake_Light" 
           ], colsize: 5, title: "Misc"),
           NumericIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
           NumericIndicator(subscribedSignal: "BFS_Offset"),
@@ -281,18 +269,12 @@ TabLayout lvSystemMobileLayout =
     "TCU_Heartbeat_error"
   ], colsize: 6, title: "Heartbeats"),
   const BooleanPanel(subscribedSignals: [
-    "Button_OFF",
-    "Button_ON",
+    "Button_ON_OFF",
     "Button_START",
-    "Dash_BLANK",
-    "Dash_MODE",
-    "Dash_XLAT"
+    "Dash_HV",
   ], colsize: 6, title: "Dashboard"),
   const BooleanPanel(subscribedSignals: [
-    "MCU_EF_State",
-    "MCU_RF_State",
-    "MCU_FRONT_SUPPLY",
-    "MCU_REAR_SUPPLY",
+    "MCU_ENABLE",
     "Brake_Light"
   ], colsize: 5, title: "Misc"),
   const NumericIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
