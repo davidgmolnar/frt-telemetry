@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_telemetry/constants.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
@@ -18,64 +19,83 @@ class ChartSettingDialogState extends State<ChartSettingDialog> {
   final TextEditingController _maxController = TextEditingController();
   final TextEditingController _minController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  
+  final FocusNode _focus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        SizedBox(
-          width: 100,
-          child: TextFormField(
-            decoration: InputDecoration(
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
-              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              hintText: "MAX",
-              hintStyle: const TextStyle(color: Colors.grey)
+    _focus.requestFocus();
+    return RawKeyboardListener(
+      focusNode: _focus,
+      onKey: (value) {
+        if(value.physicalKey == PhysicalKeyboardKey.enter){
+          double? max = double.tryParse(_maxController.text);
+          double? min = double.tryParse(_minController.text);
+          int? time = int.tryParse(_timeController.text);
+          if(max != null && min != null && max <= min){
+            showError(context, "Min >= max ?");
+            return;
+          }
+          widget.updater(widget.chartSetting.update(yMax: max, yMin: min, showSeconds: time));
+          Navigator.pop(context);
+        }
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          SizedBox(
+            width: 100,
+            child: TextFormField(
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+                enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                hintText: "MAX",
+                hintStyle: const TextStyle(color: Colors.grey)
+              ),
+              controller: _maxController,
             ),
-            controller: _maxController,
           ),
-        ),
-        SizedBox(
-          width: 100,
-          child: TextFormField(
-            decoration: InputDecoration(
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
-              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              hintText: "MIN",
-              hintStyle: const TextStyle(color: Colors.grey)
+          SizedBox(
+            width: 100,
+            child: TextFormField(
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+                enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                hintText: "MIN",
+                hintStyle: const TextStyle(color: Colors.grey)
+              ),
+              controller: _minController,
             ),
-            controller: _minController,
           ),
-        ),
-        SizedBox(
-          width: 100,
-          child: TextFormField(
-            decoration: InputDecoration(
-              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
-              enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-              hintText: "SECONDS",
-              hintStyle: const TextStyle(color: Colors.grey)
+          SizedBox(
+            width: 100,
+            child: TextFormField(
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: primaryColor)),
+                enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                hintText: "SECONDS",
+                hintStyle: const TextStyle(color: Colors.grey)
+              ),
+              controller: _timeController,
             ),
-            controller: _timeController,
           ),
-        ),
-        IconButton(
-          onPressed: (){
-            double? max = double.tryParse(_maxController.text);
-            double? min = double.tryParse(_minController.text);
-            int? time = int.tryParse(_timeController.text);
-            if(max != null && min != null && max <= min){
-              showError(context, "Min >= max ?");
-              return;
-            }
-            widget.updater(widget.chartSetting.update(yMax: max, yMin: min, showSeconds: time));
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.check, color: primaryColor,),
-          splashRadius: iconSplashRadius,
-        )
-      ],
+          IconButton(
+            onPressed: (){
+              double? max = double.tryParse(_maxController.text);
+              double? min = double.tryParse(_minController.text);
+              int? time = int.tryParse(_timeController.text);
+              if(max != null && min != null && max <= min){
+                showError(context, "Min >= max ?");
+                return;
+              }
+              widget.updater(widget.chartSetting.update(yMax: max, yMin: min, showSeconds: time));
+              Navigator.of(context).pop();
+            },
+            icon: Icon(Icons.check, color: primaryColor,),
+            splashRadius: iconSplashRadius,
+          )
+        ],
+      ),
     );
   }
 }

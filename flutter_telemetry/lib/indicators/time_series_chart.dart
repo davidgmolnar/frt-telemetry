@@ -192,8 +192,9 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                               for(int i = 1; i < horizontalGridCount; i++)
                                 Transform.translate(
                                   offset: Offset(0, i * increment - defaultPadding - borderWidth / 2),
-                                  child: const Divider(
+                                  child: Divider(
                                     thickness: borderWidth,
+                                    color: Colors.grey.withOpacity(0.4),
                                   )
                                 ),
                               TimeSeriesPlotArea(
