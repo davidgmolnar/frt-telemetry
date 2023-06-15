@@ -56,7 +56,7 @@ TabLayout lvSystemBigLayout =
         "STA2_ADC",
         "Brake_pressure_front_ADC",
         "Brake_pressure_rear_ADC",
-        "Brake_force_sensor_ADC "
+        "Brake_force_sensor_ADC"
       ], colsize: 9, title: "ADCs"),
       BooleanPanel(subscribedSignals: [
         "Dashboard_heartbeat_error",
@@ -148,7 +148,7 @@ TabLayout lvSystemSmallLayout =
           "STA2_ADC",
           "Brake_pressure_front_ADC",
           "Brake_pressure_rear_ADC",
-          "Brake_force_sensor_ADC "
+          "Brake_force_sensor_ADC"
         ], colsize: 9, title: "ADCs"),
         BooleanPanel(
           subscribedSignals: [
@@ -248,7 +248,7 @@ TabLayout lvSystemMobileLayout =
     "STA2_ADC",
     "Brake_pressure_front_ADC",
     "Brake_pressure_rear_ADC",
-    "Brake_force_sensor_ADC "
+    "Brake_force_sensor_ADC"
   ], colsize: 9, title: "ADCs"),
   const BooleanPanel(
     subscribedSignals: [
