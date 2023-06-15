@@ -109,16 +109,22 @@ TabLayout tcuBigLayout = TabLayout(shortcutLabels: const [
   const Titlebar(
     title: "Charts",
   ),
-  const TimeSeriesChart(
-    subscribedSignals: [
-      "VIRT_AMK1_LIMIT",
-      "VIRT_AMK2_LIMIT",
-      "VIRT_AMK3_LIMIT",
-      "VIRT_AMK4_LIMIT"
+  Row(
+    children: const [
+      Flexible(
+        child: TimeSeriesChart(
+          subscribedSignals: [
+            "VIRT_AMK1_LIMIT",
+            "VIRT_AMK2_LIMIT",
+            "VIRT_AMK3_LIMIT",
+            "VIRT_AMK4_LIMIT"
+          ],
+          title: "Torque Limits",
+          min: -21,
+          max: 21,
+        ),
+      ),
     ],
-    title: "Torque Limits",
-    min: -21,
-    max: 21,
   ),
   Row(children: const [
     Flexible(

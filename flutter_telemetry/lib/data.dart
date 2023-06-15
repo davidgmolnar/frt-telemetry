@@ -24,6 +24,8 @@ Offset trackOffset = const Offset(205.25, 205.25);
 bool needsTruncate = false;
 int turncateTo = 0;
 
+Function lapTriggerCallback = (){};
+
 class VirtualSignal {
   const VirtualSignal(this.signals, this.rule, this.name);
   final String name;
@@ -146,6 +148,11 @@ void processPacket(Map rawJsonMap) {
   if (needsTruncate) {
     truncateData(turncateTo);
   }
+
+  /*if(useAutoTrigger){
+    // if next lap
+    lapTriggerCallback();
+  }*/
 }
 
 void truncateData(int limit) {
