@@ -9,10 +9,8 @@ TabLayout errorsBigLayout =
     crossAxisAlignment: CrossAxisAlignment.start,
     children: const [
       BooleanPanel(subscribedSignals: [
-        "APPS_plausiblity",
         "Validity_Error_APPS1",
         "Validity_Error_APPS2",
-        "STA_plausiblity",
         "Validity_Error_STA1",
         "Validity_Error_STA2",
         "Validity_Error_BFS",
@@ -26,7 +24,7 @@ TabLayout errorsBigLayout =
         "Validity_Error_Yaw_Rate_Rear",
         "Validity_Error_DV_Target_Speed",
         "Validity_Error_DV_Target_Angle",
-      ], colsize: 9, title: "Sensor Validity"),
+      ], colsize: 8, title: "Sensor Validity"),
       BooleanPanel(subscribedSignals: [
         "Timeout_Error_BFS",
         "Timeout_Error_BPS_Front",
@@ -115,10 +113,8 @@ TabLayout errorsSmallLayout =
     crossAxisAlignment: CrossAxisAlignment.start,
     children: const [
       BooleanPanel(subscribedSignals: [
-        "APPS_plausiblity",
         "Validity_Error_APPS1",
         "Validity_Error_APPS2",
-        "STA_plausiblity",
         "Validity_Error_STA1",
         "Validity_Error_STA2",
         "Validity_Error_BFS",
@@ -132,7 +128,7 @@ TabLayout errorsSmallLayout =
         "Validity_Error_Yaw_Rate_Rear",
         "Validity_Error_DV_Target_Speed",
         "Validity_Error_DV_Target_Angle",
-      ], colsize: 9, title: "Sensor Validity"),
+      ], colsize: 8, title: "Sensor Validity"),
       BooleanPanel(subscribedSignals: [
         "Validity_Error_Button1",
         "Validity_Error_Button2",
@@ -223,10 +219,8 @@ TabLayout errorsSmallLayout =
 TabLayout errorsMobileLayout =
     const TabLayout(shortcutLabels: [], layoutBreakpoints: [], layout: [
   BooleanPanel(subscribedSignals: [
-    "APPS_plausiblity",
     "Validity_Error_APPS1",
     "Validity_Error_APPS2",
-    "STA_plausiblity",
     "Validity_Error_STA1",
     "Validity_Error_STA2",
     "Validity_Error_BFS",

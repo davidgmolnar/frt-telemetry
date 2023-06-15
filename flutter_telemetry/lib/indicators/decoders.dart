@@ -48,7 +48,7 @@ String initialCheckupStateDecoder(num value){
 
 String vdcStateDecoder(num value){
   List<String> map = [
-    "INACTIVE", "POWER ON SEQ", "ACTIVE"
+    "INACTIVE", "POWER ON SEQ", "ACTIVE", "TURNING OFF"
   ];
   if(value < map.length && value >= 0){
     return map[value.toInt()];

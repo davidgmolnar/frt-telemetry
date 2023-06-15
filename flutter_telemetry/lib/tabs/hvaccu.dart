@@ -30,7 +30,6 @@ TabLayout hvAccuBigLayout = TabLayout(
                 "IMD_Relay_State",
                 "IMD_Status",
                 "PC_Error",
-                "TSAL_GREEN",
                 "TS_Over_Voltage",
                 "TS_Overcurrent",
                 "HV_DetStatus2"
@@ -38,6 +37,7 @@ TabLayout hvAccuBigLayout = TabLayout(
               colsize: 16,
               title: "HV Status"
             ),
+            const BooleanIndicator(subscribedSignal: "TSAL_GREEN", isInverted: true,),
             TextButton(
               onPressed: () async {
                 handleAccuSnapshotSave();
@@ -56,8 +56,9 @@ TabLayout hvAccuBigLayout = TabLayout(
                 "State_of_Charge",
                 "HV_Cell_Temp_MAX",
                 "HV_Cell_Voltage_MIN",
+                "VIRT_HV_CELL_VOLTAGE_MAX"
               ],
-              colsize: 6,
+              colsize: 7,
               title: "HV Meas"
             ),
             HVColorMap()
@@ -101,7 +102,6 @@ TabLayout hvAccuSmallLayout = TabLayout(
                 "IMD_Relay_State",
                 "IMD_Status",
                 "PC_Error",
-                "TSAL_GREEN",
                 "TS_Over_Voltage",
                 "TS_Overcurrent",
                 "HV_DetStatus2"
@@ -109,6 +109,7 @@ TabLayout hvAccuSmallLayout = TabLayout(
               colsize: 16,
               title: "HV Status"
             ),
+            const BooleanIndicator(subscribedSignal: "TSAL_GREEN", isInverted: true,),
             TextButton(
               onPressed: () async {
                 handleAccuSnapshotSave();
@@ -127,8 +128,9 @@ TabLayout hvAccuSmallLayout = TabLayout(
                 "State_of_Charge",
                 "HV_Cell_Temp_MAX",
                 "HV_Cell_Voltage_MIN",
+                "VIRT_HV_CELL_VOLTAGE_MAX"
               ],
-              colsize: 6,
+              colsize: 7,
               title: "HV Meas"
             ),
             HVColorMap()

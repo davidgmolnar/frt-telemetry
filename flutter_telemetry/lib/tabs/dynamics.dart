@@ -41,11 +41,19 @@ TabLayout dynamicsBigLayout =
     children: const [
       Flexible(
         child: TimeSeriesChart(
-          subscribedSignals: ["AccX_Bosch", "AccY_Bosch"],
-          title: "Accel",
+          subscribedSignals: ["AccX_Bosch", "AccX_Vectornav"],
+          title: "Accel X",
           min: -4,
           max: 4,
         ),
+      ),
+      Flexible(
+        child: TimeSeriesChart(
+          subscribedSignals: ["AccY_Bosch", "AccY_Vectornav"],
+          title: "Accel Y",
+          min: -4,
+          max: 4
+        )
       ),
       NumericPanel(
         subscribedSignals: [
@@ -96,7 +104,7 @@ TabLayout dynamicsBigLayout =
   Row(children: const [
     Flexible(
       child: TimeSeriesChart(
-        subscribedSignals: ["Yaw_Rate_Vectornav"],
+        subscribedSignals: ["YawRate_Bosch", "Yaw_Rate_Vectornav"],
         title: "Yaw Rate [rad/s]",
         min: -10,
         max: 10,
@@ -175,10 +183,16 @@ TabLayout dynamicsSmallLayout =
     max: 100,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["AccX_Bosch", "AccY_Bosch"],
-    title: "Accel",
+    subscribedSignals: ["AccX_Bosch", "AccX_Vectornav"],
+    title: "Accel X",
     min: -4,
     max: 4,
+  ),
+  const TimeSeriesChart(
+    subscribedSignals: ["AccY_Bosch", "AccY_Vectornav"],
+    title: "Accel Y",
+    min: -4,
+    max: 4
   ),
   const TimeSeriesChart(
     subscribedSignals: ["HV_Current"],
@@ -193,7 +207,7 @@ TabLayout dynamicsSmallLayout =
     max: 90000,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["Yaw_Rate_Vectornav"],
+    subscribedSignals: ["YawRate_Bosch", "Yaw_Rate_Vectornav"],
     title: "Yaw Rate [rad/s]",
     min: -10,
     max: 10,
@@ -267,7 +281,7 @@ TabLayout dynamicsMobileLayout =
     max: 90000,
   ),
   TimeSeriesChart(
-    subscribedSignals: ["Yaw_Rate_Vectornav"],
+    subscribedSignals: ["YawRate_Bosch", "Yaw_Rate_Vectornav"],
     title: "Yaw Rate [rad/s]",
     min: -10,
     max: 10,

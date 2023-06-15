@@ -110,8 +110,7 @@ TabLayout mcuBigLayout = TabLayout(shortcutLabels: const [
     ],
     title: "AMK RPM",
     min: 0,
-    max: 25000,
-    //multiplier: [1,1,1,1]
+    max: 21000,
   ),
   const TimeSeriesChart(
     subscribedSignals: [
@@ -123,7 +122,17 @@ TabLayout mcuBigLayout = TabLayout(shortcutLabels: const [
     title: "AMK Inverter temp",
     min: 0,
     max: 80,
-    //multiplier: [1,1,1,1]
+  ),
+  const TimeSeriesChart(
+    subscribedSignals: [
+      "AMK1_temp_motor",
+      "AMK2_temp_motor",
+      "AMK3_temp_motor",
+      "AMK4_temp_motor",
+    ],
+    title: "AMK Motor temp",
+    min: 0,
+    max: 90,
   ),
 ], minWidth: 1220);
 
@@ -235,25 +244,38 @@ TabLayout mcuSmallLayout = TabLayout(shortcutLabels: const [
   ),
   const Titlebar(title: "RPM and Temp"),
   const TimeSeriesChart(
-      subscribedSignals: [
-        "AMK1_actual_velocity",
-        "AMK2_actual_velocity",
-        "AMK3_actual_velocity",
-        "AMK4_actual_velocity",
-      ],
-      title: "AMK RPM",
-      min: 0,
-      max: 25000,),
+    subscribedSignals: [
+      "AMK1_actual_velocity",
+      "AMK2_actual_velocity",
+      "AMK3_actual_velocity",
+      "AMK4_actual_velocity",
+    ],
+    title: "AMK RPM",
+    min: 0,
+    max: 21000,
+  ),
   const TimeSeriesChart(
-      subscribedSignals: [
-        "AMK1_temp_inverter",
-        "AMK2_temp_inverter",
-        "AMK3_temp_inverter",
-        "AMK4_temp_inverter",
-      ],
-      title: "AMK Inverter temp",
-      min: 0,
-      max: 80,),
+    subscribedSignals: [
+      "AMK1_temp_inverter",
+      "AMK2_temp_inverter",
+      "AMK3_temp_inverter",
+      "AMK4_temp_inverter",
+    ],
+    title: "AMK Inverter temp",
+    min: 0,
+    max: 80,
+  ),
+  const TimeSeriesChart(
+    subscribedSignals: [
+      "AMK1_temp_motor",
+      "AMK2_temp_motor",
+      "AMK3_temp_motor",
+      "AMK4_temp_motor",
+    ],
+    title: "AMK Motor temp",
+    min: 0,
+    max: 90,
+  ),
 ], minWidth: 750);
 
 TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
@@ -337,23 +359,36 @@ TabLayout mcuMobileLayout = TabLayout(shortcutLabels: const [
   ),
   const Titlebar(title: "RPM and Temp"),
   const TimeSeriesChart(
-      subscribedSignals: [
-        "AMK1_actual_velocity",
-        "AMK2_actual_velocity",
-        "AMK3_actual_velocity",
-        "AMK4_actual_velocity",
-      ],
-      title: "AMK RPM",
-      min: 0,
-      max: 25000,),
+    subscribedSignals: [
+      "AMK1_actual_velocity",
+      "AMK2_actual_velocity",
+      "AMK3_actual_velocity",
+      "AMK4_actual_velocity",
+    ],
+    title: "AMK RPM",
+    min: 0,
+    max: 21000,
+  ),
   const TimeSeriesChart(
-      subscribedSignals: [
-        "AMK1_temp_inverter",
-        "AMK2_temp_inverter",
-        "AMK3_temp_inverter",
-        "AMK4_temp_inverter",
-      ],
-      title: "AMK Inverter temp",
-      min: 0,
-      max: 80,),
+    subscribedSignals: [
+      "AMK1_temp_inverter",
+      "AMK2_temp_inverter",
+      "AMK3_temp_inverter",
+      "AMK4_temp_inverter",
+    ],
+    title: "AMK Inverter temp",
+    min: 0,
+    max: 80,
+  ),
+  const TimeSeriesChart(
+    subscribedSignals: [
+      "AMK1_temp_motor",
+      "AMK2_temp_motor",
+      "AMK3_temp_motor",
+      "AMK4_temp_motor",
+    ],
+    title: "AMK Motor temp",
+    min: 0,
+    max: 90,
+  ),
 ], minWidth: 300);

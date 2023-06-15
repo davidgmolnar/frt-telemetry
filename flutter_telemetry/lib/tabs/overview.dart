@@ -27,7 +27,7 @@ TabLayout overviewBigLayout = TabLayout(
           ],
           reverseIndexes: [true, true, true, true, true, true, true, true, true],
           colsize: 9,
-          title: "Sensor leds"
+          title: "Sensor Status"
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,18 +119,20 @@ TabLayout overviewBigLayout = TabLayout(
           children: const [
             NumericPanel(
               subscribedSignals: [
-                "v_x",
-                "v_y",
                 "AccX_Bosch",
                 "AccY_Bosch",
-                "Yaw_rate",
-                "PN_IMU_Yaw",
-                "Yaw_Rate_Vectornav",
-                "Brake_pressure_rear",
-                "Brake_pressure_front"
+                "YawRate_Bosch",
+                "RollRate_Bosch",
               ],
-              colsize: 9, title: "Dynamics"
+              colsize: 4, title: "Bosch"
             ),
+            NumericPanel(
+              subscribedSignals: [
+                "AccX_Vectornav",
+                "AccY_Vectornav",
+                "Yaw_Rate_Vectornav",
+                "v_x",
+              ], colsize: 5, title: "Vectornav")
           ],
         ),
         Column(
@@ -151,14 +153,9 @@ TabLayout overviewBigLayout = TabLayout(
               ],
               colsize: 10, title: "Control"
             ),
-          ],
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
             BooleanIndicator(subscribedSignal: "VDC_DV_mode")
           ],
-        )
+        ),
       ],
     ),
     const Titlebar(title: "Power and MCUs"),
@@ -201,9 +198,10 @@ TabLayout overviewBigLayout = TabLayout(
                 "HV_Cell_Temp_MAX",
                 "HV_Current",
                 "State_of_Charge",
-                "VIRT_HV_POWER_OUT"
+                "VIRT_HV_POWER_OUT",
+                "VIRT_HV_CELL_VOLTAGE_MAX"
               ],
-              colsize: 5,
+              colsize: 6,
               title: "HV Status"
             ),
             BooleanIndicator(subscribedSignal: "HV_DetStatus"),
@@ -345,7 +343,7 @@ TabLayout overviewSmallLayout = TabLayout(
           ],
           reverseIndexes: [true, true, true, true, true, true, true, true, true],
           colsize: 9,
-          title: "Sensor leds"
+          title: "Sensor Status"
         ),
         Column(
           children: const [
@@ -440,18 +438,20 @@ TabLayout overviewSmallLayout = TabLayout(
           children: const [
             NumericPanel(
               subscribedSignals: [
-                "v_x",
-                "v_y",
                 "AccX_Bosch",
                 "AccY_Bosch",
-                "Yaw_rate",
-                "PN_IMU_Yaw",
-                "Yaw_Rate_Vectornav",
-                "Brake_pressure_rear",
-                "Brake_pressure_front"
+                "YawRate_Bosch",
+                "RollRate_Bosch",
               ],
-              colsize: 9, title: "Dynamics"
+              colsize: 4, title: "Bosch"
             ),
+            NumericPanel(
+              subscribedSignals: [
+                "AccX_Vectornav",
+                "AccY_Vectornav",
+                "Yaw_Rate_Vectornav",
+                "v_x",
+              ], colsize: 5, title: "Vectornav")
           ],
         ),
       ],
@@ -527,9 +527,10 @@ TabLayout overviewSmallLayout = TabLayout(
                 "HV_Cell_Temp_MAX",
                 "HV_Current",
                 "State_of_Charge",
-                "VIRT_HV_POWER_OUT"
+                "VIRT_HV_POWER_OUT",
+                "VIRT_HV_CELL_VOLTAGE_MAX"
               ],
-              colsize: 5,
+              colsize: 6,
               title: "HV Status"
             ),
             BooleanIndicator(subscribedSignal: "HV_DetStatus"),

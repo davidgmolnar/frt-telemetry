@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/components/config_alerts.dart';
 import 'package:flutter_telemetry/components/config_terminal.dart';
@@ -166,10 +168,9 @@ List<VirtualSignal> virtualSignals = [
   }), "VIRT_BRIGHTLOOP_LV_MAH"),
   VirtualSignal(["HV_Cell_ID", "HV_Cell_Voltage", "HV_Cell_Temperature"],
       ((listOfSignals) {
-    hvCellTemps[signalValues[listOfSignals[0]]!.last.toInt().toString()] =
-        signalValues[listOfSignals[2]]!.last;
-    hvCellVoltages[signalValues[listOfSignals[0]]!.last.toInt().toString()] =
-        signalValues[listOfSignals[1]]!.last;
+    hvCellTemps[signalValues[listOfSignals[0]]!.last.toInt().toString()] = signalValues[listOfSignals[2]]!.last;
+    hvCellVoltages[signalValues[listOfSignals[0]]!.last.toInt().toString()] = signalValues[listOfSignals[1]]!.last;
+    signalValues["VIRT_HV_CELL_VOLTAGE_MAX"] = [hvCellVoltages.values.fold(0, (previousValue, element) => max(previousValue, element))];
   }), "INDEPENDENT_SIGNAL"),
   VirtualSignal(["HV_Current"], ((listOfSignals) {
     if (lapTimerStarted) {

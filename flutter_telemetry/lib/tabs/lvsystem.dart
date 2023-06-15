@@ -56,7 +56,8 @@ TabLayout lvSystemBigLayout =
         "STA2_ADC",
         "Brake_pressure_front_ADC",
         "Brake_pressure_rear_ADC",
-      ], colsize: 8, title: "ADCs"),
+        "Brake_force_sensor_ADC "
+      ], colsize: 9, title: "ADCs"),
       BooleanPanel(subscribedSignals: [
         "Dashboard_heartbeat_error",
         "HVECU_Heartbeat_error",
@@ -76,23 +77,22 @@ TabLayout lvSystemBigLayout =
         "Button_START",
         "Dash_HV",
       ], colsize: 6, title: "Dashboard"),
-      BooleanPanel(subscribedSignals: [
-        "APPS1_validity",
-        "APPS2_validity",
-        "STA1_validity",
-        "STA2_validity",
-        "Brake_force_validity",
-        "Brake_pressure_front_validity",
-        "Brake_pressure_rear_validity",
-      ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true]),
-      BooleanPanel(subscribedSignals: [
-        "MCU_ENABLE",
-        "Brake_Light" 
-      ], colsize: 5, title: "Misc leds"),
-      NumericPanel(
-          subscribedSignals: ["SC_ENDLINE_SSG", "BFS_Offset"],
-          colsize: 2,
-          title: "Misc numeric"),
+      BooleanPanel(
+          subscribedSignals: [
+            "APPS1_validity",
+            "APPS2_validity",
+            "APPS_plausiblity",
+            "STA1_validity",
+            "STA2_validity",
+            "STA_plausiblity",
+            "Brake_force_validity",
+            "Brake_pressure_front_validity",
+            "Brake_pressure_rear_validity",
+          ],
+          reverseIndexes: [true, true, true, true, true, true, true, true, true],
+          colsize: 9,
+          title: "Sensor Status"
+      ),
     ],
   ),
 ], minWidth: 1050);
@@ -148,22 +148,30 @@ TabLayout lvSystemSmallLayout =
           "STA2_ADC",
           "Brake_pressure_front_ADC",
           "Brake_pressure_rear_ADC",
-        ], colsize: 8, title: "ADCs"),
-        BooleanPanel(subscribedSignals: [
-          "APPS1_validity",
-          "APPS2_validity",
-          "STA1_validity",
-          "STA2_validity",
-          "Brake_force_validity",
-          "Brake_pressure_front_validity",
-          "Brake_pressure_rear_validity",
-        ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true]),
+          "Brake_force_sensor_ADC "
+        ], colsize: 9, title: "ADCs"),
+        BooleanPanel(
+          subscribedSignals: [
+            "APPS1_validity",
+            "APPS2_validity",
+            "APPS_plausiblity",
+            "STA1_validity",
+            "STA2_validity",
+            "STA_plausiblity",
+            "Brake_force_validity",
+            "Brake_pressure_front_validity",
+            "Brake_pressure_rear_validity",
+          ],
+          reverseIndexes: [true, true, true, true, true, true, true, true, true],
+          colsize: 9,
+          title: "Sensor Status"
+        ),
       ]),
   Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const BooleanPanel(subscribedSignals: [
+    children: const [
+      BooleanPanel(subscribedSignals: [
         "Dashboard_heartbeat_error",
         "HVECU_Heartbeat_error",
         "MCU_Heartbeat_error",
@@ -171,21 +179,11 @@ TabLayout lvSystemSmallLayout =
         "Steering_Heartbeat_error",
         "TCU_Heartbeat_error"
       ], colsize: 6, title: "Heartbeats"),
-      const BooleanPanel(subscribedSignals: [
+      BooleanPanel(subscribedSignals: [
         "Button_ON_OFF",
         "Button_START",
         "Dash_HV",
       ], colsize: 6, title: "Dashboard"),
-      Column(
-        children: const [
-          BooleanPanel(subscribedSignals: [
-            "MCU_ENABLE",
-            "Brake_Light" 
-          ], colsize: 5, title: "Misc"),
-          NumericIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
-          NumericIndicator(subscribedSignal: "BFS_Offset"),
-        ],
-      ),
     ],
   ),
 ], minWidth: 750);
@@ -250,16 +248,24 @@ TabLayout lvSystemMobileLayout =
     "STA2_ADC",
     "Brake_pressure_front_ADC",
     "Brake_pressure_rear_ADC",
-  ], colsize: 8, title: "ADCs"),
-  const BooleanPanel(subscribedSignals: [
-    "APPS1_validity",
-    "APPS2_validity",
-    "STA1_validity",
-    "STA2_validity",
-    "Brake_force_validity",
-    "Brake_pressure_front_validity",
-    "Brake_pressure_rear_validity",
-  ], colsize: 7, title: "Sensors", reverseIndexes: [true, true, true, true, true, true, true],),
+    "Brake_force_sensor_ADC "
+  ], colsize: 9, title: "ADCs"),
+  const BooleanPanel(
+    subscribedSignals: [
+      "APPS1_validity",
+      "APPS2_validity",
+      "APPS_plausiblity",
+      "STA1_validity",
+      "STA2_validity",
+      "STA_plausiblity",
+      "Brake_force_validity",
+      "Brake_pressure_front_validity",
+      "Brake_pressure_rear_validity",
+    ],
+    reverseIndexes: [true, true, true, true, true, true, true, true, true],
+    colsize: 9,
+    title: "Sensor Status"
+  ),
   const BooleanPanel(subscribedSignals: [
     "Dashboard_heartbeat_error",
     "HVECU_Heartbeat_error",
@@ -273,10 +279,4 @@ TabLayout lvSystemMobileLayout =
     "Button_START",
     "Dash_HV",
   ], colsize: 6, title: "Dashboard"),
-  const BooleanPanel(subscribedSignals: [
-    "MCU_ENABLE",
-    "Brake_Light"
-  ], colsize: 5, title: "Misc"),
-  const NumericIndicator(subscribedSignal: "SC_ENDLINE_SSG"),
-  const NumericIndicator(subscribedSignal: "BFS_Offset")
 ], minWidth: 300);

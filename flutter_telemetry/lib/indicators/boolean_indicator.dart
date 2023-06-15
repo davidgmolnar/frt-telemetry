@@ -25,7 +25,7 @@ class BooleanIndicator extends StatefulWidget{
 
 class BooleanIndicatorState extends State<BooleanIndicator>{
 	late Timer timer;
-  num value = 1;
+  num value = 0;
   Color localTextColor = const Color.fromARGB(255, 255, 17, 0);  // default
   late String label;
 

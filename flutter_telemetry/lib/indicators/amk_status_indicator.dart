@@ -28,7 +28,7 @@ class AMKStatusIndicatorState extends State<AMKStatusIndicator>{
     }
 
   void updateData(){
-    num? temp = signalValues[widget.subscribedSignal]?.last;
+    num? temp = signalValues[widget.subscribedSignal] != null && signalValues[widget.subscribedSignal]!.isNotEmpty ? signalValues[widget.subscribedSignal]?.last : null;
     if(temp != null && temp != value && temp >= 0 && temp <= 256){
       value = temp.toInt();
       String bitString = value.toRadixString(2);
