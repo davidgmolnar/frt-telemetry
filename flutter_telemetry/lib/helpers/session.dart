@@ -16,7 +16,7 @@ import 'package:flutter_telemetry/helpers/helpers.dart';
 */
 
 Future<void> getCurrentDirectory() async {
-    dir = Platform.resolvedExecutable;
+  dir = Platform.resolvedExecutable;
   if(Platform.isWindows){  // Linux nem buzi
     dir = dir.replaceAll(r'\', '/');
   }

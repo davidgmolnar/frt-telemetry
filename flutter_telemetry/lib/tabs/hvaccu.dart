@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/dialogs/accu_snapshot_dialog.dart';
 import 'package:flutter_telemetry/globals.dart';
@@ -43,7 +45,13 @@ TabLayout hvAccuBigLayout = TabLayout(
                 handleAccuSnapshotSave();
               },
               child: Text("Accu Snapshot", style: TextStyle(color: primaryColor),)
-            )
+            ),
+            TextButton(
+              onPressed: () {
+                Process.run("$dir/frt_funzone/funzone.exe", [],);
+              },
+              child: Text("Funzone", style: TextStyle(color: primaryColor),),
+            ),
           ],
         ),
         Column(
@@ -115,7 +123,13 @@ TabLayout hvAccuSmallLayout = TabLayout(
                 handleAccuSnapshotSave();
               },
               child: Text("Accu Snapshot", style: TextStyle(color: primaryColor),)
-            )
+            ),
+            TextButton(
+              onPressed: () {
+                Process.run("$dir/frt_funzone/funzone.exe", [],);
+              },
+              child: Text("Funzone", style: TextStyle(color: primaryColor),),
+            ),
           ],
         ),
         Column(
