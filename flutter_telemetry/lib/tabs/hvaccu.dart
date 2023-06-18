@@ -46,12 +46,15 @@ TabLayout hvAccuBigLayout = TabLayout(
               },
               child: Text("Accu Snapshot", style: TextStyle(color: primaryColor),)
             ),
-            TextButton(
-              onPressed: () {
-                Process.run("$dir/frt_funzone/funzone.exe", [],);
-              },
-              child: Text("Funzone", style: TextStyle(color: primaryColor),),
-            ),
+            Platform.isWindows ?
+              TextButton(
+                onPressed: () {
+                  Process.run("$dir/frt_funzone/funzone.exe", [],);
+                },
+                child: Text("Funzone", style: TextStyle(color: primaryColor),),
+              )
+              :
+              const SizedBox()
           ],
         ),
         Column(
@@ -124,12 +127,15 @@ TabLayout hvAccuSmallLayout = TabLayout(
               },
               child: Text("Accu Snapshot", style: TextStyle(color: primaryColor),)
             ),
-            TextButton(
-              onPressed: () {
-                Process.run("$dir/frt_funzone/funzone.exe", [],);
-              },
-              child: Text("Funzone", style: TextStyle(color: primaryColor),),
-            ),
+            Platform.isWindows ?
+              TextButton(
+                onPressed: () {
+                  Process.run("$dir/frt_funzone/funzone.exe", [],);
+                },
+                child: Text("Funzone", style: TextStyle(color: primaryColor),),
+              )
+              :
+              const SizedBox()
           ],
         ),
         Column(
