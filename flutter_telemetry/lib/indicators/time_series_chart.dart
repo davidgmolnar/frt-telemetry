@@ -11,18 +11,35 @@ import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 
 class ChartSetting{
-  ChartSetting({required this.yMax, required this.yMin, required this.showSeconds, required this.gridOn});
+  ChartSetting({
+    required this.yMax,
+    required this.yMin,
+    required this.showSeconds,
+    required this.gridOn,
+    required this.realTime,
+    required this.enteredRealtime,
+    required this.isAtEnd,
+    required this.startShowTimestamp
+  });
 
   double yMax;
   double yMin;
   int showSeconds;
   bool gridOn;
+  bool realTime;
+  bool enteredRealtime;
+  bool isAtEnd;
+  int startShowTimestamp;
 
-  ChartSetting update({double? yMax, double? yMin, int? showSeconds, bool? gridOn}){
+  ChartSetting update({double? yMax, double? yMin, int? showSeconds, bool? gridOn, bool? realTime, int? startShowTimestamp, bool? enteredRealtime, bool? isAtEnd}){
     this.yMax = yMax ?? this.yMax;
     this.yMin = yMin ?? this.yMin;
     this.showSeconds = showSeconds ?? this.showSeconds;
     this.gridOn = gridOn ?? this.gridOn;
+    this.realTime = realTime ?? this.realTime;
+    this.enteredRealtime = enteredRealtime ?? this.enteredRealtime;
+    this.isAtEnd = isAtEnd ?? this.isAtEnd;
+    this.startShowTimestamp = startShowTimestamp ?? this.startShowTimestamp;
     return this;
   }  
 }
@@ -80,20 +97,22 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
     4: Colors.purple,
     5: Colors.brown
   };
-  ChartSetting chartSetting = ChartSetting(yMax: 100, yMin: 0, showSeconds: settings['chartShowSeconds']!.value, gridOn: true);
+  ChartSetting chartSetting = ChartSetting(yMax: 100, yMin: 0, showSeconds: settings['chartShowSeconds']!.value, gridOn: true, realTime: true, startShowTimestamp: 0, enteredRealtime: false, isAtEnd: false);
 
   late Function toggleVisibility;
   late Function resetState;
+  late String folded;
 
   @override
   void initState() {
-    String folded = widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element");
+    folded = widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element");
     if(chartSettings.keys.contains(folded)){
       chartSetting = chartSettings[folded]!;
     }
     else{
       chartSetting.yMax = widget.max;
       chartSetting.yMin = widget.min;
+      chartSettings[folded] = chartSetting;
     }
 
     for(int i = 0; i < widget.subscribedSignals.length; i++){
@@ -108,7 +127,8 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
   }
 
   void update(ChartSetting newSetting){
-    chartSettings[widget.subscribedSignals.fold("", (previousValue, element) => "$previousValue$element")] = newSetting;
+    chartSettings[folded] = newSetting;
+    chartSetting = newSetting;
     resetState();
     setState(() {});
   }
@@ -161,7 +181,9 @@ class TimeSeriesChartState extends State<TimeSeriesChart>{
                             splashRadius: iconSplashRadius,
                             icon: Icon(Icons.settings, color: primaryColor,),
                           ),
-                          const Spacer(),
+                          Flexible(
+                            child: ChartSlider(chartIdentifier: folded, updater: update,)
+                          ),
                           for(int i = 0; i < labels.length; i++)
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
@@ -303,6 +325,9 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       visibility.add(true);
     }
     xStart = DateTime.now().subtract(Duration(seconds: widget.chartSetting.showSeconds)).difference(appstartdate).inMilliseconds.toDouble();
+    if(!widget.chartSetting.realTime){
+      xStart = widget.chartSetting.startShowTimestamp.toDouble();
+    }
     xScale = widget.canvasWidth / (widget.chartSetting.showSeconds * 1000);
     yScale = widget.canvasHeight / (widget.max - widget.min);
     yStart = widget.min;
@@ -315,9 +340,22 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
     DateTime updateTimeLimit = DateTime.now().subtract(Duration(seconds: widget.chartSetting.showSeconds));
     
     xStart = updateTimeLimit.difference(appstartdate).inMilliseconds.toDouble();
+    if(!widget.chartSetting.realTime){
+      xStart = widget.chartSetting.startShowTimestamp.toDouble();
+    }
     xScale = widget.canvasWidth / (widget.chartSetting.showSeconds * 1000);
     yStart = widget.min;
     yScale = widget.canvasHeight / (widget.max - widget.min);
+
+    if(widget.chartSetting.enteredRealtime){
+      chartData = [];
+      chartDataPoints = [];
+      for(int i = 0; i < widget.subscribedSignals.length; i++){
+        chartData.add([]);
+        chartDataPoints.add([]);
+      }
+      widget.chartSetting.enteredRealtime = false;
+    }
 
     for(int i = 0; i < widget.subscribedSignals.length; i++){
       List? tempVal = [];
@@ -325,40 +363,98 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
       int toSkip = 0;
       bool needsUpdate = false;
 
-      if(chartData[i].isEmpty){
-        tempTime = signalTimestamps[widget.subscribedSignals[i]];
-        if(tempTime != null){
-          tempVal = signalValues[widget.subscribedSignals[i]];
-          needsUpdate = true;
+      if(widget.chartSetting.realTime){
+        if(chartData[i].isEmpty){
+          tempTime = signalTimestamps[widget.subscribedSignals[i]];
+          if(tempTime != null){
+            tempVal = signalValues[widget.subscribedSignals[i]];
+            needsUpdate = true;
+          }
         }
+        else{
+          tempTime = signalTimestamps[widget.subscribedSignals[i]]?.reversed.takeWhile((value) => !value.isBefore(chartData[i].last.timestamp)).toList().reversed.toList();
+          
+          if(tempTime != null){
+            toSkip = tempTime.length;
+            tempVal = signalValues[widget.subscribedSignals[i]]?.reversed.take(toSkip).toList().reversed.toList();
+            needsUpdate = true;
+          }
+        }
+        if(needsUpdate){
+          if((tempVal == null || tempVal.isEmpty) && (tempTime!.isEmpty)){
+            //pass
+          }
+          else if(chartData[i].isEmpty || tempTime!.isNotEmpty && tempTime.last.isAfter(chartData[i].last.timestamp)){
+            for(int j = 0; j < tempTime!.length; j++){
+              chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
+              chartDataPoints[i].add(Offset(
+                tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
+                tempVal[j].toDouble()
+              ));
+            }
+          }
+        }
+        // Split at last x sec
+        chartData[i] = chartData[i].skipWhile((value) => value.timestamp.isBefore(updateTimeLimit)).toList();
+        toSkip = chartDataPoints[i].length - chartData[i].length;
+        chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
       }
       else{
-        tempTime = signalTimestamps[widget.subscribedSignals[i]]?.reversed.takeWhile((value) => !value.isBefore(chartData[i].last.timestamp)).toList().reversed.toList();
-        
-        if(tempTime != null){
-          toSkip = tempTime.length;
-          tempVal = signalValues[widget.subscribedSignals[i]]?.reversed.take(toSkip).toList().reversed.toList();
-          needsUpdate = true;
+        if(chartDataPoints[i].isEmpty){
+          tempTime = signalTimestamps[widget.subscribedSignals[i]]!.skipWhile((value) => value.difference(appstartdate).inMilliseconds < xStart).toList();
+          final int startIndex = signalTimestamps[widget.subscribedSignals[i]]!.length - tempTime.length;
+          tempTime = tempTime.takeWhile((value) => value.difference(appstartdate).inMilliseconds < xStart + widget.chartSetting.showSeconds * 1000).toList();
+          if(tempTime.isNotEmpty){
+            tempVal = signalValues[widget.subscribedSignals[i]]!.sublist(startIndex, startIndex + tempTime.length);
+          }
         }
-      }
-      if(needsUpdate){
-        if((tempVal == null || tempVal.isEmpty) && (tempTime!.isEmpty)){
+        else{
+          if (chartDataPoints[i].first.dx >= xStart && chartDataPoints[i].first.dx <= xStart * 1.1 &&
+            chartDataPoints[i].last.dx <= xStart + widget.chartSetting.showSeconds * 1000 &&
+            chartDataPoints[i].last.dx >= (xStart + widget.chartSetting.showSeconds * 1000) * 0.9){
+            return;
+          }
+          else{
+            if(widget.chartSetting.isAtEnd){
+              tempTime = signalTimestamps[widget.subscribedSignals[i]]!.skipWhile((value) => value.difference(appstartdate).inMilliseconds < chartDataPoints[i].last.dx).toList();
+              final int startIndex = signalTimestamps[widget.subscribedSignals[i]]!.length - tempTime.length;
+              tempTime = tempTime.takeWhile((value) => value.difference(appstartdate).inMilliseconds < xStart + widget.chartSetting.showSeconds * 1000).toList();
+              if(tempTime.isNotEmpty){
+                tempVal = signalValues[widget.subscribedSignals[i]]!.sublist(startIndex, startIndex + tempTime.length);
+              }
+            }
+            else{
+              tempTime = signalTimestamps[widget.subscribedSignals[i]]!.skipWhile((value) => value.difference(appstartdate).inMilliseconds < xStart).toList();
+              final int startIndex = signalTimestamps[widget.subscribedSignals[i]]!.length - tempTime.length;
+              tempTime = tempTime.takeWhile((value) => value.difference(appstartdate).inMilliseconds < xStart + widget.chartSetting.showSeconds * 1000).toList();
+              if(tempTime.isNotEmpty){
+                tempVal = signalValues[widget.subscribedSignals[i]]!.sublist(startIndex, startIndex + tempTime.length);
+              }
+            }
+          }
+        }
+        if((tempVal.isEmpty) && (tempTime.isEmpty)){
           //pass
         }
-        else if(chartData[i].isEmpty || tempTime!.isNotEmpty && tempTime.last.isAfter(chartData[i].last.timestamp)){
-          for(int j = 0; j < tempTime!.length; j++){
-            chartData[i].add(TimeSeriesPoint(tempVal![j], tempTime[j]));
+        else if(!widget.chartSetting.isAtEnd){
+          chartDataPoints[i] = [];
+          for(int j = 0; j < tempTime.length; j++){
             chartDataPoints[i].add(Offset(
               tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
               tempVal[j].toDouble()
             ));
           }
         }
+        else if(widget.chartSetting.isAtEnd){
+          for(int j = 0; j < tempTime.length; j++){
+            chartDataPoints[i].add(Offset(
+              tempTime[j].difference(appstartdate).inMilliseconds.toDouble(),
+              tempVal[j].toDouble()
+            ));
+          }
+          chartDataPoints[i] = chartDataPoints[i].skipWhile((value) => value.dx <= xStart).toList();
+        }
       }
-      // Split at last x sec
-      chartData[i] = chartData[i].skipWhile((value) => value.timestamp.isBefore(updateTimeLimit)).toList();
-      toSkip = chartDataPoints[i].length - chartData[i].length;
-      chartDataPoints[i] = chartDataPoints[i].skip(toSkip).toList();
     }
   
   setState(() {});
@@ -419,6 +515,80 @@ class ChartLinePainter extends CustomPainter{
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
+  }
+}
+
+class ChartSlider extends StatefulWidget{
+  const ChartSlider({super.key, required this.chartIdentifier, required this.updater});
+
+  final String chartIdentifier;
+  final Function updater;
+
+  @override
+  State<ChartSlider> createState() => _ChartSliderState();
+}
+
+class _ChartSliderState extends State<ChartSlider> {
+  late Timer timer;
+  int appTimeMS = 0;
+  double min = 0;
+  double max = 1;
+
+  @override
+  void initState() {    
+    appTimeMS = DateTime.now().difference(appstartdate).inMilliseconds;
+    min = appTimeMS - settings['signalValuesToKeep']!.value * 1000 * 60;
+    max = appTimeMS - chartSettings[widget.chartIdentifier]!.showSeconds * 1000;
+    chartSettings[widget.chartIdentifier]!.startShowTimestamp = 0;
+    chartSettings[widget.chartIdentifier]!.realTime = true;
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']!.value), (timer) {update();});
+    super.initState();
+  }
+
+  void update(){
+    appTimeMS = DateTime.now().difference(appstartdate).inMilliseconds;
+    min = appTimeMS - settings['signalValuesToKeep']!.value * 1000 * 60;
+    max = appTimeMS - chartSettings[widget.chartIdentifier]!.showSeconds * 1000;
+    if(chartSettings[widget.chartIdentifier]!.startShowTimestamp <= min){
+      chartSettings[widget.chartIdentifier]!.startShowTimestamp = min.toInt();
+      chartSettings[widget.chartIdentifier]!.isAtEnd = true;
+    }
+    else if(chartSettings[widget.chartIdentifier]!.startShowTimestamp >= max){
+      chartSettings[widget.chartIdentifier]!.startShowTimestamp -= max.toInt();
+      chartSettings[widget.chartIdentifier]!.isAtEnd = false;
+    }
+    else{
+      chartSettings[widget.chartIdentifier]!.isAtEnd = false;
+    }
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      min: min,
+      max: max,
+      activeColor: primaryColor,
+      value: chartSettings[widget.chartIdentifier]!.realTime ? max : chartSettings[widget.chartIdentifier]!.startShowTimestamp.toDouble(),
+      onChanged: (newValue){
+        if(newValue == max){
+          chartSettings[widget.chartIdentifier]!.realTime = true;
+          chartSettings[widget.chartIdentifier]!.enteredRealtime = true;
+        }
+        else{
+          chartSettings[widget.chartIdentifier]!.startShowTimestamp = newValue.toInt();
+          chartSettings[widget.chartIdentifier]!.realTime = false;
+
+        }
+        setState(() {});
+      }
+    );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }
 
