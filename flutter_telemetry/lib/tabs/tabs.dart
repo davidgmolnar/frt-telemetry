@@ -100,6 +100,7 @@ class TabLayoutBuilder extends StatelessWidget {
                               style: TextStyle(color: primaryColor))))
                       .toList()),
               body: ListView(
+                key: UniqueKey(),
                 controller: _controller,
                 cacheExtent: settings["scrollCache"]!.value.toDouble(),
                 children: activeLayout.layout,

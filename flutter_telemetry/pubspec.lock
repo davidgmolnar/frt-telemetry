@@ -63,7 +63,7 @@ packages:
       name: dart_dbc_parser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.4"
   dylib:
     dependency: transitive
     description:

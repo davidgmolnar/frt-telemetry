@@ -68,6 +68,24 @@ TabLayout dynamicsBigLayout =
   Row(children: const [
     Flexible(
       child: TimeSeriesChart(
+        subscribedSignals: ["v_x", "v_x_FM"],
+        title: "V X [m/s]",
+        min: 0,
+        max: 50,
+      ),
+    ),
+    Flexible(
+      child: TimeSeriesChart(
+        subscribedSignals: ["v_y", "v_y_FM"],
+        title: "V Y [m/s]",
+        min: 0,
+        max: 50,
+      ),
+    )
+  ]),
+  Row(children: const [
+    Flexible(
+      child: TimeSeriesChart(
         subscribedSignals: ["Brake_Force_sensor"],
         title: "BFS [N]",
         min: 0,
@@ -175,6 +193,18 @@ TabLayout dynamicsSmallLayout =
         title: "Dynamics"
       )
     ],
+  ),
+  const TimeSeriesChart(
+    subscribedSignals: ["v_x", "v_x_FM"],
+    title: "V X  [m/s]",
+    min: 0,
+    max: 50,
+  ),
+  const TimeSeriesChart(
+    subscribedSignals: ["v_y", "v_y_FM"],
+    title: "V Y [m/s]",
+    min: 0,
+    max: 50,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["Brake_pressure_front", "Brake_pressure_rear"],
