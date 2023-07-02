@@ -73,7 +73,7 @@ class TelemetryTester:
             self.sendall(fours)
             time.sleep(wait_time)
             self.sendall(eights)
-            time.sleep(wait_time)
+            time.sleep(wait_time)   
             self.sendall(cs)
             time.sleep(wait_time)
             self.sendall(fs)

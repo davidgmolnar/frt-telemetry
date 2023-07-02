@@ -411,7 +411,7 @@ class TimeSeriesPlotAreaState extends State<TimeSeriesPlotArea>{
         else{
           if (chartDataPoints[i].first.dx >= xStart && chartDataPoints[i].first.dx <= xStart * 1.1 &&
             chartDataPoints[i].last.dx <= xStart + widget.chartSetting.showSeconds * 1000 &&
-            chartDataPoints[i].last.dx >= (xStart + widget.chartSetting.showSeconds * 1000) * 0.9){
+            chartDataPoints[i].last.dx >= (xStart + widget.chartSetting.showSeconds * 1000) * 0.9 && !widget.chartSetting.isAtEnd){
             return;
           }
           else{
