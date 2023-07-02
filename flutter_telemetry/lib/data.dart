@@ -21,8 +21,8 @@ Map<String, Cone> conesOnTrack = {};
 Size trackSize = const Size(409.5 , 409.5);
 Offset trackOffset = const Offset(205.25, 205.25);
 
-bool needsTruncate = false;
-int turncateTo = 0;
+// ignore: constant_identifier_names
+const int _STORAGE_BUFFER_MINUTES = 3;
 
 Function lapTriggerCallback = (){};
 
@@ -97,26 +97,23 @@ void sockListener() {
 
 void processPacket(Map rawJsonMap) {
   rawJsonMap["last_singal_update_cnt"] = rawJsonMap.keys.length;
-  int maxSignalNum = settings['signalValuesToKeep']!.value + 1000;
+  DateTime storageDateTimeLimit = DateTime.now().subtract(Duration(minutes: settings['signalValuesToKeep']!.value + _STORAGE_BUFFER_MINUTES));
+  DateTime storageDateTimeLimitExact = DateTime.now().subtract(Duration(minutes: settings['signalValuesToKeep']!.value));
   for (String key in rawJsonMap.keys) {
     if (!signalValues.containsKey(key)) {
       signalValues[key] = [];
       signalTimestamps[key] = [];
     }
-    signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
-    signalTimestamps[key]!
-        .insert(signalTimestamps[key]!.length, DateTime.now());
-    if (signalValues[key]!.length > maxSignalNum) {
-      //signalValues[key]!.removeAt(0);
-      //signalTimestamps[key]!.removeAt(0);
-      signalValues[key]!.removeRange(0, 1000);
-      signalTimestamps[key]!.removeRange(0, 1000);
+    signalValues[key]!.add(rawJsonMap[key]);
+    signalTimestamps[key]!.add(DateTime.now());
+    if (signalTimestamps[key]!.first.isBefore(storageDateTimeLimit)) {
+      signalTimestamps[key] = signalTimestamps[key]!.skipWhile((value) => value.isBefore(storageDateTimeLimitExact)).toList();
+      signalValues[key]!.removeRange(0, signalValues[key]!.length - signalTimestamps[key]!.length);
     }
   }
   // process virtual signals
   for (VirtualSignal virtualSignal in virtualSignals) {
-    if (virtualSignal.signals
-        .every((element) => rawJsonMap.containsKey(element))) {
+    if (virtualSignal.signals.every((element) => rawJsonMap.containsKey(element))) {
       if (virtualSignal.name == "INDEPENDENT_SIGNAL") {
         virtualSignal.rule(virtualSignal.signals);
         continue;
@@ -125,16 +122,11 @@ void processPacket(Map rawJsonMap) {
         signalValues[virtualSignal.name] = [];
         signalTimestamps[virtualSignal.name] = [];
       }
-      signalValues[virtualSignal.name]!.insert(
-          signalValues[virtualSignal.name]!.length,
-          virtualSignal.rule(virtualSignal.signals));
-      signalTimestamps[virtualSignal.name]!
-          .insert(signalTimestamps[virtualSignal.name]!.length, DateTime.now());
-      if (signalValues[virtualSignal.name]!.length > maxSignalNum) {
-        //signalValues[virtualSignal.name]!.removeAt(0);
-        //signalTimestamps[virtualSignal.name]!.removeAt(0);
-        signalValues[virtualSignal.name]!.removeRange(0, 1000);
-        signalTimestamps[virtualSignal.name]!.removeRange(0, 1000);
+      signalValues[virtualSignal.name]!.add(virtualSignal.rule(virtualSignal.signals));
+      signalTimestamps[virtualSignal.name]!.add(DateTime.now());
+      if (signalTimestamps[virtualSignal.name]!.first.isBefore(storageDateTimeLimit)) {
+        signalTimestamps[virtualSignal.name] = signalTimestamps[virtualSignal.name]!.skipWhile((value) => value.isBefore(storageDateTimeLimitExact)).toList();
+        signalValues[virtualSignal.name]!.removeRange(0, signalValues[virtualSignal.name]!.length - signalTimestamps[virtualSignal.name]!.length);
       }
     }
   }
@@ -145,28 +137,10 @@ void processPacket(Map rawJsonMap) {
     }
   }
 
-  if (needsTruncate) {
-    truncateData(turncateTo);
-  }
-
   /*if(useAutoTrigger){
     // if next lap
     lapTriggerCallback();
   }*/
-}
-
-void truncateData(int limit) {
-  needsTruncate = false;
-  for (String signal in signalValues.keys) {
-    if (signalValues[signal]!.length > limit) {
-      signalValues[signal] = signalValues[signal]!
-          .sublist(signalValues[signal]!.length - limit - 1);
-    }
-    if (signalTimestamps[signal]!.length > limit) {
-      signalTimestamps[signal] = signalTimestamps[signal]!
-          .sublist(signalTimestamps[signal]!.length - limit - 1);
-    }
-  }
 }
 /*
 //

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_telemetry/constants.dart';
-import 'package:flutter_telemetry/data.dart';
 import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/helpers/session.dart';
@@ -10,7 +9,7 @@ import 'package:flutter_telemetry/indicators/indicators.dart';
 Map<String, String> settingsToLabel = {
   "refreshTimeMS" : "Refresh time in ms",
   "chartrefreshTimeMS": "Chart refresh time in ms",
-  "signalValuesToKeep": "Internal buffer",
+  "signalValuesToKeep": "Internal buffer in minutes",
   "listenPort": "UDP Port",
   "chartShowSeconds": "Chart timespan in sec",
   "scrollCache": "Scrolling cache",
@@ -21,7 +20,7 @@ Map<String, String> settingsToLabel = {
 Map<String, String> settingsTooltip = {
   "refreshTimeMS" : "Each indicator will periodically attempt to refresh its value with the most recent value possible",
   "chartrefreshTimeMS": "Each chart will periodically attempt to refresh its values with the most recent values possible",
-  "signalValuesToKeep": "The number of values that are going to be stored in memory, to be used by charts or time averaged signals",
+  "signalValuesToKeep": "The duration of values that are going to be stored in memory, to be used by charts or time averaged signals",
   "listenPort": "This port will be used to receive UDP data to be displayed",
   "chartShowSeconds": "The length of time in seconds that any chart will display by default",
   "scrollCache": "Widgets are loaded out of sight within this scolling distance",
@@ -44,7 +43,7 @@ class Setting{
 Map<String, Setting> settings = {
   "refreshTimeMS": Setting(value: 100, minValue: 50, maxValue: 2000),
   "chartrefreshTimeMS": Setting(value: 16, minValue: 5, maxValue: 2000),
-  "signalValuesToKeep": Setting(value: 8192, minValue: 128, maxValue: 32768),
+  "signalValuesToKeep": Setting(value: 10, minValue: 1, maxValue: 30),
   "chartShowSeconds": Setting(value: 40, minValue: 1, maxValue: 180),
   "listenPort": Setting(value: 8998, minValue: 1000, maxValue: 65535),
   "scrollCache": Setting(value: 200, minValue: 0, maxValue: 2000),
@@ -106,14 +105,7 @@ class SettingsElementState extends State<SettingsElement> {
             icon: Icon(Icons.check, color: primaryColor,), 
             onPressed: () {
               if(settings[widget.label]!.minValue <= int.parse(input) && int.parse(input) <= settings[widget.label]!.maxValue){
-                if(widget.label == "signalValuesToKeep" && int.parse(input) < settings["signalValuesToKeep"]!.value){
-                  needsTruncate = true;
-                  turncateTo = int.parse(input);
-                  settings["signalValuesToKeep"]!.value = int.parse(input);
-                }
-                else{
-                  settings[widget.label]!.value = int.parse(input);
-                }
+                settings[widget.label]!.value = int.parse(input);
               }
               else{
                 showError(context, "Setting must be in range ${settings[widget.label]!.maxValue}:${settings[widget.label]!.minValue}");
