@@ -21,7 +21,7 @@ TabLayout hvAccuBigLayout = TabLayout(
             const BooleanPanel(
               subscribedSignals: [
                 "AIR_minus_state",
-                "AIR_plus_state",
+                "AIR_plus_State",
                 "AMS_Relay_State",
                 "AMS_Status",
                 "Error_STAMP_TSAL",
@@ -102,7 +102,7 @@ TabLayout hvAccuSmallLayout = TabLayout(
             const BooleanPanel(
               subscribedSignals: [
                 "AIR_minus_state",
-                "AIR_plus_state",
+                "AIR_plus_State",
                 "AMS_Relay_State",
                 "AMS_Status",
                 "Error_STAMP_TSAL",
