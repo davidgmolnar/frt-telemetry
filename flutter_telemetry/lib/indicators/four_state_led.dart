@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_telemetry/components/config_settings.dart';
 import 'package:flutter_telemetry/constants.dart';
@@ -45,25 +46,21 @@ class FourStateLedState extends State<FourStateLed>{
     if(temp != null && temp != value){
       setState(() {
         if(temp == 0){
-          value = 0;
           localTextColor = const Color.fromARGB(255, 158, 158, 158);
         }
         else if(temp == 1){
-          value == 1;
           localTextColor = const Color.fromARGB(255, 255, 17, 0);
         }
         else if(temp == 2){
-          value = 2;
           localTextColor = const Color.fromARGB(255, 0, 255, 8);
         }
         else if(temp == 3){
-          value = 3;
           localTextColor = const Color.fromARGB(255, 255, 152, 0);
         }
         else{
-          value = 4; // hiba
           localTextColor = const Color.fromARGB(255, 0, 0, 0); // hiba
         }
+        value = temp;
       });
     }
   }
@@ -74,7 +71,7 @@ class FourStateLedState extends State<FourStateLed>{
       padding: EdgeInsets.all(widget.paddingFactor * defaultPadding),
       child: AdvancedTooltip(
         tooltipText: "Listening to ${widget.subscribedSignal}",
-        child: Text(label, textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor),),
+        child: Text("$label - $value", textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor, fontFamily: "Poppins", fontWeight: FontWeight.w400, fontFeatures: const [FontFeature.tabularFigures()]), ),
       )
     );
   }

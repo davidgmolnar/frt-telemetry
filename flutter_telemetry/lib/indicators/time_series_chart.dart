@@ -629,16 +629,38 @@ class YAxis extends StatelessWidget{
   }
 }
 
-class XAxis extends StatelessWidget{
+class XAxis extends StatefulWidget{
   const XAxis({super.key, required this.width, required this.chartSetting});
 
   final double width;
   final ChartSetting chartSetting;
 
   @override
+  State<XAxis> createState() => _XAxisState();
+}
+
+class _XAxisState extends State<XAxis> {
+  double increment = 0;
+  double valueIncrement = 0;
+  int timeOffset = 0;
+  late Timer timer;
+
+  @override
+  void initState() {
+    increment = (widget.width - borderWidth) / (verticalTickCount + 1);
+    valueIncrement = widget.chartSetting.showSeconds / (verticalTickCount + 1);
+    timeOffset = widget.chartSetting.realTime ? 0 : DateTime.now().difference(appstartdate).inSeconds - widget.chartSetting.showSeconds - widget.chartSetting.startShowTimestamp ~/ 1000;
+    timer = Timer.periodic(Duration(milliseconds: settings['chartrefreshTimeMS']!.value), (timer) {update();});
+    super.initState();
+  }
+
+  void update(){
+    timeOffset = widget.chartSetting.realTime ? 0 : DateTime.now().difference(appstartdate).inSeconds - widget.chartSetting.showSeconds - widget.chartSetting.startShowTimestamp ~/ 1000;
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double increment = (width - borderWidth) / (verticalTickCount + 1);
-    double valueIncrement = chartSetting.showSeconds / (verticalTickCount + 1);
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -651,13 +673,19 @@ class XAxis extends StatelessWidget{
                 CustomPaint(painter: TickPainter(false)),
                 Transform.translate(
                   offset: const Offset(-chartLabelFontSize, tickLength),
-                  child: Text("-${representNumber("${chartSetting.showSeconds - (i + 1) * valueIncrement}", maxDigit: 4)} s", style: const TextStyle(fontSize: chartLabelFontSize),)
+                  child: Text("${representNumber("${-(verticalTickCount - i) * valueIncrement - timeOffset}", maxDigit: 10)} s", style: const TextStyle(fontSize: chartLabelFontSize),)
                 )
               ],
             ),
           )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 }
 
