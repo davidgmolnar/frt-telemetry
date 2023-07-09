@@ -71,7 +71,7 @@ class FourStateLedState extends State<FourStateLed>{
       padding: EdgeInsets.all(widget.paddingFactor * defaultPadding),
       child: AdvancedTooltip(
         tooltipText: "Listening to ${widget.subscribedSignal}",
-        child: Text("$label - $value", textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor, fontFamily: "Poppins", fontWeight: FontWeight.w400, fontFeatures: const [FontFeature.tabularFigures()]), ),
+        child: Text("$label - ${value.toInt()}", textAlign: TextAlign.left, maxLines: 1, style: TextStyle(fontSize: numericFontSize, color: localTextColor, fontFamily: "Poppins", fontWeight: FontWeight.w400, fontFeatures: const [FontFeature.tabularFigures()]), ),
       )
     );
   }

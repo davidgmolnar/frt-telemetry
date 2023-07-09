@@ -165,7 +165,7 @@ void logCallback(Uint8List udpBuffer){
 }
 
 Future<void> logBufferFlushAsync() async {
-  File log = File("./telemetry_log.bin");
+  File log = File("$dir/telemetry_log.bin");
   RandomAccessFile access;
   if(await log.exists()){
     access = await log.open(mode: FileMode.append);
