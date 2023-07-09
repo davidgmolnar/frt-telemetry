@@ -49,7 +49,7 @@ TabLayout configBigLayout = TabLayout(
                     builder: (BuildContext context) => const DialogBase(title: "DBC Menu", dialog: DBCSelectorDialog(), minWidth: 700)
                   );
                 },
-                child: const Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize),),
+                child: Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize, color: primaryColor),),
               ),
             ),
             Padding(
@@ -62,9 +62,10 @@ TabLayout configBigLayout = TabLayout(
                     builder: (BuildContext context) => const DialogBase(title: "Serial Menu", dialog: SerialPortSelectorDialog(), minWidth: 600)
                   );
                 },
-                child: const Text("Serial Menu", style: TextStyle(fontSize: subTitleFontSize),),
+                child: Text("Serial Menu", style: TextStyle(fontSize: subTitleFontSize, color: primaryColor),),
               ),
-            )
+            ),
+            const LogStartStopButton()
           ],
         )
       ],
@@ -101,9 +102,10 @@ TabLayout configSmallLayout = TabLayout(
                     builder: (BuildContext context) => const DialogBase(title: "DBC Menu", dialog: DBCSelectorDialog(), minWidth: 700)
                   );
                 },
-                child: const Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize),),
+                child: Text("DBC Menu", style: TextStyle(fontSize: subTitleFontSize, color: primaryColor),),
               ),
-            )
+            ),
+            const LogStartStopButton()
           ],
         )
       ],
@@ -197,5 +199,31 @@ class ConnectionHandlerState extends State<ConnectionHandler>{
   void dispose() {
     timer.cancel();
     super.dispose();
+  }
+}
+
+class LogStartStopButton extends StatefulWidget {
+  const LogStartStopButton({super.key});
+
+  @override
+  State<LogStartStopButton> createState() => _LogStartStopButtonState();
+}
+
+class _LogStartStopButtonState extends State<LogStartStopButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(defaultPadding),
+      child: TextButton(
+        onPressed: (() async {
+          doLog = !doLog;
+          if(!doLog){
+            await logBufferFlushAsync();
+          }
+          setState(() {});
+        }),
+        child: Text(doLog? "Stop log" : "Start log", style: TextStyle(color: primaryColor, fontSize: subTitleFontSize),),
+      ),
+    );
   }
 }

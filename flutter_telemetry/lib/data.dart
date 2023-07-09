@@ -26,6 +26,10 @@ const int _STORAGE_BUFFER_MINUTES = 3;
 
 Function lapTriggerCallback = (){};
 
+List<Uint8List> logBuffer = [];
+bool _logBufferFlushing = false;
+bool doLog = false;
+
 class VirtualSignal {
   const VirtualSignal(this.signals, this.rule, this.name);
   final String name;
@@ -78,7 +82,10 @@ void sockListener() {
                 "Error in processing, received payload was not ascii-decodeable", 2));
             }
           }
-          */          
+          */
+          if(doLog){
+            logCallback(udpPayload);
+          }
           Map<String, num> decoded = can.decode(udpPayload);
           decoded["rssi"] = udpPayload.last.toSigned(8);
           processPacket(decoded);
@@ -142,6 +149,39 @@ void processPacket(Map rawJsonMap) {
     lapTriggerCallback();
   }*/
 }
+
+void logCallback(Uint8List udpBuffer){
+  Uint8List logEntry = Uint8List(4);
+  logEntry.buffer.asByteData(0, 4).setUint32(0, udpBuffer.length);
+  logEntry = Uint8List.fromList(logEntry.toList()..addAll(udpBuffer));
+  Uint8List timestamp = Uint8List(8);
+  timestamp.buffer.asByteData(0, 8).setUint64(0, DateTime.now().difference(appstartdate).inMilliseconds);
+  logEntry = Uint8List.fromList(logEntry.toList()..addAll(timestamp));
+  logBuffer.add(logEntry);
+  if(logBuffer.length > 1000 && !_logBufferFlushing){
+    _logBufferFlushing = true;
+    logBufferFlushAsync();
+  }
+}
+
+Future<void> logBufferFlushAsync() async {
+  File log = File("./telemetry_log.bin");
+  RandomAccessFile access;
+  if(await log.exists()){
+    access = await log.open(mode: FileMode.append);
+  }
+  else{
+    access = await log.open(mode: FileMode.write);
+  }
+  int loglength = logBuffer.length;
+  for(int i = 0; i < loglength; i++){
+    await access.writeFrom(logBuffer[i]);
+  }
+  logBuffer.removeRange(0, loglength);
+  await access.close();
+  _logBufferFlushing = false;
+}
+
 /*
 //
 // Isolate based Data service
