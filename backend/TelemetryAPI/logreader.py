@@ -4,7 +4,7 @@ CAN1 = load_file('DBC_2023/CAN1.dbc')
 CAN2 = load_file('DBC_2023/CAN2.dbc')
 
 print_list = [
-    "AMS_LED"
+    "VDC_Yaw_Control_P"
 ]
 
 
@@ -20,7 +20,9 @@ def decode(can_msg):
     return dict_read
 
 
-def run(log_path: str):
+def run(log_path: str, convert: bool = False):
+    if convert:
+        converted_file = open("converted.bin", 'ab')
     with open(log_path, 'rb') as file:
         while True:
             # format
@@ -38,13 +40,15 @@ def run(log_path: str):
             while offset < length - 10:
                 try:
                     decoded.update(decode(payload[offset:offset+10]))
+                    if convert:
+                        converted_file.write(payload[offset:offset+10] + timestamp.to_bytes(4, 'big'))
                     offset += 10
                 except KeyError:
                     offset += 1
             for key in print_list:
                 if key in decoded.keys():
-                    print(f"{decoded[key]} - {timestamp}")
+                    print(f"{bin(int(decoded[key] / 25)).rjust(10,' ')} - {int(decoded[key] / 25)} - {timestamp}")
 
 
 if __name__ == '__main__':
-    run("telemetry_log.bin")
+    run("telemetry_log.bin", convert=True)
