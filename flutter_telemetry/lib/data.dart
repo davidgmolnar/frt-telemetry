@@ -104,8 +104,8 @@ void processPacket(Map rawJsonMap) {
       signalValues[key] = [];
       signalTimestamps[key] = [];
     }
-    signalValues[key]!.add(rawJsonMap[key]);
-    signalTimestamps[key]!.add(DateTime.now());
+    signalValues[key]!.insert(signalValues[key]!.length, rawJsonMap[key]);
+    signalTimestamps[key]!.insert(signalTimestamps[key]!.length, DateTime.now());
     if (signalTimestamps[key]!.first.isBefore(storageDateTimeLimit)) {
       signalTimestamps[key] = signalTimestamps[key]!.skipWhile((value) => value.isBefore(storageDateTimeLimitExact)).toList();
       signalValues[key]!.removeRange(0, signalValues[key]!.length - signalTimestamps[key]!.length);
@@ -122,8 +122,8 @@ void processPacket(Map rawJsonMap) {
         signalValues[virtualSignal.name] = [];
         signalTimestamps[virtualSignal.name] = [];
       }
-      signalValues[virtualSignal.name]!.add(virtualSignal.rule(virtualSignal.signals));
-      signalTimestamps[virtualSignal.name]!.add(DateTime.now());
+      signalValues[virtualSignal.name]!.insert(signalValues[virtualSignal.name]!.length, virtualSignal.rule(virtualSignal.signals));
+      signalTimestamps[virtualSignal.name]!.insert(signalTimestamps[virtualSignal.name]!.length, DateTime.now());
       if (signalTimestamps[virtualSignal.name]!.first.isBefore(storageDateTimeLimit)) {
         signalTimestamps[virtualSignal.name] = signalTimestamps[virtualSignal.name]!.skipWhile((value) => value.isBefore(storageDateTimeLimitExact)).toList();
         signalValues[virtualSignal.name]!.removeRange(0, signalValues[virtualSignal.name]!.length - signalTimestamps[virtualSignal.name]!.length);
