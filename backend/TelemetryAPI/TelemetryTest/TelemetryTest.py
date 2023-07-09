@@ -1,6 +1,4 @@
 import socket
-
-# decimal
 import time
 
 CAN_IDS = [105, 361, 389, 390, 393, 394, 401, 417, 512, 513, 528, 530, 532, 560, 561, 617, 624, 644, 645, 646, 647,
@@ -26,7 +24,7 @@ class TelemetryTester:
         self.sock.settimeout(1)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        self.packet_size = 10 * 2000
+        self.packet_size = 10 * 10
         self.send_interval = 5
 
     def sendall(self, _payload):
