@@ -41,7 +41,7 @@ TabLayout dynamicsBigLayout =
     children: const [
       Flexible(
         child: TimeSeriesChart(
-          subscribedSignals: ["AccX_Bosch", "AccX_Vectornav"],
+          subscribedSignals: ["AccX_Bosch", "PN_IMU_Acc_X"],
           title: "Accel X",
           min: -4,
           max: 4,
@@ -49,7 +49,7 @@ TabLayout dynamicsBigLayout =
       ),
       Flexible(
         child: TimeSeriesChart(
-          subscribedSignals: ["AccY_Bosch", "AccY_Vectornav"],
+          subscribedSignals: ["AccY_Bosch", "PN_IMU_Acc_Y"],
           title: "Accel Y",
           min: -4,
           max: 4
@@ -122,10 +122,10 @@ TabLayout dynamicsBigLayout =
   Row(children: const [
     Flexible(
       child: TimeSeriesChart(
-        subscribedSignals: ["YawRate_Bosch", "Yaw_Rate_Vectornav"],
-        title: "Yaw Rate [rad/s]",
-        min: -10,
-        max: 10,
+        subscribedSignals: ["YawRate_Bosch", "PN_IMU_Yaw"],
+        title: "Yaw Rate [°/s]",
+        min: -250,
+        max: 250,
       ),
     ),
     Flexible(
@@ -213,13 +213,13 @@ TabLayout dynamicsSmallLayout =
     max: 100,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["AccX_Bosch", "AccX_Vectornav"],
+    subscribedSignals: ["AccX_Bosch", "PN_IMU_Acc_X"],
     title: "Accel X",
     min: -4,
     max: 4,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["AccY_Bosch", "AccY_Vectornav"],
+    subscribedSignals: ["AccY_Bosch", "PN_IMU_Acc_Y"],
     title: "Accel Y",
     min: -4,
     max: 4
@@ -237,10 +237,10 @@ TabLayout dynamicsSmallLayout =
     max: 90000,
   ),
   const TimeSeriesChart(
-    subscribedSignals: ["YawRate_Bosch", "Yaw_Rate_Vectornav"],
-    title: "Yaw Rate [rad/s]",
-    min: -10,
-    max: 10,
+    subscribedSignals: ["YawRate_Bosch", "PN_IMU_Yaw"],
+    title: "Yaw Rate [°/s]",
+    min: -250,
+    max: 250,
   ),
   const TimeSeriesChart(
     subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"],
@@ -311,10 +311,10 @@ TabLayout dynamicsMobileLayout =
     max: 90000,
   ),
   TimeSeriesChart(
-    subscribedSignals: ["YawRate_Bosch", "Yaw_Rate_Vectornav"],
-    title: "Yaw Rate [rad/s]",
-    min: -10,
-    max: 10,
+    subscribedSignals: ["YawRate_Bosch", "PN_IMU_Yaw"],
+    title: "Yaw Rate [°/s]",
+    min: -250,
+    max: 250,
   ),
   TimeSeriesChart(
     subscribedSignals: ["VIRT_AVG_APPS", "VIRT_AVG_STA"],
