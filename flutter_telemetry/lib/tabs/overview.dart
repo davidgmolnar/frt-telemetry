@@ -128,11 +128,11 @@ TabLayout overviewBigLayout = TabLayout(
             ),
             NumericPanel(
               subscribedSignals: [
-                "AccX_Vectornav",
-                "AccY_Vectornav",
-                "Yaw_Rate_Vectornav",
+                "PN_IMU_Acc_X",
+                "PN_IMU_Acc_Y",
+                "PN_IMU_Yaw",
                 "v_x",
-              ], colsize: 5, title: "Vectornav")
+              ], colsize: 5, title: "PN")
           ],
         ),
         Column(
@@ -447,11 +447,11 @@ TabLayout overviewSmallLayout = TabLayout(
             ),
             NumericPanel(
               subscribedSignals: [
-                "AccX_Vectornav",
-                "AccY_Vectornav",
-                "Yaw_Rate_Vectornav",
+                "PN_IMU_Acc_X",
+                "PN_IMU_Acc_Y",
+                "PN_IMU_Yaw",
                 "v_x",
-              ], colsize: 5, title: "Vectornav")
+              ], colsize: 5, title: "PN")
           ],
         ),
       ],
