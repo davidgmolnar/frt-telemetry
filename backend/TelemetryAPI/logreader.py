@@ -3,8 +3,8 @@ from time import sleep
 
 from cantools.database import load_file, errors
 
-CAN1 = load_file('C:/Users/cupid/OneDrive/Asztali gép/DBC/DBC_2023/CAN1.dbc')
-CAN2 = load_file('C:/Users/cupid/OneDrive/Asztali gép/DBC/DBC_2023/CAN2.dbc')
+CAN1 = load_file('DBC_2023/CAN1.dbc')
+CAN2 = load_file('DBC_2023/CAN2.dbc')
 
 print_list = [
     "HV_Cell_ID"
@@ -82,5 +82,5 @@ def replay(log_path: str):
 
 
 if __name__ == '__main__':
-    # run("C:/Users/cupid/Downloads/PACSONYI.bin", convert=False)
-    replay("C:/Users/cupid/Downloads/PACSONYI.bin")
+    # run("PACSONYI.bin", convert=False)
+    replay("PACSONYI.bin")
