@@ -655,6 +655,7 @@ class _XAxisState extends State<XAxis> {
   }
 
   void update(){
+    valueIncrement = widget.chartSetting.showSeconds / (verticalTickCount + 1);
     timeOffset = widget.chartSetting.realTime ? 0 : DateTime.now().difference(appstartdate).inSeconds - widget.chartSetting.showSeconds - widget.chartSetting.startShowTimestamp ~/ 1000;
     setState(() {});
   }
