@@ -9,12 +9,13 @@ import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class LapData{
-  const LapData(this.lapNum, this.lapTimeMS, this.soc, this.currentAvg, this.motorTemps, this.invTemps);
+  const LapData(this.lapNum, this.lapTimeMS, this.soc, this.deltasoc, this.mivCellVolt, this.motorTemps, this.invTemps);
 
   final int lapNum;
   final int lapTimeMS;
   final double soc;
-  final double currentAvg;
+  final double deltasoc;
+  final double mivCellVolt;
   final List<double> motorTemps;
   final List<double> invTemps;
 
@@ -24,9 +25,10 @@ class LapData{
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(width: 50, child: Text(representNumber(lapNum.toString(), maxDigit: 5))),
-          SizedBox(width: 100, child: Text(representMS(lapTimeMS))),
+          SizedBox(width: 80, child: Text(representMS(lapTimeMS))),
           SizedBox(width: 50, child: Text(representNumber(soc.toString(), maxDigit: 5))),
-          SizedBox(width: 50, child: Text(representNumber(currentAvg.toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(deltasoc.toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(mivCellVolt.toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(motorTemps[0].toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(motorTemps[1].toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(motorTemps[2].toString(), maxDigit: 5))),
@@ -41,18 +43,19 @@ class LapData{
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(width: 100, child: Text(representNumber(lapNum.toString()))),
+        SizedBox(width: 50, child: Text(representNumber(lapNum.toString()))),
         SizedBox(width: 100, child: Text(representMS(lapTimeMS))),
         SizedBox(width: 100, child: Text(representNumber(soc.toString()))),
-        SizedBox(width: 100, child: Text(representNumber(currentAvg.toString()))),
-        SizedBox(width: 100, child: Text(representNumber(motorTemps[0].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(motorTemps[1].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(motorTemps[2].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(motorTemps[3].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(invTemps[0].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(invTemps[1].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(invTemps[2].toString()))),
-        SizedBox(width: 100, child: Text(representNumber(invTemps[3].toString()))),
+        SizedBox(width: 100, child: Text(representNumber(deltasoc.toString()))),
+        SizedBox(width: 100, child: Text(representNumber(mivCellVolt.toString()))),
+        SizedBox(width: 90, child: Text(representNumber(motorTemps[0].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(motorTemps[1].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(motorTemps[2].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(motorTemps[3].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(invTemps[0].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(invTemps[1].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(invTemps[2].toString()))),
+        SizedBox(width: 90, child: Text(representNumber(invTemps[3].toString()))),
       ],
     );
   }
@@ -67,18 +70,14 @@ String representMS(int ms){
 }
 
 LapData lapDataFromCurrent(int lapTimeMS, bool clear){
-  double currentAvg = -1;
-  if(lapHVCurrent.isNotEmpty){
-    currentAvg = lapHVCurrent.reduce((value, element) => value + element) / lapHVCurrent.length;
-    if(clear){
-      lapHVCurrent.clear();
-    }
-  }
+  final double soc = signalValues.containsKey("State_of_Charge") && signalValues["State_of_Charge"]!.isNotEmpty ? signalValues["State_of_Charge"]!.last.toDouble() : -1;
+  final double deltasoc = lapData.isEmpty ? 0 : soc - lapData.last.soc;
   return LapData(
     lapData.isEmpty ? 1 : lapData.last.lapNum + 1,
     lapTimeMS,
-    signalValues.containsKey("State_of_Charge") && signalValues["State_of_Charge"]!.isNotEmpty ? signalValues["State_of_Charge"]!.last.toDouble() : -1,
-    currentAvg,
+    soc,
+    deltasoc,
+    signalValues.containsKey("HV_Cell_Voltage_MIN") && signalValues["HV_Cell_Voltage_MIN"]!.isNotEmpty ? signalValues["HV_Cell_Voltage_MIN"]!.last.toDouble() : -1,
     [
       signalValues.containsKey("AMK1_temp_motor") && signalValues["AMK1_temp_motor"]!.isNotEmpty ? signalValues["AMK1_temp_motor"]!.last.toDouble() : -1,
       signalValues.containsKey("AMK2_temp_motor") && signalValues["AMK2_temp_motor"]!.isNotEmpty ? signalValues["AMK2_temp_motor"]!.last.toDouble() : -1,
@@ -257,18 +256,19 @@ class LapDisplayState extends State<LapDisplay>{
 Widget wideHeader = Row(
   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
   children: [
-    SizedBox(width: 100, child: Text("Lap", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 50, child: Text("Lap", style: TextStyle(color: primaryColor),)),
     SizedBox(width: 100, child: Text("Laptime", style: TextStyle(color: primaryColor),)),
     SizedBox(width: 100, child: Text("SoC", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("Current avg", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("FL Motor T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("FR Motor T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("RL Motor T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("RR Motor T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("FL Inv T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("FR Inv T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("RL Inv T", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 100, child: Text("RR Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("Delta Soc", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 100, child: Text("Min Volt", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("FL Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("FR Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("RL Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("RR Motor T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("FL Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("FR Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("RL Inv T", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 90, child: Text("RR Inv T", style: TextStyle(color: primaryColor),)),
   ],
 );
 
@@ -278,7 +278,8 @@ Widget smallHeader = Row(
     SizedBox(width: 50, child: Text("Lap", style: TextStyle(color: primaryColor),)),
     SizedBox(width: 100, child: Text("Laptime", style: TextStyle(color: primaryColor),)),
     SizedBox(width: 50, child: Text("SoC", style: TextStyle(color: primaryColor),)),
-    SizedBox(width: 50, child: Text("I avg", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 50, child: Text("D SoC", style: TextStyle(color: primaryColor),)),
+    SizedBox(width: 50, child: Text("V min", style: TextStyle(color: primaryColor),)),
     SizedBox(width: 60, child: Text("Motor T", style: TextStyle(color: primaryColor),)),
     const SizedBox(width: 40,),
     const SizedBox(width: 50,),

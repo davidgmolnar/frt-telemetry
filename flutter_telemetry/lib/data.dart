@@ -16,7 +16,6 @@ Map<String, List<num>> signalValues = {};
 Map<String, List<DateTime>> signalTimestamps = {};
 Map<String, num> hvCellVoltages = {};
 Map<String, num> hvCellTemps = {};
-List<num> lapHVCurrent = [];
 Map<String, Cone> conesOnTrack = {};
 Size trackSize = const Size(409.5 , 409.5);
 Offset trackOffset = const Offset(205.25, 205.25);

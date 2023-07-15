@@ -172,16 +172,6 @@ List<VirtualSignal> virtualSignals = [
     hvCellVoltages[signalValues[listOfSignals[0]]!.last.toInt().toString()] = signalValues[listOfSignals[1]]!.last;
     signalValues["VIRT_HV_CELL_VOLTAGE_MAX"] = [hvCellVoltages.values.fold(0, (previousValue, element) => max(previousValue, element))];
   }), "INDEPENDENT_SIGNAL"),
-  VirtualSignal(["HV_Current"], ((listOfSignals) {
-    if (lapTimerStarted) {
-      if (lapHVCurrent.length < 4320000) {
-        // 12 hours worth of data at 100Hz  ~ 34 MB
-        lapHVCurrent.add(signalValues[listOfSignals[0]]!.last);
-      } else {
-        terminalQueue.add(TerminalElement("Elaludtál he", 0)); // lmao
-      }
-    }
-  }), "INDEPENDENT_SIGNAL"),
   VirtualSignal([
     "Xavier_landmark_id",
     "Xavier_landmark_x",

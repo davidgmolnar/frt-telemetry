@@ -31,7 +31,7 @@ class LapDataSaveDialog extends StatelessWidget{
 
     int i = 0;
     List<String> header = ["Lap", "Laptime", "SoC", "Current avg", "FL Motor T", "FR Motor T", "RL Motor T", "RR Motor T", "FL Inv T", "FR Inv T", "RL Inv T", "RR Inv T"];
-    sheet.getRangeByIndex(1, 4, 1, 15).cells.forEach((cell) {
+    sheet.getRangeByIndex(1, 4, 1, 16).cells.forEach((cell) {
       cell.setText(header[i]);
       i++;
     });
@@ -41,20 +41,21 @@ class LapDataSaveDialog extends StatelessWidget{
       sheet.getRangeByIndex(i, 4).setNumber(lap.lapNum.toDouble());
       sheet.getRangeByIndex(i, 5).setText(representMS(lap.lapTimeMS));
       sheet.getRangeByIndex(i, 6).setNumber(lap.soc);
-      sheet.getRangeByIndex(i, 7).setNumber(lap.currentAvg);
-      sheet.getRangeByIndex(i, 8).setNumber(lap.motorTemps[0]);
-      sheet.getRangeByIndex(i, 9).setNumber(lap.motorTemps[1]);
-      sheet.getRangeByIndex(i, 10).setNumber(lap.motorTemps[2]);
-      sheet.getRangeByIndex(i, 11).setNumber(lap.motorTemps[3]);
-      sheet.getRangeByIndex(i, 12).setNumber(lap.invTemps[0]);
-      sheet.getRangeByIndex(i, 13).setNumber(lap.invTemps[1]);
-      sheet.getRangeByIndex(i, 14).setNumber(lap.invTemps[2]);
-      sheet.getRangeByIndex(i, 15).setNumber(lap.invTemps[3]);
+      sheet.getRangeByIndex(i, 7).setNumber(lap.deltasoc);
+      sheet.getRangeByIndex(i, 8).setNumber(lap.mivCellVolt);
+      sheet.getRangeByIndex(i, 9).setNumber(lap.motorTemps[0]);
+      sheet.getRangeByIndex(i, 10).setNumber(lap.motorTemps[1]);
+      sheet.getRangeByIndex(i, 11).setNumber(lap.motorTemps[2]);
+      sheet.getRangeByIndex(i, 12).setNumber(lap.motorTemps[3]);
+      sheet.getRangeByIndex(i, 13).setNumber(lap.invTemps[0]);
+      sheet.getRangeByIndex(i, 14).setNumber(lap.invTemps[1]);
+      sheet.getRangeByIndex(i, 15).setNumber(lap.invTemps[2]);
+      sheet.getRangeByIndex(i, 16).setNumber(lap.invTemps[3]);
       i++;
     }
 
     sheet.getRangeByIndex(1, 1, 3, 2).autoFitColumns();
-    sheet.getRangeByIndex(1, 4, 1, 15).columnWidth = 10;
+    sheet.getRangeByIndex(1, 4, 1, 16).columnWidth = 10;
 
     bytes = excel.saveAsStream();
     excel.dispose();
