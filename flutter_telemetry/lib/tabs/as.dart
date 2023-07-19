@@ -56,8 +56,8 @@ TabLayout asBigLayout = TabLayout(
     Row(children: const [
       Flexible(
         child: TimeSeriesChart(
-          subscribedSignals: ["Xavier_Target_speed"],
-          title: "Target speed m/s",
+          subscribedSignals: ["Xavier_Target_speed", "v_x"],
+          title: "Target vs Actual m/s",
           min: 0,
           max: 65,
         ),
@@ -182,8 +182,8 @@ TabLayout asSmallLayout = TabLayout(
       ],
     ),
     const TimeSeriesChart(
-      subscribedSignals: ["Xavier_Target_speed"],
-      title: "Target speed m/s",
+      subscribedSignals: ["Xavier_Target_speed", "v_x"],
+      title: "Target vs Actual m/s",
       min: 0,
       max: 65,
     ),
