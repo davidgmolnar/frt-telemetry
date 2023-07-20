@@ -9,13 +9,13 @@ import 'package:flutter_telemetry/globals.dart';
 import 'package:flutter_telemetry/helpers/helpers.dart';
 
 class LapData{
-  const LapData(this.lapNum, this.lapTimeMS, this.soc, this.deltasoc, this.mivCellVolt, this.motorTemps, this.invTemps);
+  const LapData(this.lapNum, this.lapTimeMS, this.soc, this.deltasoc, this.minCellVolt, this.motorTemps, this.invTemps);
 
   final int lapNum;
   final int lapTimeMS;
   final double soc;
   final double deltasoc;
-  final double mivCellVolt;
+  final double minCellVolt;
   final List<double> motorTemps;
   final List<double> invTemps;
 
@@ -28,7 +28,7 @@ class LapData{
           SizedBox(width: 80, child: Text(representMS(lapTimeMS))),
           SizedBox(width: 50, child: Text(representNumber(soc.toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(deltasoc.toString(), maxDigit: 5))),
-          SizedBox(width: 50, child: Text(representNumber(mivCellVolt.toString(), maxDigit: 5))),
+          SizedBox(width: 50, child: Text(representNumber(minCellVolt.toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(motorTemps[0].toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(motorTemps[1].toString(), maxDigit: 5))),
           SizedBox(width: 50, child: Text(representNumber(motorTemps[2].toString(), maxDigit: 5))),
@@ -47,7 +47,7 @@ class LapData{
         SizedBox(width: 100, child: Text(representMS(lapTimeMS))),
         SizedBox(width: 100, child: Text(representNumber(soc.toString()))),
         SizedBox(width: 100, child: Text(representNumber(deltasoc.toString()))),
-        SizedBox(width: 100, child: Text(representNumber(mivCellVolt.toString()))),
+        SizedBox(width: 100, child: Text(representNumber(minCellVolt.toString()))),
         SizedBox(width: 90, child: Text(representNumber(motorTemps[0].toString()))),
         SizedBox(width: 90, child: Text(representNumber(motorTemps[1].toString()))),
         SizedBox(width: 90, child: Text(representNumber(motorTemps[2].toString()))),

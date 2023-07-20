@@ -30,7 +30,7 @@ class LapDataSaveDialog extends StatelessWidget{
     sheet.getRangeByIndex(3, 2).setText(representMS(lapData.sorted(((a, b) => a.lapTimeMS.compareTo(b.lapTimeMS))).first.lapTimeMS));
 
     int i = 0;
-    List<String> header = ["Lap", "Laptime", "SoC", "Current avg", "FL Motor T", "FR Motor T", "RL Motor T", "RR Motor T", "FL Inv T", "FR Inv T", "RL Inv T", "RR Inv T"];
+    List<String> header = ["Lap", "Laptime", "SoC", "Delta SoC", "Min Cell V", "FL Motor T", "FR Motor T", "RL Motor T", "RR Motor T", "FL Inv T", "FR Inv T", "RL Inv T", "RR Inv T"];
     sheet.getRangeByIndex(1, 4, 1, 16).cells.forEach((cell) {
       cell.setText(header[i]);
       i++;
@@ -42,7 +42,7 @@ class LapDataSaveDialog extends StatelessWidget{
       sheet.getRangeByIndex(i, 5).setText(representMS(lap.lapTimeMS));
       sheet.getRangeByIndex(i, 6).setNumber(lap.soc);
       sheet.getRangeByIndex(i, 7).setNumber(lap.deltasoc);
-      sheet.getRangeByIndex(i, 8).setNumber(lap.mivCellVolt);
+      sheet.getRangeByIndex(i, 8).setNumber(lap.minCellVolt);
       sheet.getRangeByIndex(i, 9).setNumber(lap.motorTemps[0]);
       sheet.getRangeByIndex(i, 10).setNumber(lap.motorTemps[1]);
       sheet.getRangeByIndex(i, 11).setNumber(lap.motorTemps[2]);
