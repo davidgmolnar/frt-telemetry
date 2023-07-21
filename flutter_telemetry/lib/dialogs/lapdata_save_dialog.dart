@@ -8,6 +8,8 @@ import 'package:flutter_telemetry/helpers/helpers.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 
+import '../components/config_terminal.dart';
+
 class LapDataSaveDialog extends StatelessWidget{
   const LapDataSaveDialog({super.key, required this.updater});
 
@@ -15,50 +17,56 @@ class LapDataSaveDialog extends StatelessWidget{
 
   static List<int> _compileExcel(String timeString){
     List<int> bytes = [];
-    final xlsio.Workbook excel = xlsio.Workbook();
-    final xlsio.Worksheet sheet = excel.worksheets[0];
-    sheet.name = "Cell Status";
-    sheet.showGridlines = true;
+    try{
+      final xlsio.Workbook excel = xlsio.Workbook();
+      final xlsio.Worksheet sheet = excel.worksheets[0];
+      sheet.name = "Cell Status";
+      sheet.showGridlines = true;
 
-    sheet.getRangeByIndex(1, 1).setText('Time');
-    sheet.getRangeByIndex(1, 2).setText(timeString);
+      sheet.getRangeByIndex(1, 1).setText('Time');
+      sheet.getRangeByIndex(1, 2).setText(timeString);
 
-    sheet.getRangeByIndex(2, 1).setText('Number of laps');
-    sheet.getRangeByIndex(2, 2).setNumber(lapData.length.toDouble());
+      sheet.getRangeByIndex(2, 1).setText('Number of laps');
+      sheet.getRangeByIndex(2, 2).setNumber(lapData.length.toDouble());
 
-    sheet.getRangeByIndex(3, 1).setText('Best lap');
-    sheet.getRangeByIndex(3, 2).setText(representMS(lapData.sorted(((a, b) => a.lapTimeMS.compareTo(b.lapTimeMS))).first.lapTimeMS));
+      sheet.getRangeByIndex(3, 1).setText('Best lap');
+      sheet.getRangeByIndex(3, 2).setText(representMS(lapData.sorted(((a, b) => a.lapTimeMS.compareTo(b.lapTimeMS))).first.lapTimeMS));
 
-    int i = 0;
-    List<String> header = ["Lap", "Laptime", "SoC", "Delta SoC", "Min Cell V", "FL Motor T", "FR Motor T", "RL Motor T", "RR Motor T", "FL Inv T", "FR Inv T", "RL Inv T", "RR Inv T"];
-    sheet.getRangeByIndex(1, 4, 1, 16).cells.forEach((cell) {
-      cell.setText(header[i]);
-      i++;
-    });
+      int i = 0;
+      List<String> header = ["Lap", "Laptime", "SoC", "Delta SoC", "Min Cell V", "FL Motor T", "FR Motor T", "RL Motor T", "RR Motor T", "FL Inv T", "FR Inv T", "RL Inv T", "RR Inv T", "If u see this there was an error"];
+      sheet.getRangeByIndex(1, 4, 1, 16).cells.forEach((cell) {
+        cell.setText(header[i]);
+        i++;
+      });
 
-    i = 2;
-    for(LapData lap in lapData){
-      sheet.getRangeByIndex(i, 4).setNumber(lap.lapNum.toDouble());
-      sheet.getRangeByIndex(i, 5).setText(representMS(lap.lapTimeMS));
-      sheet.getRangeByIndex(i, 6).setNumber(lap.soc);
-      sheet.getRangeByIndex(i, 7).setNumber(lap.deltasoc);
-      sheet.getRangeByIndex(i, 8).setNumber(lap.minCellVolt);
-      sheet.getRangeByIndex(i, 9).setNumber(lap.motorTemps[0]);
-      sheet.getRangeByIndex(i, 10).setNumber(lap.motorTemps[1]);
-      sheet.getRangeByIndex(i, 11).setNumber(lap.motorTemps[2]);
-      sheet.getRangeByIndex(i, 12).setNumber(lap.motorTemps[3]);
-      sheet.getRangeByIndex(i, 13).setNumber(lap.invTemps[0]);
-      sheet.getRangeByIndex(i, 14).setNumber(lap.invTemps[1]);
-      sheet.getRangeByIndex(i, 15).setNumber(lap.invTemps[2]);
-      sheet.getRangeByIndex(i, 16).setNumber(lap.invTemps[3]);
-      i++;
+      i = 2;
+      for(LapData lap in lapData){
+        sheet.getRangeByIndex(i, 4).setNumber(lap.lapNum.toDouble());
+        sheet.getRangeByIndex(i, 5).setText(representMS(lap.lapTimeMS));
+        sheet.getRangeByIndex(i, 6).setNumber(lap.soc);
+        sheet.getRangeByIndex(i, 7).setNumber(lap.deltasoc);
+        sheet.getRangeByIndex(i, 8).setNumber(lap.minCellVolt);
+        sheet.getRangeByIndex(i, 9).setNumber(lap.motorTemps[0]);
+        sheet.getRangeByIndex(i, 10).setNumber(lap.motorTemps[1]);
+        sheet.getRangeByIndex(i, 11).setNumber(lap.motorTemps[2]);
+        sheet.getRangeByIndex(i, 12).setNumber(lap.motorTemps[3]);
+        sheet.getRangeByIndex(i, 13).setNumber(lap.invTemps[0]);
+        sheet.getRangeByIndex(i, 14).setNumber(lap.invTemps[1]);
+        sheet.getRangeByIndex(i, 15).setNumber(lap.invTemps[2]);
+        sheet.getRangeByIndex(i, 16).setNumber(lap.invTemps[3]);
+        i++;
+      }
+
+      sheet.getRangeByIndex(1, 1, 3, 2).autoFitColumns();
+      sheet.getRangeByIndex(1, 4, 1, 16).columnWidth = 10;
+
+      bytes = excel.saveAsStream();
+      excel.dispose();
+    }catch(exc){
+      terminalQueue.add(TerminalElement("There was an exception when exporting lapdata", 1));
+      terminalQueue.add(TerminalElement(exc.toString(), 1));
     }
-
-    sheet.getRangeByIndex(1, 1, 3, 2).autoFitColumns();
-    sheet.getRangeByIndex(1, 4, 1, 16).columnWidth = 10;
-
-    bytes = excel.saveAsStream();
-    excel.dispose();
+    terminalQueue.add(TerminalElement("Successfully exported lapdata", 3));
     return bytes;
   }
 
