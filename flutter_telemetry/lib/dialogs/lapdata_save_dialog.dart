@@ -65,6 +65,7 @@ class LapDataSaveDialog extends StatelessWidget{
     }catch(exc){
       terminalQueue.add(TerminalElement("There was an exception when exporting lapdata", 1));
       terminalQueue.add(TerminalElement(exc.toString(), 1));
+      return [];
     }
     terminalQueue.add(TerminalElement("Successfully exported lapdata", 3));
     return bytes;
