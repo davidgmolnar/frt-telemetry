@@ -171,6 +171,9 @@ List<VirtualSignal> virtualSignals = [
     hvCellTemps[signalValues[listOfSignals[0]]!.last.toInt().toString()] = signalValues[listOfSignals[2]]!.last;
     hvCellVoltages[signalValues[listOfSignals[0]]!.last.toInt().toString()] = signalValues[listOfSignals[1]]!.last;
     signalValues["VIRT_HV_CELL_VOLTAGE_MAX"] = [hvCellVoltages.values.fold(0, (previousValue, element) => max(previousValue, element))];
+    signalValues["VIRT_HV_CELL_VOLTAGE_MIN"] = [hvCellVoltages.values.fold(10000, (previousValue, element) => element == 0 ? previousValue : min(previousValue, element))];
+    maxCellVoltId = int.tryParse(hvCellVoltages.keys.where((cellId) => hvCellVoltages[cellId] == signalValues["VIRT_HV_CELL_VOLTAGE_MAX"]!.last).first) ?? -1;
+    minCellVoltId = int.tryParse(hvCellVoltages.keys.where((cellId) => hvCellVoltages[cellId] == signalValues["VIRT_HV_CELL_VOLTAGE_MIN"]!.last).first) ?? -1;
   }), "INDEPENDENT_SIGNAL"),
   VirtualSignal([
     "Xavier_landmark_id",

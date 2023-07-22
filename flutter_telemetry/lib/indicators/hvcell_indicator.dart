@@ -37,6 +37,7 @@ class HVCellVoltageIndicatorState extends State<HVCellVoltageIndicator>{
   double value = -1;
   double displayWidth = -1;
   late Timer timer;
+  bool isEdgeCase = false;
 
   @override
   void initState() {
@@ -46,8 +47,9 @@ class HVCellVoltageIndicatorState extends State<HVCellVoltageIndicator>{
 
   void updateData(){
     num? tmp = hvCellVoltages[widget.id.toString()];
-    if(tmp != null && tmp != value){
+    if(tmp != null){
       value = tmp.toDouble();
+      isEdgeCase = widget.id == minCellVoltId || widget.id == maxCellVoltId;
       displayWidth = normalizeInbetween(value, 0, 6000, 0, widget.barWidth.toInt()).toDouble();
       setState(() {});
     }
@@ -75,7 +77,7 @@ class HVCellVoltageIndicatorState extends State<HVCellVoltageIndicator>{
               color: secondaryColor,
               child: Text(representNumber(value.toString(), maxDigit: 5), textScaleFactor: widget.textScaleFactor,)
             ),
-            Container(width: displayWidth, color: const Color.fromARGB(255, 255, 230, 0),),
+            Container(width: displayWidth, color: widget.id == maxCellVoltId ? Colors.green : widget.id == minCellVoltId ? Colors.red : const Color.fromARGB(255, 255, 230, 0),),
             Container(width: widget.barWidth - displayWidth, color: bgColor,)
           ],
         )
