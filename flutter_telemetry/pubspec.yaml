@@ -32,13 +32,13 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.1
   udp: ^5.0.3
   universal_io: ^2.0.4
   window_manager: ^0.3.1
   file_picker: ^5.2.6
   syncfusion_flutter_xlsio: ^20.4.54-beta
-  dart_dbc_parser: ^1.0.4
+  dart_dbc_parser: ^1.0.5
   flutter_libserialport: ^0.3.0
 
 dev_dependencies:

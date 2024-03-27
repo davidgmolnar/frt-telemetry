@@ -67,10 +67,10 @@ class TabLayoutBuilder extends StatelessWidget {
             orElse: () {
           return getDefaultTab(context);
         });
-        return RawKeyboardListener(
+        return KeyboardListener(
           autofocus: true,
           focusNode: _focus,
-          onKey: (event) {
+          onKeyEvent: (event) {
             int? idx = int.tryParse(event.logicalKey.keyLabel);
             if (idx == null) {
               return;

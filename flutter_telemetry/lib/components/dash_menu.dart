@@ -29,7 +29,7 @@ class DashMenuState extends State<DashMenu>{
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      width: goingToOpen ? 160 : 60,
+      width: goingToOpen ? 161 : 60,
       duration: const Duration(milliseconds: 100),
       curve: Curves.linearToEaseOut,
       onEnd: () {
@@ -189,7 +189,7 @@ class TabSelector extends StatelessWidget {
             if(isWide)
               Padding(
                 padding: const EdgeInsets.all(defaultPadding),
-                child: Text(title, style: TextStyle(fontSize: 15, color: primaryColor),),
+                child: Text(title, style: TextStyle(fontSize: 14, color: primaryColor),),
               ),
           ]
         ),
