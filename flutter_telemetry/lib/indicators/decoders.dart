@@ -33,6 +33,17 @@ String asStateDecoder(num value){
     return "INVALID";
   }
 }
+String carStateDecoder(num value){
+  List<String> map = [
+    "OFF", "ON", "RTDS", "R2D", "AS ON", "INITIAL CHECKUP", "AS READY", "AS RTDS", "AS DRIVING", "AS EMERGENCY", "AS FINISHED"
+  ];
+  if(value < map.length && value >= 0){
+    return map[value.toInt()];
+  }
+  else{
+    return "INVALID";
+  }
+}
 
 String initialCheckupStateDecoder(num value){
   List<String> map = [

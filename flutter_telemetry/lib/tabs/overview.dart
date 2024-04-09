@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_telemetry/indicators/decoders.dart';
 import 'package:flutter_telemetry/indicators/indicators.dart';
+import 'package:flutter_telemetry/indicators/string_indicator.dart';
 import 'package:flutter_telemetry/tabs/tabs.dart';
 
 TabLayout overviewBigLayout = TabLayout(
@@ -96,7 +98,7 @@ TabLayout overviewBigLayout = TabLayout(
             StringIndicator(subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
             StringIndicator(subscribedSignal: "AS_Mission_selected", decoder: missionSelectDecoder),
             StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
-            BooleanIndicator(subscribedSignal: "Car_state"),
+            StringIndicator(subscribedSignal: "Car_state", decoder: carStateDecoder),
             BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             BooleanIndicator(subscribedSignal: "RES_GO_Signal"),
           ],
