@@ -47,7 +47,7 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
 
   void updateData(){
     num? temp = signalValues[widget.subscribedSignal] != null && signalValues[widget.subscribedSignal]!.isNotEmpty ? signalValues[widget.subscribedSignal]?.last : null;
-    if(temp != null && temp != value && (temp > 0 && temp < widget.numofStates + widget.offset)){ //a '+ widget.offset' a módosított
+    if(temp != null && temp != value && (temp > 0 && temp < widget.numofStates + widget.offset)){
       setState(() {
         value = temp;
       });
