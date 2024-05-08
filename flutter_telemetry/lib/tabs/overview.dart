@@ -97,7 +97,7 @@ TabLayout overviewBigLayout = TabLayout(
           children: const [
             StringIndicator(subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
             StringIndicator(subscribedSignal: "AS_Mission_selected", decoder: missionSelectDecoder),
-            StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
+            //StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
             StringIndicator(subscribedSignal: "Car_state", decoder: carStateDecoder),
             BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             BooleanIndicator(subscribedSignal: "RES_GO_Signal"),
@@ -371,8 +371,8 @@ TabLayout overviewSmallLayout = TabLayout(
           children: const [
             StringIndicator(subscribedSignal: "ASSI_state", decoder: assiStateDecoder),
             StringIndicator(subscribedSignal: "AS_Mission_selected", decoder: missionSelectDecoder),
-            StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
-            BooleanIndicator(subscribedSignal: "Car_state"),
+            //StringIndicator(subscribedSignal: "AS_State", decoder: asStateDecoder),
+            StringIndicator(subscribedSignal: "Car_state", decoder: carStateDecoder),
             BooleanIndicator(subscribedSignal: "ASMS", isInverted: true,),
             BooleanIndicator(subscribedSignal: "RES_GO_Signal"),
           ],

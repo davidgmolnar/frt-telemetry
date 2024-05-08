@@ -30,7 +30,7 @@ class RotaryIndicator extends StatefulWidget{
 
 class RotaryIndicatorState extends State<RotaryIndicator>{
   late Timer timer;
-  num value = 0;
+  num value = 1;
   late String label;
 
   @override
@@ -47,7 +47,7 @@ class RotaryIndicatorState extends State<RotaryIndicator>{
 
   void updateData(){
     num? temp = signalValues[widget.subscribedSignal] != null && signalValues[widget.subscribedSignal]!.isNotEmpty ? signalValues[widget.subscribedSignal]?.last : null;
-    if(temp != null && temp != value && (temp > 0 && temp < widget.numofStates)){
+    if(temp != null && temp != value && (temp > 0 && temp < widget.numofStates + widget.offset)){ //a '+ widget.offset' a módosított
       setState(() {
         value = temp;
       });
