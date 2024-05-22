@@ -8,19 +8,7 @@ TabLayout lvSystemBigLayout =
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: const [
       FourStateLed(
-        subscribedSignal: "Xavier_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "TS_OFF_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "TCU_LED",
-        paddingFactor: 2,
-      ),
-      FourStateLed(
-        subscribedSignal: "MCU_LED",
+        subscribedSignal: "AMS_LED",
         paddingFactor: 2,
       ),
       FourStateLed(
@@ -28,7 +16,19 @@ TabLayout lvSystemBigLayout =
         paddingFactor: 2,
       ),
       FourStateLed(
-        subscribedSignal: "AMS_LED",
+        subscribedSignal: "MCU_LED",
+        paddingFactor: 2,
+      ),
+      FourStateLed(
+        subscribedSignal: "TCU_LED",
+        paddingFactor: 2,
+      ),
+      FourStateLed(
+        subscribedSignal: "TS_OFF_LED",
+        paddingFactor: 2,
+      ),
+      FourStateLed(
+        subscribedSignal: "Xavier_LED",
         paddingFactor: 2,
       ),
     ],
@@ -75,7 +75,7 @@ TabLayout lvSystemBigLayout =
       BooleanPanel(subscribedSignals: [
         "Button_ON_OFF",
         "Button_START",
-        "Dash_HV",
+        "Button_HV",
       ], colsize: 6, title: "Dashboard"),
       BooleanPanel(
           subscribedSignals: [
@@ -182,7 +182,7 @@ TabLayout lvSystemSmallLayout =
       BooleanPanel(subscribedSignals: [
         "Button_ON_OFF",
         "Button_START",
-        "Dash_HV",
+        "Button_HV",
       ], colsize: 6, title: "Dashboard"),
     ],
   ),
